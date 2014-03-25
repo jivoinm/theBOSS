@@ -1,6 +1,6 @@
 notification directive
 <ul class="dropdown-menu dropdown-messages">
-    <li ng-repeat="message in messages">
+    <li ng-repeat-start="message in messages">
         <a href="#">
             <div>
                 <strong>{{ message }}</strong>
@@ -14,7 +14,7 @@ notification directive
     <li class="divider" ng-repeat-end></li>
     <li>
         <a class="text-center" href="#">
-            <strong>Read All Messages</strong>
+            <strong><a href="#/messages">Read All Messages</a> </strong>
             <i class="fa fa-angle-right"></i>
         </a>
     </li>

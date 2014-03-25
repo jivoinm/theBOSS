@@ -64,6 +64,5 @@ describe('Controller: LoginCtrl', function () {
         expect(scope.errors.other).toBe(resp.message);
     });
 
-
 });
 
