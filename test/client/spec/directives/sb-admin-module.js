@@ -2,19 +2,26 @@
 
 describe('Directive: sbAdminModule', function () {
 
-  // load the directive's module
-  beforeEach(module('theBossApp'));
+    // load the directive's module
+    beforeEach(module('theBossApp'));
 
-  var element,
-    scope;
+    var element,
+        scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
-  }));
+    describe("top-nav tests", function () {
+        beforeEach(inject(function ($rootScope) {
+            scope = $rootScope.$new();
+            element = angular.element('<sb-top-nav title="\'theBOSS Admin\'"></sb-top-nav>');
+        }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<sb-admin-module></sb-admin-module>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the sbAdminModule directive');
-  }));
+        it('should render title beside the logo', inject(function ($compile) {
+            element = $compile(element)(scope);
+            console.log(element.text());
+            expect(element.text()).toContain('theBOSS Admin');
+        }));
+
+        it("should not show message list if user is not logged in", function () {
+        });
+
+    });
 });
