@@ -13,8 +13,13 @@ angular.module('theBossApp').
     }).
     directive('sbTopNavMessages', ['$http', function($http) {
         return {
+            controller: function($scope){
+                $scope.showBadge = function(){
+                    return $scope.messages && $scope.messages.length > 0;
+                }
+            },
             restrict: 'E',
-            // replace: true,
+            //replace: true,
             templateUrl: '/views/directive-templates/layouts/top-nav-messages.html',
             link: function (scope, element, attrs) {
                 if (!attrs.from) {
@@ -23,13 +28,18 @@ angular.module('theBossApp').
 
                 scope.messages = [];
                 $http.get(attrs.from).success(function (data) {
-                    scope.messages = data;
+                    scope.messages = data.messages;
                 });
             }
         };
     }]).
     directive('sbTopNavTasks', ['$http', function($http) {
         return {
+            controller: function($scope){
+                $scope.getWorkedPercentage = function(task){
+                    return Math.round(task.max / task.now);
+                }
+            },
             restrict: 'E',
             //replace: true,
             templateUrl: '/views/directive-templates/layouts/top-nav-tasks.html',
@@ -40,7 +50,7 @@ angular.module('theBossApp').
 
                 scope.tasks = [];
                 $http.get(attrs.from).success(function (data) {
-                    scope.tasks = data;
+                    scope.tasks = data.tasks;
                 });
             }
         };

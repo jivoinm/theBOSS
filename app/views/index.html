@@ -30,25 +30,48 @@
     <![endif]-->
     <!-- Add your site or application content here -->
     <div id="wrapper">
+        <div ng-show="currentUser">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <sb-top-nav title="'theBOSS Admin v1.0'"></sb-top-nav>
 
-        <sb-top-nav title="'theBOSS Admin v1.0'"></sb-top-nav>
-
-        <div data-spy="affix" data-offset-top="0" data-offset-bottom="200" ng-show="currentUser">
-            <sb-sidebar></sb-sidebar>
-        </div>
-
-        <div id="page-wrapper" ng-show="currentUser">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="page-header">{{ pageHeader }}</h4>
-                </div>
-                <!-- /.col-lg-12 -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <sb-top-nav-messages from="/api/messages"></sb-top-nav-messages>
+                    </li>
+                    <li class="dropdown">
+                        <sb-top-nav-tasks from="/api/tasks"></sb-top-nav-tasks>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <sb-top-nav-alerts from="/api/alerts"></sb-top-nav-alerts>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <sb-top-nav-user></sb-top-nav-user>
+                    </li>
+                </ul>
+                <!-- /.navbar-top-links -->
+            </nav>
+            <div data-spy="affix" data-offset-top="0" data-offset-bottom="200">
+                <sb-sidebar></sb-sidebar>
             </div>
-            <!-- /.row -->
-            <ng-view></ng-view>
+
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="page-header">{{ pageHeader }}</h4>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <ng-view></ng-view>
+            </div>
         </div>
         <ng-view ng-show="!currentUser"></ng-view>
-
     </div>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -99,7 +122,6 @@
         <script src="scripts/services/session.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/directives/mongooseError.js"></script>
-        <script src="scripts/directives/notifications.js"></script>
         <script src="scripts/services/message.js"></script>
         <script src="scripts/controllers/public.js"></script>
         <script src="scripts/directives/sb-admin-module.js"></script>

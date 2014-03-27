@@ -4,7 +4,8 @@ angular.module('theBossApp', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
-        'ngRoute'
+        'ngRoute',
+        'ui.bootstrap'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
@@ -59,13 +60,10 @@ angular.module('theBossApp', [
         }]);
     })
     .run(function ($rootScope, $location, Auth) {
-
         // Redirect to login if route requires auth and you're not logged in
         $rootScope.$on('$routeChangeStart', function (event, next) {
-            console.log("Check if logged in and require to be");
-
             if (next.authenticate && !Auth.isLoggedIn()) {
-                $location.path('/login');
+                $location.path("/login");
             }
         });
     });
