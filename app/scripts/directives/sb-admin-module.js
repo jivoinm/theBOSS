@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp').
-    directive('sbTopNav', function() {
+    directive('topNav', function() {
         return {
             restrict: 'E',
             //replace: true,
@@ -11,51 +11,44 @@ angular.module('theBossApp').
             templateUrl: '/views/directive-templates/layouts/top-nav.html'
         };
     }).
-    directive('sbTopNavMessages', ['$http', function($http) {
+    directive('messages', ['$http', function($http) {
         return {
             controller: function($scope){
                 $scope.showBadge = function(){
                     return $scope.messages && $scope.messages.length > 0;
                 }
+
             },
             restrict: 'E',
             //replace: true,
-            templateUrl: '/views/directive-templates/layouts/top-nav-messages.html',
+            templateUrl: '/views/directive-templates/layouts/messages.html',
             link: function (scope, element, attrs) {
-                if (!attrs.from) {
-                    throw new Error('Attribute "from" should be defined.')
-                }
-
                 scope.messages = [];
-                $http.get(attrs.from).success(function (data) {
-                    scope.messages = data.messages;
+                $http.get('/api/messages').success(function (data) {
+                    scope.messages = data;
                 });
             }
         };
     }]).
-    directive('sbTopNavTasks', ['$http', function($http) {
+    directive('tasks', ['$http', function($http) {
         return {
             controller: function($scope){
                 $scope.getWorkedPercentage = function(task){
-                    return Math.round(task.max / task.now);
+                    return task ? Math.round(((task.now - task.min) / (task.max - task.min) * 100)) : 0;
                 }
             },
             restrict: 'E',
             //replace: true,
-            templateUrl: '/views/directive-templates/layouts/top-nav-tasks.html',
+            templateUrl: '/views/directive-templates/layouts/tasks.html',
             link: function (scope, element, attrs) {
-                if (!attrs.from) {
-                    throw new Error('Attribute "from" should be defined.')
-                }
-
                 scope.tasks = [];
-                $http.get(attrs.from).success(function (data) {
-                    scope.tasks = data.tasks;
+                $http.get('/api/tasks').success(function (data) {
+                    scope.tasks = data;
                 });
             }
         };
     }]).
-    directive('sbTopNavAlerts', ['$http', function($http) {
+    directive('alerts', ['$http', function($http) {
         return {
             restrict: 'E',
             //replace: true,
@@ -72,7 +65,7 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('sbTopNavUser', function() {
+    directive('navUser', function() {
         return {
             restrict: 'E',
             //replace: true,

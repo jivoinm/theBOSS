@@ -32,26 +32,14 @@
     <div id="wrapper">
         <div ng-show="currentUser">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <sb-top-nav title="'theBOSS Admin v1.0'"></sb-top-nav>
+                <top-nav title="'theBOSS Admin v1.0'"></top-nav>
 
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <sb-top-nav-messages from="/api/messages"></sb-top-nav-messages>
-                    </li>
-                    <li class="dropdown">
-                        <sb-top-nav-tasks from="/api/tasks"></sb-top-nav-tasks>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                        </a>
-                        <sb-top-nav-alerts from="/api/alerts"></sb-top-nav-alerts>
-                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
-                        <sb-top-nav-user></sb-top-nav-user>
+                        <nav-user></nav-user>
                     </li>
                 </ul>
                 <!-- /.navbar-top-links -->
@@ -110,7 +98,6 @@
     <script src="bower_components/angular-ui-select2/src/select2.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
@@ -125,6 +112,7 @@
         <script src="scripts/services/message.js"></script>
         <script src="scripts/controllers/public.js"></script>
         <script src="scripts/directives/sb-admin-module.js"></script>
+        <script src="scripts/filters/timeago.js"></script>
         <!-- endbuild -->
 </body>
 </html>
