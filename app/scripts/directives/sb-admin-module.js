@@ -4,11 +4,15 @@ angular.module('theBossApp').
     directive('topNav', function() {
         return {
             restrict: 'E',
-            //replace: true,
             scope: {
                 title: '='
             },
-            templateUrl: '/views/directive-templates/layouts/top-nav.html'
+            templateUrl: '/views/directive-templates/layouts/top-nav.html',
+            link: function (scope, element, attr) {
+                if (scope.$parent.currentUser) {
+                    scope.owner = scope.$parent.currentUser.owner;
+                }
+            }
         };
     }).
     directive('messages', ['$http', function($http) {
