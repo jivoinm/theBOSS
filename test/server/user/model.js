@@ -13,8 +13,8 @@ describe('User Model', function() {
             provider: 'local',
             name: 'Fake User',
             email: 'test@test.com',
-            password: '12345',
-            owner: new Owner({name: 'Test owner'}).save()
+            password: '12345'
+            //owner: new Owner({name: 'Test owner'}).save()
         });
 
         // Clear users before testing
@@ -68,11 +68,11 @@ describe('User Model', function() {
     });
     it("should create new owner if not exists", function (done) {
         var owner = new User({name: 'find owner'}).save();
-        console.log(user);
         user.ownerName = 'find owner';
         user.save(function(err){
             should.not.exist(err);
             should.exist(this.owner._id);
+            console.log(this.owner)
             done()
         });
     });
