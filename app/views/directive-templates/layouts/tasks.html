@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bell fa-fw"></i> To Do <span class="badge" ng-show="tasks.length > 0">{{ tasks.length }}</span>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="list-group">
+            <a href="#/calendar" class="list-group-item" ng-repeat="task in tasks">
+                <div>
+                    <p>
+                        <strong>{{ task.user }} : {{ task.name }}</strong>
+                        <span class="pull-right text-muted">{{ getWorkedPercentage(task) }}% Complete</span>
+                    </p>
+
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar progress-bar-{{ task.status }}" role="progressbar"
+                             aria-valuenow="{{ task.now }}" aria-valuemin="{{ task.min }}"
+                             aria-valuemax="{{ task.max }}" style="width: {{ getWorkedPercentage(task) }}%">
+                            <span class="sr-only">{{ getWorkedPercentage(task) }}% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+        <!-- /.list-group -->
+        <a href="#/calendar" class="btn btn-default btn-block">View All</a>
+    </div>
+    <!-- /.panel-body -->
+</div>

@@ -1,0 +1,52 @@
+<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+<div class="panel panel-default" ng-cloak>
+    <div class="panel-heading">{{ form.form_name }} <span ng-show="previewMode">Form Preview</span>
+
+        <div class="dropdown btn-group pull-right" ng-show="superuser">
+
+            <button class="btn btn-default btn-xs" ng-show="!editmode" ng-click="editmode=true">
+                <span tooltip-placement="left" tooltip="Edit current form" class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <div ng-show="editmode">
+                <button class="btn btn-default btn-xs" ng-click="addField()">
+                    <span tooltip-placement="left" tooltip="Add new Field" class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <form role="form" class="form-horizontal" name="{{ form.form_name | nospace }}">
+            invalid:{{field.$invalid}};
+            dirty:{{form.$dirty}};
+            <div class="form-group" ng-repeat="field in form.form_fields"
+                 ng-class="{'has-error': {{ form.form_name | nospace }}.{{ field.field_title | nospace }}id.$invalid}">
+                <label for="{{field.field_title | nospace}}id"
+                       class="col-sm-3 control-label">{{field.field_title}}</label>
+
+                <div class="col-sm-9" field="field" editmode="editmode" field-directive></div>
+                <span ng-show="{{ form.form_name | nospace }}.{{ field.field_title | nospace }}id.$error.required"
+                      class="help-inline">Required</span>
+            </div>
+            <hr>
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-default btn-sm" ng-click="save()"
+                        ng-show="editmode && form.form_fields.length > 0">
+                    <span class="glyphicon glyphicon-floppy-save"></span> Save Form
+                </button>
+                <button type="button" class="btn btn-default btn-sm pull-right"
+                        ng-show="editmode && form.form_fields.length > 0" ng-click="editmode=false">
+                    <span class="glyphicon glyphicon-remove-circle"></span> Cancel Edit Mode
+                </button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="submit()"
+                        ng-show="!editmode && form.form_fields.length > 0">
+                    <span class="glyphicon glyphicon-floppy-save"></span> Submit Form
+                </button>
+                <button type="button" class="btn btn-default btn-sm pull-right" ng-click="reset()"
+                        ng-show="!editmode && form.form_fields.length > 0">
+                    <span class="glyphicon glyphicon-remove"></span> Reset Form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

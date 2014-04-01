@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h5>{{selectedfield.field_title}} :: Field Setup</h5>
+</div>
+<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label for="fieldName" class="col-sm-3 control-label">Field Name</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="fieldName" placeholder="Field Name"
+                       ng-model="selectedfield.field_title" ng-required="true">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fieldName" class="col-sm-3 control-label">Field Default Value</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="fieldValue" placeholder="Field Default Value"
+                       ng-model="selectedfield.field_value">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fieldName" class="col-sm-3 control-label">Field Type</label>
+
+            <div class="col-sm-9">
+                <select ng-model="selectedfield.field_type" class="form-control"
+                        ng-options="field_type.name as field_type.value for field_type in field_types"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <label for="fieldIsRequired" class="control-label">
+                    <input type="checkbox" id="fieldIsRequired" ng-model="selectedfield.field_required"> Is Required?
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-show="showAddOptions(selectedfield)">
+            <div class="col-sm-9">
+                <table class="table">
+                    <th>Option value</th>
+                    <th>Option color code</th>
+                    <th></th>
+                    <tr ng-repeat="option in selectedfield.field_options">
+                        <td><input type="text" class="form-control" ng-model="option.value" value="{{option.value}}">
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="option.color" value="{{option.color}}">
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-xs right" type="button"
+                               ng-click="deleteOption(selectedfield, option)"><span
+                                    class="glyphicon glyphicon-minus"></span></a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm" ng-show="showAddOptions(selectedfield)"
+                ng-click="addOption(selectedfield)">
+            <span class="glyphicon glyphicon-plus"></span> Add Option
+        </button>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bell fa-fw"></i> Messages <span class="badge" ng-show="showBadge()">{{ messages.length }}</span>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="list-group">
+            <a href="#" class="list-group-item" ng-repeat="message in messages">
+                <i class="fa fa-{{ message.type }} fa-fw"></i> {{ message.from }} {{ message.content }}
+                <span class="pull-right text-muted small"><em>{{ message.time | timeago }}</em></span>
+            </a>
+        </div>
+        <!-- /.list-group -->
+        <a href="#" class="btn btn-default btn-block">View All</a>
+    </div>
+    <!-- /.panel-body -->
+</div>

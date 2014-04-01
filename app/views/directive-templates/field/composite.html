@@ -1,0 +1,13 @@
+<div class="well">
+	<span class="col-sm-offset-12" ng-show="editmode">
+		<a ng-click="open(field)"><span class="glyphicon glyphicon-cog"></span></a>
+	</span>
+
+    <form class="form-inline" role="form">
+        <div class="form-group" ng-repeat="compositeField in field.composite">
+            <label for="{{compositeField.field_title | nospace}}id" class="col-sm-3 control-label">{{compositeField.field_title}}</label>
+
+            <div class="col-sm-9" field="compositeField" editmode="editmode" field-directive></div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-sm-12">
+        <select style="width:90%" ui-select2 id="{{field.field_title | nospace}}id" ng-model="field.field_value"
+                data-placeholder="Pick a {{field.field_title}}">
+            <option value=""></option>
+            <option ng-repeat="option in field.field_options" value="{{option.value}}">{{option.value}}</option>
+        </select>
+		<span ng-show="editmode">
+		  <a ng-click="open(field)"><span class="glyphicon glyphicon-cog"></span></a>
+		</span>
+    </div>
+</div>

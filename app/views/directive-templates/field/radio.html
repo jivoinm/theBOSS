@@ -1,0 +1,14 @@
+<div class="col-sm-11">
+    <div class="radio" ng-repeat="option in field.field_options">
+        <label>
+            <input type="radio" value="{{option.value}}" name="{{field.field_title | nospace}}"
+                   for="{{field.field_title | nospace}}_{{option.value | nospace}}id" ng-model="field.field_value"
+                   ng-required="field.field_required">
+            {{option.value}}
+        </label>
+    </div>
+</div>
+<div class="col-sm-1" ng-show="editmode">
+    <a ng-click="open(field)"><span class="glyphicon glyphicon-cog"></span></a>
+</div>
+

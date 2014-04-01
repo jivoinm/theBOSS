@@ -1,0 +1,44 @@
+<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group custom-search-form">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="searchQuery">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="search(searchQuery)">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+        </div>
+        <hr>
+
+        <accordion close-others="oneAtATime=true">
+            <accordion-group ng-repeat="item in list" is-open="isopen">
+                <accordion-heading>
+                    {{item.title}}: {{item.value}}
+                    <i class="pull-right glyphicon"
+                       ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                </accordion-heading>
+
+                <div class="well well-sm">
+                    <button type="button" class="btn btn-default btn-xs" ng-click="edit(item)">
+                        <span class="fa fa-pencil fa-fw"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="delete(item)">
+                        <span class="fa fa-trash-o fa-fw"></span>
+                    </button>
+                </div>
+
+
+                <div ng-repeat="detail in item.details">
+                    <span class="label label-default">{{detail.title}} - {{detail.value}}</span>
+                </div>
+            </accordion-group>
+        </accordion>
+        <div ng-hide="list.length">
+            Nothing to show yet...
+        </div>
+    </div>
+    <div class="panel-footer">
+        <a href="loadMore()" class="btn btn-default btn-block">Load more...</a>
+    </div>
+</div>
