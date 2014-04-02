@@ -21,7 +21,7 @@ describe('Project server tests', function () {
             ]
         });
 
-        // Clear users before testing
+        // Clear projects before testing
         Project.remove().exec();
         done();
     });
@@ -42,11 +42,38 @@ describe('Project server tests', function () {
 
     it("should not error if project name don't exist on the different owner", function (done) {
         project.save();
-        project.owner = 'new Owner';
         var projectDup = new Project(project)
+        projectDup.owner = 'new Owner';
         projectDup.save(function (err) {
             should.not.exist(err);
             done();
         });
+    });
+
+    it("should return only owner projects", function (done) {
+        project.save();
+
+        var newProject = new Project();
+        newProject.name = 'New Project Name';
+        newProject.owner = 'new Owner added1';
+        newProject.save();
+
+        var newProject = new Project();
+        newProject.name = 'New Project Name';
+        newProject.owner = 'new Owner added2';
+        newProject.save();
+
+        Project.find({}, function (err, projects) {
+            should.not.exist(err);
+            console.log('projects returned: ' + projects + '--');
+            (projects.length === 1).should.be.true;
+            done();
+        });
+//        Project.findOwnerProjects('new Owner added1',function(err,projects){
+//            should.not.exist(err);
+//            console.log('projects returned: '+projects+'--');
+//            (projects.length === 1).should.be.true;
+//            done();
+//        })
     });
 });
