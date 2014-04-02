@@ -2,32 +2,42 @@
 
 describe('Auth services',function(){
     beforeEach(module('theBossApp'));
-    var auth,scope,sessionService;
+    var auth,scope,sessionService,cookies;
     var user = {
         email: 'email@email.com',
         password: 'password'
     };
 
-    beforeEach(inject(function($rootScope,Auth,Session){
+    var cookieStoreMock = jasmine.createSpyObj('cookieStore',['get']);
+    cookieStoreMock.cookieStore = "";
+    cookieStoreMock.andCallFake.get()
+    {
+        return user;
+    };
+    module(function($provide){
+        $provide.value('$cookieStore',cookieStoreMock);
+    })
+    beforeEach(inject(function($rootScope,Auth,Session,$cookieStore){
         scope = $rootScope.$new();
         auth = Auth;
         sessionService = Session;
+        cookies = $cookieStore;
     }));
 
     describe('Log in',function(){
         beforeEach(function(){
-            spyOn(sessionService,"save");
-            auth.login(user,function(){
-                console.log('after log in');
-            });
+            //spyOn(auth,"login").andCallThrough();
+            spyOn(sessionService,"save").andCallThrough();
         });
 
         it('should call save session service', function(){
-            expect(sessionService.save).toHaveBeenCalledWith(user);
+            auth.login(user,function(){});
+            expect(sessionService.save).toHaveBeenCalled();
         });
 
         it('should return true wen isLoggedIn is called and we have current user in the scope',function(){
-            scope.currentUser = {name:'name'};
+
+            expect(cookies.get).toHaveBeenCalled();
             expect(auth.isLoggedIn()).toBeTruthy();
         });
     });

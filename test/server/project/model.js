@@ -51,29 +51,26 @@ describe('Project server tests', function () {
     });
 
     it("should return only owner projects", function (done) {
-        project.save();
-
-        var newProject = new Project();
-        newProject.name = 'New Project Name';
-        newProject.owner = 'new Owner added1';
-        newProject.save();
-
-        var newProject = new Project();
-        newProject.name = 'New Project Name';
-        newProject.owner = 'new Owner added2';
-        newProject.save();
-
-        Project.find({}, function (err, projects) {
-            should.not.exist(err);
-            console.log('projects returned: ' + projects + '--');
-            (projects.length === 1).should.be.true;
-            done();
+        project.save(function(){
+            //create second project
+            var newProject = new Project();
+            newProject.name = 'New Project Name';
+            newProject.owner = 'new Owner added1';
+            newProject.save(function(){
+                //create third project
+                var newProject = new Project();
+                newProject.name = 'New Project Name';
+                newProject.owner = 'new Owner added2';
+                newProject.save(function(){
+                    Project.findOwnerProjects('new Owner added1',function(err,projects){
+                        should.not.exist(err);
+                        (projects.length === 1).should.be.true;
+                        done();
+                    })
+                });
+            });
         });
-//        Project.findOwnerProjects('new Owner added1',function(err,projects){
-//            should.not.exist(err);
-//            console.log('projects returned: '+projects+'--');
-//            (projects.length === 1).should.be.true;
-//            done();
-//        })
     });
+
+
 });

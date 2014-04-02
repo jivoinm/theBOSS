@@ -104,7 +104,7 @@ angular.module('theBossApp')
              * @return {Boolean}
              */
             isLoggedIn: function() {
-                console.log($rootScope);
+               console.log($rootScope.currentUser);
                 var user = $rootScope.currentUser;
                 return !!user;
             }
