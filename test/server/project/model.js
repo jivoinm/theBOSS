@@ -72,5 +72,19 @@ describe('Project server tests', function () {
         });
     });
 
+    it("should be able to add and save project task", function (done) {
+        project.tasks.push({priority: 1, title: 'Task1', duration: '1h'});
+        project.tasks.push({priority: 2, title: 'Task2', duration: '1h'});
+        project.save(function (err) {
+            console.log(err);
+            Project.find({}, function (err, projects) {
+                should.not.exist(err);
+                console.log(projects);
+                (projects.length === 1).should.be.true;
+                (projects.tasks.length === 2).should.be.true;
+                done();
+            });
+        });
+    });
 
 });
