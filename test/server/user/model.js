@@ -12,8 +12,8 @@ describe('User Model', function () {
             provider: 'local',
             name: 'Fake User',
             email: 'test@test.com',
-            password: '12345'
-            //owner: new Owner({name: 'Test owner'}).save()
+            password: '12345',
+            owner: 'Test owner'
         });
 
         // Clear users before testing
