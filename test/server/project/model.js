@@ -22,8 +22,7 @@ describe('Project server tests', function () {
         });
 
         // Clear projects before testing
-        Project.remove().exec();
-        done();
+        Project.remove().exec(done);
     });
 
     afterEach(function (done) {
@@ -73,17 +72,25 @@ describe('Project server tests', function () {
     });
 
     it("should be able to add and save project task", function (done) {
-        project.tasks.push({priority: 1, title: 'Task1', duration: '1h'});
-        project.tasks.push({priority: 2, title: 'Task2', duration: '1h'});
-        project.save(function (err) {
-            console.log(err);
-            Project.find({}, function (err, projects) {
-                should.not.exist(err);
-                console.log(projects);
-                (projects.length === 1).should.be.true;
-                (projects.tasks.length === 2).should.be.true;
-                done();
-            });
+
+        project.save(function (err,project) {
+            Project.findByIdAndUpdate(project._id,
+                {$pushAll: {'tasks': [
+                    {title: 'Title1', duration: '1h'},
+                    {title: 'Title2', duration: '1h'},
+                    {title: 'Title3', duration: '1h'}
+                ]}}, function(err,project){
+                    console.log(err);
+                    Project.find({}, function (err, projects) {
+                        should.not.exist(err);
+                        console.log(projects);
+                        (projects.length === 1).should.be.true;
+                        (projects.tasks.length === 2).should.be.true;
+                        done();
+                    });
+
+                }
+            );
         });
     });
 
