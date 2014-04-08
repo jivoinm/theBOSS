@@ -7,17 +7,34 @@
             <div class="panel-body">
                 <form role="form" name="form" ng-submit="login(form)" novalidate>
                     <fieldset>
-                        <div class="form-group" ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
-                            <input type="email" placeholder="E-mail" name="email" class="form-control" ng-model="user.email" ng-required="true">
-                            <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Enter a valid email.</p>
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : form.owner.$invalid && !form.owner.$pristine }">
+                            <input type="text" placeholder="Owner Name" name="owner" class="form-control"
+                                   ng-model="user.owner" ng-required="true">
+
+                            <p ng-show="form.owner.$invalid && !form.owner.$pristine" class="help-block">Enter a valid
+                                owner name.</p>
                         </div>
-                        <div class="form-group" ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
-                            <input type="password" placeholder="Password" name="password" class="form-control" ng-model="user.password" ng-required="true">
-                            <p ng-show="form.password.$invalid && !form.email.$pristine" class="help-block">Enter password.</p>
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : form.email.$invalid && !form.email.$pristine }">
+                            <input type="email" placeholder="E-mail" name="email" class="form-control"
+                                   ng-model="user.email" ng-required="true">
+
+                            <p ng-show="form.email.$invalid && !form.email.$pristine" class="help-block">Enter a valid
+                                email.</p>
+                        </div>
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : form.password.$invalid && !form.password.$pristine }">
+                            <input type="password" placeholder="Password" name="password" class="form-control"
+                                   ng-model="user.password" ng-required="true">
+
+                            <p ng-show="form.password.$invalid && !form.email.$pristine" class="help-block">Enter
+                                password.</p>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input name="remember" type="checkbox" ng-model="user.remember" value="Remember Me">Remember Me
+                                <input name="remember" type="checkbox" ng-model="user.remember" value="Remember Me">Remember
+                                Me
                             </label>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error' :  errors.other}">
@@ -25,7 +42,9 @@
                         </div>
 
                         <!-- Change this to a button or input when using this as a form -->
-                        <button type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="form.$invalid"> Sign in </button>
+                        <button type="submit" class="btn btn-lg btn-success btn-block" ng-disabled="form.$invalid"> Sign
+                            in
+                        </button>
                         <hr>
                         Not registered? <a href="/signup" class="text-center new-account">Create an account.</a>
 

@@ -20,6 +20,7 @@ angular.module('theBossApp')
                 var cb = callback || angular.noop;
 
                 return Session.save({
+                    owner: user.owner,
                     email: user.email,
                     password: user.password
                 },function (user) {
