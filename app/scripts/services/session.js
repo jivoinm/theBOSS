@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('theBossApp')
-  .factory('Session', function ($resource) {
-    return $resource('/api/session/');
-  });
+    .factory('Session', ['$resource', function ($resource) {
+        return $resource('/api/session/');
+    }]);

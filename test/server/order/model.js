@@ -53,7 +53,7 @@ function CreateOrder(ownerName, customer, projects, createdBy) {
         owner: ownerName,
         customer: customer,
         projects: projects,
-        created_by: createdBy,
+        created_by: createdBy
     });
 }
 function DeleteAllFirst() {
