@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('LoginCtrl', function ($scope, Auth, $location) {
+    .controller('LoginCtrl', ['$scope', 'Auth', '$location',function ($scope, Auth, $location) {
         $scope.user = {};
         $scope.errors = {};
 
@@ -10,7 +10,6 @@ angular.module('theBossApp')
 
             if (form.$valid) {
                 Auth.login({
-                    owner: $scope.user.owner,
                     email: $scope.user.email,
                     password: $scope.user.password
                 })
@@ -24,4 +23,4 @@ angular.module('theBossApp')
                     });
             }
         };
-    });
+    }]);

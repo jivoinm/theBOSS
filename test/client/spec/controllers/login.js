@@ -12,29 +12,29 @@ describe('Controller: LoginCtrl', function () {
         location;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, Auth, $location) {
+    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope,Auth, $location,$cookies) {
         httpBackend = _$httpBackend_;
         scope = $rootScope.$new();
         auth = Auth;
         location = $location;
         LoginCtrl = $controller('LoginCtrl', {
             $scope: scope,
-            Auth: auth,
-            $location: location
+            Auth:auth,
+            $location:location
         });
 
 
     }));
 
-    it('should redirect to main path after successfully logged in ', function () {
+    it('should redirect to main path after successfully logged in ', function() {
         var user = {
             "name": "Test User",
             "role": "user",
             "provider": "local"
-        };
+            };
         httpBackend.expectPOST('/api/session').respond(user);
 
-        scope.login({$valid: true});
+        scope.login({$valid:true});
         httpBackend.flush();
         expect(location.path()).toBe('/');
     });
@@ -47,18 +47,18 @@ describe('Controller: LoginCtrl', function () {
         };
         httpBackend.expectPOST('/api/session').respond(user);
 
-        scope.login({$valid: true});
+        scope.login({$valid:true});
         httpBackend.flush();
         expect(scope.currentUser).toNotBe(null);
     });
 
-    it('should put error message on the scope for invalid credentials', function () {
+    it('should put error message on the scope for invalid credentials', function() {
         var resp = {
-            "message": "Email returned by api"
+            "message":"Email returned by api"
         };
-        httpBackend.expectPOST('/api/session').respond(401, resp);
+        httpBackend.expectPOST('/api/session').respond(401,resp);
 
-        scope.login({$valid: true});
+        scope.login({$valid:true});
         httpBackend.flush();
         expect(location.path()).toBe('/login');
         expect(scope.errors.other).toBe(resp.message);

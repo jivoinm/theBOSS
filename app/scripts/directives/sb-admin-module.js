@@ -8,7 +8,7 @@ angular.module('theBossApp').
                 title: '='
             },
             templateUrl: '/views/directive-templates/layouts/top-nav.html',
-            link: function (scope, element, attr) {
+            link: function (scope) {
                 if (scope.$parent.currentUser) {
                     scope.owner = scope.$parent.currentUser.owner;
                 }
