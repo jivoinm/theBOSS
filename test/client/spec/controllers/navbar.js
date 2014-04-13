@@ -12,18 +12,18 @@ describe('Controller: NavbarCtrl', function () {
         location;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope,Auth, $location) {
+    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, Auth, $location) {
         scope = $rootScope.$new();
         auth = Auth;
         location = $location;
         NavbarCtrl = $controller('NavbarCtrl', {
             $scope: scope,
-            Auth:auth,
-            $location:location
+            Auth: auth,
+            $location: location
         });
     }));
 
-    it('should have a method to check if the path is active', function() {
+    it('should have a method to check if the path is active', function () {
         var controller = NavbarCtrl;
         location.path('/about');
         expect(location.path()).toBe('/about');

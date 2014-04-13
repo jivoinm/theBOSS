@@ -16,7 +16,10 @@ describe('Controller: OrdersCtrl', function () {
         scope = $rootScope.$new();
         scope.currentUser = {user_id: 'userid'};
         orderService = _OrderService_;
-        spyOn(orderService, 'get');
+        spyOn(orderService, 'get').andReturn([
+            {obj: 1},
+            {obj: 1}
+        ]);
         OrdersCtrl = $controller('OrdersCtrl', {
             $scope: scope,
             OrderService: orderService
@@ -25,6 +28,7 @@ describe('Controller: OrdersCtrl', function () {
 
     it('should attach a list of current user orders to the scope', function () {
         expect(orderService.get).toHaveBeenCalled();
+        expect(scope.list.length).toBe(2);
     });
 
 

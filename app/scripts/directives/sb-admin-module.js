@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp').
-    directive('topNav', function() {
+    directive('topNav',function () {
         return {
             restrict: 'E',
             scope: {
@@ -15,10 +15,10 @@ angular.module('theBossApp').
             }
         };
     }).
-    directive('messages', ['$http', function($http) {
+    directive('messages', ['$http', function ($http) {
         return {
-            controller: function($scope){
-                $scope.showBadge = function(){
+            controller: function ($scope) {
+                $scope.showBadge = function () {
                     return $scope.messages && $scope.messages.length > 0;
                 }
 
@@ -34,10 +34,10 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('tasks', ['$http', function($http) {
+    directive('tasks', ['$http', function ($http) {
         return {
-            controller: function($scope){
-                $scope.getWorkedPercentage = function(task){
+            controller: function ($scope) {
+                $scope.getWorkedPercentage = function (task) {
                     return task ? Math.round(((task.now - task.min) / (task.max - task.min) * 100)) : 0;
                 }
             },
@@ -52,7 +52,7 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('alerts', ['$http', function($http) {
+    directive('alerts', ['$http', function ($http) {
         return {
             restrict: 'E',
             //replace: true,
@@ -69,21 +69,21 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('navUser', function() {
+    directive('navUser',function () {
         return {
             restrict: 'E',
             //replace: true,
             templateUrl: '/views/directive-templates/layouts/top-nav-user.html'
         };
     }).
-    directive('sbSidebar', function () {
+    directive('sbSidebar',function () {
         return {
             restrict: 'E',
             //replace: true,
             templateUrl: '/views/directive-templates/layouts/sidebar.html'
         };
     }).
-    directive('sbSidebarSearch', function () {
+    directive('sbSidebarSearch',function () {
         return {
             restrict: 'E',
             //replace: true,
@@ -111,7 +111,7 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('sbDatatables', function () {
+    directive('sbDatatables',function () {
         return {
             restrict: 'A',
             replace: false,
@@ -121,7 +121,7 @@ angular.module('theBossApp').
             }
         };
     }).
-    directive('sbTooltip', function () {
+    directive('sbTooltip',function () {
         return {
             restrict: 'A',
             replace: false,

@@ -21,5 +21,4 @@ describe('Controller: MainCtrl', function () {
     }));
 
 
-
 });

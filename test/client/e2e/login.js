@@ -1,5 +1,5 @@
 'use strict'
-describe('theBOSS app test', function(){
+describe('theBOSS app test', function () {
 
     browser.get('index.html');
 
