@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('MainCtrl', function ($scope) {
+    .controller('MainCtrl', ['$scope', function ($scope) {
         $scope.$parent.pageHeader = 'Dashboard';
-    });
+    }]);
