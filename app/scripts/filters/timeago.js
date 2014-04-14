@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .filter('timeago', function() {
-        return function(input, p_allowFuture) {
+    .filter('timeago', function () {
+        return function (input, p_allowFuture) {
             var substitute = function (stringOrFunction, number, strings) {
                     var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, dateDifference) : stringOrFunction;
                     var value = (strings.numbers && strings.numbers[number]) || number;
@@ -12,7 +12,7 @@ angular.module('theBossApp')
                 date = (new Date(input)).getTime(),
             //refreshMillis= 6e4, //A minute
                 allowFuture = p_allowFuture || false,
-                strings= {
+                strings = {
                     prefixAgo: null,
                     prefixFromNow: null,
                     suffixAgo: "ago",
@@ -36,7 +36,7 @@ angular.module('theBossApp')
                 hours = minutes / 60,
                 days = hours / 24,
                 years = days / 365,
-                separator = strings.wordSeparator === undefined ?  " " : strings.wordSeparator,
+                separator = strings.wordSeparator === undefined ? " " : strings.wordSeparator,
 
             // var strings = this.settings.strings;
                 prefix = strings.prefixAgo,
@@ -68,4 +68,4 @@ angular.module('theBossApp')
             // }
             // return out;
         }
-});
+    });

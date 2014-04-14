@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .factory('Auth', function Auth($location, $rootScope, Session, User, $cookieStore) {
+    .factory('Auth', ['$location', '$rootScope', 'Session', 'User', '$cookieStore', function Auth($location, $rootScope, Session, User, $cookieStore) {
 
         // Get currentUser from cookie
         $rootScope.currentUser = $cookieStore.get('user') || null;
@@ -20,7 +20,6 @@ angular.module('theBossApp')
                 var cb = callback || angular.noop;
 
                 return Session.save({
-                    owner: user.owner,
                     email: user.email,
                     password: user.password
                 },function (user) {
@@ -110,4 +109,4 @@ angular.module('theBossApp')
                 return !!user;
             }
         };
-    });
+    }]);

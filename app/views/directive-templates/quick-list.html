@@ -1,4 +1,3 @@
-<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="input-group custom-search-form">
@@ -14,7 +13,7 @@
         <accordion close-others="oneAtATime=true">
             <accordion-group ng-repeat="item in list" is-open="isopen">
                 <accordion-heading>
-                    {{item.title}}: {{item.value}}
+                    {{item.title}}
                     <i class="pull-right glyphicon"
                        ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
                 </accordion-heading>
@@ -27,11 +26,7 @@
                         <span class="fa fa-trash-o fa-fw"></span>
                     </button>
                 </div>
-
-
-                <div ng-repeat="detail in item.details">
-                    <span class="label label-default">{{detail.title}} - {{detail.value}}</span>
-                </div>
+                <span class="label label-default">{{item.detail}}</span>
             </accordion-group>
         </accordion>
         <div ng-hide="list.length">

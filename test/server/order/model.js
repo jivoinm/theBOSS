@@ -84,6 +84,9 @@ function SetupOrder1(done) {
                                     {
                                         'Field name1': 'field1 value'
                                     }
+                                ],
+                                tasks: [
+                                    {title: project1.name + ' Task2', status: 'assigned'}
                                 ]
                             },
                             {
@@ -92,6 +95,9 @@ function SetupOrder1(done) {
                                     {
                                         'Field name1': 'field1 value'
                                     }
+                                ],
+                                tasks: [
+                                    {title: project2.name + ' Task2', status: 'assigned'}
                                 ]
                             },
                             {
@@ -208,11 +214,40 @@ describe('Order server tests', function () {
             });
         });
 
-        it("should be able to return task from all projects per order", function () {
+        it("should be able to return task from all projects per order", function (done) {
             orderObj.save(function (err, order) {
                 order.getProjectTasks(function (tasks) {
-                    tasks.should.be.length(6)
+                    tasks.should.be.length(3);
+                    done();
                 });
+            });
+        });
+
+        it("should return project task with order details", function (done) {
+            orderObj.save(function (err, order) {
+                order.getProjectTasks(function (tasks) {
+                    should.not.exist(tasks[0][0].status);
+                    should.exist(tasks[0][1].status);
+                    done();
+                });
+            });
+        });
+
+        it("should return task sorted by priority", function (done) {
+            orderObj.save(function (err, order) {
+                order.getProjectTasks(function (tasks) {
+                    tasks[0][0].priority.should.equal(1);
+                    tasks[0][1].priority.should.equal(2);
+                    tasks[0][2].priority.should.equal(3);
+                    done();
+                });
+            });
+        });
+    });
+    describe("Order form fields", function () {
+        it("should be able to return project fields with order field values", function () {
+            orderObj.save(function (err, order) {
+
             });
         });
     });

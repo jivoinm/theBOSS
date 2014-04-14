@@ -12,7 +12,7 @@ describe('Controller: LoginCtrl', function () {
         location;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope,Auth, $location) {
+    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope,Auth, $location,$cookies) {
         httpBackend = _$httpBackend_;
         scope = $rootScope.$new();
         auth = Auth;

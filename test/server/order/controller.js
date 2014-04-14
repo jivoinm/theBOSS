@@ -8,7 +8,7 @@ Project = mongoose.model("Project");
 request = require("supertest");
 agent = request.agent(app);
 
-describe('Project controller', function () {
+describe('Order controller', function () {
     before(function (done) {
         project = new Project({
             owner: 'Owner1',

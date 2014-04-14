@@ -1,26 +1,26 @@
 {
-  "name": "the-boss",
-  "version": "0.0.0",
-  "dependencies": {
-      "angular": "1.2.11",
-      "json3": "~3.2.6",
-      "es5-shim": "~2.1.0",
-      "jquery": "~2.1.0",
-      "angular-resource": "1.2.11",
-      "angular-cookies": "1.2.11",
-      "angular-route": "1.2.11",
-      "angular-spinner": "~0.3.1",
-      "components-font-awesome": "~4.0.3",
-      "metisMenu": "*",
-      "angular-sanitize": "~1.2.14",
-      "angular-ui-calendar": "~0.8.0",
-      "dialogs": "~3.1.0",
-      "ui.bootstrap": "~0.10.0",
-      "angular-ui-select2": "~0.0.5"
-  },
-  "devDependencies": {
-    "angular-mocks": "1.2.11",
-    "angular-scenario": "1.2.11"
-  },
-  "testPath": "test/client/spec"
+    "name": "the-boss",
+    "version": "0.0.0",
+    "dependencies": {
+        "angular": "1.2.11",
+        "json3": "~3.2.6",
+        "es5-shim": "~2.1.0",
+        "jquery": "~2.1.0",
+        "angular-resource": "1.2.11",
+        "angular-cookies": "1.2.11",
+        "angular-route": "1.2.11",
+        "angular-spinner": "~0.3.1",
+        "components-font-awesome": "~4.0.3",
+        "metisMenu": "*",
+        "angular-sanitize": "~1.2.14",
+        "angular-ui-calendar": "~0.8.0",
+        "dialogs": "~3.1.0",
+        "ui.bootstrap": "~0.10.0",
+        "angular-ui-select2": "~0.0.5"
+    },
+    "devDependencies": {
+        "angular-mocks": "1.2.11",
+        "angular-scenario": "1.2.11"
+    },
+    "testPath": "test/client"
 }

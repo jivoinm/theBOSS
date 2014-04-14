@@ -16,7 +16,7 @@ angular.module('theBossApp', [
                 controller: 'MainCtrl',
                 authenticate: true
             })
-            .when('/index',{
+            .when('/index', {
                 templateUrl: 'partials/index',
                 controller: 'PublicCtrl'
             })
@@ -33,26 +33,30 @@ angular.module('theBossApp', [
                 controller: 'SettingsCtrl',
                 authenticate: true
             })
+            .when('/orders', {
+                templateUrl: 'partials/orders',
+                controller: 'OrdersCtrl'
+            })
             .otherwise({
                 redirectTo: '/main'
             });
 
         // Intercept 401s and redirect you to login
-        $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
+        $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
             return {
-                'response': function(response){
+                'response': function (response) {
 //                    if (response.status === 401) {
 //                        console.log("Response 401");
 //                    }
                     return response || $q.when(response);
                 },
-                'responseError': function(response) {
-                    if(response.status === 401) {
+                'responseError': function (response) {
+                    if (response.status === 401) {
                         $location.path('/login');
                         return $q.reject(response);
                     }
                     else {
-                        console.log("Response "+response.status);
+                        console.log("Response " + response.status);
                         return $q.reject(response);
                     }
                 }
