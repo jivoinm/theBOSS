@@ -7,86 +7,258 @@ var should = require('should'),
     User = mongoose.model('User'),
     Order = mongoose.model('Order');
 
-var currentUser, order;
 
 describe('Order server tests', function () {
-
+    var admin, user, orderObj;
     beforeEach(function (done) {
-        User.findOne({name:''},function(err,user){
-            if(err) done(err);
-            currentUser = user;
+        // Clear old users, then add a default user
+        User.find({}).remove(function () {
+            User.create({
+                    owner: 'Test Owner',
+                    provider: 'local',
+                    name: 'Admin',
+                    email: 'admin@a.com',
+                    password: 'test',
+                    role: 'super'
+                }, function (err, user1) {
+                    admin = user1;
+                    User.create({
+                        owner: 'Test Owner',
+                        provider: 'local',
+                        name: 'User1',
+                        email: 'user@u.com',
+                        password: 'test',
+                        role: 'user'}, function (err, user2) {
+                        user = user2;
+                        Customer.find({}).remove(function () {
+                            Customer.create({owner: 'Test Owner', name: 'Customer'}, function (err, Customer) {
+                                Project.find({}).remove(function () {
+                                    Project.create({
+                                        owner: 'Test Owner',
+                                        name: 'Kitchen',
+                                        fields: [
+                                            {
+                                                field_order: 1,
+                                                field_title: 'Field name1',
+                                                field_type: 'text',
+                                                field_value: '',
+                                                field_require: true
+                                            },
+                                            {
+                                                field_order: 2,
+                                                field_title: 'Field name2',
+                                                field_type: 'text',
+                                                field_value: '',
+                                                field_require: true
+                                            }
+                                        ],
+                                        tasks: [
+                                            {
+                                                priority: 2,
+                                                title: 'Project1 Task2',
+                                                duration: '2h'
+                                            },
+                                            {
+                                                priority: 1,
+                                                title: 'Project1 Task1',
+                                                duration: '1h'
+                                            },
+                                            {
+                                                priority: 3,
+                                                title: 'Project1 Task3',
+                                                duration: '1h'
+                                            }
+                                        ]
+                                    }, function (err, project1) {
+                                        Project.create({
+                                            owner: 'Test Owner',
+                                            name: 'Project2',
+                                            fields: [
+                                                {
+                                                    field_order: 1,
+                                                    field_title: 'Field name1',
+                                                    field_type: 'text',
+                                                    field_value: '',
+                                                    field_require: true
+                                                },
+                                                {
+                                                    field_order: 2,
+                                                    field_title: 'Field name2',
+                                                    field_type: 'text',
+                                                    field_value: '',
+                                                    field_require: true
+                                                }
+                                            ],
+                                            tasks: [
+                                                {
+                                                    priority: 2,
+                                                    title: 'Project2 Task2',
+                                                    duration: '2h'
+                                                },
+                                                {
+                                                    priority: 1,
+                                                    title: 'Project2 Task1',
+                                                    duration: '1h'
+                                                },
+                                                {
+                                                    priority: 3,
+                                                    title: 'Project2 Task3',
+                                                    duration: '1h'
+                                                }
+                                            ]
+                                        }, function (err, project2) {
+                                            Order.find({}).remove(function () {
+                                                Order.create({
+                                                    owner: 'Test Owner',
+                                                    customer: Customer,
+                                                    projects: [
+                                                        {
+                                                            project: project1,
+                                                            field_values: [
+                                                                {
+                                                                    'Field name1': 'field1 value'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            project: project2,
+                                                            field_values: [
+                                                                {
+                                                                    'Field name1': 'field1 value'
+                                                                }
+                                                            ],
+                                                            tasks: [
+                                                                {
+                                                                    title: 'Project2 Task2',
+                                                                    status: 'started'
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    created_by: user1}, function (err, order) {
+                                                    orderObj = order;
+                                                    done();
+                                                });
+
+                                            });
+
+                                        });
+                                    });
+                                });
+
+                            });
+                        });
+                    })
+                }
+            );
+        });
+
+    });
+
+    it("should have created an order with two projects", function (done) {
+        Order.findById(orderObj._id, function (err, order) {
+            order.projects.length.should.equal(2);
             done();
         });
     });
 
-    it("should have created an order with three projects", function (done) {
-        orderObj.save(function (err, order) {
-            Order.findById(order._id, function (err, order) {
-                order.projects.length.should.equal(3);
+
+    it("should be able to return orders for one owner created by user", function (done) {
+
+        Order.queryOrders('Test Owner', {created_by: admin}, {}, 'created_by customer',
+            function (err, orders) {
+                orders.length.should.equal(1);
+                should.exist(orders[0].created_by.name);
+                should.exist(orders[0].customer.name);
+                orders[0].projects.length.should.equal(2);
                 done();
             });
-        });
     });
 
-    describe("Order queries", function () {
-
-        it("should be able to return orders for one owner created by user", function (done) {
-
-            Order.queryOrders('Owner1', {created_by: currentUser._id}, {}, 'created_by customer',
+    it("should be able to return orders for one owner order by created date desc", function (done) {
+        Order.create({
+            owner: 'Test Owner',
+            customer: orderObj.customer,
+            projects: [
+                {
+                    project: orderObj.projects[1].project,
+                    field_values: [
+                        {
+                            'Field name1': 'field1 value'
+                        }
+                    ]
+                },
+                {
+                    project: orderObj.projects[1].project,
+                    field_values: [
+                        {
+                            'Field name1': 'field1 value'
+                        }
+                    ]
+                }
+            ],
+            created_by: orderObj.created_by}, function (err, order) {
+            Order.queryOrders('Test Owner', {}, {last_updated_on: 1}, 'created_by customer',
                 function (err, orders) {
-                    orders.length.should.equal(1);
-                    should.exist(orders[0].created_by.name);
-                    should.exist(orders[0].customer.name);
-                    orders[0].projects.length.should.equal(2);
+                    orders[0].last_updated_on.getSeconds().should.be.exactly(order.last_updated_on.getSeconds());
                     done();
                 });
+
         });
 
-        it("should be able to return orders for one owner order by created date desc", function (done) {
-            orderObj.save(function (err, order) {
-                Order.queryOrders('Owner1', {}, {last_updated_on: 1}, 'created_by customer',
-                    function (err, orders) {
-                        orders[0].last_updated_on.getSeconds().should.be.exactly(order.last_updated_on.getSeconds());
-                        done();
-                    });
-            });
-        });
+    });
 
-        it("should be able to return task from all projects per order", function (done) {
-            orderObj.save(function (err, order) {
-                order.getProjectTasks(function (tasks) {
-                    tasks.should.be.length(3);
-                    done();
-                });
-            });
-        });
-
-        it("should return project task with order details", function (done) {
-            orderObj.save(function (err, order) {
-                order.getProjectTasks(function (tasks) {
-                    should.not.exist(tasks[0][0].status);
-                    should.exist(tasks[0][1].status);
-                    done();
-                });
-            });
-        });
-
-        it("should return task sorted by priority", function (done) {
-            orderObj.save(function (err, order) {
-                order.getProjectTasks(function (tasks) {
-                    tasks[0][0].priority.should.equal(1);
-                    tasks[0][1].priority.should.equal(2);
-                    tasks[0][2].priority.should.equal(3);
-                    done();
-                });
-            });
+    it("should be able to return task from all projects per order", function (done) {
+        orderObj.getProjectTasks(function (tasks) {
+            tasks.should.be.length(2);
+            done();
         });
     });
-    describe("Order form fields", function () {
-        it("should be able to return project fields with order field values", function () {
-            orderObj.save(function (err, order) {
 
-            });
+    it("should return project task with updated order details", function (done) {
+        orderObj.getProjectTasks(function (tasks) {
+            should.not.exist(tasks[0][0].status);
+            should.exist(tasks[1][1].status);
+            done();
         });
+    });
+
+    it("should return task sorted by priority", function (done) {
+        orderObj.getProjectTasks(function (tasks) {
+            tasks[0][0].priority.should.equal(1);
+            tasks[0][1].priority.should.equal(2);
+            tasks[0][2].priority.should.equal(3);
+            done();
+        });
+    });
+
+    xit("should be able to return project fields with order field values", function (done) {
+        done()
+    });
+
+    it("should be able to return latest orders with aggregated results", function (done) {
+        var orders = [];
+        Order.aggregate([
+            {
+                $project: {status: 1, customer: 1, projects: 1},
+                // $sort:{last_updated:-1},
+                // $limit: limit
+            }
+        ],function (e, result) {
+            //console.log(result);
+            if (e) return;
+            result.forEach(function (item) {
+                Customer.findById(item.customer, function (err, cust) {
+                    console.log(cust);
+                    result.customer = cust;
+                    orders.push(result);
+                });
+            })
+
+        }).then(function () {
+                console.log(orders);
+                done();
+            });
+
     });
 });

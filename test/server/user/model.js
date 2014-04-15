@@ -50,12 +50,14 @@ describe('User Model', function () {
         });
     });
 
-    it("should authenticate user if password is valid", function () {
+    it("should authenticate user if password is valid", function (done) {
         user.authenticate('12345').should.be.true;
+        done();
     });
 
-    it("should not authenticate user if password is invalid", function () {
+    it("should not authenticate user if password is invalid", function (done) {
         user.authenticate('blah').should.not.be.true;
+        done();
     });
 
     it("should error if no owner name is set", function (done) {
