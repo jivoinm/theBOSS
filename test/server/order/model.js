@@ -257,6 +257,7 @@ describe('Order server tests', function () {
 
         }).then(function () {
                 console.log(orders);
+
                 done();
             });
 

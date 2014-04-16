@@ -7,7 +7,11 @@ angular.module('theBossApp')
 
         //load user orders first
         User.orders({id:$scope.currentUser.user_id}, function (res) {
-            $scope.list = res;
+            var orderList = res.map(function(item){
+                return {title:item.customer.name,date:item.last_updated_on,detail:'Has '+item.projects.length+' projects'}
+            });
+
+            $scope.list = orderList;
         }, function (err) {
             //log error
             $scope.errors.push(err);
