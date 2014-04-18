@@ -321,3 +321,7 @@ table.dataTable thead .sorting:after {
 .accordion-body.in:hover {
     overflow: visible;
 }
+
+.code .nav-tabs {
+    border-bottom: 1px solid #ccc;
+}

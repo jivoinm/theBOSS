@@ -1,1 +1,42 @@
-<quick-list list="{{ list }}"></quick-list>
+<div class="row">
+    <div class="col-md-4">
+        <quick-list quick-list="list" title="Orders made by you" item-select="edit(item)"></quick-list>
+    </div>
+    <div class="col-md-8">
+        <div class="well">
+            <tabset justified="true">
+                <tab heading="Order">
+
+                </tab>
+                <tab heading="Taks">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Tasks to do on this order</div>
+                        <div class="panel-body">
+                            <p>List of task and their status are shown here, you can change its status to the next
+                                step</p>
+                        </div>
+
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="task in tasks">
+                                <input type="checkbox" name="task"/>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="task.done"> {{ task.title }}
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </tab>
+                <tab heading="Ordered material">
+
+                </tab>
+            </tabset>
+        </div>
+
+    </div>
+
+</div>

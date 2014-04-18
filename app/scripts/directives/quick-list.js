@@ -6,9 +6,11 @@ angular.module('theBossApp')
             templateUrl: '/views/directive-templates/quick-list.html',
             restrict: 'E',
             scope: {
-                list: '@'
+                quickList: '=',
+                itemSelect: '&'
             },
-            link: function postLink(scope, element, attrs) {
+            link: function (scope, element, attrs) {
+                scope.title = attrs.title || "Quick list";
             }
         };
     });
