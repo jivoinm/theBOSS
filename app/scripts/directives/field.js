@@ -9,43 +9,34 @@ angular.module('theBossApp')
         return {
             restrict: 'E',
             replace: true,
-            scope: {},
-            //require: 'ngModel',
-
-            link: function(scope, iElement, iAttrs, ngModelController) {
-                var field = scope.$eval(iAttrs.field);
-                scope.field = field;
-
-
-                scope.isValidField = function(field){
-                    return field.field.field_require && (!field.field_value || field.field_value.length == 0);
+            //scope: {},
+            require: 'ngModel',
+            compile: function(element,attrs){
+                var formField = function(name){
+                    return '<div class="form-group" ng-class="{\'has-error\' : form.'+name+'.$invalid && (!form.'+name+'.$pristine || submitted) }">{{field_html}}</div';
+                }
+                var text = function(){
+                    return '<input type="text" class="form-control" name="{{field.field.field_title | nospace}}" placeholder="{{field.field.field_title}}"'+
+                    'ng-model="field.field_value" value="{{field.field_value}}" ng-required="{{ field.field.field_require }}"'+
+                    'ng-show="!editmode">';
                 }
 
+                return function(scope,element,attrs,ngModel){
+                    if(!ngModel) retur; // do nothing if no ng-model
 
-                var templateUrl = getTemplateUrl(field.field.field_type);
+                    ngModel.$render = function() {
 
-                switch(field.field.field_type) {
-                    case 'date':
-                        scope.show_calendar = false;
-                        scope.openCalendar = function($event){
-                            $event.preventDefault();
-                            $event.stopPropagation();
-
-                            scope.show_calendar = true;
+                        var field = ngModel.$viewValue || {};
+                        if(field.field) {
+                            var field_title = field.field.field_title.replace(/ /g, '');
+                            element.html(formField(field_title));
+                            scope.field_html = text();
+                            scope.field = ngModel;
+                            $compile(element)(scope);
                         }
-                        break;
+                    };
                 }
-
-                $http.get(templateUrl).success(function(data) {
-                    iElement.append($compile(data)(scope));
-                    //var yourFieldName = scope.field.field.field_title.replace(/ /g, '');
-                    //set on keyUp
-                    //                    iElement.bind('keyup', function () {
-                    //                        //scope.field.field_value = this.value;
-                    //                        updateModel(scope.field);
-                    //                    });
-                });
-
             }
+
         };
     }]);

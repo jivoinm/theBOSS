@@ -334,12 +334,3 @@ table.dataTable thead .sorting:after {
     /*background: red;*/
     /*color:white;*/
 /*}*/
-
-.ng-invalid.ng-dirty {
-    background-color: #ff7373;
-
-}
-
-.ng-invalid.ng-dirty:focus {
-    background-color: #fff;
-}
