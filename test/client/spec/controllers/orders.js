@@ -17,8 +17,8 @@ describe('Controller: OrdersCtrl', function () {
         scope.currentUser = {user_id: 'userid'};
         orderService = _OrderService_;
         $httpBackend.expectGET('/api/users/userid/orders').respond([
-            {obj: 1},
-            {obj: 1}
+            {_id: 1, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]},
+            {_id: 2, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]}
         ]);
         OrdersCtrl = $controller('OrdersCtrl', {
             $scope: scope,
@@ -31,6 +31,16 @@ describe('Controller: OrdersCtrl', function () {
         $httpBackend.flush();
         expect(scope.list.length).toBe(2);
     });
+
+    it('should load project tasks when loadTasks is called', function(){
+        scope.order = {_id:'order_id'};
+        $httpBackend.expectGET('/api/orders/order_id/tasks').respond([{task:12}]);
+        scope.loadTasks();
+        scope.$digest();
+        $httpBackend.flush();
+        expect(scope.tasks.length).toBe(1);
+
+    })
 
 
 });

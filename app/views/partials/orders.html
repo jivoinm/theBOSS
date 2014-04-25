@@ -3,40 +3,131 @@
         <quick-list quick-list="list" title="Orders made by you" item-select="edit(item)"></quick-list>
     </div>
     <div class="col-md-8">
-        <div class="well">
-            <tabset justified="true">
-                <tab heading="Order">
 
-                </tab>
-                <tab heading="Taks">
+        <tabset justified="true">
+            <tab heading="Order">
+                <form name="form" class="form" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
                     <div class="panel panel-default">
                         <!-- Default panel contents -->
-                        <div class="panel-heading">Tasks to do on this order</div>
+                        <div class="panel-heading">Order details
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="" ng-click="delete()" ng-show="order._id">Delete</a></li>
+                                        <li><a href="" ng-click="schedule()">Schedule order</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel-body">
-                            <p>List of task and their status are shown here, you can change its status to the next
-                                step</p>
+                            <div class="form-group"
+                                 ng-class="{ 'has-error' : form.customerName.$invalid && (!form.customerName.$pristine || submitted) }">
+                                <label>Customer</label>
+                                <input type="text" class="form-control" name="customerName" ng-model="order.customer.name" ng-required="true">
+                                <p ng-show="form.customerName.$invalid && (!form.customerName.$pristine || submitted)" class="help-block">Enter required field.</p>
+                            </div>
+                            <div class="form-group"
+                                 ng-class="{ 'has-error' : form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)}">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" ng-model="order.customer.email" ng-required="true">
+                                <p ng-show="form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)" class="help-block">Enter valid email address.</p>
+                            </div>
+                            <div class="list-group">
+                                <a href="" class="list-group-item" ng-click="isAddressVisible = !isAddressVisible">Address</a>
+                                <div collapse="!isAddressVisible">
+                                    <div class="well well-lg">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input class="form-control" ng-model="order.customer.address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Postal Code</label>
+                                                <input class="form-control" ng-model="order.customer.postal_code">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Province</label>
+                                                <input class="form-control" ng-model="order.customer.province">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Country</label>
+                                                <input class="form-control" ng-model="order.customer.country">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="panel panel-default">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Projects
+                                    <div class="pull-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                Actions
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right" role="menu">
+                                                <li><a href="" ng-click="delete()" ng-show="order._id">Delete</a></li>
+                                                <li ng-repeat="project in available_projects"><a href="" ng-click="addProject(project)">Add {{ project.name }}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+
+                                    <accordion close-others="oneAtATime">
+                                        <accordion-group heading="{{ project.project }}" ng-repeat="project in projects">
+                                            <form-builder fields="project.fields" model="project"></form-builder>
+                                        </accordion-group>
+
+                                    </accordion>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-default">Save</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+
                         </div>
 
-                        <!-- List group -->
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="task in tasks">
-                                <input type="checkbox" name="task"/>
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" ng-model="task.done"> {{ task.title }}
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
-                </tab>
-                <tab heading="Ordered material">
 
-                </tab>
-            </tabset>
-        </div>
+                </form>
+            </tab>
+            <tab heading="Taks" select="loadTasks()">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Tasks to do on this order</div>
+                    <div class="panel-body">
+                        <p>List of task and their status are shown here, you can change its status to the next
+                            step</p>
+                    </div>
 
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="projectTask in tasks">
+                            <h4>{{ projectTask.project }}</h4>
+                            <div class="checkbox" ng-repeat="task in projectTask.tasks">
+                                <label>
+                                    <input type="checkbox" ng-model="task.done"> {{ task.title }}
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </tab>
+            <tab heading="Ordered material">
+
+            </tab>
+        </tabset>
     </div>
+
+
 
 </div>

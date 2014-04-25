@@ -1,0 +1,14 @@
+<div class="form-group" ng-class="{ 'has-error' : isValidField(field) }">
+<div class="input-group" ng-show="editmode">
+    <input type="text" class="form-control" name="{{field.field.field_title | nospace}}"
+           name="{{field.field.field_title | nospace}}" placeholder="{{field.field.field_title}}" ng-model="field.field.field_value"
+           value="{{field.field_value}}" ng-required="field.field.field_required">
+    <span class="input-group-addon">
+ 		<a ng-click="open(field)"><span class="glyphicon glyphicon-cog"></span></a>
+	</span>
+</div>
+
+<input type="text" class="form-control" name="{{field.field.field_title | nospace}}" placeholder="{{field.field.field_title}}"
+       ng-model="field.field_value" value="{{field.field_value}}" ng-required="{{ field.field.field_require }}"
+       ng-show="!editmode">
+</div>

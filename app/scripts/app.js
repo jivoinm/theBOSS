@@ -4,6 +4,7 @@ angular.module('theBossApp', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
+        'ngAnimate',
         'ngRoute',
         'ui.bootstrap'
     ])

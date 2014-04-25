@@ -75,14 +75,14 @@ describe('Order server tests', function () {
                                             name: 'Project2',
                                             fields: [
                                                 {
-                                                    field_order: 1,
+                                                    field_order: 2,
                                                     field_title: 'Field name1',
                                                     field_type: 'text',
                                                     field_value: '',
                                                     field_require: true
                                                 },
                                                 {
-                                                    field_order: 2,
+                                                    field_order: 1,
                                                     field_title: 'Field name2',
                                                     field_type: 'text',
                                                     field_value: '',
@@ -117,6 +117,8 @@ describe('Order server tests', function () {
                                                             field_values: [
                                                                 {
                                                                     'Field name1': 'field1 value'
+                                                                },{
+                                                                    'Field name2': 'field2 value'
                                                                 }
                                                             ]
                                                         },
@@ -217,49 +219,30 @@ describe('Order server tests', function () {
 
     it("should return project task with updated order details", function (done) {
         orderObj.getProjectTasks(function (tasks) {
-            should.not.exist(tasks[0][0].status);
-            should.exist(tasks[1][1].status);
+            should.not.exist(tasks[0].tasks[0].status);
+            should.exist(tasks[1].tasks[1].status);
             done();
         });
     });
 
     it("should return task sorted by priority", function (done) {
         orderObj.getProjectTasks(function (tasks) {
-            tasks[0][0].priority.should.equal(1);
-            tasks[0][1].priority.should.equal(2);
-            tasks[0][2].priority.should.equal(3);
+            tasks[0].tasks[0].priority.should.equal(1);
+            tasks[0].tasks[1].priority.should.equal(2);
+            tasks[0].tasks[2].priority.should.equal(3);
             done();
         });
     });
 
-    xit("should be able to return project fields with order field values", function (done) {
-        done()
+    it("should return project fields sorted by order",function(done){
+        orderObj.getProjects(function(projects){
+            projects[0].project.should.equal('Kitchen');
+            projects[0].fields[0].field.field_order.should.equal(1);
+            projects[0].fields[0].field.field_title.should.equal('Field name1');
+            projects[0].fields[0].field_value.should.equal('field1 value');
+            done();
+        });
     });
 
-    it("should be able to return latest orders with aggregated results", function (done) {
-        var orders = [];
-        Order.aggregate([
-            {
-                $project: {status: 1, customer: 1, projects: 1},
-                // $sort:{last_updated:-1},
-                // $limit: limit
-            }
-        ],function (e, result) {
-            //console.log(result);
-            if (e) return;
-            result.forEach(function (item) {
-                Customer.findById(item.customer, function (err, cust) {
-                    console.log(cust);
-                    result.customer = cust;
-                    orders.push(result);
-                });
-            })
 
-        }).then(function () {
-                console.log(orders);
-
-                done();
-            });
-
-    });
 });

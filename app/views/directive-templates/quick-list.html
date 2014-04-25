@@ -24,8 +24,13 @@
                 <p class="list-group-item-text">{{ item.detail }}</p>
             </div>
         </div>
+        <div class="list-group-item" ng-show="!quickList.length">
+            <h4 class="list-group-item-heading">
+                Nothing to show yet
+            </h4>
+        </div>
         <!-- /.list-group -->
-        <a href="#" class="btn btn-default btn-block">View All</a>
+        <a href="#" class="btn btn-default btn-block">Advanced Search</a>
     </div>
     <!-- /.panel-body -->
 </div>

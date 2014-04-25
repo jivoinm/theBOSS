@@ -325,3 +325,21 @@ table.dataTable thead .sorting:after {
 .code .nav-tabs {
     border-bottom: 1px solid #ccc;
 }
+
+/*.form {*/
+    /*transition:0.5s linear all;*/
+    /*background: white;*/
+/*}*/
+/*.form.ng-invalid {*/
+    /*background: red;*/
+    /*color:white;*/
+/*}*/
+
+.ng-invalid.ng-dirty {
+    background-color: #ff7373;
+
+}
+
+.ng-invalid.ng-dirty:focus {
+    background-color: #fff;
+}

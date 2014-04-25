@@ -1,11 +1,21 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User', function ($scope, OrderService,User) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','ProjectServ', function ($scope, OrderService,User,ProjectServ) {
         $scope.$parent.pageHeader = 'Orders';
         $scope.list = [];
         $scope.errors = [];
+        $scope.order = {};
+        $scope.isAddressVisible = false;
+        $scope.projects = [];
+        $scope.available_projects = [];
 
+        //load available projects
+        ProjectServ.getAll().then(function(res){
+            $scope.available_projects = res;
+        },function(err){
+            console.log(err);
+        });
         //load user orders first
         User.orders({id:$scope.currentUser.user_id}, function (res) {
             angular.forEach(res, function (item, key) {
@@ -25,11 +35,38 @@ angular.module('theBossApp')
         $scope.edit = function (order) {
             //load order
             OrderService.get({orderId: order.id}).$promise.then(function (order) {
-                console.log('get order ' + order._id);
                 //populate form
+                $scope.order = order;
+                $scope.loadProjects();
+
             }).catch(function (err) {
                     $scope.errors.push(err);
                 });
+        }
+
+        $scope.loadTasks = function(){
+            OrderService.tasks({orderId: $scope.order._id}).$promise.then(function(tasks){
+               $scope.tasks = tasks;
+            });
+        }
+
+        $scope.loadProjects = function(){
+            OrderService.projects({orderId: $scope.order._id}).$promise.then(function(projects){
+                $scope.projects = projects;
+            });
+        }
+
+        $scope.saveOrder = function(form){
+            $scope.submitted = true;
+            console.log($scope.projects);
+            if (form.$valid) {
+               console.log(form.$valid);
+            }
+
+        }
+
+        $scope.addProject = function(project){
+            $scope.projects.push(project);
         }
 
     }]);
