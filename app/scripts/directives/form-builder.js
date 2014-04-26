@@ -5,7 +5,7 @@ angular.module('theBossApp')
 
 
         return {
-            template: '<field field="{{ field }}" ng-model="field" ng-repeat="field in formFields track by $index"></field>',
+            template: '<field ng-repeat="field in project.fields track by $index"></field>',
             restrict: 'E',
 
 
@@ -15,7 +15,7 @@ angular.module('theBossApp')
                 var fields = element.attr('fields');
                 var model= element.attr('model');
                 //$scope.model = $scope.$eval(model);
-                $scope.formFields = $scope.$eval(fields);
+                //$scope.formFields = $scope.$eval(fields);
 
             }
 

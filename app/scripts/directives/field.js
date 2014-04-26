@@ -10,10 +10,10 @@ angular.module('theBossApp')
             restrict: 'E',
             replace: true,
             //scope: {},
-            require: 'ngModel',
+            //require: 'ngModel',
             compile: function(element,attrs){
-                var formField = function(name){
-                    return '<div class="form-group" ng-class="{\'has-error\' : form.'+name+'.$invalid && (!form.'+name+'.$pristine || submitted) }">{{field_html}}</div';
+                var formField = function(name,field){
+                    return '<div class="form-group" ng-class="{\'has-error\' : form.'+name+'.$invalid && (!form.'+name+'.$pristine || submitted) }">'+field+'</div';
                 }
                 var text = function(){
                     return '<input type="text" class="form-control" name="{{field.field.field_title | nospace}}" placeholder="{{field.field.field_title}}"'+
@@ -21,20 +21,19 @@ angular.module('theBossApp')
                     'ng-show="!editmode">';
                 }
 
-                return function(scope,element,attrs,ngModel){
-                    if(!ngModel) retur; // do nothing if no ng-model
+                return{
 
-                    ngModel.$render = function() {
+                    post: function(scope,element,attrs){
+                        if(!scope.field) return; // do nothing if no ng-model
 
-                        var field = ngModel.$viewValue || {};
+                        var field = scope.field;
                         if(field.field) {
                             var field_title = field.field.field_title.replace(/ /g, '');
-                            element.html(formField(field_title));
-                            scope.field_html = text();
-                            scope.field = ngModel;
-                            $compile(element)(scope);
+
+                            element.append($compile(formField(field_title,text()))(scope));
                         }
-                    };
+
+                    }
                 }
             }
 

@@ -7,7 +7,7 @@ angular.module('theBossApp')
         $scope.errors = [];
         $scope.order = {};
         $scope.isAddressVisible = false;
-        $scope.projects = [];
+        $scope.order.projects = [];
         $scope.available_projects = [];
 
         //load available projects
