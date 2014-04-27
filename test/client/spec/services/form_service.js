@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: Project', function () {
+describe('Service: Form', function () {
 
   // load the service's module
   beforeEach(module('theBossApp'));
 
   // instantiate service
-  var Project;
-  beforeEach(inject(function (_Project_) {
-    Project = _Project_;
+  var Form;
+  beforeEach(inject(function (_Form_) {
+    Form = _Form_;
   }));
 
   it('should do something', function () {
-    expect(!!Project).toBe(true);
+    expect(!!Form).toBe(true);
   });
 
 });

@@ -2,14 +2,14 @@
 
 var should = require('should'),
     mongoose = require('mongoose'),
-    Project = mongoose.model('Project');
+    Project = mongoose.model('Form');
 
 var project;
-describe('Project server tests', function () {
+describe('Form server tests', function () {
     before(function (done) {
         project = new Project({
             owner: 'Owner1',
-            name: 'Project Name',
+            name: 'Form Name',
             fields: [
                 {
                     field_order: 1,
@@ -46,16 +46,23 @@ describe('Project server tests', function () {
         project.save(function () {
             var projectDup = new Project({
                 owner: 'Owner2',
-                name: 'Project Name',
-                fields: [
+                name: 'Form Name',
+                field_sets:[
                     {
-                        field_order: 1,
-                        field_title: 'Field name1',
-                        field_type: 'text',
-                        field_value: '',
-                        field_require: true
+                        title:'Materials',
+                        fields: [
+                            {
+                                order: 1,
+                                title: 'Field name1',
+                                type: 'text',
+                                default_value: 'default value',
+                                require: true
+                            }
+
+                        ]
                     }
                 ]
+
             });
             projectDup.save(function (err) {
                 // console.log(err);
@@ -69,12 +76,12 @@ describe('Project server tests', function () {
         project.save(function () {
             //create second project
             var newProject = new Project();
-            newProject.name = 'New Project Name';
+            newProject.name = 'New Form Name';
             newProject.owner = 'new Owner added1';
             newProject.save(function () {
                 //create third project
                 var newProject = new Project();
-                newProject.name = 'New Project Name';
+                newProject.name = 'New Form Name';
                 newProject.owner = 'new Owner added2';
                 newProject.save(function () {
                     Project.findOwnerProjects('new Owner added1', function (err, projects) {
@@ -93,7 +100,6 @@ describe('Project server tests', function () {
         project.increment();
         project.save(function (err, project) {
             console.log(err);
-
             Project.find({}, function (err, projects) {
                 should.not.exist(err);
                 // console.log(projects);

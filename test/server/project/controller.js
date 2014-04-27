@@ -4,15 +4,15 @@ var Project, app, mongoose, request, server, should, project, agent;
 should = require("should");
 app = require("../../../server");
 mongoose = require("mongoose");
-Project = mongoose.model("Project");
+Project = mongoose.model("Form");
 request = require("supertest");
 agent = request.agent(app);
 
-describe('Project controller', function () {
+describe('Form controller', function () {
     before(function (done) {
         project = new Project({
             owner: 'Owner1',
-            name: 'Project Name',
+            name: 'Form Name',
             fields: [
                 {
                     field_order: 1,
@@ -32,7 +32,7 @@ describe('Project controller', function () {
             .post('/api/project')
             .send({
                 owner: 'owner 1',
-                name: 'Project Name that not exists',
+                name: 'Form Name that not exists',
                 fields: [
                     {
                         field_order: 1,

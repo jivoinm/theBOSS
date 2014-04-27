@@ -3,7 +3,7 @@
 var should = require('should'),
     mongoose = require('mongoose'),
     Customer = mongoose.model('Customer'),
-    Project = mongoose.model('Project'),
+    Project = mongoose.model('Form'),
     User = mongoose.model('User'),
     Order = mongoose.model('Order');
 
@@ -36,22 +36,27 @@ describe('Order server tests', function () {
                                     Project.create({
                                         owner: 'Test Owner',
                                         name: 'Kitchen',
-                                        fields: [
+                                        field_sets:[
                                             {
-                                                field_order: 1,
-                                                field_title: 'Field name1',
-                                                field_type: 'text',
-                                                field_value: '',
-                                                field_require: true
-                                            },
-                                            {
-                                                field_order: 2,
-                                                field_title: 'Field name2',
-                                                field_type: 'text',
-                                                field_value: '',
-                                                field_require: true
+                                                title:'Materials',
+                                                fields: [
+                                                    {
+                                                        order: 1,
+                                                        title: 'Field name1',
+                                                        type: 'text',
+                                                        default_value: 'default value',
+                                                        require: true
+                                                    },
+                                                    {
+                                                        order: 2,
+                                                        title: 'Field name2',
+                                                        type: 'text',
+                                                        require: true
+                                                    }
+                                                ]
                                             }
-                                        ],
+                                        ]
+                                        ,
                                         tasks: [
                                             {
                                                 priority: 2,
@@ -70,23 +75,29 @@ describe('Order server tests', function () {
                                             }
                                         ]
                                     }, function (err, project1) {
+
                                         Project.create({
                                             owner: 'Test Owner',
                                             name: 'Project2',
-                                            fields: [
+                                            field_sets:[
                                                 {
-                                                    field_order: 2,
-                                                    field_title: 'Field name1',
-                                                    field_type: 'text',
-                                                    field_value: '',
-                                                    field_require: true
-                                                },
-                                                {
-                                                    field_order: 1,
-                                                    field_title: 'Field name2',
-                                                    field_type: 'text',
-                                                    field_value: '',
-                                                    field_require: true
+                                                    title:'Materials',
+                                                    fields: [
+                                                        {
+                                                            order: 1,
+                                                            title: 'Field name1',
+                                                            type: 'text',
+                                                            default_value: 'default value',
+                                                            require: true
+                                                        },
+                                                        {
+                                                            order: 2,
+                                                            title: 'Field name2',
+                                                            default_value: 'default value',
+                                                            type: 'text',
+                                                            require: false
+                                                        }
+                                                    ]
                                                 }
                                             ],
                                             tasks: [
@@ -113,25 +124,46 @@ describe('Order server tests', function () {
                                                     customer: Customer,
                                                     projects: [
                                                         {
-                                                            project: project1,
-                                                            field_values: [
-                                                                {
-                                                                    'Field name1': 'field1 value'
-                                                                },{
-                                                                    'Field name2': 'field2 value'
-                                                                }
-                                                            ]
+                                                            project: 'Kitchen',
+                                                            field_sets:[{
+                                                                title:'Materials',
+                                                                fields: [
+                                                                    {
+                                                                        order: 1,
+                                                                        title: 'Field name1',
+                                                                        type: 'text',
+                                                                        value: 'default value',
+                                                                        require: true
+                                                                    }
+                                                                ]
+                                                            }]
+
                                                         },
                                                         {
-                                                            project: project2,
-                                                            field_values: [
-                                                                {
-                                                                    'Field name1': 'field1 value'
-                                                                }
-                                                            ],
+                                                            project: 'Form 2',
+                                                            field_sets:[{
+                                                                title:'Materials',
+                                                                fields: [
+                                                                    {
+                                                                        order: 1,
+                                                                        title: 'Field name1',
+                                                                        type: 'text',
+                                                                        value: 'default value',
+                                                                        require: true
+                                                                    }
+                                                                ]
+                                                            }],
                                                             tasks: [
                                                                 {
+                                                                    priority: 1,
+                                                                    title: 'Project2 Task1',
+                                                                    duration: '1h'
+
+                                                                },
+                                                                {
+                                                                    priority: 1,
                                                                     title: 'Project2 Task2',
+                                                                    duration: '2h',
                                                                     status: 'started'
                                                                 }
                                                             ]
@@ -181,24 +213,6 @@ describe('Order server tests', function () {
         Order.create({
             owner: 'Test Owner',
             customer: orderObj.customer,
-            projects: [
-                {
-                    project: orderObj.projects[1].project,
-                    field_values: [
-                        {
-                            'Field name1': 'field1 value'
-                        }
-                    ]
-                },
-                {
-                    project: orderObj.projects[1].project,
-                    field_values: [
-                        {
-                            'Field name1': 'field1 value'
-                        }
-                    ]
-                }
-            ],
             created_by: orderObj.created_by}, function (err, order) {
             Order.queryOrders('Test Owner', {}, {last_updated_on: 1}, 'created_by customer',
                 function (err, orders) {
@@ -211,38 +225,26 @@ describe('Order server tests', function () {
     });
 
     it("should be able to return task from all projects per order", function (done) {
-        orderObj.getProjectTasks(function (tasks) {
-            tasks.should.be.length(2);
-            done();
-        });
+        orderObj.projects[1].tasks.should.be.length(2);
+        done();
     });
 
-    it("should return project task with updated order details", function (done) {
-        orderObj.getProjectTasks(function (tasks) {
-            should.not.exist(tasks[0].tasks[0].status);
-            should.exist(tasks[1].tasks[1].status);
-            done();
-        });
-    });
+    it("should save model values on update", function(done){
+        orderObj.status = 'status changed';
 
-    it("should return task sorted by priority", function (done) {
-        orderObj.getProjectTasks(function (tasks) {
-            tasks[0].tasks[0].priority.should.equal(1);
-            tasks[0].tasks[1].priority.should.equal(2);
-            tasks[0].tasks[2].priority.should.equal(3);
-            done();
-        });
-    });
+        var order_id = orderObj._id;
+        delete orderObj._id;
+        orderObj = orderObj.toObject();
 
-    it("should return project fields sorted by order",function(done){
-        orderObj.getProjects(function(projects){
-            projects[0].project.should.equal('Kitchen');
-            projects[0].fields[0].field.field_order.should.equal(1);
-            projects[0].fields[0].field.field_title.should.equal('Field name1');
-            projects[0].fields[0].field_value.should.equal('field1 value');
-            done();
-        });
-    });
+        Order.update({_id:order_id},orderObj,function(err){
+            console.log(err);
+            should.not.exists(err);
+            Order.findById(order_id,function(err,order){
+                order.status.should.equal('status changed');
+                done();
+            })
 
+        })
+    });
 
 });

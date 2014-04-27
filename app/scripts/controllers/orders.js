@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','ProjectServ', function ($scope, OrderService,User,ProjectServ) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', function ($scope, OrderService,User,FormService) {
         $scope.$parent.pageHeader = 'Orders';
         $scope.list = [];
         $scope.errors = [];
@@ -11,7 +11,7 @@ angular.module('theBossApp')
         $scope.available_projects = [];
 
         //load available projects
-        ProjectServ.getAll().then(function(res){
+        FormService.get({module:'order'}).$promise.then(function(res){
             $scope.available_projects = res;
         },function(err){
             console.log(err);

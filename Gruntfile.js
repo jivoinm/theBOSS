@@ -18,7 +18,7 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
-    // Project settings
+    // Form settings
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',

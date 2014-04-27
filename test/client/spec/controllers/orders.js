@@ -10,107 +10,147 @@ describe('Controller: OrdersCtrl', function () {
         $httpBackend,
         orderService,
         userService,
-        projectService;
+        formService;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, _OrderService_,_User_,_ProjectServ_) {
+    beforeEach(inject(function (_$httpBackend_, $controller, $rootScope, _OrderService_,_User_,_FormService_) {
         $httpBackend = _$httpBackend_;
         scope = $rootScope.$new();
         scope.currentUser = {user_id: 'userid'};
         orderService = _OrderService_;
         userService = _User_;
-        projectService = _ProjectServ_;
+        formService = _FormService_;
 
-        $httpBackend.expectGET('/api/project').respond([
+        $httpBackend.expectGET('/api/project/orders').respond([
             {
                 "owner": "DelPriore",
                 "name": "Kitchen",
-                "_id": "535bae8964df54e619deb687",
+                "_id": "535cebe074417865404669be",
                 "__v": 0,
                 "tasks": [
                     {
                         "priority": 2,
                         "title": "Project1 Task2",
                         "duration": "2h",
-                        "_id": "535bae8964df54e619deb68a"
+                        "_id": "535cebe074417865404669c1",
+                        "status_options": [
+                            "status1",
+                            "status2",
+                            "status3"
+                        ]
                     },
                     {
                         "priority": 1,
                         "title": "Project1 Task1",
                         "duration": "1h",
-                        "_id": "535bae8964df54e619deb689"
+                        "_id": "535cebe074417865404669c0",
+                        "status_options": [
+                            "status1",
+                            "status2",
+                            "status3"
+                        ]
                     },
                     {
                         "priority": 3,
                         "title": "Project1 Task3",
                         "duration": "1h",
-                        "_id": "535bae8964df54e619deb688"
+                        "_id": "535cebe074417865404669bf",
+                        "status_options": [
+                            "status1",
+                            "status2"
+                        ]
                     }
                 ],
-                "fields": [
+                "field_sets": [
                     {
-                        "field_order": 1,
-                        "field_title": "Field name1",
-                        "field_type": "text",
-                        "field_value": "",
-                        "field_require": true,
-                        "_id": "535bae8964df54e619deb68c",
-                        "field_options": []
-                    },
-                    {
-                        "field_order": 2,
-                        "field_title": "Field name2",
-                        "field_type": "text",
-                        "field_value": "",
-                        "field_require": true,
-                        "_id": "535bae8964df54e619deb68b",
-                        "field_options": []
+                        "title": "Materials",
+                        "_id": "535cebe074417865404669c2",
+                        "fields": [
+                            {
+                                "order": 1,
+                                "title": "Field name1",
+                                "type": "text",
+                                "default_value": "default value",
+                                "require": true,
+                                "_id": "535cebe074417865404669c4",
+                                "show_options": []
+                            },
+                            {
+                                "order": 2,
+                                "title": "Field name2",
+                                "type": "text",
+                                "require": true,
+                                "_id": "535cebe074417865404669c3",
+                                "show_options": []
+                            }
+                        ],
+                        "show_options": []
                     }
                 ]
             },
             {
                 "owner": "DelPriore",
                 "name": "Project2",
-                "_id": "535bae8964df54e619deb68d",
+                "_id": "535cebe074417865404669c5",
                 "__v": 0,
                 "tasks": [
                     {
                         "priority": 2,
-                        "title": "Project2 Task2",
+                        "title": "Project1 Task2",
                         "duration": "2h",
-                        "_id": "535bae8964df54e619deb690"
+                        "_id": "535cebe074417865404669c8",
+                        "status_options": [
+                            "status1",
+                            "status2",
+                            "status3"
+                        ]
                     },
                     {
                         "priority": 1,
-                        "title": "Project2 Task1",
+                        "title": "Project1 Task1",
                         "duration": "1h",
-                        "_id": "535bae8964df54e619deb68f"
+                        "_id": "535cebe074417865404669c7",
+                        "status_options": [
+                            "status1",
+                            "status2",
+                            "status3"
+                        ]
                     },
                     {
                         "priority": 3,
-                        "title": "Project2 Task3",
+                        "title": "Project1 Task3",
                         "duration": "1h",
-                        "_id": "535bae8964df54e619deb68e"
+                        "_id": "535cebe074417865404669c6",
+                        "status_options": [
+                            "status1",
+                            "status2"
+                        ]
                     }
                 ],
-                "fields": [
+                "field_sets": [
                     {
-                        "field_order": 1,
-                        "field_title": "Field name1",
-                        "field_type": "text",
-                        "field_value": "",
-                        "field_require": true,
-                        "_id": "535bae8964df54e619deb692",
-                        "field_options": []
-                    },
-                    {
-                        "field_order": 2,
-                        "field_title": "Field name2",
-                        "field_type": "text",
-                        "field_value": "",
-                        "field_require": true,
-                        "_id": "535bae8964df54e619deb691",
-                        "field_options": []
+                        "title": "Materials",
+                        "_id": "535cebe074417865404669c9",
+                        "fields": [
+                            {
+                                "order": 1,
+                                "title": "Field name1",
+                                "type": "text",
+                                "default_value": "default value",
+                                "require": true,
+                                "_id": "535cebe074417865404669cb",
+                                "show_options": []
+                            },
+                            {
+                                "order": 2,
+                                "title": "Field name2",
+                                "type": "text",
+                                "require": true,
+                                "_id": "535cebe074417865404669ca",
+                                "show_options": []
+                            }
+                        ],
+                        "show_options": []
                     }
                 ]
             }
@@ -125,7 +165,7 @@ describe('Controller: OrdersCtrl', function () {
             $scope: scope,
             OrderService: orderService,
             User:userService,
-            ProjectServ:projectService
+            FormService:formService
         });
     }));
 
