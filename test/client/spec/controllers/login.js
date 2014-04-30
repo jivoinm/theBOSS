@@ -25,6 +25,9 @@ describe('Controller: LoginCtrl', function () {
 
 
     }));
+    it("should have user on the scope on initial load",function(){
+       expect(scope.user).toBeDefined();
+    });
 
     it('should redirect to main path after successfully logged in ', function() {
         var user = {

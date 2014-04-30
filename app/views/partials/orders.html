@@ -83,8 +83,8 @@
 
 
                                     <accordion close-others="oneAtATime">
-                                        <accordion-group heading="{{ project.project }}" ng-repeat="project in projects">
-                                            <form-builder fields="project.fields" model="project"></form-builder>
+                                        <accordion-group heading="{{ project.project }}" ng-repeat="project in order.projects">
+                                            <form-builder ng-repeat="field_set in project.field_sets"></form-builder>
                                         </accordion-group>
 
                                     </accordion>

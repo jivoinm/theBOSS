@@ -7,8 +7,8 @@ describe('Service: Form', function () {
 
   // instantiate service
   var Form;
-  beforeEach(inject(function (_Form_) {
-    Form = _Form_;
+  beforeEach(inject(function (_FormService_) {
+    Form = _FormService_;
   }));
 
   it('should do something', function () {

@@ -11,7 +11,7 @@ angular.module('theBossApp')
         $scope.available_projects = [];
 
         //load available projects
-        FormService.get({module:'order'}).$promise.then(function(res){
+        FormService.get({module:'Order'}).$promise.then(function(res){
             $scope.available_projects = res;
         },function(err){
             console.log(err);
@@ -24,7 +24,8 @@ angular.module('theBossApp')
                     'title': item.customer.name,
                     'date': item.last_updated_on,
                     'detail': 'Has ' + item.projects.length + ' projects',
-                    'status': item.status || ''
+                    'status': item.status || '',
+                    'order': item
                 });
             }, $scope.list)
         }, function (err) {
@@ -34,39 +35,37 @@ angular.module('theBossApp')
 
         $scope.edit = function (order) {
             //load order
-            OrderService.get({orderId: order.id}).$promise.then(function (order) {
-                //populate form
-                $scope.order = order;
-                $scope.loadProjects();
-
-            }).catch(function (err) {
-                    $scope.errors.push(err);
-                });
-        }
-
-        $scope.loadTasks = function(){
-            OrderService.tasks({orderId: $scope.order._id}).$promise.then(function(tasks){
-               $scope.tasks = tasks;
-            });
-        }
-
-        $scope.loadProjects = function(){
-            OrderService.projects({orderId: $scope.order._id}).$promise.then(function(projects){
-                $scope.projects = projects;
+            $scope.list.forEach(function(item){
+                if(item.id == order.id){
+                    $scope.order = new OrderService(item.order);
+                }
             });
         }
 
         $scope.saveOrder = function(form){
             $scope.submitted = true;
-            console.log($scope.projects);
+            console.log($scope.order);
             if (form.$valid) {
-               console.log(form.$valid);
+                if(!$scope.order._id){
+                    $scope.order = new OrderService($scope.order);
+                }
+                $scope.order.$save(function(order){
+                    console.log(order);
+                    $scope.order = {};
+                },function(err){
+                    console.log(err);
+                });
             }
 
         }
 
-        $scope.addProject = function(project){
-            $scope.projects.push(project);
+        $scope.addProject = function(form){
+            $scope.order.projects = $scope.order.projects || []
+            $scope.order.projects.push({
+                project: form.name,
+                field_sets: form.field_sets,
+                tasks: form.tasks
+            });
         }
 
     }]);

@@ -13,22 +13,27 @@ angular.module('theBossApp')
             //require: 'ngModel',
             compile: function(element,attrs){
                 var formField = function(name,field){
-                    return '<div class="form-group" ng-class="{\'has-error\' : form.'+name+'.$invalid && (!form.'+name+'.$pristine || submitted) }">'+field+'</div';
+                    return '<div class="form-group" ng-class="{\'has-error\' : isValidField(field) }">'+field+'</div';
                 }
                 var text = function(){
-                    return '<input type="text" class="form-control" name="{{field.field.field_title | nospace}}" placeholder="{{field.field.field_title}}"'+
-                    'ng-model="field.field_value" value="{{field.field_value}}" ng-required="{{ field.field.field_require }}"'+
+                    return '<input type="text" class="form-control" name="{{field.title | nospace}}" placeholder="{{field.title}}"'+
+                    'ng-model="field.value" value="{{field.value}}" ng-required="{{ field.require }}"'+
                     'ng-show="!editmode">';
                 }
+
 
                 return{
 
                     post: function(scope,element,attrs){
                         if(!scope.field) return; // do nothing if no ng-model
 
+                        scope.isValidField = function(field){
+                            return field.require && (!field.value || field.value.length == 0);
+                        }
+
                         var field = scope.field;
-                        if(field.field) {
-                            var field_title = field.field.field_title.replace(/ /g, '');
+                        if(field) {
+                            var field_title = field.title.replace(/ /g, '');
 
                             element.append($compile(formField(field_title,text()))(scope));
                         }

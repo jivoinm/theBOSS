@@ -5,7 +5,7 @@ describe('Controller: OrdersCtrl', function () {
     // load the controller's module
     beforeEach(module('theBossApp'));
 
-    var OrdersCtrl,
+    var
         scope,
         $httpBackend,
         orderService,
@@ -21,7 +21,7 @@ describe('Controller: OrdersCtrl', function () {
         userService = _User_;
         formService = _FormService_;
 
-        $httpBackend.expectGET('/api/project/orders').respond([
+        $httpBackend.expectGET('/api/forms/Order').respond([
             {
                 "owner": "DelPriore",
                 "name": "Kitchen",
@@ -161,40 +161,51 @@ describe('Controller: OrdersCtrl', function () {
             {_id: 2, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]}
         ]);
 
-        OrdersCtrl = $controller('OrdersCtrl', {
-            $scope: scope,
+        $controller('OrdersCtrl', {
+            '$scope': scope,
             OrderService: orderService,
             User:userService,
             FormService:formService
         });
+        $httpBackend.flush();
     }));
 
+    it("should have user object on the scope on initial load", function(){
+        expect(scope.order).toBeDefined();
+    })
+
     it('should attach a list of current user orders to the scope', function () {
-        scope.$digest();
-        $httpBackend.flush();
         expect(scope.available_projects.length).toBe(2);
     });
 
     it('should load owner available projects to be available on the scope',function(){
-        scope.$digest();
-        $httpBackend.flush();
         expect(scope.list.length).toBe(2);
     })
 
-    it('should load project tasks when loadTasks is called', function(){
-        scope.order = {_id:'order_id'};
-        $httpBackend.expectGET('/api/orders/order_id/tasks').respond([{task:12}]);
-        scope.loadTasks();
-        scope.$digest();
-        $httpBackend.flush();
-        expect(scope.tasks.length).toBe(1);
-    })
-
     it('should add selected project to the projects scope list when addProject', function(){
-        scope.$digest();
         scope.addProject(scope.available_projects[1]);
-        expect(scope.pro)
+        expect(scope.order.projects.length).toBe(1);
+        expect(scope.order.projects[0].project).toBe('Project2');
+        expect(scope.order.projects[0].field_sets.length).toBe(1);
+        expect(scope.order.projects[0].field_sets[0].fields.length).toBe(2);
+        expect(scope.order.projects[0].tasks.length).toBe(3);
     })
 
+    it("should post order update request on saveOrder", function(){
+        scope.order = {customer:{name:'Customer Name'},projects:[{
+            project: 'Test Project',
+            field_set:[{
+                fields:{
+
+                    value:'Field value1'
+                }
+            }]
+
+        }]}
+        $httpBackend.expectPOST('/api/orders').respond({_id:'new order ID'});
+        scope.saveOrder({$valid:true});
+        $httpBackend.flush();
+        expect(scope.order.customer).toBeUndefined();
+    })
 
 });

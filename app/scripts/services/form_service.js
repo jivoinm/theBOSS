@@ -3,7 +3,7 @@
 angular.module('theBossApp')
   .service('FormService', ['$resource', function($resource) {
     return $resource('/api/forms/:module', {module: '@module'},{
-        'query': {
+        'get': {
             method: 'GET',
             isArray: true
         }
