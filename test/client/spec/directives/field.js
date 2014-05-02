@@ -16,7 +16,7 @@ describe('Directive: field', function () {
 
     describe('Render Text',function(){
         beforeEach(function(){
-            element = angular.element('<field></field>');
+            element = angular.element('<field ng-model="field"></field>');
             scope.field = {
                 title: 'Field Title',
                 type:'text',
@@ -40,7 +40,7 @@ describe('Directive: field', function () {
 
     describe('Render Select',function(){
         beforeEach(function(){
-            element = angular.element('<field></field>');
+            element = angular.element('<field ng-model="field"></field>');
             scope.field = {
                 title: 'Field Title',
                 type:'select',
@@ -55,9 +55,10 @@ describe('Directive: field', function () {
             expect(element.html()).toContain('<select');
         });
 
-        it('should render text filed with default value', function () {
+        it('should render select filed with default value', function () {
             element = $compile(element)(scope);
             scope.$apply();
+            console.log(element.html());
             expect(element.find('#FieldTitle').val()).toContain('default value');
         });
     });
