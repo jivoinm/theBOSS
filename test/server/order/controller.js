@@ -93,6 +93,7 @@ describe('Order controller', function () {
         agent
             .post('/api/orders')
             .send({
+                customer:{name:'customer'},
                 owner: 'Test Owner',
                 projects: [
                     {
@@ -116,6 +117,7 @@ describe('Order controller', function () {
             .end(function (err, res) {
                 should.not.exists(err);
                 should.exists(res.body._id);
+                should.exists(res.body.customer);
                 done();
             });
     });

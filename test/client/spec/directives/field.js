@@ -2,19 +2,64 @@
 
 describe('Directive: field', function () {
 
-  // load the directive's module
-  beforeEach(module('theBossApp'));
+    // load the directive's module
+    beforeEach(module('theBossApp'));
 
-  var element,
-    scope;
+    var element,
+        scope,
+        $compile;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
-  }));
+    beforeEach(inject(function ($rootScope,_$compile_) {
+        scope = $rootScope.$new();
+        $compile = _$compile_;
+    }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<field></field>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the field directive');
-  }));
+    describe('Render Text',function(){
+        beforeEach(function(){
+            element = angular.element('<field></field>');
+            scope.field = {
+                title: 'Field Title',
+                type:'text',
+                require: true,
+                value:'default value'
+            }
+        });
+
+        it('should render text input',function(){
+            $compile(element)(scope);
+            scope.$apply();
+            expect(element.html()).toContain('<input type="text"');
+        });
+
+        it('should render text filed with default value', function () {
+            element = $compile(element)(scope);
+            scope.$apply();
+            expect(element.html()).toContain('default value');
+        });
+    });
+
+    describe('Render Select',function(){
+        beforeEach(function(){
+            element = angular.element('<field></field>');
+            scope.field = {
+                title: 'Field Title',
+                type:'select',
+                require: true,
+                value:'default value'
+            }
+        });
+
+        it('should render select input',function(){
+            $compile(element)(scope);
+            scope.$apply();
+            expect(element.html()).toContain('<select');
+        });
+
+        it('should render text filed with default value', function () {
+            element = $compile(element)(scope);
+            scope.$apply();
+            expect(element.find('#FieldTitle').val()).toContain('default value');
+        });
+    });
+
 });

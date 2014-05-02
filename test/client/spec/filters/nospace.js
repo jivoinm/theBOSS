@@ -11,9 +11,9 @@ describe('Filter: nospace', function () {
     nospace = $filter('nospace');
   }));
 
-  it('should return the input prefixed with "nospace filter:"', function () {
-    var text = 'angularjs';
-    expect(nospace(text)).toBe('nospace filter: ' + text);
+  it('should return the value with no space', function () {
+    var text = 'angularjs with space';
+    expect(nospace(text)).toBe('angularjswithspace');
   });
 
 });

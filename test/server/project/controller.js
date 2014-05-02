@@ -29,7 +29,7 @@ describe('Form controller', function () {
 
     it('should create new project on post', function (done) {
         agent
-            .post('/api/project')
+            .post('/api/forms')
             .send({
                 owner: 'owner 1',
                 name: 'Form Name that not exists',
@@ -53,7 +53,7 @@ describe('Form controller', function () {
     it("should update existing project on post", function (done) {
         project.name = 'project name changed';
         agent
-            .post('/api/project')
+            .post('/api/forms')
             .send(project)
             .end(function (err, res) {
                 (project.name === res.body.name).should.be.true;

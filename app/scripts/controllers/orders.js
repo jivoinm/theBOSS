@@ -44,16 +44,17 @@ angular.module('theBossApp')
 
         $scope.saveOrder = function(form){
             $scope.submitted = true;
-            console.log($scope.order);
             if (form.$valid) {
                 if(!$scope.order._id){
                     $scope.order = new OrderService($scope.order);
                 }
-                $scope.order.$save(function(order){
-                    console.log(order);
+                $scope.order.$save(function(){
                     $scope.order = {};
+                    //notify that order was saved with success
+
                 },function(err){
                     console.log(err);
+                    //notify that there was an error saving the order
                 });
             }
 
