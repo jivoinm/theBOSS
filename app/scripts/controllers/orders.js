@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', function ($scope, OrderService,User,FormService) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', '$modal', function ($scope, OrderService, User, FormService, toaster, $modal) {
         $scope.$parent.pageHeader = 'Orders';
-        $scope.list = [];
-        $scope.errors = [];
         $scope.order = {};
         $scope.isAddressVisible = false;
         $scope.order.projects = [];
@@ -14,24 +12,28 @@ angular.module('theBossApp')
         FormService.get({module:'Order'}).$promise.then(function(res){
             $scope.available_projects = res;
         },function(err){
-            console.log(err);
+            toaster.pop('error', "Error saving the order",err.message? err.message : err);
         });
         //load user orders first
-        User.orders({id:$scope.currentUser.user_id}, function (res) {
-            angular.forEach(res, function (item, key) {
-                this.push({
-                    'id': item._id,
-                    'title': item.customer.name,
-                    'date': item.last_updated_on,
-                    'detail': 'Has ' + item.projects.length + ' projects',
-                    'status': item.status || '',
-                    'order': item
-                });
-            }, $scope.list)
-        }, function (err) {
-            //log error
-            $scope.errors.push(err);
-        });
+        function loadUserOrders(){
+            $scope.list = [];
+            User.orders({id:$scope.currentUser.user_id}, function (res) {
+                angular.forEach(res, function (item, key) {
+                    this.push({
+                        'id': item._id,
+                        'title': item.customer.name,
+                        'date': item.last_updated_on,
+                        'detail': 'Has ' + item.projects.length + ' projects',
+                        'status': item.status || '',
+                        'order': item
+                    });
+                }, $scope.list)
+            }, function (err) {
+                //log error
+                toaster.pop('error', "Error saving the order",err.message? err.message : err);
+            });
+        }
+
 
         $scope.edit = function (order) {
             //load order
@@ -48,16 +50,22 @@ angular.module('theBossApp')
                 if(!$scope.order._id){
                     $scope.order = new OrderService($scope.order);
                 }
-                $scope.order.$save(function(){
+                $scope.order.$save({orderId:$scope.order._id},function(){
                     $scope.order = {};
-                    //notify that order was saved with success
+                    $scope.submitted = false;
+                    loadUserOrders();
 
+                    toaster.pop('success', $scope.order._id ? "Existing Order was updated":"New order was created with success");
                 },function(err){
-                    console.log(err);
-                    //notify that there was an error saving the order
+                    toaster.pop('error', "Error saving the order",err.message? err.message : err);
                 });
             }
 
+        }
+
+        $scope.reset = function(){
+            $scope.order = {};
+            $scope.submitted = false;
         }
 
         $scope.addProject = function(form){
@@ -69,4 +77,5 @@ angular.module('theBossApp')
             });
         }
 
+        loadUserOrders();
     }]);

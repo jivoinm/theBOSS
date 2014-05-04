@@ -21,11 +21,14 @@ module.exports = function(config) {
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/angular-dialog-service/dialogs.js',
-            'app/bower_components/angular-spinner/angular-spinner.js',
+            'app/bower_components/select2/select2.js',
             'app/bower_components/angular-ui-select2/src/select2.js',
             'app/bower_components/angular-ui-calendar/src/calendar.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/dialogs/dialogs.js',
+            'app/bower_components/angular-animate/angular-animate.js',
+            'app/bower_components/AngularJS-Toaster/toaster.js',
+            'app/bower_components/angular-loading-bar/src/loading-bar.js',
 
             'app/scripts/*.js',
             'app/scripts/**/*.js',
@@ -51,7 +54,7 @@ module.exports = function(config) {
 
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+        autoWatch: true,
 
 
         // Start these browsers, currently available:

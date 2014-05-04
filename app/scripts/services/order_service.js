@@ -3,6 +3,13 @@
 angular.module('theBossApp')
     .service('OrderService', ['$resource', function ($resource) {
         return $resource('/api/orders/:orderId', {orderId: '@id'}, {
+            'save': {
+                url: '/api/orders/:orderId',
+                method: 'POST',
+                params: {
+                    orderId:'@id'
+                }
+            },
             'query': {
                 method: 'GET',
                 isArray: true

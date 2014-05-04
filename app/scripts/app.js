@@ -4,9 +4,14 @@ angular.module('theBossApp', [
         'ngCookies',
         'ngResource',
         'ngSanitize',
-        //'ngAnimate',
         'ngRoute',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ui.select2',
+        'ngAnimate',
+        'toaster',
+        'chieffancypants.loadingBar',
+        'ngAnimate'
+
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);

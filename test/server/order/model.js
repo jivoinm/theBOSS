@@ -199,8 +199,8 @@ describe('Order server tests', function () {
 
     it("should be able to return orders for one owner created by user", function (done) {
 
-        Order.queryOrders('Test Owner', {created_by: admin}, {}, 'created_by customer',
-            function (err, orders) {
+        Order.queryOrders({owner:'Test Owner', created_by: admin},null, 'created_by customer').addBack(
+            function (err,orders) {
                 orders.length.should.equal(1);
                 should.exist(orders[0].created_by.name);
                 should.exist(orders[0].customer.name);
@@ -214,8 +214,8 @@ describe('Order server tests', function () {
             owner: 'Test Owner',
             customer: orderObj.customer,
             created_by: orderObj.created_by}, function (err, order) {
-            Order.queryOrders('Test Owner', {}, {last_updated_on: 1}, 'created_by customer',
-                function (err, orders) {
+            Order.queryOrders({owner:'Test Owner'}, {last_updated_on: 1}, 'created_by customer').addBack(
+                function (err,orders) {
                     orders[0].last_updated_on.getSeconds().should.be.exactly(order.last_updated_on.getSeconds());
                     done();
                 });
@@ -237,7 +237,6 @@ describe('Order server tests', function () {
         orderObj = orderObj.toObject();
 
         Order.update({_id:order_id},orderObj,function(err){
-            console.log(err);
             should.not.exists(err);
             Order.findById(order_id,function(err,order){
                 order.status.should.equal('status changed');

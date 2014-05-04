@@ -1,3 +1,4 @@
+<toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
 <div class="row">
     <div class="col-md-4">
         <quick-list quick-list="list" title="Orders made by you" item-select="edit(item)"></quick-list>
@@ -25,15 +26,16 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group"
-                                 ng-class="{ 'has-error' : form.customerName.$invalid && (!form.customerName.$pristine || submitted) }">
+                                 ng-class="{ 'has-error' : form.customerName.$invalid }">
                                 <label>Customer</label>
                                 <input type="text" class="form-control" name="customerName" ng-model="order.customer.name" ng-required="true">
-                                <p ng-show="form.customerName.$invalid && (!form.customerName.$pristine || submitted)" class="help-block">Enter required field.</p>
+                                <p ng-show="form.customerName.$invalid" class="help-block">Enter required field.</p>
+
                             </div>
                             <div class="form-group"
                                  ng-class="{ 'has-error' : form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)}">
                                 <label>Email</label>
-                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" ng-model="order.customer.email" ng-required="true">
+                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" ng-model="order.customer.email">
                                 <p ng-show="form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)" class="help-block">Enter valid email address.</p>
                             </div>
                             <div class="list-group">
@@ -80,22 +82,21 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    <fieldset  ng-repeat="project in order.projects">
+                                        <legend>{{ project.project }}</legend>
+                                        <div ng-repeat="field_set in project.field_sets">
+                                              <span>{{ field_set.title }}</span>
 
+                                              <field ng-model="field" ng-repeat="field in field_set.fields"></field>
 
-                                    <accordion close-others="oneAtATime">
-                                        <accordion-group heading="{{ project.project }}" ng-repeat="project in order.projects">
-                                            <fieldset ng-repeat="field_set in project.field_sets">
-                                                <legend>{{ field_set.title }}</legend>
-                                                <field ng-model="field" ng-repeat="field in field_set.fields"></field>
-                                            </fieldset>
-                                        </accordion-group>
+                                        </div>
 
-                                    </accordion>
+                                    </fieldset>
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-default">Save</button>
-                            <button type="reset" class="btn btn-default">Reset</button>
+                            <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
+                            <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
 
                         </div>
 

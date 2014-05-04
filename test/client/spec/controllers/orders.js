@@ -192,7 +192,7 @@ describe('Controller: OrdersCtrl', function () {
     })
 
     it("should post order update request on saveOrder", function(){
-        scope.order = {customer:{name:'Customer Name'},projects:[{
+        scope.order = new orderService({_id:'order_id', customer:{name:'Customer Name'},projects:[{
             project: 'Test Project',
             field_set:[{
                 fields:{
@@ -201,8 +201,10 @@ describe('Controller: OrdersCtrl', function () {
                 }
             }]
 
-        }]}
-        $httpBackend.expectPOST('/api/orders').respond({_id:'new order ID'});
+        }]});
+
+        $httpBackend.expectPOST('/api/orders/order_id').respond({_id:'new order ID'});
+        $httpBackend.expectGET('/api/users/userid/orders').respond([]);
         scope.saveOrder({$valid:true});
         $httpBackend.flush();
         expect(scope.order.customer).toBeUndefined();

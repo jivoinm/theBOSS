@@ -14,6 +14,19 @@ describe('Directive: field', function () {
         $compile = _$compile_;
     }));
 
+    it("should render bootstrap form group div",function(){
+        element = angular.element('<field ng-model="field"></field>');
+        scope.field = {
+            title: 'Field Title',
+            type:'text',
+            require: true,
+            value:'default value'
+        }
+        element = $compile(element)(scope);
+        scope.$apply();
+        expect(element.find('.form-control').length).toBeGreaterThan(0);
+    })
+
     describe('Render Text',function(){
         beforeEach(function(){
             element = angular.element('<field ng-model="field"></field>');
@@ -55,11 +68,12 @@ describe('Directive: field', function () {
             expect(element.html()).toContain('<select');
         });
 
-        it('should render select filed with default value', function () {
+        it('should render select filed with default value if show options are set', function () {
             element = $compile(element)(scope);
+            scope.field.show_options = ['Value1','default value'];
             scope.$apply();
-            console.log(element.html());
-            expect(element.find('#FieldTitle').val()).toContain('default value');
+            console.log(element.find('select[name="fieldName"]').first().select2('val'));
+            expect(element.find('select[name="fieldName"]').first().select2('val')).toContain('default value');
         });
     });
 
