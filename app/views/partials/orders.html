@@ -6,7 +6,8 @@
     <div class="col-md-8">
 
         <tabset justified="true">
-            <tab heading="Order">
+            <tab>
+                <tab-heading>Order&nbsp;<span class="badge" ng-show="total_working_hours">{{ total_working_hours }} working hours</span></tab-heading>
                 <form name="form" class="form" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
                     <div class="panel panel-default">
                         <!-- Default panel contents -->
@@ -104,7 +105,7 @@
 
                 </form>
             </tab>
-            <tab heading="Taks" select="loadTasks()">
+            <tab heading="Taks">
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
                     <div class="panel-heading">Tasks to do on this order</div>
@@ -114,16 +115,20 @@
                     </div>
 
                     <!-- List group -->
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="projectTask in tasks">
-                            <h4>{{ projectTask.project }}</h4>
-                            <div class="checkbox" ng-repeat="task in projectTask.tasks">
-                                <label>
-                                    <input type="checkbox" ng-model="task.done"> {{ task.title }}
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
+
+                    <div class="panel panel-default" ng-repeat="project in order.projects">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">{{ project.project }}</div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-{{ task.status }}" ng-repeat="task in project.tasks | orderBy:'priority'">
+                                    {{ task.title }}&nbsp;<span class="badge">{{ task.duration }}</span>
+                                     <span class="pull-right" ng-repeat="status in task.status_options track by $index"><a href="" ng-click="taskStatusChange(task,status)">{{ status }}</a>&nbsp;</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </tab>
             <tab heading="Ordered material">

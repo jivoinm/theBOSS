@@ -80,7 +80,7 @@ angular.module('theBossApp')
                         'ng-model="field.value"  ng-required="{{ field.require }}"'+
                         'ng-show="!editmode">' +
                         '<option value=""></option>'+
-                        '<option ng-repeat="option in field.show_options" value="{{option}}">{{option}}</option>' +
+                        '<option ng-repeat="option in field.show_options track by $index" value="{{option}}">{{option}}</option>' +
                         '</select>';
                     fieldTemplate = formField(fieldTemplate);
                     break;

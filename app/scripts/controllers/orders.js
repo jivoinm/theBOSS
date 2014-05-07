@@ -77,5 +77,21 @@ angular.module('theBossApp')
             });
         }
 
+        $scope.taskStatusChange = function(task,status){
+            task.status = status;
+            task.changed_by = $scope.currentUser._id;
+            task.changed_on = new Date();
+
+        }
+
         loadUserOrders();
+        $scope.$watchCollection('order.projects',function(){
+            var hours = 0;
+            $scope.order.projects.forEach(function(project){
+                project.tasks.forEach(function(task){
+                    hours += +task.duration.replace(/h$/,"");
+                })
+            })
+            $scope.total_working_hours = hours;
+        })
     }]);

@@ -5,12 +5,14 @@ angular.module('theBossApp', [
         'ngResource',
         'ngSanitize',
         'ngRoute',
+        'ui.calendar',
         'ui.bootstrap',
         'ui.select2',
         'ngAnimate',
         'toaster',
         'chieffancypants.loadingBar',
-        'ngAnimate'
+        'ngAnimate',
+
 
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
@@ -42,6 +44,10 @@ angular.module('theBossApp', [
             .when('/orders', {
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
+            })
+            .when('/calendar', {
+              templateUrl: 'partials/calendar',
+              controller: 'CalendarCtrl'
             })
             .otherwise({
                 redirectTo: '/main'
