@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', '$modal', function ($scope, OrderService, User, FormService, toaster, $modal) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', function ($scope, OrderService, User, FormService, toaster) {
         $scope.$parent.pageHeader = 'Orders';
         $scope.order = {};
         $scope.isAddressVisible = false;
@@ -50,6 +50,7 @@ angular.module('theBossApp')
                 if(!$scope.order._id){
                     $scope.order = new OrderService($scope.order);
                 }
+
                 $scope.order.$save({orderId:$scope.order._id},function(){
                     $scope.order = {};
                     $scope.submitted = false;
@@ -87,11 +88,19 @@ angular.module('theBossApp')
         loadUserOrders();
         $scope.$watchCollection('order.projects',function(){
             var hours = 0;
-            $scope.order.projects.forEach(function(project){
-                project.tasks.forEach(function(task){
-                    hours += +task.duration.replace(/h$/,"");
+            if($scope.order && $scope.order.projects){
+                $scope.order.projects.forEach(function(project){
+                    if(project.tasks){
+                        project.tasks.forEach(function(task){
+                            hours += +task.duration.replace(/h$/,"");
+                        })
+                    }
                 })
-            })
+            }
             $scope.total_working_hours = hours;
-        })
+        });
+
+        $scope.$watch('myOwnFile',function(newValue){
+            console.log( "file changed", newValue);
+        });
     }]);

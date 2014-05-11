@@ -7,10 +7,22 @@ describe('Service: OrderService', function () {
 
     // instantiate service
     var OrderService, httpBackend;
+    var order;
+
     beforeEach(inject(function (_OrderService_, _$httpBackend_) {
         OrderService = _OrderService_;
         httpBackend = _$httpBackend_;
+        order = {_id: 'order_id', owner: 'ownerName',
+            customer: 'customer',
+            projects: [
+                {Project: '1'},
+                {Project: '2'}
+            ],
+            created_by: 'createdBy'};
     }));
+
+
+
 
     it("should return all orders array when query is called", function () {
         var status = [
@@ -29,32 +41,28 @@ describe('Service: OrderService', function () {
     });
 
     it("should call put on api order when save is called on an object", function () {
-        var order = {id: 'order_id', owner: 'ownerName',
-            customer: 'customer',
-            projects: [
-                {Project: '1'},
-                {Project: '2'}
-            ],
-            created_by: 'createdBy'};
-        var Order = new OrderService(order);
 
+        httpBackend.expectGET('/api/orders/order_id').respond(order);
         httpBackend.expectPOST('/api/orders/order_id', order).respond({});
-        Order.$save();
+        order = OrderService.get({orderId:'order_id'}, function(){
+            order.$save();
+        });
+
         httpBackend.flush();
     });
 
     it("should call delete on api order when delete is called on an object", function () {
-        var order = {id: 'order_id', owner: 'ownerName',
-            customer: 'customer',
-            projects: [
-                {Project: '1'},
-                {Project: '2'}
-            ],
-            created_by: 'createdBy'};
         var Order = new OrderService(order);
 
         httpBackend.expectDELETE('/api/orders/order_id').respond({});
         Order.$delete();
+        httpBackend.flush();
+    });
+
+    it("should send put request to setScheduled", function (){
+        var Order = new OrderService(order);
+        httpBackend.expectPATCH('/api/orders/order_id/true').respond({});
+        Order.$setScheduled({scheduled:true});
         httpBackend.flush();
     });
 });

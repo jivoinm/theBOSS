@@ -3,7 +3,7 @@
 angular.module('theBossApp')
     .directive('field', ['$http', '$compile', '$rootScope', function ($http, $compile) {
         var formField = function(field){
-            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">'+field+'</div>';
+            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }"><label>{{field.title}}</label>'+field+'</div>';
         }
 
         function getFieldTemplate(scope){

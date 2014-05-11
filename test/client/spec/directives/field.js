@@ -72,8 +72,8 @@ describe('Directive: field', function () {
             element = $compile(element)(scope);
             scope.field.show_options = ['Value1','default value'];
             scope.$apply();
-            console.log(element.find('select[name="fieldName"]').first().select2('val'));
-            expect(element.find('select[name="fieldName"]').first().select2('val')).toContain('default value');
+
+            expect(scope.field.value).toBe('default value');
         });
     });
 
