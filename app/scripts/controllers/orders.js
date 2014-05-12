@@ -79,10 +79,15 @@ angular.module('theBossApp')
         }
 
         $scope.taskStatusChange = function(task,status){
-            task.status = status;
             task.changed_by = $scope.currentUser._id;
             task.changed_on = new Date();
-
+            if(task.status)
+                task.status_options.splice(task.status_options.indexOf(task.status),1);
+            task.status = status;
+            $scope.order.$save(function(order){
+                toaster.pop('success', "Task status was changed to "+status);
+                $scope.order = order;
+            });
         }
 
         loadUserOrders();

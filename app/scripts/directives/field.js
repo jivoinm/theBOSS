@@ -86,11 +86,12 @@ angular.module('theBossApp')
                     break;
 
                 case 'select':
-                    fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
-                        'ng-model="field.value"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
-                        'ng-show="!editmode">' +
-                        '<option value=""></option>'+
-                        '</select>';
+                    // fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
+                    //     'ng-model="field.value"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
+                    //     'ng-show="!editmode">' +
+                    //     '<option value=""></option>'+
+                    //     '</select>';
+                    fieldTemplate = ' <input type="text" ng-required="{{ field.require }}" ng-model="field.value" typeahead="value for value in field.show_options | filter:$viewValue | limitTo:8" class="form-control" placeholder="{{field.title}}">'
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'checkbox':

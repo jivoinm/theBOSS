@@ -7,14 +7,6 @@
             <div class="panel-body">
                 <form role="form" name="form" ng-submit="register(form)" novalidate>
                     <fieldset>
-                        <div class="form-group"
-                             ng-class="{ 'has-error' : form.owner.$invalid && !form.owner.$pristine }">
-                            <input type="text" placeholder="Owner name" name="owner" class="form-control"
-                                   ng-model="user.owner" ng-required="true">
-
-                            <p ng-show="form.owner.$invalid && !form.owner.$pristine" class="help-block">Enter existing
-                                owner name.</p>
-                        </div>
                         <div class="form-group" ng-class="{ 'has-error' : form.name.$invalid && !form.name.$pristine }">
                             <input type="text" placeholder="Name" name="email" class="form-control" ng-model="user.name"
                                    ng-required="true">
