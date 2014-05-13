@@ -77,4 +77,31 @@ describe('Directive: field', function () {
         });
     });
 
+    describe('Render Select2',function(){
+        beforeEach(function(){
+            element = angular.element('<field ng-model="field"></field>');
+            scope.field = {
+                title: 'Field Title',
+                type:'select2',
+                require: true,
+                value:'default value'
+            }
+        });
+
+        it('should render select input',function(){
+            $compile(element)(scope);
+            scope.$apply();
+            expect(element.html()).toContain('<select');
+        });
+
+        it('should render select filed with default value if show options are set', function () {
+            element = $compile(element)(scope);
+            scope.field.value = 'asd';
+            scope.field.show_options = ['Value1','default value'];
+            scope.$apply();
+
+
+        });
+    });
+
 });

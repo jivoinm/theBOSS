@@ -6,7 +6,7 @@ angular.module('theBossApp')
             return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }"><label>{{field.title}}</label>'+field+'</div>';
         }
 
-        function getFieldTemplate(scope){
+        function getFieldTemplate(scope,element){
             var fieldTemplate = '';
             switch(scope.field.type) {
                 case 'date':
@@ -65,18 +65,37 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'select2':
+                    scope.addOption =  function() {
+                        //push this new item to server
+                        $http.put('/api/forms/options', {
+                            module: scope.module,
+                            field: scope.field.title,
+                            option: option
+                        }).$promise.then(function(res){
+                                console.log(res);
+                                return 'Added new option ';
+                            }, function (err){
+                                console.log(err);
+                                return 'There was an error adding new option ';
+                            });
+
+                    };
+
                     scope.select2Options = {
                         allowClear: true,
                         value: scope.field.value,
-                        formatNoMatches: 'No match found, will add to the list',
+                        triggerChange: true,
                         width: 'off',
+                        formatNoMatches: function(option){
+                            return 'This option is not in the list, <a href="" ng-click="addOption()">click here to add it</a> ';
+                        },
                         containerCssClass: 'form-control',
                         initSelection: function(element, callback){
                             var data = {id: element.val(), text: element.val()};
                             callback(data);
                         }
                     };
-                    fieldTemplate = '<select ui-select2="select2Options"  name="fieldName" placeholder="{{field.title}}"'+
+                    fieldTemplate = '<select ui-select2="select2Options" name="fieldName" placeholder="{{field.title}}"'+
                         'ng-model="field.value"  ng-required="{{ field.require }}"'+
                         'ng-show="!editmode">' +
                         '<option value=""></option>'+
@@ -86,12 +105,11 @@ angular.module('theBossApp')
                     break;
 
                 case 'select':
-                    // fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
-                    //     'ng-model="field.value"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
-                    //     'ng-show="!editmode">' +
-                    //     '<option value=""></option>'+
-                    //     '</select>';
-                    fieldTemplate = ' <input type="text" ng-required="{{ field.require }}" ng-model="field.value" typeahead="value for value in field.show_options | filter:$viewValue | limitTo:8" class="form-control" placeholder="{{field.title}}">'
+                    fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
+                         'ng-model="field.value"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
+                         'ng-show="!editmode">' +
+                         '<option value=""></option>'+
+                         '</select>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'checkbox':
@@ -111,7 +129,7 @@ angular.module('theBossApp')
 
                 if(scope.field) {
                     //var field_title = scope.field.title.replace(/ /g, '');
-                    var $field = $(getFieldTemplate(scope)).appendTo(elem);
+                    var $field = $(getFieldTemplate(scope,elem)).appendTo(elem);
                     $compile($field)(scope);
                 }
             }
