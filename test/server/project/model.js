@@ -104,38 +104,22 @@ describe('Form server tests', function () {
     
     it("should add new field to field set", function (done){
         project.save(function (err, project) {
-            Project.findById(project._id,function(err,proj){
-                console.log(proj);
-                proj.fields.length.should.equal(1);
+            Project.findOneAndUpdate(
+            {
+                owner: project.owner,
+                _id: project._id
+            },
+            {
+                '$push':{'fields': field}
+            },
+            {safe: true, upsert: false})
+            .exec(function(err,projects){
+                should.not.exist(err);
+                projects.fields.length.should.equal(2);
+                done();
+            });
+            });
 
-
-                Project.findByIdAndUpdate(
-                        proj._id
-                    ,
-                    {
-                        $push:{fields: {
-                            title: 'Field name2',
-                            type: 'text',
-                            value: null,
-                            require: true
-                        }
-                        }}
-                    ,
-                    {upsert:false,safe:true},
-                    function(){
-                        console.log(project._id);
-                        Project.findById(project._id,function(err,proj){
-                            console.log(err);
-                            console.log(proj);
-                            proj.fields.length.should.equal(2);
-                            done();
-                        })
-
-                    });
-
-            })
-
-         });
     })
 
 });

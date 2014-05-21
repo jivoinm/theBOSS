@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('forms', ['FormService', '$modal', function (FormService, $modal) {
+    .directive('forms', ['FormService', '$modal', 'toaster', function (FormService, $modal, toaster) {
         return {
             templateUrl: '/views/directive-templates/form/form.html',
             restrict: 'E',
@@ -35,11 +35,9 @@ angular.module('theBossApp')
 
                         }
                     });
-                    modalInstance.result.then(function (confirm) {
-                        if (confirm === true) {
-                            // [...]
-                            // treat
-                            // [...]
+                    modalInstance.result.then(function (selectedField) {
+                        if (selectedField) {
+                            form.fields.push(selectedField);
                         }
                     });
                 }
@@ -68,7 +66,8 @@ angular.module('theBossApp')
     }]);
 
 angular.module('theBossApp')
-    .controller('FieldEditCtrl', ['$scope', '$modalInstance', 'field', 'form', 'module', 'FormService', function($scope, $modalInstance, field, form, module, FormService){
+    .controller('FieldEditCtrl', ['$scope', '$modalInstance', 'field', 'form', 'module', 
+                                  'FormService', 'toaster', function($scope, $modalInstance, field, form, module, FormService,toaster){
         $scope.selectedfield = field;
         $scope.field_types = [
             {
@@ -180,18 +179,12 @@ angular.module('theBossApp')
             console.log('ok clicked');
             //add new field
             FormService.addField({id: form._id}, {field_set: $scope.field_set, field:$scope.selectedfield} ).$promise.then(function(res){
-                $scope.alerts = [
-                    { type: 'danger', msg: 'There was an error saving the field'},
-                    { type: 'danger', msg: res},
-                ];
+                toaster.pop('success', "New field was added with success");
+                $modalInstance.close($scope.selectedfield);
             },function(err){
-                $scope.alerts = [
-                    { type: 'success', msg: 'Field was saved with success'}
-                ];
-                $scope.editmode = false;
+                toaster.pop('error', "There was an error saving new field on server, "+err);
             });
-
-            $modalInstance.close($scope.selectedfield);
+            
         };
 
         $scope.cancel = function () {

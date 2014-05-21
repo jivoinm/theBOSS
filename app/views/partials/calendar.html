@@ -1,30 +1,27 @@
 <div class="row">
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Un-scheduled orders
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="item in unscheduled_orders" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}">
-                        <span class="badge">{{ item.total_working_hours }} hours</span>
-                        <span class="pull-right"> {{ item.date_required | date}}</span>
-                        <a href="" ng-click="addEvent(item,$index)">{{ item.customer.name}}</a>
-
-                    </li>
-                </ul>
-                <div class="list-group-item" ng-show="!unscheduled_orders.length">
-                    <h4 class="list-group-item-heading">
-                        No unscheduled events
-                    </h4>
-                </div>
-            </div>
-            <!-- /.panel-body -->
-        </div>
+    <div class="col-md-4">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
     </div>
-    <div class="col-md-9">
-
+    <div class="col-md-4">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+    </div>
+    <div class="col-md-4">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+    </div>
+    <div class="col-md-4">
+        <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+    </div>
+    <div class="col-md-4">
         <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
     </div>
 </div>
