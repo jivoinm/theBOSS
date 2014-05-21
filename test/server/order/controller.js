@@ -26,34 +26,29 @@ describe('Order controller', function () {
                     projects: [
                         {
                             project: 'Kitchen',
-                            field_sets:[{
-                                title:'Materials',
-                                fields: [
-                                    {
-                                        order: 1,
-                                        title: 'Field name1',
-                                        type: 'text',
-                                        value: 'default value',
-                                        require: true
-                                    }
-                                ]
-                            }]
+                            fields: [
+                                {
+                                    order: 1,
+                                    title: 'Field name1',
+                                    type: 'text',
+                                    value: 'default value',
+                                    require: true
+                                }
+                            ]
+
 
                         },
                         {
                             project: 'Form 2',
-                            field_sets:[{
-                                title:'Materials',
-                                fields: [
-                                    {
-                                        order: 1,
-                                        title: 'Field name1',
-                                        type: 'text',
-                                        value: 'default value',
-                                        require: true
-                                    }
-                                ]
-                            }],
+                            fields: [
+                                {
+                                    order: 1,
+                                    title: 'Field name1',
+                                    type: 'text',
+                                    value: 'default value',
+                                    require: true
+                                }
+                            ],
                             tasks: [
                                 {
                                     priority: 1,
@@ -98,20 +93,16 @@ describe('Order controller', function () {
                 projects: [
                     {
                         project: 'Kitchen',
-                        field_sets:[{
-                            title:'Materials',
-                            fields: [
-                                {
-                                    order: 1,
-                                    title: 'Field name1',
-                                    type: 'text',
-                                    value: 'default value',
-                                    require: true
-                                }
-                            ]
-                        }]
-
-                    }
+                        fields: [
+                            {
+                                order: 1,
+                                title: 'Field name1',
+                                type: 'text',
+                                value: 'default value',
+                                require: true
+                            }
+                        ]
+                     }
                 ]
             })
             .end(function (err, res) {

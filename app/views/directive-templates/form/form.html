@@ -1,52 +1,35 @@
-<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-<div class="panel panel-default" ng-cloak>
-    <div class="panel-heading">{{ form.form_name }} <span ng-show="previewMode">Form Preview</span>
-
-        <div class="dropdown btn-group pull-right" ng-show="superuser">
-
-            <button class="btn btn-default btn-xs" ng-show="!editmode" ng-click="editmode=true">
-                <span tooltip-placement="left" tooltip="Edit current form" class="glyphicon glyphicon-pencil"></span>
-            </button>
-            <div ng-show="editmode">
-                <button class="btn btn-default btn-xs" ng-click="addField()">
-                    <span tooltip-placement="left" tooltip="Add new Field" class="glyphicon glyphicon-plus"></span>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">{{ module }}
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Add new
+                    <span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.form_name }}</a></li>
+                </ul>
             </div>
-
         </div>
     </div>
     <div class="panel-body">
-        <form role="form" class="form-horizontal" name="{{ form.form_name | nospace }}">
-            invalid:{{field.$invalid}};
-            dirty:{{form.$dirty}};
-            <div class="form-group" ng-repeat="field in form.form_fields"
-                 ng-class="{'has-error': {{ form.form_name | nospace }}.{{ field.field_title | nospace }}id.$invalid}">
-                <label for="{{field.field_title | nospace}}id"
-                       class="col-sm-3 control-label">{{field.field_title}}</label>
+        <accordion close-others="oneAtATime">
+            <accordion-group heading="{{form.form_name}}" ng-repeat="form in listOfForms" is-open="$index==0">
+                <accordion-heading>
+                    {{form.form_name}}
+                    <div class="btn-group-xs pull-right">
+                        <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
+                        <button type="button" class="btn btn-default fa fa-trash-o"></button>
+                    </div>
+                </accordion-heading>
 
-                <div class="col-sm-9" field="field" editmode="editmode" field-directive></div>
-                <span ng-show="{{ form.form_name | nospace }}.{{ field.field_title | nospace }}id.$error.required"
-                      class="help-inline">Required</span>
-            </div>
-            <hr>
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-default btn-sm" ng-click="save()"
-                        ng-show="editmode && form.form_fields.length > 0">
-                    <span class="glyphicon glyphicon-floppy-save"></span> Save Form
-                </button>
-                <button type="button" class="btn btn-default btn-sm pull-right"
-                        ng-show="editmode && form.form_fields.length > 0" ng-click="editmode=false">
-                    <span class="glyphicon glyphicon-remove-circle"></span> Cancel Edit Mode
-                </button>
-                <button type="button" class="btn btn-default btn-sm" ng-click="submit()"
-                        ng-show="!editmode && form.form_fields.length > 0">
-                    <span class="glyphicon glyphicon-floppy-save"></span> Submit Form
-                </button>
-                <button type="button" class="btn btn-default btn-sm pull-right" ng-click="reset()"
-                        ng-show="!editmode && form.form_fields.length > 0">
-                    <span class="glyphicon glyphicon-remove"></span> Reset Form
-                </button>
-            </div>
-        </form>
+                <div class="well well-sm">
+                    <field ng-model="field" ng-repeat="field in form.fields"></field>
+                </div>
+            </accordion-group>
+        </accordion>
+
+        <div class="warning" ng-if="!listOfForms || listOfForms.length==0" class="animate-if">Nothing to show yet</div>
     </div>
 </div>

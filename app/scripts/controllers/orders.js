@@ -8,12 +8,7 @@ angular.module('theBossApp')
         $scope.order.projects = [];
         $scope.available_projects = [];
 
-        //load available projects
-        FormService.get({module:'Order'}).$promise.then(function(res){
-            $scope.available_projects = res;
-        },function(err){
-            toaster.pop('error', "Error saving the order",err.message? err.message : err);
-        });
+
         //load user orders first
         function loadUserOrders(){
             $scope.list = [];
@@ -72,8 +67,8 @@ angular.module('theBossApp')
         $scope.addProject = function(form){
             $scope.order.projects = $scope.order.projects || []
             $scope.order.projects.push({
-                project: form.name,
-                field_sets: form.field_sets,
+                form_name: form.name,
+                fields: form.fields,
                 tasks: form.tasks
             });
         }

@@ -9,16 +9,17 @@ describe('Form server tests', function () {
     before(function (done) {
         project = new Project({
             owner: 'Owner1',
-            name: 'Form Name',
+            form_name: 'Form Name',
             fields: [
                 {
-                    field_order: 1,
-                    field_title: 'Field name1',
-                    field_type: 'text',
-                    field_value: '',
-                    field_require: true
+                    order: 1,
+                    title: 'Field name1',
+                    type: 'text',
+                    default_value: 'default value',
+                    require: true
                 }
             ]
+
         });
 
         // Clear projects before testing
@@ -46,10 +47,7 @@ describe('Form server tests', function () {
         project.save(function () {
             var projectDup = new Project({
                 owner: 'Owner2',
-                name: 'Form Name',
-                field_sets:[
-                    {
-                        title:'Materials',
+                form_name: 'Form Name',
                         fields: [
                             {
                                 order: 1,
@@ -60,8 +58,6 @@ describe('Form server tests', function () {
                             }
 
                         ]
-                    }
-                ]
 
             });
             projectDup.save(function (err) {
@@ -94,20 +90,52 @@ describe('Form server tests', function () {
         });
     });
 
-    xit("should be able to add and save project task", function (done) {
-        project.tasks.push({priority: 1, title: 'Task1', duration: '1h'});
-        project.tasks.push({priority: 2, title: 'Task2', duration: '1h'});
-        project.increment();
+    it("should be able to add and save project task", function (done) {
         project.save(function (err, project) {
-            console.log(err);
-            Project.find({}, function (err, projects) {
+            Project.findByIdAndUpdate(project._id,{
+                '$pushAll': {'tasks': [{priority: 1, title: 'Task1', duration: '1h'},{priority: 2, title: 'Task2', duration: '1h'}]}
+            }, {safe:true, upsert:true},function(err, project){
                 should.not.exist(err);
-                // console.log(projects);
-                (projects.length === 1).should.be.true;
-                (projects.tasks.length === 2).should.be.true;
+                project.tasks.length.should.equal(2);
                 done();
-            });
+            })
         });
     });
+    
+    it("should add new field to field set", function (done){
+        project.save(function (err, project) {
+            Project.findById(project._id,function(err,proj){
+                console.log(proj);
+                proj.fields.length.should.equal(1);
+
+
+                Project.findByIdAndUpdate(
+                        proj._id
+                    ,
+                    {
+                        $push:{fields: {
+                            title: 'Field name2',
+                            type: 'text',
+                            value: null,
+                            require: true
+                        }
+                        }}
+                    ,
+                    {upsert:false,safe:true},
+                    function(){
+                        console.log(project._id);
+                        Project.findById(project._id,function(err,proj){
+                            console.log(err);
+                            console.log(proj);
+                            proj.fields.length.should.equal(2);
+                            done();
+                        })
+
+                    });
+
+            })
+
+         });
+    })
 
 });

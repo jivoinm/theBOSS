@@ -65,29 +65,30 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'select2':
-                    scope.addOption =  function() {
-                        //push this new item to server
-                        $http.put('/api/forms/options', {
-                            module: scope.module,
-                            field: scope.field.title,
-                            option: option
-                        }).$promise.then(function(res){
-                                console.log(res);
-                                return 'Added new option ';
-                            }, function (err){
-                                console.log(err);
-                                return 'There was an error adding new option ';
-                            });
 
-                    };
 
                     scope.select2Options = {
                         allowClear: true,
                         value: scope.field.value,
                         triggerChange: true,
                         width: 'off',
+                        addOption: function(option) {
+                                //push this new item to server
+                                $http.put('/api/forms/options', {
+                                    module: scope.module,
+                                    field: scope.field.title,
+                                    option: option
+                                }).$promise.then(function(res){
+                                        console.log(res);
+                                        return 'Added new option ';
+                                    }, function (err){
+                                        console.log(err);
+                                        return 'There was an error adding new option ';
+                                    });
+
+                            },
                         formatNoMatches: function(option){
-                            return 'This option is not in the list, <a href="" ng-click="addOption()">click here to add it</a> ';
+                            return 'This option is not in the list, <a href="" onclick="addOption(\''+option+'\')">click here to add it</a> ';
                         },
                         containerCssClass: 'form-control',
                         initSelection: function(element, callback){

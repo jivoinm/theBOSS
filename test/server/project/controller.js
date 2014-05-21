@@ -1,30 +1,30 @@
 'use strict';
-var Project, app, mongoose, request, server, should, project, agent;
+var Form, app, mongoose, request, server, should, form, agent;
 
 should = require("should");
 app = require("../../../server");
 mongoose = require("mongoose");
-Project = mongoose.model("Form");
+Form = mongoose.model("Form");
 request = require("supertest");
 agent = request.agent(app);
 
 describe('Form controller', function () {
     before(function (done) {
-        project = new Project({
+        form = new Form({
             owner: 'Owner1',
-            name: 'Form Name',
-            fields: [
+            form_name: 'Form Name',
+            fields:[
                 {
-                    field_order: 1,
-                    field_title: 'Field name1',
-                    field_type: 'text',
-                    field_value: '',
-                    field_require: true
+                    order: 1,
+                    title: 'Field name1',
+                    type: 'text',
+                    value: '',
+                    require: true
                 }
             ]
         });
-        Project.remove().exec();
-        project.save(done);
+        Form.remove().exec();
+        form.save(done);
     });
 
     it('should create new project on post', function (done) {
@@ -32,14 +32,14 @@ describe('Form controller', function () {
             .post('/api/forms')
             .send({
                 owner: 'owner 1',
-                name: 'Form Name that not exists',
-                fields: [
+                form_name: 'Form Name that not exists',
+                fields:[
                     {
-                        field_order: 1,
-                        field_title: 'Field name1',
-                        field_type: 'text',
-                        field_value: '',
-                        field_require: true
+                        order: 1,
+                        title: 'Field name1',
+                        type: 'text',
+                        value: '',
+                        require: true
                     }
                 ]
             })
@@ -51,14 +51,33 @@ describe('Form controller', function () {
     });
 
     it("should update existing project on post", function (done) {
-        project.name = 'project name changed';
+        form.form_name = 'project name changed';
         agent
-            .post('/api/forms')
-            .send(project)
+            .post('/api/forms/'+form._id)
+            .send(form)
             .end(function (err, res) {
-                (project.name === res.body.name).should.be.true;
+                (form.name === res.body.name).should.be.true;
                 done();
             });
+    });
+
+    it("should be able to add new field to existing form", function (done) {
+        agent
+            .post('/api/forms/'+form._id+"/field")
+            .send({
+                field: {
+                    title: 'Field name1',
+                    type: 'text',
+                    value: null,
+                    require: true
+                }
+            })
+            .end(function (err, res) {
+                should.not.exists(err);
+                should.exists(res.body.fields[1]);
+                done();
+            });
+
     });
 
 });
