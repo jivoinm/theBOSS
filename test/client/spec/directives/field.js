@@ -69,12 +69,25 @@ describe('Directive: field', function () {
         });
 
         it('should render select filed with default value if show options are set', function () {
-            element = $compile(element)(scope);
-            scope.field.show_options = ['Value1','default value'];
+            element = angular.element('<div ng-repeat="field_set in field_sets">'+
+                '<field ng-model="field" ng-repeat="field in field_set.fields"></field>'+
+                '</div>');
+            scope.field_sets = [{
+                field:{
+                    title: 'Parent Field',
+                    type:'select',
+                    require: true,
+                    value:'parent value'
+                }
+            }];
             scope.$apply();
-            console.log(element.find('select[name="fieldName"]').first().select2('val'));
-            expect(element.find('select[name="fieldName"]').first().select2('val')).toContain('default value');
+            //scope field should have it bind the default value to the field value
+            expect(scope.field.value).toBe('default value');
         });
+
+        it('should filter the options based on the dependent selection if . is found in the option values',function(){
+
+        })
     });
 
 });
