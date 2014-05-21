@@ -1,19 +1,14 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', '$modal', function ($scope, OrderService, User, FormService, toaster, $modal) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', function ($scope, OrderService, User, FormService, toaster) {
         $scope.$parent.pageHeader = 'Orders';
         $scope.order = {};
         $scope.isAddressVisible = false;
         $scope.order.projects = [];
         $scope.available_projects = [];
 
-        //load available projects
-        FormService.get({module:'Order'}).$promise.then(function(res){
-            $scope.available_projects = res;
-        },function(err){
-            toaster.pop('error', "Error saving the order",err.message? err.message : err);
-        });
+
         //load user orders first
         function loadUserOrders(){
             $scope.list = [];
@@ -50,6 +45,7 @@ angular.module('theBossApp')
                 if(!$scope.order._id){
                     $scope.order = new OrderService($scope.order);
                 }
+
                 $scope.order.$save({orderId:$scope.order._id},function(){
                     $scope.order = {};
                     $scope.submitted = false;
@@ -71,27 +67,40 @@ angular.module('theBossApp')
         $scope.addProject = function(form){
             $scope.order.projects = $scope.order.projects || []
             $scope.order.projects.push({
-                project: form.name,
-                field_sets: form.field_sets,
+                form_name: form.name,
+                fields: form.fields,
                 tasks: form.tasks
             });
         }
 
         $scope.taskStatusChange = function(task,status){
-            task.status = status;
             task.changed_by = $scope.currentUser._id;
             task.changed_on = new Date();
-
+            if(task.status)
+                task.status_options.splice(task.status_options.indexOf(task.status),1);
+            task.status = status;
+            $scope.order.$save(function(order){
+                toaster.pop('success', "Task status was changed to "+status);
+                $scope.order = order;
+            });
         }
 
         loadUserOrders();
         $scope.$watchCollection('order.projects',function(){
             var hours = 0;
-            $scope.order.projects.forEach(function(project){
-                project.tasks.forEach(function(task){
-                    hours += +task.duration.replace(/h$/,"");
+            if($scope.order && $scope.order.projects){
+                $scope.order.projects.forEach(function(project){
+                    if(project.tasks){
+                        project.tasks.forEach(function(task){
+                            hours += +task.duration.replace(/h$/,"");
+                        })
+                    }
                 })
-            })
+            }
             $scope.total_working_hours = hours;
-        })
+        });
+
+        $scope.$watch('myOwnFile',function(newValue){
+            console.log( "file changed", newValue);
+        });
     }]);

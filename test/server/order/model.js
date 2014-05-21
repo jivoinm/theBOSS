@@ -35,25 +35,20 @@ describe('Order server tests', function () {
                                 Project.find({}).remove(function () {
                                     Project.create({
                                         owner: 'Test Owner',
-                                        name: 'Kitchen',
-                                        field_sets:[
+                                        form_name: 'Kitchen',
+                                        fields: [
                                             {
-                                                title:'Materials',
-                                                fields: [
-                                                    {
-                                                        order: 1,
-                                                        title: 'Field name1',
-                                                        type: 'text',
-                                                        default_value: 'default value',
-                                                        require: true
-                                                    },
-                                                    {
-                                                        order: 2,
-                                                        title: 'Field name2',
-                                                        type: 'text',
-                                                        require: true
-                                                    }
-                                                ]
+                                                order: 1,
+                                                title: 'Field name1',
+                                                type: 'text',
+                                                default_value: 'default value',
+                                                require: true
+                                            },
+                                            {
+                                                order: 2,
+                                                title: 'Field name2',
+                                                type: 'text',
+                                                require: true
                                             }
                                         ]
                                         ,
@@ -78,26 +73,21 @@ describe('Order server tests', function () {
 
                                         Project.create({
                                             owner: 'Test Owner',
-                                            name: 'Project2',
-                                            field_sets:[
+                                            form_name: 'Project2',
+                                            fields: [
                                                 {
-                                                    title:'Materials',
-                                                    fields: [
-                                                        {
-                                                            order: 1,
-                                                            title: 'Field name1',
-                                                            type: 'text',
-                                                            default_value: 'default value',
-                                                            require: true
-                                                        },
-                                                        {
-                                                            order: 2,
-                                                            title: 'Field name2',
-                                                            default_value: 'default value',
-                                                            type: 'text',
-                                                            require: false
-                                                        }
-                                                    ]
+                                                    order: 1,
+                                                    title: 'Field name1',
+                                                    type: 'text',
+                                                    default_value: 'default value',
+                                                    require: true
+                                                },
+                                                {
+                                                    order: 2,
+                                                    title: 'Field name2',
+                                                    default_value: 'default value',
+                                                    type: 'text',
+                                                    require: false
                                                 }
                                             ],
                                             tasks: [
@@ -124,11 +114,8 @@ describe('Order server tests', function () {
                                                     customer: Customer,
                                                     projects: [
                                                         {
-                                                            project: 'Kitchen',
-                                                            field_sets:[{
-                                                                title:'Materials',
-                                                                fields: [
-                                                                    {
+                                                            form_name: 'Kitchen',
+                                                            fields: [{
                                                                         order: 1,
                                                                         title: 'Field name1',
                                                                         type: 'text',
@@ -136,23 +123,20 @@ describe('Order server tests', function () {
                                                                         require: true
                                                                     }
                                                                 ]
-                                                            }]
 
                                                         },
                                                         {
-                                                            project: 'Form 2',
-                                                            field_sets:[{
-                                                                title:'Materials',
-                                                                fields: [
-                                                                    {
-                                                                        order: 1,
-                                                                        title: 'Field name1',
-                                                                        type: 'text',
-                                                                        value: 'default value',
-                                                                        require: true
-                                                                    }
-                                                                ]
-                                                            }],
+                                                            form_name: 'Form 2',
+                                                            fields: [
+                                                                {
+                                                                    order: 1,
+                                                                    title: 'Field name1',
+                                                                    type: 'text',
+                                                                    value: 'default value',
+                                                                    require: true
+                                                                }
+                                                            ]
+                                                            ,
                                                             tasks: [
                                                                 {
                                                                     priority: 1,

@@ -29,6 +29,8 @@ module.exports = function(config) {
             'app/bower_components/angular-animate/angular-animate.js',
             'app/bower_components/AngularJS-Toaster/toaster.js',
             'app/bower_components/angular-loading-bar/src/loading-bar.js',
+            'app/bower_components/angular-dragdrop/src/angular-dragdrop.js',
+            'app/bower_components/angular-fileuploader/dist/angular-fileuploader.js',
 
             'app/scripts/*.js',
             'app/scripts/**/*.js',

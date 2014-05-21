@@ -45,9 +45,9 @@ angular.module('theBossApp').
             //replace: true,
             templateUrl: '/views/directive-templates/layouts/tasks.html',
             link: function (scope, element, attrs) {
-                scope.tasks = [];
-                $http.get('/api/tasks').success(function (data) {
-                    scope.tasks = data;
+                scope.orders = [];
+                $http.get('/api/orders').success(function (data) {
+                    scope.orders = data;
                 });
             }
         };

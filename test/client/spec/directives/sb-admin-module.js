@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: sbAdminModule', function () {
+xdescribe('Directive: sbAdminModule', function () {
 
     // load the directive's module
     beforeEach(module('theBossApp'));

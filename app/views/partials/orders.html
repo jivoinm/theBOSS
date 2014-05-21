@@ -1,4 +1,4 @@
-<toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
+
 <div class="row">
     <div class="col-md-4">
         <quick-list quick-list="list" title="Orders made by you" item-select="edit(item)"></quick-list>
@@ -34,6 +34,12 @@
 
                             </div>
                             <div class="form-group"
+                                 ng-class="{ 'has-error' : form.date_required.$invalid }">
+                                <label>Date Required</label>
+                                <input type="date" class="form-control" name="date_required" ng-model="order.date_required" ng-required="false">
+                                <p ng-show="form.date_required.$invalid" class="help-block">Enter valid date.</p>
+                            </div>
+                            <div class="form-group"
                                  ng-class="{ 'has-error' : form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)}">
                                 <label>Email</label>
                                 <input type="email" class="form-control" id="customerEmail" name="customerEmail" ng-model="order.customer.email">
@@ -66,36 +72,8 @@
 
                             </div>
 
-                            <div class="panel panel-default">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading">Projects
-                                    <div class="pull-right">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                Actions
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu pull-right" role="menu">
-                                                <li><a href="" ng-click="delete()" ng-show="order._id">Delete</a></li>
-                                                <li ng-repeat="project in available_projects"><a href="" ng-click="addProject(project)">Add {{ project.name }}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <fieldset  ng-repeat="project in order.projects">
-                                        <legend>{{ project.project }}</legend>
-                                        <div ng-repeat="field_set in project.field_sets">
-                                              <span>{{ field_set.title }}</span>
+                            <forms module="Projects" list-of-forms="order.projects"></forms>
 
-                                              <field ng-model="field" ng-repeat="field in field_set.fields"></field>
-
-                                        </div>
-
-                                    </fieldset>
-                                </div>
-
-                            </div>
                             <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
                             <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
 
@@ -132,6 +110,28 @@
                 </div>
             </tab>
             <tab heading="Ordered material">
+
+            </tab>
+            <tab heading="Files">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Tasks to do on this order</div>
+                    <div class="panel-body">
+                        <p>Upload files related to this order</p>
+                        <div class="form-group">
+                            <label>File</label>
+                            <div class="form-group">
+                                <div fileuploader="fileuploader" class="input-group">
+                                    <div data-ng-show="rmyFile" class="form-control">{{myFile.name}}</div>
+                                    <div data-ng-hide="myFile" class="form-control">Choose a file</div>
+                                    <div class="input-group-addon">
+                                        <div class="fa fa-lg fa-paperclip"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </tab>
         </tabset>

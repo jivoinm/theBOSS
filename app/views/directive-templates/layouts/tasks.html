@@ -1,28 +1,33 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-bell fa-fw"></i> To Do <span class="badge" ng-show="tasks.length > 0">{{ tasks.length }}</span>
+        <i class="fa fa-bell fa-fw"></i> Work log
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <div class="list-group">
-            <a href="#/calendar" class="list-group-item" ng-repeat="task in tasks">
-                <div>
-                    <p>
-                        <strong>{{ task.user }} : {{ task.name }}</strong>
-                        <span class="pull-right text-muted">{{ getWorkedPercentage(task) }}% Complete</span>
-                    </p>
-
-                    <div class="progress progress-striped active">
-                        <div class="progress-bar progress-bar-{{ task.status }}" role="progressbar"
-                             aria-valuenow="{{ task.now }}" aria-valuemin="{{ task.min }}"
-                             aria-valuemax="{{ task.max }}" style="width: {{ getWorkedPercentage(task) }}%">
-                            <span class="sr-only">{{ getWorkedPercentage(task) }}% Complete</span>
-                        </div>
-                    </div>
+        <accordion close-others="oneAtATime">
+            <accordion-group heading="{{order.customer.name}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" ng-repeat="order in orders">
+            <div class="panel panel-default" ng-repeat="project in order.projects">
+                <div class="panel-heading">
+                    {{project.project}}
                 </div>
-            </a>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
 
-        </div>
+                    <div class="list-group">
+                        <a href="" class="list-group-item" ng-repeat="task in project.tasks">
+                            <div>
+                                <p>
+                                    <strong>{{ task.title }} : {{ task.duration }}</strong>
+                                </p>
+                                <progressbar value="55"></progressbar></div>
+                           
+                        </a>
+                      
+                    </div>
+                </div>              
+            </div>              
+            </accordion-group>
+        </accordion>
         <!-- /.list-group -->
         <a href="#/calendar" class="btn btn-default btn-block">View All</a>
     </div>

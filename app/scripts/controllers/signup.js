@@ -10,7 +10,7 @@ angular.module('theBossApp')
 
             if (form.$valid) {
                 var user = {
-                    owner: $scope.user.owner,
+                    owner: 'DelPriore',
                     name: $scope.user.name,
                     email: $scope.user.email,
                     password: $scope.user.password

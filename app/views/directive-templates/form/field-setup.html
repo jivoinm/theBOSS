@@ -11,7 +11,7 @@
 
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="fieldName" placeholder="Field Name"
-                       ng-model="selectedfield.field_title" ng-required="true">
+                       ng-model="selectedfield.title" ng-required="true">
             </div>
         </div>
         <div class="form-group">
@@ -19,21 +19,21 @@
 
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="fieldValue" placeholder="Field Default Value"
-                       ng-model="selectedfield.field_value">
+                       ng-model="selectedfield.value">
             </div>
         </div>
         <div class="form-group">
             <label for="fieldName" class="col-sm-3 control-label">Field Type</label>
 
             <div class="col-sm-9">
-                <select ng-model="selectedfield.field_type" class="form-control"
+                <select ng-model="selectedfield.type" class="form-control" id="fieldType"
                         ng-options="field_type.name as field_type.value for field_type in field_types"></select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <label for="fieldIsRequired" class="control-label">
-                    <input type="checkbox" id="fieldIsRequired" ng-model="selectedfield.field_required"> Is Required?
+                    <input type="checkbox" id="fieldIsRequired" ng-model="selectedfield.required"> Is Required?
                 </label>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     <th>Option value</th>
                     <th>Option color code</th>
                     <th></th>
-                    <tr ng-repeat="option in selectedfield.field_options">
+                    <tr ng-repeat="option in selectedfield.show_options">
                         <td><input type="text" class="form-control" ng-model="option.value" value="{{option.value}}">
                         </td>
                         <td><input type="text" class="form-control" ng-model="option.color" value="{{option.color}}">
@@ -63,6 +63,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()" id="ok">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()" id="cancel">Cancel</button>
 </div>
