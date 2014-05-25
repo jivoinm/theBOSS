@@ -1,14 +1,16 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading" tooltip-placement="right" tooltip="On the Right!">{{ module }}
+    <div class="panel-heading" tooltip-placement="right" tooltip="Add new form from the list">{{ module }}
         <div class="pull-right">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                    Add new
+                    Add
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
                     <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.form_name }}</a></li>
+                    <li class="divider"></li>
+                    <li><a href="" ng-click="addNewForm()">New Form</a></li>
                 </ul>
             </div>
         </div>
@@ -18,15 +20,14 @@
             <accordion-group heading="{{form.form_name}}" ng-repeat="form in listOfForms" is-open="$index==0">
                 <accordion-heading>
                     {{form.form_name}}
-                    <div class="btn-group-xs pull-right">
+                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.form_name}}">
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
-                        <button type="button" class="btn btn-default fa fa-trash-o"></button>
+                        <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event)"></button>
                     </div>
                 </accordion-heading>
 
-                <div class="well well-sm">
-                    <field ng-model="field" ng-repeat="field in form.fields"></field>
-                </div>
+                <field ng-model="field.value" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)"></field>
+
             </accordion-group>
         </accordion>
 

@@ -2,16 +2,28 @@
 
 angular.module('theBossApp')
   .service('FormService', ['$resource', function($resource) {
-    return $resource('/api/forms/:module', {module: '@module'},{
+    return $resource('/api/forms/:id', {id:'@id'},{
         'get': {
             method: 'GET',
-            isArray: true
+            isArray: true,
+            url: '/api/forms/:module',
+            params: {
+                module: '@module'
+            }
         },
         'addField':{
             method: 'PUT',
             url: '/api/forms/:id/field',
             params: {
                 id: '@id'
+            }
+        },
+        'updateField':{
+            method: 'PUT',
+            url: '/api/forms/:id/field/:fieldId',
+            params: {
+                id: '@id',
+                fieldId: '@fieldId'
             }
         },
         'addFieldOption': {
@@ -22,6 +34,14 @@ angular.module('theBossApp')
                 field: '@field',
                 option: '@option'
             }
+        },
+        'delete': {
+            method: 'DELETE',
+            url: '/api/forms/:id',
+            params: {
+                id: '@_id'
+            }
         }
+
     });
   }]);

@@ -2,11 +2,22 @@
 
 angular.module('theBossApp')
     .directive('field', ['$http', '$compile', '$rootScope', function ($http, $compile) {
+
+
         var formField = function(field){
-            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" popover-placement="top" popover-trigger="mouseenter" popover="On the Top!" class="btn btn-default"><label>{{field.title}}</label>'+field+'</div>';
+            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" class="btn btn-default">' +
+                '<label class="col-sm-2 control-label">{{field.title}}</label>' +
+                '<div class="col-sm-8">'+field+'</div>' +
+                    '<div class="col-sm-2">'+
+                        '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
+                        '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field)"></button>' +
+                        '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete($event)"></button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
         }
 
-        function getFieldTemplate(scope,element){
+        function getFieldTemplate(scope, element){
             var fieldTemplate = '';
             switch(scope.field.type) {
                 case 'date':
@@ -43,53 +54,49 @@ angular.module('theBossApp')
                     };
 
                     scope.initDate = new Date(scope.field.value)
-                    scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-                    scope.format = scope.formats[0];
+                    scope.format = 'dd-MMMM-yyyy';
 
                     fieldTemplate = '<div class="row">' +
                         '<div class="col-md-6">' +
                         '<p class="input-group">' +
-                        '<input type="text" class="form-control" datepicker-popup name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="field.value" value="{{field.value}}" ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" />' +
+                        '<input type="text" class="form-control" datepicker-append-to-body="true" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" />' +
                         '<span class="input-group-btn">' +
                         '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
                         '</span>' +
                         '</p>' +
                         '</div>' +
                         '</div>';
+                    fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'text':
                     fieldTemplate = '<input type="text" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="field.value" value="{{field.value}}" ng-required="{{ field.require }}"'+
-                        'ng-show="!editmode">';
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'hidden':
+                    fieldTemplate = '<input type="hidden" class="form-control" name="fieldName" ng-model="model" value="{{field.value}}"/>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'password':
+                    fieldTemplate = '<input type="password" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'email':
+                    fieldTemplate = '<div class="input-group">' +
+                        '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
+                        '<input type="email" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>' +
+                        '</div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'select2':
-
-
                     scope.select2Options = {
                         allowClear: true,
                         value: scope.field.value,
                         triggerChange: true,
                         width: 'off',
-                        addOption: function(option) {
-                                //push this new item to server
-                                $http.put('/api/forms/options', {
-                                    module: scope.module,
-                                    field: scope.field.title,
-                                    option: option
-                                }).$promise.then(function(res){
-                                        console.log(res);
-                                        return 'Added new option ';
-                                    }, function (err){
-                                        console.log(err);
-                                        return 'There was an error adding new option ';
-                                    });
-
-                            },
-                        formatNoMatches: function(option){
-                            return 'This option is not in the list, <a href="" onclick="addOption(\''+option+'\')">click here to add it</a> ';
-                        },
                         containerCssClass: 'form-control',
                         initSelection: function(element, callback){
                             var data = {id: element.val(), text: element.val()};
@@ -97,8 +104,7 @@ angular.module('theBossApp')
                         }
                     };
                     fieldTemplate = '<select ui-select2="select2Options" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="field.value"  ng-required="{{ field.require }}"'+
-                        'ng-show="!editmode">' +
+                        'ng-model="model"  ng-required="{{ field.require }}">' +
                         '<option value=""></option>'+
                         '<option ng-repeat="option in field.show_options track by $index" value="{{option}}">{{option}}</option>' +
                         '</select>';
@@ -107,29 +113,51 @@ angular.module('theBossApp')
 
                 case 'select':
                     fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
-                         'ng-model="field.value"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
+                         'ng-model="model"  ng-required="{{ field.require }}" ng-options="value for value in field.show_options "'+
                          'ng-show="!editmode">' +
                          '<option value=""></option>'+
                          '</select>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'checkbox':
-
+                    fieldTemplate = '<div class="checkbox">' +
+                            '<label>' +
+                                '<input type="checkbox" name="fieldName" ng-model="model" ng-required="{{ field.require }}">' +
+                            '</label>' +
+                    '</div>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'radio':
+                    fieldTemplate = '<div class="radio"> ' +
+                        '<div class="radio" ng-repeat="option in field.show_options">' +
+                        '<label><input type="radio" name="fieldName" ng-model="model" ng-value="option">{{ option.value }}</label>' +
+                        '</div>' +
+                    '</div>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'textarea':
+                    fieldTemplate = '<textarea class="form-control" rows="3" name="fieldName" placeholder="{{field.title}}"'+
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
+                case 'composite':
                     break;
             }
             return fieldTemplate
         }
 
         return {
-            restrict: 'E',
+            restrict: 'EA',
             scope: {
-                field: '=ngModel'
+                model: '=ngModel',
+                field: '=ngField',
+                edit: '&',
+                delete: '&'
             },
 
-            link: function(scope, elem, attr){
 
+            link: function(scope, elem, attr, formsCtrl){
                 if(scope.field) {
-                    //var field_title = scope.field.title.replace(/ /g, '');
                     var $field = $(getFieldTemplate(scope,elem)).appendTo(elem);
                     $compile($field)(scope);
                 }

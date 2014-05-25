@@ -1,12 +1,38 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-bell fa-fw"></i> {{ title }}
+        <i class="fa fa-{{ listType }} fa-fw"></i> {{ title }}
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <div class="list-group">
-            <div class="list-group-item" ng-repeat="item in quickList">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="input-group">
+                    <div class="input-group-btn search-panel">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span id="search_concept">{{ selectedFilter.label || 'Filter by' }}</span> <span class="caret"></span>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li ng-repeat="filterBy in searchFilter track by $index">
+                                <a href="" ng-click="selectedFilter.label = filterBy.label;selectedFilter.query = filterBy.query;selectedFilter.api = filterBy.api;selectedFilter.itemId = null;">{{ filterBy.label }}</a>
+                            </li>
+                        </ul>
+                    </div>
 
+                    <input type="text" ng-show="!selectedFilter.api" ng-model="selectedFilter.text" placeholder="select filter by and type search" ng-disabled="!selectedFilter.label" class="form-control">
+                    <input type="text" ng-show="selectedFilter.api" placeholder="select filter by and type search" ng-disabled="!selectedFilter.label" ng-model="selectedFilter.text"
+                           typeahead="results.name for results in lookup($viewValue,selectedFilter.api)"
+                           typeahead-on-select="selectedResult($item, $model, $label)"
+                           typeahead-loading="loadingLocations" class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="listSearch({selectedFilter:selectedFilter})"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="list-group">
+            <div class="list-group-item" ng-repeat="item in quickList | limitTo: itemsLimit()">
                 <h4 class="list-group-item-heading">
                     <a href="" ng-click="itemSelect({item:item})">{{ item.title }}</a>
                     <span class="pull-right text-muted small"><em>{{ item.date | timeago }}</em></span>
@@ -14,13 +40,14 @@
                 <p class="list-group-item-text">{{ item.detail }}</p>
             </div>
         </div>
+        <a href="" class="btn btn-default btn-block" ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">Load next</a>
         <div class="list-group-item" ng-show="!quickList.length">
             <h4 class="list-group-item-heading">
-                Nothing to show yet
+                Nothing to show
             </h4>
         </div>
         <!-- /.list-group -->
-        <a href="#" class="btn btn-default btn-block">Advanced Search</a>
+
     </div>
     <!-- /.panel-body -->
 </div>

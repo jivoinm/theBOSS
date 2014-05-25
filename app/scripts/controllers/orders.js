@@ -2,31 +2,48 @@
 
 angular.module('theBossApp')
     .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', function ($scope, OrderService, User, FormService, toaster) {
+        var date = new Date();
+        var requiredDate = new Date(new Date().setDate(date.getDate()+21));
+
         $scope.$parent.pageHeader = 'Orders';
-        $scope.order = {};
+        $scope.order = {date_required: requiredDate};
         $scope.isAddressVisible = false;
         $scope.order.projects = [];
         $scope.available_projects = [];
 
+        function QueryOrders(query) {
+            OrderService.query(query).$promise.then(function (res) {
+                pushOrderToList(res);
+            })
+        }
+
+        $scope.search = function(filter){
+            $scope.list = [];
+            var query = {query: filter.query, text: filter.text};
+            if(filter.itemId){
+                query.text = filter.itemId;
+            }
+            QueryOrders(query);
+
+        }
 
         //load user orders first
+        function pushOrderToList(res) {
+            angular.forEach(res, function (item, key) {
+                this.push({
+                    'id': item._id,
+                    'title': item.customer.name,
+                    'date': item.last_updated_on,
+                    'detail': 'Has ' + item.projects.length + ' projects',
+                    'status': item.status || '',
+                    'order': item
+                });
+            }, $scope.list)
+        }
+
         function loadUserOrders(){
             $scope.list = [];
-            User.orders({id:$scope.currentUser.user_id}, function (res) {
-                angular.forEach(res, function (item, key) {
-                    this.push({
-                        'id': item._id,
-                        'title': item.customer.name,
-                        'date': item.last_updated_on,
-                        'detail': 'Has ' + item.projects.length + ' projects',
-                        'status': item.status || '',
-                        'order': item
-                    });
-                }, $scope.list)
-            }, function (err) {
-                //log error
-                toaster.pop('error', "Error saving the order",err.message? err.message : err);
-            });
+            QueryOrders();
         }
 
 

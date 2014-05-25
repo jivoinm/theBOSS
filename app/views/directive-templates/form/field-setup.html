@@ -1,7 +1,6 @@
 <div class="modal-header">
-    <h5>{{selectedfield.field_title}} :: Field Setup</h5>
+    <h5>Field Setup</h5>
 </div>
-<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
 
 <div class="modal-body">
     <form class="form-horizontal" role="form">
@@ -33,28 +32,72 @@
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <label for="fieldIsRequired" class="control-label">
-                    <input type="checkbox" id="fieldIsRequired" ng-model="selectedfield.required"> Is Required?
+                    <input type="checkbox" id="fieldIsRequired" ng-model="selectedfield.require"> Is Required?
                 </label>
             </div>
         </div>
-        <div class="form-group" ng-show="showAddOptions(selectedfield)">
-            <div class="col-sm-9">
-                <table class="table">
-                    <th>Option value</th>
-                    <th>Option color code</th>
-                    <th></th>
-                    <tr ng-repeat="option in selectedfield.show_options">
-                        <td><input type="text" class="form-control" ng-model="option.value" value="{{option.value}}">
-                        </td>
-                        <td><input type="text" class="form-control" ng-model="option.color" value="{{option.color}}">
-                        </td>
-                        <td>
-                            <a class="btn btn-danger btn-xs right" type="button"
-                               ng-click="deleteOption(selectedfield, option)"><span
-                                    class="glyphicon glyphicon-minus"></span></a></td>
-                    </tr>
-                </table>
+
+        <div class="row" ng-show="selectedfield.type === 'composite'">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Select existing fields to group
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Field Name</th>
+                                    <th>Type</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="field in fields">
+                                    <td><input type="checkbox" ng-model="composite_fields" ng-value="field"></td>
+                                    <td>{{ field.title }}</td>
+                                    <td>{{ field.type }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
             </div>
+        </div>
+        <div class="row" ng-show="showAddOptions(selectedfield)">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Select existing fields to group
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <th>Option value</th>
+                                <th></th>
+                                <tr ng-repeat="option in selectedfield.show_options">
+                                    <td><input type="text" class="form-control" ng-model="option">
+                                    </td>
+
+                                    <td>
+                                        <a class="btn btn-danger btn-xs right" type="button"
+                                           ng-click="deleteOption(selectedfield, option)"><span
+                                                class="glyphicon glyphicon-minus"></span></a></td>
+                                </tr>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
         </div>
         <button type="button" class="btn btn-default btn-sm" ng-show="showAddOptions(selectedfield)"
                 ng-click="addOption(selectedfield)">

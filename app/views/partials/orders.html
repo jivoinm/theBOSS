@@ -1,14 +1,21 @@
 
 <div class="row">
     <div class="col-md-4">
-        <quick-list quick-list="list" title="Orders made by you" item-select="edit(item)"></quick-list>
+        <quick-list quick-list="list" listType="list" title="Latest Orders"
+                    search-filter="[
+                    {query:'customer', label:'Customer', api:'/api/customer'},
+                    {query:'created_by', label:'Created By', api:'/api/users'},
+                    {query:'projects', label:'Projects'},
+                    ]"
+                    item-select="edit(item)" list-search="search(selectedFilter)">
+        </quick-list>
     </div>
     <div class="col-md-8">
 
         <tabset justified="true">
             <tab>
                 <tab-heading>Order&nbsp;<span class="badge" ng-show="total_working_hours">{{ total_working_hours }} working hours</span></tab-heading>
-                <form name="form" class="form" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
+                <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
                     <div class="panel panel-default">
                         <!-- Default panel contents -->
                         <div class="panel-heading">Order details
@@ -26,51 +33,15 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <div class="form-group"
-                                 ng-class="{ 'has-error' : form.customerName.$invalid }">
-                                <label>Customer</label>
-                                <input type="text" class="form-control" name="customerName" ng-model="order.customer.name" ng-required="true">
-                                <p ng-show="form.customerName.$invalid" class="help-block">Enter required field.</p>
+                            <div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}"></div>
+                            <div field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></div>
+                            <div field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date'}"></div>
+                            <div field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></div>
+                            <div field ng-model="order.customer.address" ng-field="{title:'Address', type:'text'}"></div>
+                            <div field ng-model="order.customer.postal_code" ng-field="{title:'Postal Code', type:'text'}"></div>
+                            <div field ng-model="order.customer.province" ng-field="{title:'Province', type:'select', show_options: ['Ontario', 'Quebec'], value: 'Ontario'}"></div>
+                            <div field ng-model="order.customer.country" ng-field="{title:'Country', type:'select', show_options: ['Canada', 'USA'], value: 'Canada'}"></div>
 
-                            </div>
-                            <div class="form-group"
-                                 ng-class="{ 'has-error' : form.date_required.$invalid }">
-                                <label>Date Required</label>
-                                <input type="date" class="form-control" name="date_required" ng-model="order.date_required" ng-required="false">
-                                <p ng-show="form.date_required.$invalid" class="help-block">Enter valid date.</p>
-                            </div>
-                            <div class="form-group"
-                                 ng-class="{ 'has-error' : form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)}">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="customerEmail" name="customerEmail" ng-model="order.customer.email">
-                                <p ng-show="form.customerEmail.$invalid && (!form.customerEmail.$pristine || submitted)" class="help-block">Enter valid email address.</p>
-                            </div>
-                            <div class="list-group">
-                                <a href="" class="list-group-item" ng-click="isAddressVisible = !isAddressVisible">Address</a>
-                                <div collapse="!isAddressVisible">
-                                    <div class="well well-lg">
-                                        <div class="form-inline">
-                                            <div class="form-group">
-                                                <label>Address</label>
-                                                <input class="form-control" ng-model="order.customer.address">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Postal Code</label>
-                                                <input class="form-control" ng-model="order.customer.postal_code">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Province</label>
-                                                <input class="form-control" ng-model="order.customer.province">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Country</label>
-                                                <input class="form-control" ng-model="order.customer.country">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
 
                             <forms module="Projects" list-of-forms="order.projects"></forms>
 
@@ -83,7 +54,7 @@
 
                 </form>
             </tab>
-            <tab heading="Taks">
+            <tab heading="Tasks">
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
                     <div class="panel-heading">Tasks to do on this order</div>

@@ -6,7 +6,7 @@ var should = require('should'),
 
 var project;
 describe('Form server tests', function () {
-    before(function (done) {
+    beforeEach(function (done) {
         project = new Project({
             owner: 'Owner1',
             form_name: 'Form Name',
@@ -102,7 +102,7 @@ describe('Form server tests', function () {
         });
     });
     
-    it("should add new field to field set", function (done){
+    xit("should add new field to field set", function (done){
         project.save(function (err, project) {
             Project.findOneAndUpdate(
             {

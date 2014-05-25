@@ -230,4 +230,16 @@ describe('Order server tests', function () {
         })
     });
 
+    it("should query order by customer name and return one result", function(done){
+        Customer.find({name: new RegExp('^Cust','i')},{_id:1}, function(err, customers){
+            Order.find({customer: {$in: customers}})
+                .populate('customer')
+                .exec(function(err,res){
+                    res.should.be.length(1);
+                    done();
+                });
+        });
+
+    })
+
 });

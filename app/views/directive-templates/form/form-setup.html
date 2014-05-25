@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h5>Form Setup</h5>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="form">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Form Name</label>
+
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="fieldName" placeholder="Field Name"
+                       ng-model="selectedForm.form_name" ng-required="true">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" id="ok">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()" id="cancel">Cancel</button>
+</div>
