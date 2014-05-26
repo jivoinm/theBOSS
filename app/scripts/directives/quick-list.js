@@ -22,7 +22,7 @@ angular.module('theBossApp')
                 }
 
                 scope.hasMoreItemsToShow = function() {
-                    return pagesShown < (scope.quickList.length / pageSize);
+                    return scope.quickList && pagesShown < (scope.quickList.length / pageSize);
                 };
                 scope.showMoreItems = function() {
                     pagesShown = pagesShown + 1;

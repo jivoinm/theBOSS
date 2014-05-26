@@ -31,7 +31,7 @@ describe('Directive: quickList', function () {
         element = $compile(element)(scope);
         scope.$digest();
         $httpBackend.flush();
-        expect(element.text()).toContain('Nothing to show yet');
+        expect(element.text()).toContain('Nothing to show');
     }));
 
     function getListOfObjects() {

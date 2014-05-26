@@ -15,7 +15,7 @@ describe('Directive: field', function () {
     }));
 
     it("should render bootstrap form group div",function(){
-        element = angular.element('<field ng-model="field"></field>');
+        element = angular.element('<field ng-field="field"></field>');
         scope.field = {
             title: 'Field Title',
             type:'text',
@@ -29,7 +29,7 @@ describe('Directive: field', function () {
 
     describe('Render Text',function(){
         beforeEach(function(){
-            element = angular.element('<field ng-model="field"></field>');
+            element = angular.element('<field ng-field="field"></field>');
             scope.field = {
                 title: 'Field Title',
                 type:'text',
@@ -53,7 +53,7 @@ describe('Directive: field', function () {
 
     describe('Render Select',function(){
         beforeEach(function(){
-            element = angular.element('<field ng-model="field"></field>');
+            element = angular.element('<field ng-field="field"></field>');
             scope.field = {
                 title: 'Field Title',
                 type:'select',
@@ -79,7 +79,7 @@ describe('Directive: field', function () {
 
     describe('Render Select2',function(){
         beforeEach(function(){
-            element = angular.element('<field ng-model="field"></field>');
+            element = angular.element('<field ng-field="field"></field>');
             scope.field = {
                 title: 'Field Title',
                 type:'select2',

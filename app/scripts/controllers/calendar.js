@@ -50,12 +50,11 @@ angular.module('theBossApp')
         /* config object */
         $scope.uiConfig = {
             calendar:{
-//                header:{
-//                    left: 'title',
-//                    center: '',
-//                    right: 'today prev,next'
-//                },
-                //height: 450,
+                header:{
+                    left: 'today prev,next',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
                 editable: true,
                 eventClick: $scope.eventClick,
                 eventDrop: $scope.eventDrop,

@@ -74,8 +74,7 @@ describe('Directive: forms', function () {
     });
 
     it('should show list of links to click to add forms', function (){
-        expect(element.find('button').first().text().trim()).toBe('Add new');
-        expect(element.find('button').first().next().find('a').length).toBe(1);
+        expect(element.find('button').first().text().trim()).toBe('Add');
         expect(element.find('button').first().next().find('a')[0].text.trim()).toBe('Add form1');
     });
 

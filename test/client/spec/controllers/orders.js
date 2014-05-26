@@ -22,7 +22,7 @@ describe('Controller: OrdersCtrl', function () {
         formService = _FormService_;
 
 
-        $httpBackend.expectGET('/api/users/userid/orders').respond([
+        $httpBackend.expectGET('/api/orders').respond([
             {_id: 1, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]},
             {_id: 2, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]}
         ]);
@@ -59,7 +59,7 @@ describe('Controller: OrdersCtrl', function () {
         }]});
 
         $httpBackend.expectPOST('/api/orders/order_id').respond({_id:'new order ID'});
-        $httpBackend.expectGET('/api/users/userid/orders').respond([]);
+        $httpBackend.expectGET('/api/orders').respond([]);
         scope.saveOrder({$valid:true});
         $httpBackend.flush();
         expect(scope.order.customer).toBeUndefined();
