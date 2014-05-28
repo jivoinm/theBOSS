@@ -2,7 +2,7 @@
 
 angular.module('theBossApp')
   .service('FormService', ['$resource', function($resource) {
-    return $resource('/api/forms/:id', {id:'@id'},{
+    return $resource('/api/forms/:id', {id:'@_id'},{
         'get': {
             method: 'GET',
             isArray: true,
@@ -16,6 +16,14 @@ angular.module('theBossApp')
             url: '/api/forms/:id/field',
             params: {
                 id: '@id'
+            }
+        },
+        'deleteField':{
+            method: 'DELETE',
+            url: '/api/forms/:id/field/:fieldId',
+            params: {
+                id: '@_id',
+                fieldId: '@fieldId'
             }
         },
         'updateField':{

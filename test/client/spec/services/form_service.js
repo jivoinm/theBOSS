@@ -19,4 +19,15 @@ describe('Service: Form', function () {
         $httpBackend.flush();
     });
 
+    it('should delete a form field', function (){
+        $httpBackend.expectGET('/api/forms/module').respond([{_id:'id', fields:[{_id:'fieldid'}]}]);
+        $httpBackend.expectDELETE('/api/forms/id/field/field_id').respond({title:'title'});
+        Form.get({module:'module'}).$promise.then(function(forms){
+            console.log(forms);
+            forms[0].$deleteField({fieldId:'field_id'});
+        });
+
+        $httpBackend.flush();
+    });
+
 });

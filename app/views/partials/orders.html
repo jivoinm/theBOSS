@@ -67,7 +67,7 @@
 
                     <div class="panel panel-default" ng-repeat="project in order.projects">
                         <!-- Default panel contents -->
-                        <div class="panel-heading">{{ project.project }}</div>
+                        <div class="panel-heading">{{ project.form_name }}</div>
                         <div class="panel-body">
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item-{{ task.status }}" ng-repeat="task in project.tasks | orderBy:'priority'">

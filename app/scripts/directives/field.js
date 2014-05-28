@@ -6,18 +6,18 @@ angular.module('theBossApp')
 
         var formField = function(field){
             return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" class="btn btn-default">' +
-                '<label class="col-sm-2 control-label">{{field.title}}</label>' +
-                '<div class="col-sm-8">'+field+'</div>' +
-                    '<div class="col-sm-2">'+
+                '<label class="control-label" ng-class="{\'col-sm-2\' : !isInine}">{{field.title}}</label>' +
+                '<div class="col-sm-8" ng-class="{\'col-sm-8\' : !isInine}">'+field+'</div>' +
+                    '<div class="col-sm-2" ng-show="!isInline">'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                         '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field)"></button>' +
-                        '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete($event)"></button>' +
+                        '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete(fieldForm,field)"></button>' +
                         '</div>' +
                     '</div>' +
                 '</div>';
         }
 
-        function getFieldTemplate(scope, element){
+        function getFieldTemplate(scope, element, attr){
             var fieldTemplate = '';
             switch(scope.field.type) {
                 case 'date':
@@ -141,6 +141,8 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'composite':
+                    fieldTemplate = '<div class="well"><div  field ng-model="composite_field.value" ng-field="composite_field" ng-repeat="composite_field in field.show_options"></div></div>';
+                    fieldTemplate = formField(fieldTemplate);
                     break;
             }
             return fieldTemplate
@@ -156,9 +158,10 @@ angular.module('theBossApp')
             },
 
 
-            link: function(scope, elem, attr, formsCtrl){
+            link: function(scope, elem, attr){
+
                 if(scope.field) {
-                    var $field = $(getFieldTemplate(scope,elem)).appendTo(elem);
+                    var $field = $(getFieldTemplate(scope,elem,attr)).appendTo(elem);
                     $compile($field)(scope);
                 }
             }

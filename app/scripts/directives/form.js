@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('forms', ['FormService', '$modal', 'toaster', '$filter', function (FormService, $modal, toaster, $filter) {
+    .directive('forms', ['FormService', 'ModalService', 'toaster', function (FormService, ModalService, toaster) {
+        var field_types = ['text', 'email','password','radio','select','date','textarea','checkbox','hidden','composite'];
+        var field_actions = ['Show','Hide'];
 
         function ShowFieldModal(field,form,module) {
             var modalFieldInstance = $modal.open({
@@ -42,36 +44,8 @@ angular.module('theBossApp')
             });
         }
 
-        function ShowFormModal(module) {
-            var modalFieldInstance = $modal.open({
-                templateUrl: '/views/directive-templates/form/form-setup.html',
-                controller: 'FormEditCtrl',
-                resolve: {
-                    module: function(){
-                        return module;
-                    }
 
-                }
-            });
-            modalFieldInstance.result.then(function (selectedForm) {
-                if (selectedForm) {
-                    return selectedForm;
-                }
-            });
-        }
 
-        function ShowFormDeleteModal(formService) {
-            $modal.open({
-                templateUrl: '/views/directive-templates/form/form-delete.html',
-                controller: 'FormDeleteCtrl',
-                resolve: {
-                    FormService: function(){
-                        return formService;
-                    }
-
-                }
-            });
-        }
         return {
             templateUrl: '/views/directive-templates/form/form.html',
             restrict: 'E',
@@ -89,11 +63,69 @@ angular.module('theBossApp')
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    ShowFieldModal({},form,$scope.model);
+                    //ShowFieldModal({},form,$scope.model);
+                    ModalService.modalFormDialog('Add new field ',
+                        [
+                            {title:'Title', value: '', require:true, type:'text'},
+                            {title:'Value', value: '', require:false, type:'text'},
+                            {title:'Type', value: '', require:false, type:'select', show_options: field_types},
+                            {title:'Required', value: 'false', require:false, type:'checkbox'},
+                            {title:'Show Only When', value: 'false', require:false, type:'checkbox'}
+
+                        ], function(fields){
+                            FormService.save({},{
+                                form_name:fields[0].value,
+                                module: $scope.module
+                            }, function(form){
+                                if(!form){
+                                    toaster.pop('error', "There was an error saving new form on server.");
+                                }else{
+                                    toaster.pop('success', "New form was added with success");
+                                    $scope.listOfForms.push(form);
+                                }
+
+                            });
+
+
+                        })
                 };
 
                 $scope.editField = function (form,field){
-                    ShowFieldModal(field,form,$scope.module);
+                    //ShowFieldModal(field,form,$scope.module);
+                    var form_fields = [];
+                    angular.forEach(form.fields, function(field){
+                        this.push(field.title);
+                    }, form_fields);
+                    ModalService.modalFormDialog('Edit field '+field.title,
+                        [
+                            {title:'Title', value: field.title, require:true, type:'text'},
+                            {title:'Value', value: field.value, require:false, type:'text'},
+                            {title:'Type', value: field.type, require:false, type:'select', show_options: field_types},
+                            {title:'Options', value: field.show_options, require:false, type:'textarea'},
+                            {title:'Required', value: field.require, require:false, type:'checkbox'},
+                            {title:'Advanced', type:'composite', show_options:[
+                                {title:'Action', value: field.action, type:'select',show_options:field_actions},
+                                {title:'When field', value: field.when, type:'select',show_options:form_fields},
+                                {title:'Condition', value: field.condition, type:'select',show_options:['eq','ls','gt','diff']},
+                                {title:'Value', value: field.condition_value, type:'text'},
+                            ]},
+
+                        ], function(fields){
+                        FormService.save({},{
+                            form_name:fields[0].value,
+                            module: $scope.module
+                        }, function(form){
+                            if(!form){
+                                toaster.pop('error', "There was an error saving new form on server.");
+                            }else{
+                                toaster.pop('success', "New form was added with success");
+                                $scope.listOfForms.push(form);
+                            }
+
+                        });
+
+
+                    })
                 };
 
                 $scope.addNewForm = function(e){
@@ -101,11 +133,23 @@ angular.module('theBossApp')
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    var newForm = ShowFormModal($scope.module);
-                    if(newForm)
-                    {
-                        $scope.listOfForms.push(newForm);
-                    }
+
+                    ModalService.modalFormDialog('Add new form',[{title:'Form Name',value:'',require:true,type:'text'}], function(fields){
+                        FormService.save({},{
+                            form_name:fields[0].value,
+                            module: $scope.module
+                        }, function(form){
+                            if(!form){
+                                toaster.pop('error', "There was an error saving new form on server.");
+                            }else{
+                                toaster.pop('success', "New form was added with success");
+                                $scope.listOfForms.push(form);
+                            }
+
+                        });
+
+
+                    })
                 };
 
                 $scope.deleteForm = function(form, e){
@@ -113,7 +157,48 @@ angular.module('theBossApp')
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    ShowFormDeleteModal(form);
+                    ModalService.confirmDelete("Delete "+form.form_name+'?',function(confirmed){
+                        if(confirmed){
+                            //delete
+                            form.$delete(function(){
+                                toaster.pop('success', "Form was deleted with success");
+                            });
+
+                        }
+                    });
+                }
+
+                $scope.deleteFormField = function(form, field, e){
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+
+                    ModalService.confirmDelete("Delete "+form.form_name+'?',function(confirmed){
+                        if(confirmed){
+                            //delete
+                            form.$deleteField({fieldId:field._id}, function(){
+                                toaster.pop('success', "Form field was deleted with success");
+
+                            });
+
+                        }
+                    })
+
+                }
+
+                $scope.removeForm =  function(list,index,e){
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    ModalService.confirmDelete("Remove "+list[index].form_name+' from this form?',function(confirmed){
+                        if(confirmed){
+                            //delete
+                            list.splice(index,1);
+
+                        }
+                    })
                 }
             },
 
@@ -276,46 +361,3 @@ angular.module('theBossApp')
             };
         }]);
 
-angular.module('theBossApp')
-    .controller('FormEditCtrl', ['$scope', '$modalInstance', 'module',
-        'FormService', 'toaster', function($scope, $modalInstance,module, FormService,toaster){
-            $scope.selectedForm = {};
-            $scope.selectedForm.module = module;
-            $scope.ok = function () {
-                //validate the form here
-                //add new field
-                new FormService($scope.selectedForm).$save(function(form){
-                    if(!form){
-                        toaster.pop('error', "There was an error saving new form on server.");
-                    }else{
-                        toaster.pop('success', "New form was added with success");
-                        $modalInstance.close(form);
-                    }
-
-                });
-
-            };
-
-            $scope.cancel = function () {
-                $modalInstance.dismiss('cancel');
-            };
-        }]);
-
-angular.module('theBossApp')
-    .controller('FormDeleteCtrl', ['$scope', '$modalInstance',
-        'FormService', 'toaster', function($scope, $modalInstance, FormService,toaster){
-            $scope.form = FormService;
-            $scope.delete = function () {
-                //validate the form here
-                //add new field
-                FormService.$delete(function(){
-                    toaster.pop('success', "New form was added with success");
-                    $modalInstance.close();
-                });
-
-            };
-
-            $scope.cancel = function () {
-                $modalInstance.dismiss('cancel');
-            };
-        }]);
