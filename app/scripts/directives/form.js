@@ -72,57 +72,45 @@ angular.module('theBossApp')
                             {title:'Required', value: 'false', require:false, type:'checkbox'},
                             {title:'Show Only When', value: 'false', require:false, type:'checkbox'}
 
-                        ], function(fields){
-                            FormService.save({},{
-                                form_name:fields[0].value,
-                                module: $scope.module
-                            }, function(form){
-                                if(!form){
-                                    toaster.pop('error', "There was an error saving new form on server.");
-                                }else{
-                                    toaster.pop('success', "New form was added with success");
-                                    $scope.listOfForms.push(form);
-                                }
-
+                        ], function(model){
+                            form.$addField(model ).$promise.then(function(){
+                                toaster.pop('success', "Field "+$scope.selectedfield.title+" was added with success");
+                                $modalInstance.close($scope.selectedfield);
+                            },function(err){
+                                toaster.pop('error', "There was an error saving new field on server, "+err);
                             });
-
 
                         })
                 };
 
                 $scope.editField = function (form,field){
-                    //ShowFieldModal(field,form,$scope.module);
                     var form_fields = [];
                     angular.forEach(form.fields, function(field){
                         this.push(field.title);
                     }, form_fields);
+                    
                     ModalService.modalFormDialog('Edit field '+field.title,
                         [
                             {title:'Title', value: field.title, require:true, type:'text'},
                             {title:'Value', value: field.value, require:false, type:'text'},
                             {title:'Type', value: field.type, require:false, type:'select', show_options: field_types},
-                            {title:'Options', value: field.show_options, require:false, type:'textarea'},
-                            {title:'Required', value: field.require, require:false, type:'checkbox'},
-                            {title:'Advanced', type:'composite', show_options:[
-                                {title:'Action', value: field.action, type:'select',show_options:field_actions},
-                                {title:'When field', value: field.when, type:'select',show_options:form_fields},
-                                {title:'Condition', value: field.condition, type:'select',show_options:['eq','ls','gt','diff']},
-                                {title:'Value', value: field.condition_value, type:'text'},
-                            ]},
+                            {title:'Show Options', value: field.show_options, require:false, type:'textarea'},
+                            {title:'Require', value: field.require, require:false, type:'checkbox'},
+                            {title:'Action', value: field.action, type:'select', show_options: field_actions},
+                            {title:'When field', value: field.when, type:'select', show_options: form_fields},
+                            {title:'Condition', value: field.condition, type:'select', show_options: ['eq','ls','gt','diff']},
+                            {title:'Value', value: field.condition_value, type:'text'},
+                            
 
-                        ], function(fields){
-                        FormService.save({},{
-                            form_name:fields[0].value,
-                            module: $scope.module
-                        }, function(form){
-                            if(!form){
-                                toaster.pop('error', "There was an error saving new form on server.");
-                            }else{
-                                toaster.pop('success', "New form was added with success");
-                                $scope.listOfForms.push(form);
-                            }
-
-                        });
+                        ], function(model){
+                             FormService.updateField({id:form._id, fieldId:field._id},model, function(){
+                                toaster.pop('success', "Field "+ field.title +
+                                            " was updated with success");
+                                 field = angular.copy(model);
+                                 
+                            },function(err){
+                                toaster.pop('error', "There was an error saving field on server, "+err.message);
+                            });
 
 
                     })

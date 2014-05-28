@@ -30,7 +30,7 @@ angular.module('theBossApp')
             method: 'PUT',
             url: '/api/forms/:id/field/:fieldId',
             params: {
-                id: '@id',
+                id: '@_id',
                 fieldId: '@fieldId'
             }
         },

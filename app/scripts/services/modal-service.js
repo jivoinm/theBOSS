@@ -2,6 +2,14 @@
 
 angular.module('theBossApp')
     .service('ModalService',['$modal', function ($modal) {
+        var fieldsToModel = function(fields){
+            var model = {};
+            angular.forEach(fields, function(field){
+                model[field.title.toLowerCase().replace(' ','_')] = field.value;
+            });
+            return model;
+        }
+        
         return {
             confirmDelete: function(question, callback){
                 var modal = $modal.open({
@@ -60,9 +68,10 @@ angular.module('theBossApp')
                 });
 
                 modal.result.then(function (fields) {
-                    callback(fields);
+                    callback(fieldsToModel(fields));
                 });
             }
-
+            
+            
         }
     }]);
