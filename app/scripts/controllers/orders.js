@@ -12,16 +12,18 @@ angular.module('theBossApp')
         $scope.available_projects = [];
 
         function QueryOrders(query) {
-            OrderService.query(query).$promise.then(function (res) {
+            OrderService.query(query, function (res) {
                 pushOrderToList(res);
             })
         }
 
         $scope.search = function(filter){
             $scope.list = [];
-            var query = {query: filter.query, text: filter.text};
+            var query = {query: filter.query};
             if(filter.itemId){
                 query.text = filter.itemId;
+            }else{
+                query.textLike = filter.text;
             }
             QueryOrders(query);
 
