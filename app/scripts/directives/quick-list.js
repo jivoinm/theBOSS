@@ -1,20 +1,25 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('quickList',['$http', function ($http) {
+    .directive('quickList',['$http', 'ModalService', 'FormService', 'toaster', function ($http, ModalService, FormService, toaster) {
         return {
             templateUrl: '/views/directive-templates/quick-list.html',
             restrict: 'E',
+            transclude: true,
             scope: {
                 quickList: '=',
                 itemSelect: '&',
                 searchFilter: '=',
-                listSearch: '&'
+                listSearch: '&',
+                listFieldsToEdit: '=',
+                editableForm: '='
             },
             link: function (scope, element, attrs) {
                 scope.listType = attrs.listType || 'list';
                 scope.title = attrs.title || "Quick list";
                 scope.selectedFilter = {text:''};
+                scope.quickList = scope.quickList || [];
+
                 var pagesShown = 1;
                 var pageSize = 5;
                 scope.itemsLimit = function(){
@@ -47,8 +52,27 @@ angular.module('theBossApp')
                     }
                 }
 
-                scope.selectedResult = function(item, model, label){
+                scope.selectedResult = function(item){
                     scope.selectedFilter.itemId = item._id;
+                }
+
+                scope.addNewField = function(form){
+                    ModalService.modalFormDialog('Add new field',
+                        scope.listFieldsToEdit, function(model){
+                            if(model){
+                                if(form){
+                                    FormService.addOrUpdate({id:form._id,target:'tasks'},model, function(){
+                                        toaster.pop('success', "Field "+ model.title +" was added with success");
+                                        scope.quickList.push(model);
+                                    },function(err){
+                                        toaster.pop('error', "There was an error saving field on server, "+err.message);
+                                    });
+                                }else{
+                                    scope.quickList.push(model);
+                                }
+                            }
+                        })
+
                 }
             }
         };

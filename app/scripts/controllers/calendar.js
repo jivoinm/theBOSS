@@ -62,20 +62,7 @@ angular.module('theBossApp')
             }
         };
 
-        $scope.addEvent = function(order, index) {
-            var cal = calendarDetailFromOrder(order);
-            //remove from list
-            $scope.unscheduled_orders.splice(index,1);
-            //save to server
-            var calendarService = new CalendarService(cal);
-            calendarService.$save(function(_cal){
-                if(_cal._id){
-                    order.$setScheduled({scheduled: true},function(){
-                        $scope.events.push(cal);
-                    });
-                }
-            });
-        };
+
 
         //update calendar event on server and ui
         function updateCalendarEvent(event) {
@@ -95,21 +82,7 @@ angular.module('theBossApp')
             return color;
         }
 
-        /* add custom event*/
-        function calendarDetailFromOrder(order) {
-            var requiredDate = order.date_required ? new Date(order.date_required) : new Date(y,m,d + order.total_working_hours);
-            var start = new Date(requiredDate.setDate(requiredDate.getDate() - order.total_working_hours));
-            return {
-                owner: $scope.currentUser.owner,
-                title: order.customer.name,
-                details: order.customer.name,
-                //url: '/order/',
-                start: start,
-                end: requiredDate,
-                color: getRandomColor()
-                //allDay: true
-            };
-        };
+
 
         $scope.eventSources = [$scope.events,$scope.eventsF];
   }]);

@@ -13,7 +13,7 @@ angular.module('theBossApp', [
         'chieffancypants.loadingBar',
         'ngAnimate',
         'ngDragDrop',
-        'ng-fileuploader'
+        'angularFileUpload'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
@@ -42,6 +42,10 @@ angular.module('theBossApp', [
                 authenticate: true
             })
             .when('/orders', {
+                templateUrl: 'partials/orders',
+                controller: 'OrdersCtrl'
+            })
+            .when('/orders/:id', {
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
             })

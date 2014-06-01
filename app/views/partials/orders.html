@@ -2,24 +2,25 @@
 <div class="row">
     <div class="col-md-4">
         <quick-list quick-list="list" listType="list" title="Latest Orders"
-                    search-filter="[
-                    {query:'customer', label:'Customer', api:'/api/customer'},
-                    {query:'created_by', label:'Created By', api:'/api/users'},
-                    {query:'projects.fields', label:'Projects'},
-                    ]"
+                    search-filter="order_search_fields"
                     item-select="edit(item)" list-search="search(selectedFilter)">
+            <h4 class="list-group-item-heading">
+                <a href="" ng-click="itemSelect({item:item})">{{ item.customer.name }}</a>
+                <span class="pull-right text-muted small"><em>{{ item.date_required | timeago:true }}</em></span>
+            </h4>
+            <p class="list-group-item-text">Created By: {{ item.created_by.name }}</p>
         </quick-list>
     </div>
     <div class="col-md-8">
-
+        <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
         <tabset justified="true">
             <tab>
-                <tab-heading>Order&nbsp;<span class="badge" ng-show="total_working_hours">{{ total_working_hours }} working hours</span></tab-heading>
-                <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
+                <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
+
                     <div class="panel panel-default">
                         <!-- Default panel contents -->
                         <div class="panel-heading">Order details
-                            <div class="pull-right">
+                            <div class="pull-right" ng-hide="true">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                         Actions
@@ -43,18 +44,15 @@
                             <div field ng-model="order.customer.country" ng-field="{title:'Country', type:'select', show_options: ['Canada', 'USA'], value: 'Canada'}"></div>
 
 
-                            <forms module="Projects" list-of-forms="order.projects"></forms>
-
-                            <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
-                            <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+                            <forms module="Projects" list-of-forms="order.forms"></forms>
 
                         </div>
 
                     </div>
 
-                </form>
+
             </tab>
-            <tab heading="Tasks">
+            <tab heading="Tasks" disabled="order.forms.length==0">
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
                     <div class="panel-heading">Tasks to do on this order</div>
@@ -63,51 +61,132 @@
                             step</p>
                     </div>
 
-                    <!-- List group -->
+                    <quick-list quick-list="form.tasks" listType="list" title="{{ form.form_name }}" ng-repeat="form in order.forms"
+                                editable-form="form"
+                                list-fields-to-edit="order_task_fields">
 
-                    <div class="panel panel-default" ng-repeat="project in order.projects">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">{{ project.form_name }}</div>
-                        <div class="panel-body">
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-{{ task.status }}" ng-repeat="task in project.tasks | orderBy:'priority'">
-                                    {{ task.title }}&nbsp;<span class="badge">{{ task.duration }}</span>
-                                     <span class="pull-right" ng-repeat="status in task.status_options track by $index"><a href="" ng-click="taskStatusChange(task,status)">{{ status }}</a>&nbsp;</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <h4 class="list-group-item-heading">
+                            {{ item.title }}
+                            <span class="pull-right text-muted small"><em>{{ item.status}}</em></span>
+                        </h4>
+
+                    </quick-list>
 
                 </div>
             </tab>
-            <tab heading="Ordered material">
+            <tab heading="Ordered Accessories" disabled="!order._id">
+                    <div class=well>
+                        Add list of accessories that was ordered from the manufacturers and needs to be received.
+                    </div>
+
+                    <quick-list quick-list="order.ordered_accessories" listType="list" title="Ordered Accessories"
+                                list-fields-to-edit="order_accessories_fields">
+
+                        <h4 class="list-group-item-heading">
+                            {{ item.from_manufacturer }}
+                            <span class="pull-right text-muted small"><em>Received:{{ item.date_received | timeago}}</em></span>
+                        </h4>
+
+                    </quick-list>
+
 
             </tab>
-            <tab heading="Files">
-                <div class="panel panel-default">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">Tasks to do on this order</div>
-                    <div class="panel-body">
-                        <p>Upload files related to this order</p>
-                        <div class="form-group">
-                            <label>File</label>
-                            <div class="form-group">
-                                <div fileuploader="fileuploader" class="input-group">
-                                    <div data-ng-show="rmyFile" class="form-control">{{myFile.name}}</div>
-                                    <div data-ng-hide="myFile" class="form-control">Choose a file</div>
-                                    <div class="input-group-addon">
-                                        <div class="fa fa-lg fa-paperclip"></div>
+            <tab heading="Services" disabled="!order._id">
+                    <div class=well>
+                        Add list of services associated with this order.
+                    </div>
+
+                    <quick-list quick-list="order.services" listType="list" title="List of services"
+                                list-fields-to-edit="order_service_fields">
+
+                        <h4 class="list-group-item-heading">
+                            {{ item.details }}
+                            <span class="pull-right text-muted small"><em>Service Date:{{ item.date | timeago:true}}</em></span>
+                        </h4>
+                        <p class="list-group-item-text">To be done by: {{ item.done_by }}</p>
+                    </quick-list>
+
+
+            </tab>
+            <tab heading="Files" disabled="!order._id">
+                <div class=well>
+                    Add list of files associated with this order.
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Select Files</label>
+                        <div class="col-sm-8">
+                            <input type="file" ng-file-select="onFileSelect($files)" multiple class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"></label>
+                        <div class="col-sm-8">
+                            <label>
+                                <input type="checkbox" ng-model="uploadRightAway">Upload right away {{ uploadRightAway }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"></label>
+                        <div class="col-sm-8">
+                            <div class="drop-box" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class" ng-show="dropSupported">drop files here</div>
+                            <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <div ng-show="selectedFiles != null">Uploading files</div>
+                                <div ng-show="!selectedFiles">No files selected</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row"  ng-repeat="f in selectedFiles">
+                                    <div class="col-sm-6">
+                                        <progressbar value="progress[$index]"><i>{{ f.name }}</i></progressbar>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button ng-show="progress[$index] < 0" ng-click="start($index)" class="button ng-hide">Start</button>
+                                        <button ng-show="hasUploader($index) && progress[$index] < 100" ng-click="abort($index)" class="button ng-hide">Abort</button>
                                     </div>
                                 </div>
+                                <button ng-click="upload.abort()" ng-show="hasUploadingInProgress()" class="form-control">Cancel Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                Uploaded files
+                            </div>
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    <a href="/uploads/{{ f.filename }}" target="_blank" class="list-group-item" ng-repeat="f in order.uploaded_files">
+                                        {{ f.filename }}
+                                        <span class="badge">{{ f.size }} kb</span>
+                                    </a>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
+
             </tab>
+
+
         </tabset>
+            <div class="well">
+                <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
+                <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+            </div>
+
+        </form>
     </div>
-
-
-
 </div>

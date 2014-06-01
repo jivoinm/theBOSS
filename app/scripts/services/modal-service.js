@@ -68,7 +68,10 @@ angular.module('theBossApp')
                 });
 
                 modal.result.then(function (fields) {
-                    callback(fieldsToModel(fields));
+                    if(fields)
+                    {
+                        callback(fieldsToModel(fields));
+                    }
                 });
             }
             

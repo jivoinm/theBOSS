@@ -34,6 +34,15 @@ angular.module('theBossApp')
                 fieldId: '@fieldId'
             }
         },
+        'addOrUpdate':{
+            method: 'PUT',
+            url: '/api/forms/:id/:target/:targetId',
+            params: {
+                id: '@id',
+                targetId: '@targetId',
+                target: '@target'
+            }
+        },
         'addFieldOption': {
             method: 'PUT',
             url: '/api/forms/:module/:field/:option',

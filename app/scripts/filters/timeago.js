@@ -13,21 +13,21 @@ angular.module('theBossApp')
             //refreshMillis= 6e4, //A minute
                 allowFuture = p_allowFuture || false,
                 strings = {
-                    prefixAgo: null,
-                    prefixFromNow: null,
-                    suffixAgo: "ago",
-                    suffixFromNow: "from now",
-                    seconds: "less than a minute",
-                    minute: "about a minute",
-                    minutes: "%d minutes",
-                    hour: "about an hour",
-                    hours: "about %d hours",
-                    day: "a day",
-                    days: "%d days",
-                    month: "about a month",
-                    months: "%d months",
-                    year: "about a year",
-                    years: "%d years"
+                 prefixAgo: null,
+                 prefixFromNow: null,
+                 suffixAgo: "ago",
+                 suffixFromNow: "from now",
+                 seconds: "less than a minute",
+                 minute: "about a minute",
+                 minutes: "%d minutes",
+                 hour: "about an hour",
+                 hours: "about %d hours",
+                 day: "a day",
+                 days: "%d days",
+                 month: "about a month",
+                 months: "%d months",
+                 year: "about a year",
+                 years: "%d years"
                 },
                 dateDifference = nowTime - date,
                 words,
@@ -61,7 +61,7 @@ angular.module('theBossApp')
                 years < 1.5 && substitute(strings.year, 1, strings) ||
                 substitute(strings.years, Math.round(years), strings);
 
-            return $.trim([prefix, words, suffix].join(separator));
+            return !input ? '' : $.trim([prefix, words, suffix].join(separator));
             // conditional based on optional argument
             // if (somethingElse) {
             //     out = out.toUpperCase();

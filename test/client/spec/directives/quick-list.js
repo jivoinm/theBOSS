@@ -77,4 +77,18 @@ describe('Directive: quickList', function () {
         $httpBackend.flush();
         expect(element.find(":Customer1 ordered")).toBeTruthy();
     });
+    it("should not show search if not set on directive", function(){
+        var element = angular.element('<quick-list></quick-list>');
+        element = $compile(element)(scope);
+        scope.$digest();
+        $httpBackend.flush();
+        expect(element.find("#search_concept").length).toBe(0);
+    });
+    it("should show add new button on the header if editable form is set", function(){
+        var element = angular.element('<quick-list editableForm="[]"></quick-list>');
+        element = $compile(element)(scope);
+        scope.$digest();
+        $httpBackend.flush();
+        expect(element.find("#add").length).toBe(1);
+    });
 });

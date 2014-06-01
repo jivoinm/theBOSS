@@ -19,18 +19,19 @@
         <accordion close-others="oneAtATime">
             <accordion-group heading="{{form.form_name}}" ng-repeat="form in listOfForms" is-open="$index==0">
                 <accordion-heading>
-                    {{form.form_name}}
+                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)"></i>
 
+                    <span>{{form.form_name}}</span>
                     <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.form_name}}">
-                        <button type="button" class="btn btn-default fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)"></button>
+
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
-                        <button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete(form,$event)"></button>
+                        <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>
                     </div>
 
 
                 </accordion-heading>
 
-                <field ng-model="field.value" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)" delete="deleteFormField(form,field)"></field>
+                <field ng-model="field.value" index="$index" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)" delete="deleteFormField(form,field,$index)"></field>
 
             </accordion-group>
         </accordion>
