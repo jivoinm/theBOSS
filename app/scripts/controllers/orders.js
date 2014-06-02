@@ -51,16 +51,31 @@ angular.module('theBossApp')
         $scope.saveOrder = function(form){
             $scope.submitted = true;
             if (form.$valid) {
+                var isNewOrder = false;
                 if(!$scope.order._id){
                     $scope.order = new OrderService($scope.order);
+                    isNewOrder = true;
                 }
-                var localOrder = angular.copy($scope.order);
-                $scope.order.$save({orderId:$scope.order._id},function(){
+
+                $scope.order.$save({orderId:$scope.order._id},function(orderSaved){
                     $scope.submitted = false;
                     loadLatestOrders();
-                    $scope.addEvent(localOrder);
-                    $scope.order = {};
-                    toaster.pop('success', $scope.order._id ? "Existing Order was updated":"New order was created with success");
+                    if(orderSaved && !orderSaved.scheduled){
+                        $scope.addEvent(orderSaved,function(cal){
+
+                            new OrderService.setScheduled({
+                                id:orderSaved._id,
+                                scheduled:true
+                            },function(){
+                                $scope.order = {};
+                                toaster.pop('success', "Your order was scheduled to be delivered on "+ cal.end);
+                            });
+
+                        });
+                    }else{
+                        $scope.order = {};
+                    }
+                    toaster.pop('success', !isNewOrder ? "Existing Order was updated":"New order was created with success");
                 },function(err){
                     toaster.pop('error', "Error saving the order",err.message? err.message : err);
                 });
@@ -207,13 +222,13 @@ angular.module('theBossApp')
             }
         };
 
-        $scope.addEvent = function(order) {
+        $scope.addEvent = function(order, updateOrderAsScheduled) {
             var cal = calendarDetailFromOrder(order);
             //save to server
             var calendarService = new CalendarService(cal);
             calendarService.$save(function(_cal){
                 if(_cal._id){
-                    toaster.pop('success', "Your order was scheduled to be delivered on "+ order.date_required);
+                    updateOrderAsScheduled(_cal);
                 }
             });
         };
