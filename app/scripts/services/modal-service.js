@@ -45,6 +45,16 @@ angular.module('theBossApp')
                     callback(confirmed);
                 });
             },
+            showPopup: function(title, body){
+                var modal = $modal.open({
+                    template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"> '+body+' </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
+                    controller: function($scope, $modalInstance){
+                        $scope.close = function(){
+                            $modalInstance.close();
+                        }
+                    }
+                });
+            },
 
             modalFormDialog: function(title,fields, callback){
                 var modal = $modal.open({

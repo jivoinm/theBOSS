@@ -2,7 +2,7 @@
 
 angular.module('theBossApp')
 
-  .controller('CalendarCtrl',['$scope','CalendarService', 'OrderService', function ($scope, CalendarService, OrderService) {
+  .controller('CalendarCtrl',['$scope','CalendarService', 'OrderService', 'ModalService', function ($scope, CalendarService, OrderService, ModalService) {
         $scope.$parent.pageHeader = 'Calendar';
         $scope.unscheduled_orders = [];
         $scope.events = [];
@@ -35,7 +35,7 @@ angular.module('theBossApp')
         };
 
         $scope.eventClick = function (event){
-            console.log(event);
+            ModalService.showPopup('Event details',event.details);
         };
 
         $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){
