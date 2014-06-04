@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', '$upload', '$timeout', 'CalendarService', function ($scope, OrderService, User, FormService, toaster, $upload, $timeout, CalendarService) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', 'CalendarService', function ($scope, OrderService, User, FormService, toaster,  CalendarService) {
         var date = new Date();
         var requiredDate = new Date(new Date().setDate(date.getDate()+21));
 
@@ -124,103 +124,7 @@ angular.module('theBossApp')
         });
 
 
-        $scope.uploadRightAway = true;
-        $scope.hasUploader = function(index) {
-            return $scope.upload[index] != null;
-        };
-
-        $scope.hasUploadingInProgress = function(){
-            angular.forEach($scope.progress, function(percent){
-                return percent < 100;
-            })
-        };
-
-        $scope.abort = function(index) {
-            $scope.upload[index].abort();
-            $scope.upload[index] = null;
-        };
-
-        $scope.onFileSelect = function($files) {
-
-            $scope.progress = [];
-            if ($scope.upload && $scope.upload.length > 0) {
-                for (var i = 0; i < $scope.upload.length; i++) {
-                    if ($scope.upload[i] != null) {
-                        $scope.upload[i].abort();
-                    }
-                }
-            }
-            $scope.upload = [];
-            $scope.selectedFiles = $files;
-            $scope.dataUrls = [];
-            for ( var i = 0; i < $files.length; i++) {
-                var $file = $files[i];
-                if (window.FileReader && $file.type.indexOf('image') > -1) {
-                    var fileReader = new FileReader();
-                    fileReader.readAsDataURL($files[i]);
-                    var loadFile = function(fileReader, index) {
-                        fileReader.onload = function(e) {
-                            $timeout(function() {
-                                $scope.dataUrls[index] = e.target.result;
-                            });
-                        }
-                    }(fileReader, i);
-                }
-                $scope.progress[i] = -1;
-                if ($scope.uploadRightAway) {
-                    $scope.start(i);
-                }
-            }
-        };
-
-        $scope.start = function(index) {
-            $scope.progress[index] = 0;
-            $scope.errorMsg = null;
-
-            $scope.upload[index] = $upload.upload({
-                url : '/api/orders/'+$scope.order._id+'/upload',
-                method: 'POST',
-                //headers: {'my-header': 'my-header-value'},
-                data : {
-                    order_id : $scope.order._id
-                },
-                /* formDataAppender: function(fd, key, val) {
-                 if (angular.isArray(val)) {
-                 angular.forEach(val, function(v) {
-                 fd.append(key, v);
-                 });
-                 } else {
-                 fd.append(key, val);
-                 }
-                 }, */
-                /* transformRequest: [function(val, h) {
-                 console.log(val, h('my-header')); return val + 'aaaaa';
-                 }], */
-                file: $scope.selectedFiles[index]
-
-            }).then(function(response) {
-                    $scope.order.uploaded_files.push(response.data);
-                    $scope.progress[index] = 100;
-                }, function(response) {
-                    if (response.status > 0) $scope.errorMsg = response.status + ': ' + response.data;
-
-                }, function(evt) {
-                    // Math.min is to fix IE which reports 200% sometimes
-                    $scope.progress[index] = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                }).xhr(function(xhr){
-                    xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
-                });
-
-        };
-
-        $scope.resetInputFile = function() {
-            var elems = document.getElementsByTagName('input');
-            for (var i = 0; i < elems.length; i++) {
-                if (elems[i].type == 'file') {
-                    elems[i].value = null;
-                }
-            }
-        };
+      
 
         $scope.addEvent = function(order, updateOrderAsScheduled) {
             var cal = calendarDetailFromOrder(order);
@@ -240,7 +144,7 @@ angular.module('theBossApp')
             return {
                 owner: $scope.currentUser.owner,
                 title: order.customer.name,
-                details: order.customer.name,
+                details: order,
                 //url: '/order/',
                 start: start,
                 end: requiredDate,

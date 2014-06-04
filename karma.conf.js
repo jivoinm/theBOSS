@@ -30,7 +30,8 @@ module.exports = function(config) {
             'app/bower_components/AngularJS-Toaster/toaster.js',
             'app/bower_components/angular-loading-bar/src/loading-bar.js',
             'app/bower_components/angular-dragdrop/src/angular-dragdrop.js',
-            'app/bower_components/angular-fileuploader/dist/angular-fileuploader.js',
+            'app/bower_components/ng-file-upload/angular-file-upload.js',
+            'app/bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.js',
 
             'app/scripts/*.js',
             'app/scripts/**/*.js',
