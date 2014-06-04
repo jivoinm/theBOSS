@@ -137,19 +137,28 @@ angular.module('theBossApp')
             });
         };
 
+        function getOrderDetails(order){
+            var details = 'Due date:'+order.date_required+'<br>';
+            details += 'Created by:'+order.created_by.name+'<br>';
+            details += 'Files:<br>';
+            angular.forEach(order.order_files,function(file){
+                details += file.filename + '<br>';
+            });
+            return details;
+        }
         /* add custom event*/
         function calendarDetailFromOrder(order) {
             var requiredDate = new Date(order.date_required);
             var start = new Date(requiredDate.setHours(requiredDate.getHours() - order.total_working_hours));
             return {
                 owner: $scope.currentUser.owner,
-                title: order.customer.name,
-                details: order,
-                //url: '/order/',
+                title: order.customer.name +' - '+order.created_by.name,
+                details: getOrderDetails(order),
+                url: '/order/'+order._id,
                 start: start,
                 end: requiredDate,
-                color: ''
-                //allDay: true
+                color: 'green',
+                allDay: true
             };
         };
     }]);
