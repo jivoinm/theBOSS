@@ -15,7 +15,7 @@ angular.module('theBossApp').
             }
         };
     }).
-    directive('messages', ['$http', function ($http) {
+    directive('messages', ['Message', function (Message) {
         return {
             controller: function ($scope) {
                 $scope.showBadge = function () {
@@ -24,29 +24,35 @@ angular.module('theBossApp').
 
             },
             restrict: 'E',
-            //replace: true,
             templateUrl: '/views/directive-templates/layouts/messages.html',
-            link: function (scope, element, attrs) {
+            link: function (scope) {
                 scope.messages = [];
-                $http.get('/api/messages').success(function (data) {
+                Message.query().$promise.then(function(data){
                     scope.messages = data;
-                });
+                })
+
+                scope.sendMessage = function(){
+                    if(scope.message){
+                        var messageService = new Message({
+                            type: 'info',
+                            content: scope.message
+                        });
+                        messageService.$save(function(message){
+                            scope.messages.unshift(message);
+                            scope.message = null;
+                        });
+                    }
+                }
             }
         };
     }]).
-    directive('tasks', ['$http', function ($http) {
+    directive('tasks', ['OrderService', function (OrderService) {
         return {
-            controller: function ($scope) {
-                $scope.getWorkedPercentage = function (task) {
-                    return task ? Math.round(((task.now - task.min) / (task.max - task.min) * 100)) : 0;
-                }
-            },
             restrict: 'E',
-            //replace: true,
             templateUrl: '/views/directive-templates/layouts/tasks.html',
             link: function (scope, element, attrs) {
                 scope.orders = [];
-                $http.get('/api/orders').success(function (data) {
+                OrderService.query().$promise.then(function(data){
                     scope.orders = data;
                 });
             }

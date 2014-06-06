@@ -1,0 +1,40 @@
+<p ng-if="!order">This is the order-details view.</p>
+<div ng-if="order" class="table-responsive">
+    <table class="table">
+        <tr>
+            <td>Customer</td>
+            <td>{{ order.customer.name }}</td>
+        </tr>
+        <tr>
+            <td>Created by</td>
+            <td>{{ order.created_by.name }}</td>
+        </tr>
+        <tr>
+            <td>Last updated by</td>
+            <td>{{ order.last_updated_by.name }}</td>
+        </tr>
+        <tr>
+            <td>Last updated on</td>
+            <td>{{ order.last_updated_on }} </td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{ order.status }}</td>
+        </tr>
+    </table>
+
+    <div class="panel panel-default" ng-show="order.uploaded_files">
+        <!-- Default panel contents -->
+        <div class="panel-heading">List of attached files to this order</div>
+        <div class="panel-body">
+            <div class="list-group">
+                <a href="/uploads/{{ f.filename }}" target="_blank" class="list-group-item" ng-repeat="f in order.uploaded_files">
+                    {{ f.filename }}
+                    <span class="badge">{{ f.size }} kb</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+

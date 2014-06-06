@@ -1,17 +1,35 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <i class="fa fa-bell fa-fw"></i> Messages <span class="badge" ng-show="showBadge()">{{ messages.length }}</span>
+<quick-list quick-list="messages" list-type="comments" title="Messages"
+            search-filter="messageSearch"
+            >
+    <ul class="chat">
+        <li class="left clearfix">
+                <span class="chat-img pull-left">
+                    <img class="img-circle" alt="{{ item.from }}" src="http://placehold.it/50/55C1E7/fff">
+                </span>
+            <div class="chat-body clearfix">
+                <div class="header">
+                    <strong class="primary-font">{{ item.from }}</strong>
+                    <small class="pull-right text-muted">
+                        <i class="fa fa-clock-o fa-fw"></i> {{ item.posted_on | timeago }}
+                    </small>
+                </div>
+                <p>
+                    {{ item.content }}
+                </p>
+            </div>
+        </li>
+
+    </ul>
+</quick-list>
+<div class="panel-footer">
+    <div class="input-group">
+
+        <input type="text" placeholder="Type your message here..." class="form-control input-sm" id="btn-input" ng-model="message">
+            <span class="input-group-btn">
+                <button id="btn-chat" class="btn btn-warning btn-sm" ng-click="sendMessage()">
+                    Send
+                </button>
+            </span>
+
     </div>
-    <!-- /.panel-heading -->
-    <div class="panel-body">
-        <div class="list-group">
-            <a href="#" class="list-group-item" ng-repeat="message in messages">
-                <i class="fa fa-{{ message.type }} fa-fw"></i> {{ message.from }} {{ message.content }}
-                <span class="pull-right text-muted small"><em>{{ message.time | timeago }}</em></span>
-            </a>
-        </div>
-        <!-- /.list-group -->
-        <a href="#" class="btn btn-default btn-block">View All</a>
-    </div>
-    <!-- /.panel-body -->
 </div>

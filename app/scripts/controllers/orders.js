@@ -153,8 +153,8 @@ angular.module('theBossApp')
             return {
                 owner: $scope.currentUser.owner,
                 title: order.customer.name +' - '+order.created_by.name,
-                details: getOrderDetails(order),
-                url: '/order/'+order._id,
+                details: 'http://localhost:9000/order-details/'+order._id,
+               // url: '/order/'+order._id,
                 start: start,
                 end: requiredDate,
                 color: 'green',
