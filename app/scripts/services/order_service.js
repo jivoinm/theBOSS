@@ -15,12 +15,10 @@ angular.module('theBossApp')
                 },
                 isArray: true
             },
+
             'tasks': {
-                url: '/api/orders/:orderId/tasks',
+                url: '/api/orders/tasks',
                 method: 'GET',
-                params: {
-                    orderId:'@id'
-                },
                 isArray: true
             },
             'unscheduledOrders': {
