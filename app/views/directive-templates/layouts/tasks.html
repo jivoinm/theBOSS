@@ -1,47 +1,16 @@
-<quick-list quick-list="orders" list-type="list" title="Work log">
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-success">
-            <div class="row">
-                <div class="col-sm-4">asd</div>
-                <div class="col-sm-4">asd</div>
-            </div>
-        </li>
+<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status)">
+    <div ng-repeat='form in item.forms'>
+        {{ form.form_name }}
+        <ul class="list-group">
 
-    </ul>
-</quick-list>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <i class="fa fa-bell fa-fw"></i> Work log
-    </div>
-    <!-- /.panel-heading -->
-    <div class="panel-body">
-        <accordion close-others="oneAtATime">
-            <accordion-group heading="{{order.customer.name}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" ng-repeat="order in orders">
-            <div class="panel panel-default" ng-repeat="project in order.projects">
-                <div class="panel-heading">
-                    {{project.project}}
+            <li class="list-group-item" ng-class="{'list-group-item-danger': !task.status, 'list-group-item-warning': task.status==='start', 'list-group-item-success': task.status==='finish'}" ng-repeat="task in form.tasks">
+                <div class="row">
+                    <div class="col-sm-4">{{ task.status ? task.status : 'Not Started' }}</div>
+                    <div class="col-sm-4" ng-if="task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'finish'})">Finish</a></div>
+                    <div class="col-sm-4" ng-if="!task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'start'})">Start</a></div>
                 </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
+            </li>
 
-                    <div class="list-group">
-                        <a href="" class="list-group-item" ng-repeat="task in project.tasks">
-                            <div>
-                                <p>
-                                    <strong>{{ task.title }} : {{ task.duration }}</strong>
-                                </p>
-                                <progressbar value="55"></progressbar></div>
-                           
-                        </a>
-                      
-                    </div>
-                </div>              
-            </div>              
-            </accordion-group>
-        </accordion>
-        <!-- /.list-group -->
-        <a href="#/calendar" class="btn btn-default btn-block">View All</a>
+        </ul>
     </div>
-    <!-- /.panel-body -->
-</div>
+</quick-list>

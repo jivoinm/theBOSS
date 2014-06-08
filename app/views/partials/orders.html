@@ -74,7 +74,7 @@
 
                 </div>
             </tab>
-            <tab heading="Ordered Accessories" disabled="!order._id">
+            <tab heading="Accessories" disabled="!order._id">
                     <div class=well>
                         Add list of accessories that was ordered from the manufacturers and needs to be received.
                     </div>
@@ -86,7 +86,7 @@
                             {{ item.from_manufacturer }}
                             <span class="pull-right text-muted small"><em>Received:{{ item.date_received | timeago}}</em></span>
                         </h4>
-
+                        <p class="list-group-item-text">{{ item.description }}</p>
                     </quick-list>
 
 

@@ -74,6 +74,11 @@ angular.module('theBossApp')
                         'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
+                case 'number':
+                    fieldTemplate = '<input type="number" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                    fieldTemplate = formField(fieldTemplate);
+                    break;
                 case 'hidden':
                     fieldTemplate = '<input type="hidden" class="form-control" name="fieldName" ng-model="model" value="{{field.value}}"/>';
                     fieldTemplate = formField(fieldTemplate);
@@ -144,7 +149,7 @@ angular.module('theBossApp')
                 case 'tokens':
 
                     fieldTemplate = '<input type="text" class="form-control tokenfield" name="fieldName"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                        'ng-model="model" ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'composite':

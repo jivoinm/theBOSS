@@ -4,14 +4,10 @@ angular.module('theBossApp').
     directive('topNav',function () {
         return {
             restrict: 'E',
-            scope: {
-                title: '='
-            },
+
             templateUrl: '/views/directive-templates/layouts/top-nav.html',
-            link: function (scope) {
-                if (scope.$parent.currentUser) {
-                    scope.owner = scope.$parent.currentUser.owner;
-                }
+            link: function (scope, elem, attrs) {
+                scope.title = attrs.title;
             }
         };
     }).
@@ -52,9 +48,20 @@ angular.module('theBossApp').
             templateUrl: '/views/directive-templates/layouts/tasks.html',
             link: function (scope, element, attrs) {
                 scope.orders = [];
-                OrderService.query().$promise.then(function(data){
+                OrderService.tasks().$promise.then(function(data){
                     scope.orders = data;
                 });
+
+                scope.setTaskStatus = function(order,form,taskIndex,task,status){
+                    task.changed_by = scope.currentUser._id;
+                    task.changed_on = new Date();
+                    task.status = status;
+                    order.$save(function(){
+                        if(status=='finish'){
+                            form.tasks.splice(taskIndex,1);
+                        }
+                    });
+                };
             }
         };
     }]).
@@ -75,13 +82,21 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('navUser',function () {
+    directive('navUser',['Auth','$location', function (Auth, $location) {
         return {
             restrict: 'E',
-            //replace: true,
-            templateUrl: '/views/directive-templates/layouts/top-nav-user.html'
+            templateUrl: '/views/directive-templates/layouts/top-nav-user.html',
+            link: function(scope){
+                scope.logout = function () {
+                    Auth.logout()
+                        .then(function () {
+                            $location.path('/login');
+                        });
+                };
+            }
         };
-    }).
+    }]).
+
     directive('sbSidebar',function () {
         return {
             restrict: 'E',
@@ -96,7 +111,7 @@ angular.module('theBossApp').
             templateUrl: '/views/directive-templates/layouts/sidebar-search.html'
         };
     }).
-    directive('sbSidebarMenus', ['$http', '$timeout', function ($http, $timeout) {
+    directive('sbSidebarMenus', ['$http', '$timeout','Auth', function ($http, $timeout,Auth) {
         return {
             restrict: 'A',
             replace: false,
@@ -107,6 +122,7 @@ angular.module('theBossApp').
                 }
 
                 scope.menus = [];
+
                 $http.get(attrs.menusUrl).success(function (data) {
                     scope.menus = data;
 
@@ -114,6 +130,7 @@ angular.module('theBossApp').
                         element.metisMenu();
                     });
                 });
+
             }
         };
     }]).

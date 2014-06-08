@@ -28,7 +28,7 @@ angular.module('theBossApp')
         },
         'updateField':{
             method: 'PUT',
-            url: '/api/forms/:id/field/:fieldId',
+            url: '/api/forms/:id/fields/:fieldId',
             params: {
                 id: '@_id',
                 fieldId: '@fieldId'

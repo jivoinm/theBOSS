@@ -2,12 +2,15 @@
 
 angular.module('theBossApp')
     .directive('forms', ['FormService', 'ModalService', 'toaster', function (FormService, ModalService, toaster) {
-        var field_types = ['text', 'email','password','radio','select','date','textarea','checkbox','hidden','composite'];
+        var field_types = ['text','number', 'email','password','radio','select','date','textarea','checkbox','hidden','composite'];
         var field_actions = ['Show','Hide'];
 
         function ngModelPopulate(model, field) {
             angular.forEach(model, function (property, key) {
-                field[key] = property;
+                if(key != 'value' || field[key] == null)
+                {
+                    field[key] = property;
+                }
             });
         }
 
@@ -43,7 +46,7 @@ angular.module('theBossApp')
                         {title: 'Value', value: field.value, require: false, type: 'text'},
                         {title: 'Type', value: field.type, require: true, type: 'select', show_options: field_types},
                         {title: 'Show Options', value: field.show_options, require: false, type: 'tokens'},
-                        {title: 'Require', value: field.require, require: false, type: 'checkbox'},
+                        {title: 'Require', value: field.require, require: false, type: 'checkbox'}
 //                            {title:'Action', value: field.action, type:'select', show_options: field_actions},
 //                            {title:'When field', value: field.when, type:'select', show_options: form_fields},
 //                            {title:'Condition', value: field.condition, type:'select', show_options: ['eq','ls','gt','diff']},

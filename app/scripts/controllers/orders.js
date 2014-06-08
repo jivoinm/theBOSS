@@ -14,7 +14,7 @@ angular.module('theBossApp')
         $scope.available_projects = [];
         $scope.order_search_fields = [{query:'customer', label:'Customer', api:'/api/customer'},{query:'created_by', label:'Created By', api:'/api/users'},{query:'projects.fields', label:'Projects'}];
         $scope.order_task_fields = [{title:'Title', type:'text', require: true},{title:'Duration', type:'text', require: true},{title:'Status Options', type:'textarea', require: true}];
-        $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true}, {title:'Quantity', type:'text', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
+        $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
         $scope.order_service_fields = [{title:'Service Date', type:'date', require: true}, {title:'Details', type:'textarea', require: true},{title:'Done By', type:'text', require: false}];
 
         function QueryOrders(query) {
@@ -76,8 +76,8 @@ angular.module('theBossApp')
                         $scope.order = {};
                     }
                     toaster.pop('success', !isNewOrder ? "Existing Order was updated":"New order was created with success");
-                },function(err){
-                    toaster.pop('error', "Error saving the order",err.message? err.message : err);
+                },function(){
+                    toaster.pop('error', "Error saving the order");
                 });
             }
         }
@@ -96,17 +96,6 @@ angular.module('theBossApp')
             });
         }
 
-        $scope.taskStatusChange = function(task,status){
-            task.changed_by = $scope.currentUser._id;
-            task.changed_on = new Date();
-            if(task.status)
-                task.status_options.splice(task.status_options.indexOf(task.status),1);
-            task.status = status;
-            $scope.order.$save(function(order){
-                toaster.pop('success', "Task status was changed to "+status);
-                $scope.order = order;
-            });
-        }
 
         loadLatestOrders();
         $scope.$watchCollection('order.forms',function(){
