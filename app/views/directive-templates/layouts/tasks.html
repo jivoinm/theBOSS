@@ -1,13 +1,16 @@
 <quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status)">
     <div ng-repeat='form in item.forms'>
-        {{ form.form_name }}
+        <span class="label label-default">
+        Customer: {{ item.customer.name }} - P.O.#{{ item.po_number }} - {{ form.form_name }}
+        </span>
+
         <ul class="list-group">
 
             <li class="list-group-item" ng-class="{'list-group-item-danger': !task.status, 'list-group-item-warning': task.status==='start', 'list-group-item-success': task.status==='finish'}" ng-repeat="task in form.tasks">
                 <div class="row">
-                    <div class="col-sm-4">{{ task.status ? task.status : 'Not Started' }}</div>
-                    <div class="col-sm-4" ng-if="task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'finish'})">Finish</a></div>
-                    <div class="col-sm-4" ng-if="!task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'start'})">Start</a></div>
+                    <div class="col-xs-4">{{ task.title }} [{{ task.status ? task.status : 'Not Started' }}]</div>
+                    <div class="col-xs-4" ng-if="task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'finish'})">Finish</a></div>
+                    <div class="col-xs-4" ng-if="!task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'start'})">Start</a></div>
                 </div>
             </li>
 

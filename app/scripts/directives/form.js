@@ -78,10 +78,28 @@ angular.module('theBossApp')
 
                 $scope.addNewForm = function(e){
                     StopEventPropagation(e);
+                    var forms_to_clone_from =[];
+                    angular.forEach($scope.moduleForms ,function(form){
+                        this.push(form.form_name);
+                    },forms_to_clone_from)
 
-                    ModalService.modalFormDialog('Add new form',[{title:'Form Name',value:'',require:true,type:'text'}], function(model){
-                        model.module = $scope.module;
-                        FormService.save({},model, function(form){
+                    ModalService.modalFormDialog('Add new form',[
+                        {title:'Form Name',value:'',require:true,type:'text'},
+                        {title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from},
+                        ], function(model){
+                        var newForm = {};
+                        if(model.clone_from){
+                            angular.forEach($scope.moduleForms, function(form){
+                                if(form.form_name == model.clone_from){
+                                    newForm = angular.copy(form);
+                                    delete newForm._id;
+                                }
+                            })
+                        }
+                        newForm.form_name = model.form_name
+                        newForm.module = $scope.module;
+
+                        FormService.save({},newForm, function(form){
                             if(!form){
                                 toaster.pop('error', "There was an error saving new form on server.");
                             }else{

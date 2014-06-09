@@ -67,13 +67,13 @@ angular.module('theBossApp')
                                 id:orderSaved._id,
                                 scheduled:true
                             },function(){
-                                $scope.order = {};
+                                $scope.reset();
                                 toaster.pop('success', "Your order was scheduled to be delivered on "+ cal.end);
                             });
 
                         });
                     }else{
-                        $scope.order = {};
+                        $scope.reset();
                     }
                     toaster.pop('success', !isNewOrder ? "Existing Order was updated":"New order was created with success");
                 },function(){
@@ -85,6 +85,7 @@ angular.module('theBossApp')
         $scope.reset = function(){
             $scope.order = {};
             $scope.submitted = false;
+            $scope.order.date_required = new Date(new Date().setDate(date.getDate()+21));
         }
 
         $scope.addProject = function(form){

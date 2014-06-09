@@ -13,7 +13,7 @@ angular.module('theBossApp')
         },
         'addField':{
             method: 'PUT',
-            url: '/api/forms/:id/field',
+            url: '/api/forms/:id/fields',
             params: {
                 id: '@id'
             }

@@ -8,11 +8,6 @@ angular.module('theBossApp')
         $scope.events = [];
         $scope.scheduled_orders = [];
 
-        OrderService.unscheduledOrders().$promise.then(function (orders){
-            $scope.unscheduled_orders = orders;
-        }, function (err){
-
-        });
 
         var date = new Date();
         var d = date.getDate();
