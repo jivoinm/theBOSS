@@ -23,6 +23,8 @@ angular.module('theBossApp').
             templateUrl: '/views/directive-templates/layouts/messages.html',
             link: function (scope) {
                 scope.messages = [];
+                scope.newMessageForm = [{isInline:true, title:'Message', type:'text', require: true, action: {click:scope.sendMessage, title:'Send'}}];
+
                 Message.query().$promise.then(function(data){
                     scope.messages = data;
                 })
@@ -42,10 +44,35 @@ angular.module('theBossApp').
             }
         };
     }]).
+    directive('accessories', ['OrderService', function (OrderService) {
+        return {
+            restrict: 'E',
+            templateUrl: '/views/directive-templates/layouts/accessories.html',
+            scope:{},
+            link: function (scope) {
+                scope.orders = [];
+                OrderService.accessories().$promise.then(function(data){
+                    scope.orders = data;
+                })
+
+                scope.received = function(order,accessory){
+                    accessory.received_by = scope.$root.currentUser._id;
+                    accessory.date_received = new Date();
+
+                    order.$save(function(){
+                        if(status=='finish'){
+                            form.tasks.splice(taskIndex,1);
+                        }
+                    });
+                };
+            }
+        };
+    }]).
     directive('tasks', ['OrderService', function (OrderService) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
+            scope:{},
             link: function (scope, element, attrs) {
                 scope.orders = [];
                 OrderService.tasks().$promise.then(function(data){
@@ -53,7 +80,7 @@ angular.module('theBossApp').
                 });
 
                 scope.setTaskStatus = function(order,form,taskIndex,task,status){
-                    task.changed_by = scope.currentUser._id;
+                    task.changed_by = scope.$root.currentUser._id;
                     task.changed_on = new Date();
                     task.status = status;
                     order.$save(function(){

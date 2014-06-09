@@ -5,9 +5,10 @@ angular.module('theBossApp')
 
 
         var formField = function(field){
+            //var action = '<div class="col-lg-6"><div class="input-group">'+field+'<span class="input-group-btn"><button class="btn btn-default" type="button" ng-click="{{ field.action.click }}">{{ field.action.title }}</button></span></div></div>';
             return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" class="btn btn-default">' +
                 '<label class="control-label" ng-class="{\'col-sm-2\' : !isInine}">{{field.title}}</label>' +
-                '<div class="col-sm-8" ng-class="{\'col-sm-8\' : !isInine}">'+field+'</div>' +
+                '<div class="col-sm-8" ng-class="{\'col-sm-8\' : !isInine}">'+ field+'</div>' +
                     '<div class="col-sm-2" ng-show="!isInline">'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                             '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field,index)"></button>' +

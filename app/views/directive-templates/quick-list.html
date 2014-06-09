@@ -57,5 +57,23 @@
         <!-- /.list-group -->
 
     </div>
+    <div class="panel-footer" ng-if="footerForms">
+        <div class="row">
+            <field ng-model="field.value" ng-field="field" action="field.action.click" ng-repeat="field in footerForm"></field>
+        </div>
+
+    </div>
+    <div class="panel-footer" ng-if="footerForm">
+        <div class="input-group">
+
+            <input type="text" placeholder="Type your message here..." class="form-control input-sm" id="btn-input" ng-model="message">
+            <span class="input-group-btn">
+                <button id="btn-chat" class="btn btn-warning btn-sm" ng-click="sendMessage()">
+                    Send
+                </button>
+            </span>
+
+        </div>
+    </div>
     <!-- /.panel-body -->
 </div>

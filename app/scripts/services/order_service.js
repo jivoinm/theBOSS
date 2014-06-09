@@ -21,6 +21,12 @@ angular.module('theBossApp')
                 method: 'GET',
                 isArray: true
             },
+            'accessories': {
+                url: '/api/orders/accessories',
+                method: 'GET',
+                isArray: true
+            },
+
             'unscheduledOrders': {
                 url: '/api/orders/unscheduled',
                 method: 'GET',

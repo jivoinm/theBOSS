@@ -12,7 +12,8 @@ angular.module('theBossApp')
                 searchFilter: '=',
                 listSearch: '&',
                 listFieldsToEdit: '=',
-                editableForm: '='
+                editableForm: '=',
+                footerForm: '='
             },
             link: function (scope, element, attrs) {
                 scope.listType = attrs.listType || 'list';
