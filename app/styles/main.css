@@ -344,3 +344,7 @@ table.dataTable thead .sorting:after {
 .drop-box.dragover {
     border: 5px dashed #0000FF;
 }
+
+.orderDetailsModal {
+    width: 850px;
+}

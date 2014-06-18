@@ -85,7 +85,7 @@ angular.module('theBossApp')
 
                     ModalService.modalFormDialog('Add new form',[
                         {title:'Form Name',value:'',require:true,type:'text'},
-                        {title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from},
+                        {title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from}
                         ], function(model){
                         var newForm = {};
                         if(model.clone_from){
@@ -169,6 +169,7 @@ angular.module('theBossApp')
                 scope.module = attrs.module;
                 scope.errors = [];
                 scope.moduleForms = [];
+                scope.preview = attrs.preview || scope.$parent.preview;
 
                 if(scope.module){
                     //load forms for this module

@@ -7,15 +7,6 @@ angular.module('theBossApp')
 
         $scope.$parent.pageHeader = 'Orders';
         $scope.order = {date_required: requiredDate};
-        $scope.order.uploaded_files = [];
-        $scope.isAddressVisible = false;
-        $scope.order.forms = [];
-        $scope.order_files = [];
-        $scope.available_projects = [];
-        $scope.order_search_fields = [{query:'customer', label:'Customer', api:'/api/customer'},{query:'created_by', label:'Created By', api:'/api/users'},{query:'projects.fields', label:'Projects'}];
-        $scope.order_task_fields = [{title:'Title', type:'text', require: true},{title:'Duration', type:'text', require: true},{title:'Status Options', type:'textarea', require: true}];
-        $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
-        $scope.order_service_fields = [{title:'Service Date', type:'date', require: true}, {title:'Details', type:'textarea', require: true},{title:'Done By', type:'text', require: false}];
 
         function QueryOrders(query) {
             OrderService.query(query, function (res) {
@@ -46,6 +37,7 @@ angular.module('theBossApp')
             //load order
             $scope.selectedFiles = [];
             $scope.order = order;
+            toaster.pop('success', "You loaded order #"+ order.po_number);
         }
 
         $scope.saveOrder = function(form){
@@ -99,19 +91,19 @@ angular.module('theBossApp')
 
 
         loadLatestOrders();
-        $scope.$watchCollection('order.forms',function(){
-            var hours = 0;
-            if($scope.order && $scope.order.forms){
-                $scope.order.forms.forEach(function(form){
-                    if(form.tasks){
-                        form.tasks.forEach(function(task){
-                            hours += +task.duration.replace(/h$/,"");
-                        })
-                    }
-                })
-            }
-            $scope.order.total_working_hours = hours;
-        });
+//        $scope.$watchCollection('order.forms',function(){
+//            var hours = 0;
+//            if($scope.order && $scope.order.forms){
+//                $scope.order.forms.forEach(function(form){
+//                    if(form.tasks){
+//                        form.tasks.forEach(function(task){
+//                            hours += +task.duration.replace(/h$/,"");
+//                        })
+//                    }
+//                })
+//            }
+//            $scope.order.total_working_hours = hours;
+//        });
 
 
       
@@ -142,10 +134,8 @@ angular.module('theBossApp')
             var start = new Date(requiredDate.setHours(requiredDate.getHours() - order.total_working_hours));
             return {
                 owner: $scope.currentUser.owner,
-                title: order.customer.name +' - '+order.created_by.name,
+                title: order.po_number + '-' + order.customer.name +' - '+order.created_by.name,
                 details: getOrderDetails(order),
-                //details: 'http://localhost:9000/order-details/'+order._id,
-               // url: '/order/'+order._id,
                 start: start,
                 end: requiredDate,
                 color: 'green',

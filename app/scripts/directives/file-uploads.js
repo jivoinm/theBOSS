@@ -9,7 +9,8 @@ angular.module('theBossApp')
               model: '='
           },
                     
-          link: function postLink(scope, element, attrs,model) {
+          link: function postLink(scope, element, attrs) {
+              scope.preview = attrs.preview || scope.$parent.preview;
               if(attrs.uploadUrl){
                 scope.model = scope.model || [];
                 scope.uploadRightAway = true;

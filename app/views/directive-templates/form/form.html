@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading" tooltip-placement="right" tooltip="Add new form from the list">{{ module }}
-        <div class="pull-right">
+    <div class="panel-heading" tooltip-placement="right" tooltip="Add new form from the list" ng-if="!preview">{{ module }}
+        <div class="pull-right" >
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                     Add
@@ -15,14 +15,15 @@
             </div>
         </div>
     </div>
+    <div class="panel-heading" ng-if="preview">{{ module }}</div>
     <div class="panel-body">
         <accordion close-others="oneAtATime">
             <accordion-group heading="{{form.form_name}}" ng-repeat="form in listOfForms" is-open="$index==0">
                 <accordion-heading>
-                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)"></i>
+                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview"></i>
 
                     <span>{{form.form_name}}</span>
-                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.form_name}}">
+                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.form_name}}" ng-if="!preview">
 
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
                         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>

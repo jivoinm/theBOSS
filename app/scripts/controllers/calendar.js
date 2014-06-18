@@ -35,15 +35,13 @@ angular.module('theBossApp')
             //load details from the event details url
             if(details.indexOf('http')>-1){
                 $http({method: 'GET', url: details}).success(function(result){
-                    details = result;
-                    ModalService.showPopup('Event details',details);
+                    ModalService.showOrderDetailsPopup('Event details',result);
                 }).error(function(err){
                         ModalService.showPopup('Error loading event details',err);
                     });
             }else{
                 ModalService.showPopup('Event details',details);
             }
-
         };
 
         $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){
@@ -70,7 +68,10 @@ angular.module('theBossApp')
             }
         };
 
-
+        $scope.yearView = function(){
+            var currentView = $scope.myCalendar.fullCalendar('getView');
+            ModalService.showPopup('Event details '+currentView.title, '');
+        }
 
         //update calendar event on server and ui
         function updateCalendarEvent(event) {

@@ -7,9 +7,10 @@ angular.module('theBossApp')
         var formField = function(field){
             //var action = '<div class="col-lg-6"><div class="input-group">'+field+'<span class="input-group-btn"><button class="btn btn-default" type="button" ng-click="{{ field.action.click }}">{{ field.action.title }}</button></span></div></div>';
             return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" class="btn btn-default">' +
-                '<label class="control-label" ng-class="{\'col-sm-2\' : !isInine}">{{field.title}}</label>' +
-                '<div class="col-sm-8" ng-class="{\'col-sm-8\' : !isInine}">'+ field+'</div>' +
-                    '<div class="col-sm-2" ng-show="!isInline">'+
+                '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
+                '<div ng-class="{\'col-sm-8\' : !isInine}" ng-if="preview">'+ field+'</div>' +
+                '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInine}" ng-if="!preview">'+ field+'</div>' +
+                    '<div class="col-sm-2" ng-show="!isInline" ng-if="!preview">'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                             '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field,index)"></button>' +
                             '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete(fieldForm,field,index)"></button>' +
@@ -20,6 +21,10 @@ angular.module('theBossApp')
 
         function getFieldTemplate(scope, element, attr){
             var fieldTemplate = '';
+            if(scope.preview){
+                fieldTemplate = '<div class="form-control-static">{{ model }}</div>';
+                return formField(fieldTemplate);
+            }
             switch(scope.field.type) {
                 case 'date':
                     scope.today = function() {
@@ -174,6 +179,7 @@ angular.module('theBossApp')
 
 
             link: function(scope, elem, attr){
+                scope.preview = attr.preview || scope.$parent.preview;
 
                 scope.splitOptions = function(optionString){
                     if( Object.prototype.toString.call( optionString ) === '[object Array]' ) return optionString;

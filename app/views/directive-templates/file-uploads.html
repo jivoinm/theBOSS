@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-if="!preview">
     <div class="form-group">
         <label class="control-label col-sm-2">Select Files</label>
         <div class="col-sm-8">
@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6" ng-if="!preview">
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">
@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div ng-class="{'col-sm-6': !preview, 'col-sm-12': preview}">
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">

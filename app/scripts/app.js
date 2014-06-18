@@ -13,7 +13,8 @@ angular.module('theBossApp', [
         'chieffancypants.loadingBar',
         'ngAnimate',
         'ngDragDrop',
-        'angularFileUpload'
+        'angularFileUpload',
+        'angularMoment'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);

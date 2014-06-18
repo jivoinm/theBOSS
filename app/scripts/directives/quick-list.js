@@ -20,6 +20,7 @@ angular.module('theBossApp')
                 scope.title = attrs.title || "Quick list";
                 scope.selectedFilter = {text:''};
                 scope.quickList = scope.quickList || [];
+                scope.preview = attrs.preview || scope.$parent.preview;
 
                 var pagesShown = 1;
                 var pageSize = 5;
