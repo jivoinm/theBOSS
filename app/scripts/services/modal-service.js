@@ -6,6 +6,7 @@ angular.module('theBossApp')
             var model = {};
             angular.forEach(fields, function(field){
                 model[field.title.toLowerCase().replace(' ','_')] = field.value;
+                field.value = null;
             });
             return model;
         }
@@ -98,7 +99,7 @@ angular.module('theBossApp')
                             $modalInstance.close(fields);
                         }
                         $scope.cancel = function(){
-                            $modalInstance.close(null);
+                            $modalInstance.dismiss();
                         }
                     }
                 });

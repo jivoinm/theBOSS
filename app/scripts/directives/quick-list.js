@@ -62,16 +62,16 @@ angular.module('theBossApp')
                     ModalService.modalFormDialog('Add new field',
                         scope.listFieldsToEdit, function(model){
                             if(model){
-                                if(form){
-                                    FormService.addOrUpdate({id:form._id,target:'tasks'},model, function(){
-                                        toaster.pop('success', "Field "+ model.title +" was added with success");
+                                scope.quickList.push(model);
+                                if(form && form.$save){
+                                    form.$save(function(){
+                                        toaster.pop('success', "Field was saved with success");
                                         scope.quickList.push(model);
                                     },function(err){
                                         toaster.pop('error', "There was an error saving field on server, "+err.message);
                                     });
-                                }else{
-                                    scope.quickList.push(model);
                                 }
+                                model = null;
                             }
                         })
 

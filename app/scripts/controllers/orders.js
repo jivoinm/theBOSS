@@ -1,12 +1,17 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', 'CalendarService', function ($scope, OrderService, User, FormService, toaster,  CalendarService) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', 'CalendarService', '$location', function ($scope, OrderService, User, FormService, toaster, CalendarService, $location) {
         var date = new Date();
         var requiredDate = new Date(new Date().setDate(date.getDate()+21));
 
         $scope.$parent.pageHeader = 'Orders';
         $scope.order = {date_required: requiredDate};
+        $scope.order.uploaded_files = [];
+        $scope.isAddressVisible = false;
+        $scope.order.forms = [];
+        $scope.order_files = [];
+        $scope.available_projects = [];
 
         function QueryOrders(query) {
             OrderService.query(query, function (res) {
@@ -89,24 +94,7 @@ angular.module('theBossApp')
             });
         }
 
-
         loadLatestOrders();
-//        $scope.$watchCollection('order.forms',function(){
-//            var hours = 0;
-//            if($scope.order && $scope.order.forms){
-//                $scope.order.forms.forEach(function(form){
-//                    if(form.tasks){
-//                        form.tasks.forEach(function(task){
-//                            hours += +task.duration.replace(/h$/,"");
-//                        })
-//                    }
-//                })
-//            }
-//            $scope.order.total_working_hours = hours;
-//        });
-
-
-      
 
         $scope.addEvent = function(order, updateOrderAsScheduled) {
             var cal = calendarDetailFromOrder(order);
@@ -120,13 +108,11 @@ angular.module('theBossApp')
         };
 
         function getOrderDetails(order){
-            var details = 'Due date:'+order.date_required+'<br>';
-            details += 'Created by:'+order.created_by.name+'<br>';
-            details += 'Files:<br>';
-            angular.forEach(order.order_files,function(file){
-                details += file.filename + '<br>';
-            });
-            return details;
+            var url = $location.protocol() + ':\\\\' + $location.host();
+            if($location.port() != 80){
+                url += ':'+ $location.port();
+            }
+            return  url + '/api/orders/'+order._id;
         }
         /* add custom event*/
         function calendarDetailFromOrder(order) {
@@ -134,7 +120,7 @@ angular.module('theBossApp')
             var start = new Date(requiredDate.setHours(requiredDate.getHours() - order.total_working_hours));
             return {
                 owner: $scope.currentUser.owner,
-                title: order.po_number + '-' + order.customer.name +' - '+order.created_by.name,
+                title: order.po_number +'-'+ order.customer.name +' - '+order.created_by.name,
                 details: getOrderDetails(order),
                 start: start,
                 end: requiredDate,
