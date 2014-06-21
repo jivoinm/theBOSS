@@ -13,12 +13,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="accessory in item.ordered_accessories">
+                    <tr ng-repeat="accessory in item.ordered_accessories | filter:accessory.received ">
                         <td>{{ accessory.quantity }}</td>
                         <td>{{ accessory.from_manufacturer }}</td>
                         <td>{{ accessory.description }}</td>
                         <td><label>
-                            <input type="checkbox" ng-checked="accessory.received" ng-click="itemSelect({order:item,accessory:accessory})">
+                            <input type="checkbox" ng-checked="accessory.received" ng-click="$emit(itemSelect({order:item,accessory:accessory}))">
                             Received
                         </label>
                         </td>

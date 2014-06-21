@@ -56,14 +56,10 @@ angular.module('theBossApp').
                 })
 
                 scope.received = function(order,accessory){
-                    accessory.received_by = scope.$root.currentUser._id;
+                    accessory.received_by = scope.$root.currentUser.user_id;
                     accessory.date_received = new Date();
-
-                    order.$save(function(){
-                        if(status=='finish'){
-                            form.tasks.splice(taskIndex,1);
-                        }
-                    });
+                    accessory.received = true;
+                    order.$save();
                 };
             }
         };

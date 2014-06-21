@@ -2,9 +2,11 @@
 
 angular.module('theBossApp')
     .factory('User', ['$resource', function ($resource) {
-        return $resource('/api/users/:id', {
-            id: '@id'
-        }, { //parameters default
+        return $resource('/api/users/:id', {id: '@id'}, { //parameters default
+            'query': {
+                method: 'GET',
+                isArray: true
+            },
             update: {
                 method: 'PUT',
                 params: {}
