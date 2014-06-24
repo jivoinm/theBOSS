@@ -1,10 +1,11 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav" id="side-menu" sb-sidebar-menus menus-url="/api/menus">
-            <li class="sidebar-search">
+<div class="panel panel-default">
+    <div class="panel-heading">Main menu</div>
+    <div class="panel-body">
+        <ul class="list-group" id="side-menu" sb-sidebar-menus menus-url="/api/menus">
+            <li class="list-group-item">
                 <sb-sidebar-search></sb-sidebar-search>
             </li>
-            <li ng-repeat="menu in menus track by $index">
+            <li class="list-group-item" ng-repeat="menu in menus track by $index">
                 <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
                 <ul class="nav nav-second-level" ng-if="menu.subMenus">
                     <li ng-repeat="subMenu in menu.subMenus track by $index">
@@ -15,5 +16,5 @@
         </ul>
         <!-- /#side-menu -->
     </div>
-    <!-- /.sidebar-collapse -->
-</nav>
+</div>
+

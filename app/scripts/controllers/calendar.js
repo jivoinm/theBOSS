@@ -32,16 +32,12 @@ angular.module('theBossApp')
         $scope.eventClick = function (event){
             var details = event.details;
 
-            //load details from the event details url
-            if(details.indexOf('http')>-1){
-                $http({method: 'GET', url: details}).success(function(result){
-                    ModalService.showOrderDetailsPopup('Event details',result);
-                }).error(function(err){
-                        ModalService.showPopup('Error loading event details',err);
-                    });
-            }else{
-                ModalService.showPopup('Event details',details);
-            }
+            $http({method: 'GET', url: details}).success(function(result){
+                ModalService.showOrderDetailsPopup('Event details',result);
+            }).error(function(err){
+                    ModalService.showPopup('Error loading event details',err);
+                });
+
         };
 
         $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){

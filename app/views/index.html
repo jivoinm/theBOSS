@@ -37,27 +37,36 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 <!-- Add your site or application content here -->
-<div id="wrapper">
-    <div ng-show="currentUser">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <top-nav title="theBOSS Admin v1.0"></top-nav>
-            <nav-user></nav-user>
-            <!-- /.navbar-top-links -->
-        </nav>
-        <div data-spy="affix" data-offset-top="0" data-offset-bottom="200">
-            <sb-sidebar></sb-sidebar>
+<div class="container-fluid">
+<div class="row">
+    <nav class="col-md-12 navbar navbar-default navbar-fixed-top" role="navigation">
+        <top-nav title="theBOSS Admin v1.0"></top-nav>
+        <nav-user></nav-user>
+        <!-- /.navbar-top-links -->
+    </nav>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-6 col-md-2">
+        <sb-sidebar></sb-sidebar>
+    </div>
+
+    <div class="col-md-9">
+        <div class="page-header">
+            <h1>{{ pageHeader }}</h1>
         </div>
 
-        <div id="page-wrapper" class="col-md-10 content-wrapper">
-            <div class="main-header">
-                <h2>{{ pageHeader }}</h2>
-            </div>
-            <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-            <!-- /.row -->
-            <ng-view></ng-view>
-        </div>
+        <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
+        <!-- /.row -->
+        <ng-view></ng-view>
     </div>
-    <ng-view ng-show="!currentUser"></ng-view>
+</div>
+
+<div class="row">
+
+    <ng-view class="col-xs-12 col-md-12" ng-show="!currentUser"></ng-view>
+</div>
 </div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
