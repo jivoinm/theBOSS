@@ -23,6 +23,9 @@ describe('Order controller', function () {
             Order.find({}).remove(function () {
                 Order.create({
                     owner: 'MirceaSoft',
+                    customer: {
+                        name: 'Customer1'
+                    }
                     projects: [
                         {
                             project: 'Kitchen',
@@ -106,9 +109,10 @@ describe('Order controller', function () {
                 ]
             })
             .end(function (err, res) {
+                console.log('-----',res.body);
                 should.not.exists(err);
                 should.exists(res.body._id);
-                should.exists(res.body.customer);
+                should.exists(res.body.customer.name);
                 done();
             });
     });
