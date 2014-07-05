@@ -4,11 +4,11 @@
         <quick-list quick-list="list" listType="list" title="Latest Orders"
                     search-filter="order_search_fields"
                     item-select="edit(item)" list-search="search(selectedFilter)">
-            <h4 class="list-group-item-heading">
-                <a href="" ng-click="itemSelect({item:item})">{{ item.customer.name }}</a>
+            <h4 class="list-group-item-heading" ng-click="selectItem({item:item._id})">
+                {{ item.customer.name }}
                 <span class="pull-right text-muted small"><em>{{ item.date_required | timeago:true }}</em></span>
             </h4>
-            <p class="list-group-item-text">Created By: {{ item.created_by.name }}</p>
+            <p class="list-group-item-text">Created By: {{ item.created_by.name }} @ {{ item.last_updated_on | date}}</p>
         </quick-list>
     </div>
     <div class="col-md-8">

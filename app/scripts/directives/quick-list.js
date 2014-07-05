@@ -21,6 +21,7 @@ angular.module('theBossApp')
                 scope.selectedFilter = {text:''};
                 scope.quickList = scope.quickList || [];
                 scope.preview = attrs.preview || scope.$parent.preview;
+                scope.selectedItem = null;
 
                 var pagesShown = 1;
                 var pageSize = 5;
@@ -76,6 +77,20 @@ angular.module('theBossApp')
                         })
 
                 }
+
+                scope.selectItem = function(item){
+                    scope.selectedItem = item;
+                    scope.itemSelect(item);
+                }
+
+//                scope.$watch('selectedId', function(newValue, old){
+//                    if(newValue != old){
+//                        console.log(newValue);
+//                        console.log(element);
+//                        element.remove
+//                    }
+//
+//                });
             }
         };
     }]);

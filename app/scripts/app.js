@@ -58,10 +58,6 @@ angular.module('theBossApp', [
               templateUrl: 'partials/order-details',
               controller: 'OrderDetailsCtrl'
             })
-            .when('/customer-form/:id',{
-              templateUrl: 'partials/customer-form',
-              controller: 'CustomerFormCtrl'
-            })
             .otherwise({
                 redirectTo: '/main'
             });

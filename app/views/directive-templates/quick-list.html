@@ -44,9 +44,9 @@
         </div>
         </form>
         <div class="list-group">
-            <div class="list-group-item" ng-repeat="item in quickList | limitTo: itemsLimit()">
+            <a selected-item class="list-group-item" ng-repeat="item in quickList | limitTo: itemsLimit()">
                 <div ng-transclude="true"></div>
-            </div>
+            </a>
         </div>
         <a href="" class="btn btn-default btn-block" ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">Load next</a>
         <div class="list-group-item" ng-show="!quickList.length">
