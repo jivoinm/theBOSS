@@ -6,7 +6,6 @@ app = require("../../../server");
 mongoose = require("mongoose");
 Order = mongoose.model("Order");
 User = mongoose.model("User");
-Customer = mongoose.model("Customer");
 request = require("supertest");
 agent = request.agent(app);
 
@@ -163,13 +162,15 @@ describe('Order controller', function () {
 
     it('should return queried orders by customer name', function (done){
         var helper = new Helper('MirceaSoft','My-',100);
-        helper.addOneOrder('User1','Customer to search',function(){
+        helper.addOneOrder('User1','Customer to search',function(order){
             //search for this customer
             agent
-                .get('/api/orders')
-                .send({text:'search'})
+                .get('/api/orders?text=search')
+                //.send({text:'search'})
                 .end(function (err, res) {
                     console.log(err,res.body);
+                    res.body.should.be.length(1);
+                    res.body[0].customer.name.should.equals('Customer to search');
                     done();
                 });
         })

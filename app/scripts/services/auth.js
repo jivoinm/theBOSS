@@ -4,11 +4,27 @@ angular.module('theBossApp')
     .factory('Auth', ['$location', '$rootScope', 'Session', 'User', '$cookieStore', function ($location, $rootScope, Session, User, $cookieStore) {
 
         // Get currentUser from cookie
-        $rootScope.currentUser = $cookieStore.get('user') || null;
+//        $rootScope.currentUser = $cookieStore.get('user') || null;
+//        $cookieStore.remove('user');
+
+        var accessLevels = routingConfig.accessLevels
+        , userRoles = routingConfig.userRoles
+        , currentUser = $cookieStore.get('user') || { username: '', role: userRoles.public };
+
         $cookieStore.remove('user');
 
+        function changeUser(user) {
+            angular.extend(currentUser, user);
+        }
         return {
 
+            authorize: function(accessLevel, role) {
+                if(role === undefined) {
+                    role = currentUser.role;
+                }
+
+                return accessLevel.bitMask & role.bitMask;
+            },
             /**
              * Authenticate user
              *
@@ -23,8 +39,8 @@ angular.module('theBossApp')
                     email: user.email,
                     password: user.password
                 },function (user) {
-                    $rootScope.currentUser = user;
-                    return cb();
+                    changeUser(user);
+                    return cb(user);
                 },function (err) {
                     return cb(err);
                 }).$promise;
@@ -40,7 +56,10 @@ angular.module('theBossApp')
                 var cb = callback || angular.noop;
 
                 return Session.delete(function () {
-                        $rootScope.currentUser = null;
+                        changeUser({
+                            username: '',
+                            role: userRoles.public
+                        });
                         return cb();
                     },
                     function (err) {
@@ -60,7 +79,7 @@ angular.module('theBossApp')
 
                 return User.save(user,
                     function (user) {
-                        $rootScope.currentUser = user;
+                        changeUser(user);
                         return cb(user);
                     },
                     function (err) {
@@ -103,10 +122,15 @@ angular.module('theBossApp')
              *
              * @return {Boolean}
              */
-            isLoggedIn: function () {
-                console.log($rootScope.currentUser);
-                var user = $rootScope.currentUser;
-                return !!user;
-            }
+            isLoggedIn: function(user) {
+                if(user === undefined) {
+                    user = currentUser;
+                }
+                return user.role.title === userRoles.user.title || user.role.title === userRoles.admin.title;
+            },
+            
+            accessLevels: accessLevels,
+            userRoles: userRoles,
+            user: currentUser
         };
     }]);

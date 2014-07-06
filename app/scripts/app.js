@@ -8,6 +8,7 @@ angular.module('theBossApp', [
         'ui.calendar',
         'ui.bootstrap',
         'ui.select2',
+        'ui.router',
         'ngAnimate',
         'toaster',
         'chieffancypants.loadingBar',
@@ -18,7 +19,7 @@ angular.module('theBossApp', [
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
-
+        var access = routingConfig.accessLevels;
         $routeProvider
             .when('/', {
                 templateUrl: 'partials/main',

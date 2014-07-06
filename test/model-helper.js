@@ -7,24 +7,47 @@ var mongoose = require('mongoose'),
     Message = mongoose.model('Message'),
     Form = mongoose.model('Form'),
     Order = mongoose.model('Order'),
-    Calendar = mongoose.model('Calendar'),
-    Customer = mongoose.model('Customer');
+    Calendar = mongoose.model('Calendar');
 
-var helper = function(ownerName, prefix, nrOfOrders){
+var helper = function(ownerName){
     console.log(ownerName, prefix, nrOfOrders);
     if(!ownerName) {
         throw "No owner is set";
     }
+    var clearAll = function(done){
+        User.find({}).remove(function(){
+            Order.find({}).remove(function(){
+                Calendar.find({}).remove(function(){
+                    Form.find({}).remove(function(){
+                        Message.find({}).remove(function(){
+                            done();
+                        });
+                    })
+                })
+            })
+        })
+    }
+    
     var addUser = function(userName){
         return User.create({
             name: userName,
             owner: ownerName,
             password: 'test'
         });
-    };
+    }
 
-    var addCustomer = function (name, bill_to, ship_to, email,phone,cell, isPrivate){
-        return Customer.create({
+    var addForm = function(module, name, fields, tasks){
+        return  Form.create({
+            module: module,
+            owner: ownerName,
+            form_name:name,
+            fields: fields,
+            tasks: tasks
+        });
+    }
+    
+    var setCustomer = function (name, bill_to, ship_to, email,phone,cell, isPrivate){
+        return {
             name: name,
             owner: ownerName,
             bill_to: bill_to,
@@ -33,11 +56,12 @@ var helper = function(ownerName, prefix, nrOfOrders){
             phone: phone,
             cell: cell,
             is_private: isPrivate
-        });
+        };
     }
 
     var addOrder = function(user, customer, projects, services){
         return Order.create({
+            owner: ownerName,
             created_by: user,
             customer: customer,
             projects: projects,
@@ -48,14 +72,12 @@ var helper = function(ownerName, prefix, nrOfOrders){
     this.addOneOrder = function(userName,customerName, done){
         addUser(userName)
             .then(function(user){
-                addCustomer(customerName)
-                    .then(function(customer){
-                        addOrder(user,customer)
-                            .then(function(order){
-                                done(order);
-                            })
-
+                var customer = addCustomer(customerName);
+                addOrder(user,customer)
+                    .then(function(order){
+                        done(order);
                     })
+
             });
     }
 
