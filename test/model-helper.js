@@ -10,16 +10,20 @@ var mongoose = require('mongoose'),
     Calendar = mongoose.model('Calendar');
 
 var helper = function(ownerName){
-    console.log(ownerName, prefix, nrOfOrders);
     if(!ownerName) {
         throw "No owner is set";
     }
-    var clearAll = function(done){
+
+    this.owner = function(){
+        return ownerName;
+    }
+    this.clearAll = function(done){
         User.find({}).remove(function(){
             Order.find({}).remove(function(){
                 Calendar.find({}).remove(function(){
                     Form.find({}).remove(function(){
                         Message.find({}).remove(function(){
+                            //console.log('Cleared all');
                             done();
                         });
                     })
@@ -28,25 +32,26 @@ var helper = function(ownerName){
         })
     }
     
-    var addUser = function(userName){
+    this.addUser = function(userName, email, password){
         return User.create({
             name: userName,
             owner: ownerName,
-            password: 'test'
+            email: email || 'user@user.com',
+            password: password || 'test'
         });
     }
 
-    var addForm = function(module, name, fields, tasks){
+    this.addForm = function(module, name, fields, tasks){
         return  Form.create({
             module: module,
             owner: ownerName,
-            form_name:name,
+            formName:name,
             fields: fields,
             tasks: tasks
         });
     }
     
-    var setCustomer = function (name, bill_to, ship_to, email,phone,cell, isPrivate){
+    this.setCustomer = function (name, bill_to, ship_to, email,phone,cell, isPrivate){
         return {
             name: name,
             owner: ownerName,
@@ -59,28 +64,53 @@ var helper = function(ownerName){
         };
     }
 
-    var addOrder = function(user, customer, projects, services){
+    this.setValuesToFormFieldsAndTasks = function (forms){
+        var orderForms = [];
+        if(forms){
+            forms.forEach(function(form){
+                var orderForm = {};
+                orderForm.formName = form.formName;
+                orderForm.fields = [];
+                orderForm.tasks = [];
+                //set order fields and tasks
+                if(form.fields){
+                    form.fields.forEach(function(field, i){
+                        var order_field = field;
+                        delete order_field._id;
+                        if(field.show_options)
+                        {
+                            order_field.value = field.show_options.split(',')[0];
+                        }else{
+                            order_field.value = "some value "+i;
+                        }
+                        orderForm.fields.push(order_field);
+                    });
+                }
+
+                if(form.tasks){
+                    form.tasks.forEach(function(task){
+                        var order_task = task;
+                        delete order_task._id;
+
+                        orderForm.tasks.push(order_task);
+                    });
+                }
+                orderForms.push(orderForm);
+            })
+        }
+        return orderForms;
+    }
+
+    this.addOrder = function(user, customer, forms, services){
+        var orderForms = this.setValuesToFormFieldsAndTasks(forms);
         return Order.create({
             owner: ownerName,
             created_by: user,
             customer: customer,
-            projects: projects,
+            forms: orderForms,
             services: services
         });
     }
-
-    this.addOneOrder = function(userName,customerName, done){
-        addUser(userName)
-            .then(function(user){
-                var customer = addCustomer(customerName);
-                addOrder(user,customer)
-                    .then(function(order){
-                        done(order);
-                    })
-
-            });
-    }
-
 }
 
 

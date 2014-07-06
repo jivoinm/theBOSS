@@ -27,6 +27,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 });
 
+console.log('process.env.NODE_ENV:',process.env.NODE_ENV);
 // Populate empty DB with sample data
 if(process.env.NODE_ENV === 'development')
 {

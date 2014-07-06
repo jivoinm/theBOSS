@@ -1,5 +1,5 @@
 'use strict';
-var Order,User, app, mongoose, request, server, should, project, agent, Customer;
+var Order,User, app, mongoose, request, server, should, project, agent;
 
 should = require("should");
 app = require("../../../server");
@@ -10,85 +10,50 @@ request = require("supertest");
 agent = request.agent(app);
 
 var Helper = require("../../model-helper");
+var helper = new Helper('DelPriore');
 
 describe('Order controller', function () {
     var order,user;
     beforeEach(function (done) {
-        User.create({
-            provider: 'local',
-            name: 'Fake User',
-            email: 'user@user.com',
-            password: 'pass11',
-            owner:'MirceaSoft'
-        }, function (err, _user){
-            user = _user
-            Customer.find({}).remove(function(){
-                Customer.create({name: 'customer',owner:'MirceaSoft'}, function(err, cust1){
-                    Order.find({}).remove(function () {
-                        Order.create({
-                            owner: 'MirceaSoft',
-                            customer: cust1,
-                            projects: [
-                                {
-                                    project: 'Kitchen',
-                                    fields: [
-                                        {
-                                            order: 1,
-                                            title: 'Field name1',
-                                            type: 'text',
-                                            value: 'default value',
-                                            require: true
-                                        }
-                                    ]
+        helper.clearAll(function(){
+            helper.addForm('Module1','Form1',[
+                    {
+                        order: 1,
+                        title: 'Field1',
+                        type: 'text',
+                        require: true
+                    },
+                    {
+                        order: 2,
+                        title: 'Field2',
+                        type: 'text',
+                        value: 'default value',
+                        require: true
+                    }
+                ],[])
+                .then(function(form){
+                    //Create customer and add order
+                    var customer = helper.setCustomer('Customer');
+                    helper.addUser('User','user@user.com','test1234').then(
+                        function(user){
+                            helper.addOrder(user, customer,[form])
+                                .then(function(_order_){
+                                    order = _order_;
+                                    //login
+                                    agent
+                                        .post('/api/session')
+                                        .send({email: 'user@user.com', password: 'test1234'})
+                                        .end(function (err, res) {
+                                            agent.saveCookies(res);
+                                            done();
+                                        });
 
-
-                                },
-                                {
-                                    project: 'Form 2',
-                                    fields: [
-                                        {
-                                            order: 1,
-                                            title: 'Field name1',
-                                            type: 'text',
-                                            value: 'default value',
-                                            require: true
-                                        }
-                                    ],
-                                    tasks: [
-                                        {
-                                            priority: 1,
-                                            title: 'Project2 Task1',
-                                            duration: '1h'
-
-                                        },
-                                        {
-                                            priority: 1,
-                                            title: 'Project2 Task2',
-                                            duration: '2h',
-                                            status: 'started'
-                                        }
-                                    ]
-                                }
-                            ],
-                            created_by:user
-
-                        }, function (err, _order_) {
-                            order = _order_;
-                            //login
-                            agent
-                                .post('/api/session')
-                                .send({email: 'user@user.com', password: 'pass11'})
-                                .end(function (err, res) {
-                                    agent.saveCookies(res);
-                                    done();
                                 });
-
                         });
-                    });
-                });
-            })
 
+                })
         });
+
     });
 
     it('should create new order on post', function (done) {
@@ -96,10 +61,10 @@ describe('Order controller', function () {
             .post('/api/orders')
             .send({
                 customer:{name:'customer'},
-                owner: 'MirceaSoft',
-                projects: [
+                owner: helper.owner(),
+                forms: [
                     {
-                        project: 'Kitchen',
+                        formName: 'Kitchen',
                         fields: [
                             {
                                 order: 1,
@@ -108,6 +73,7 @@ describe('Order controller', function () {
                                 value: 'default value',
                                 require: true
                             }
+
                         ]
                     }
                 ]
@@ -127,7 +93,7 @@ describe('Order controller', function () {
                 customer:{
                 _id: order.customer,
                 name: 'customer',
-                owner:'MirceaSoft',
+                owner: helper.owner(),
                 bill_to: 'bill to address'
             }})
             .end(function (err, res) {
@@ -161,18 +127,22 @@ describe('Order controller', function () {
     });
 
     it('should return queried orders by customer name', function (done){
-        var helper = new Helper('MirceaSoft','My-',100);
-        helper.addOneOrder('User1','Customer to search',function(order){
-            //search for this customer
-            agent
-                .get('/api/orders?text=search')
-                //.send({text:'search'})
-                .end(function (err, res) {
-                    console.log(err,res.body);
-                    res.body.should.be.length(1);
-                    res.body[0].customer.name.should.equals('Customer to search');
-                    done();
-                });
+        helper.addUser('Mircea','mirce@email.com').then(function(user){
+            helper.addOrder(user,helper.setCustomer('Customer To Search')).then(function(order){
+                //search for this customer
+                agent
+                    .get('/api/orders')
+                    .query('query=search')
+                    .end(function (err, res) {
+                        console.log(err,res.body);
+                        res.body.should.be.length(1);
+                        res.body[0].customer.name.should.equals('Customer To Search');
+                        done();
+                    });
+            }, function(err){
+                console.log(err);
+            })
+
         })
     });
 

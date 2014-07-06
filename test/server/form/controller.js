@@ -8,40 +8,38 @@ Form = mongoose.model("Form");
 User = mongoose.model("User");
 request = require("supertest");
 agent = request.agent(app);
+var Helper = require("../../model-helper");
+var helper = new Helper('DelPriore');
 
 describe('Form controller', function () {
     beforeEach(function (done) {
-        User.create({
-            provider: 'local',
-            name: 'Fake User',
-            email: 'user@user.com',
-            password: 'pass11',
-            owner:'MirceaSoft'
-        }, function (){
-            form = new Form({
-                owner: 'Owner1',
-                form_name: 'Form Name',
-                fields:[
+        helper.clearAll(function(){
+            helper.addForm('Module1','Form1',[
                     {
                         order: 1,
-                        title: 'Field name1',
+                        title: 'Field1',
                         type: 'text',
-                        value: '',
                         require: true
                     }
-                ]
-            });
-            Form.remove().exec();
-            form.save(function(){
-                //login
-                agent
-                    .post('/api/session')
-                    .send({email: 'user@user.com', password: 'pass11'})
-                    .end(function (err, res) {
-                        agent.saveCookies(res);
-                        done();
-                    });
-            });
+                ])
+                .then(function(_form_){
+                    form = _form_;
+                    helper.addUser('User','user@user.com','test1234').then(
+                        function(user){
+                            //login
+                            agent
+                                .post('/api/session')
+                                .send({email: 'user@user.com', password: 'test1234'})
+                                .end(function (err, res) {
+                                    agent.saveCookies(res);
+                                    done();
+                                });
+
+                        }, function (err){
+                            console.log(err);
+                        });
+
+                })
         });
     });
 
@@ -69,7 +67,7 @@ describe('Form controller', function () {
     });
 
     it("should update existing project on post", function (done) {
-        form.form_name = 'project name changed';
+        form.formName = 'project name changed';
         agent
             .post('/api/forms/'+form._id)
             .send(form)
