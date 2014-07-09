@@ -35,7 +35,8 @@ describe('Order controller', function () {
                     //Create customer and add order
                     var customer = helper.setCustomer('Customer');
                     helper.addUser('User','user@user.com','test1234').then(
-                        function(user){
+                        function(_user_){
+                            user = _user_;
                             helper.addOrder(user, customer,[form])
                                 .then(function(_order_){
                                     order = _order_;
@@ -134,9 +135,8 @@ describe('Order controller', function () {
                     .get('/api/orders')
                     .query('query=search')
                     .end(function (err, res) {
-                        console.log(err,res.body);
                         res.body.should.be.length(1);
-                        res.body[0].customer.name.should.equals('Customer To Search');
+                        res.body[0].customer.name.should.equal('Customer To Search');
                         done();
                     });
             }, function(err){
@@ -146,4 +146,17 @@ describe('Order controller', function () {
         })
     });
 
+    it('should return queried orders that match field values', function (done){
+        //search for field value
+        agent
+            .get('/api/orders')
+            .query('query=value+1')
+            .end(function (err, res) {
+                res.body.should.be.length(1);
+                res.body[0].customer.name.should.equal('Customer');
+                res.body[0].created_by.name.should.equal(user.name);
+                done();
+            });
+
+    });
 });
