@@ -36,7 +36,7 @@ angular.module('theBossApp')
             'setScheduled': {
                 url: '/api/orders/:orderId/:scheduled',
                 params: {
-                    orderId: '@id',
+                    orderId: '@_id',
                     scheduled: '@scheduled'
                 },
                 method: 'PATCH'

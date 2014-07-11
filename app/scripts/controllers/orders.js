@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', 'CalendarService', '$routeParams', function ($scope, OrderService, User, FormService, toaster, CalendarService, $routeParams) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService','User','FormService', 'toaster', '$routeParams', function ($scope, OrderService, User, FormService, toaster, $routeParams) {
         var date = new Date();
         var requiredDate = new Date(new Date().setDate(date.getDate()+21));
 

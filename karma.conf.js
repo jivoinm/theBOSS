@@ -39,7 +39,9 @@ module.exports = function(config) {
             'app/scripts/*.js',
             'app/scripts/**/*.js',
             'test/client/mock/**/*.js',
-            'test/client/spec/**/*.js',
+            //'test/client/spec/**/*.js',
+            'test/client/spec/**/order.js',
+            //'test/client/spec/**/order-details.js',
             'app/views/**/**/*html'
         ],
 

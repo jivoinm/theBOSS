@@ -27,7 +27,6 @@ describe('Controller: OrdersCtrl', function () {
             {_id: 2, customer: {name:'customer'}, last_updated_on: new Date(),projects:[{project:'id1'},{project:'id2'}]}
         ]);
 
-
         $controller('OrdersCtrl', {
             '$scope': scope,
             OrderService: orderService,

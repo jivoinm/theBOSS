@@ -159,4 +159,18 @@ describe('Order controller', function () {
             });
 
     });
+
+    it('should return queried orders that match P.O number', function (done){
+        //search for field value
+        agent
+            .get('/api/orders')
+            .query('query='+order.po_number)
+            .end(function (err, res) {
+                res.body.should.be.length(1);
+                res.body[0].customer.name.should.equal('Customer');
+                res.body[0].created_by.name.should.equal(user.name);
+                done();
+            });
+
+    });
 });

@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
 
     Message = mongoose.model('Message'),
     Form = mongoose.model('Form'),
-    Order = mongoose.model('Order'),
-    Calendar = mongoose.model('Calendar');
+    Order = mongoose.model('Order');
+
 
 var helper = function(ownerName){
     if(!ownerName) {
@@ -20,18 +20,16 @@ var helper = function(ownerName){
     this.clearAll = function(done){
         User.find({}).remove(function(){
             Order.find({}).remove(function(){
-                Calendar.find({}).remove(function(){
-                    Form.find({}).remove(function(){
-                        Message.find({}).remove(function(){
-                            //console.log('Cleared all');
-                            done();
-                        });
-                    })
+                Form.find({}).remove(function(){
+                    Message.find({}).remove(function(){
+                        //console.log('Cleared all');
+                        done();
+                    });
                 })
             })
         })
     }
-    
+
     this.addUser = function(userName, email, password){
         return User.create({
             name: userName,
@@ -50,7 +48,7 @@ var helper = function(ownerName){
             tasks: tasks
         });
     }
-    
+
     this.setCustomer = function (name, bill_to, ship_to, email,phone,cell, isPrivate){
         return {
             name: name,
@@ -105,6 +103,7 @@ var helper = function(ownerName){
         var orderForms = this.setValuesToFormFieldsAndTasks(forms);
         return Order.create({
             owner: ownerName,
+            po_number: 'PO'+Math.random(),
             created_by: user,
             customer: customer,
             forms: orderForms,

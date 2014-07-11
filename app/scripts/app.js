@@ -59,6 +59,10 @@ angular.module('theBossApp', [
               templateUrl: 'partials/order-details',
               controller: 'OrderDetailsCtrl'
             })
+            .when('/order', {
+              templateUrl: 'partials/order',
+              controller: 'OrderCtrl'
+            })
             .otherwise({
                 redirectTo: '/main'
             });
