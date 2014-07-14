@@ -34,6 +34,20 @@ angular.module('theBossApp')
             }
         }
 
+        //Set order status
+        $scope.setStatus = function (status){
+            $scope.order.status = status;
+            ModalService.confirm('You are about to approve this order, are you sure?', function(confirmed){
+                if(confirmed){
+                    $scope.order.$setStatus(function(){
+                        AlertService.addSuccess('Updated status to '+ status);
+                    },function(err){
+                        AlertService.addError('Error saving order '+err);
+                    });
+                }
+            })
+        }
+
         //Delete order
         $scope.delete = function (){
             ModalService.confirmDelete('Are you sure you want to delete this order?', function(confirmed){
@@ -41,7 +55,7 @@ angular.module('theBossApp')
                     $scope.order.$delete(function(){
                         AlertService.addSuccess('Saved '+ $scope.getOrderName());
                     },function(err){
-                        AlertService.addError('Error saving order '+err);
+                        AlertService.addError('Error updating order status'+err);
                     });
                 }
             })

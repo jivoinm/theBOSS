@@ -9,10 +9,16 @@ var mongoose = require('mongoose'),
     Order = mongoose.model('Order');
 
 
+
 var helper = function(ownerName){
     if(!ownerName) {
         throw "No owner is set";
     }
+
+    this.randomDate = function (start, end) {
+        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    }
+
 
     this.owner = function(){
         return ownerName;
@@ -34,7 +40,7 @@ var helper = function(ownerName){
         return User.create({
             name: userName,
             owner: ownerName,
-            email: email || 'user@user.com',
+            email: email || userName+'@email.com',
             password: password || 'test'
         });
     }
@@ -101,13 +107,109 @@ var helper = function(ownerName){
 
     this.addOrder = function(user, customer, forms, services){
         var orderForms = this.setValuesToFormFieldsAndTasks(forms);
+        var created_on = this.randomDate(new Date(2012, 0, 1), new Date());
+        var date_required = this.randomDate(new Date(2012, 0, 1), new Date(new Date().setMonth(new Date().getMonth() + 2)));
+        var status = date_required < new Date() ? 'Finished' : 'New';
         return Order.create({
             owner: ownerName,
-            po_number: 'PO'+Math.random(),
+            po_number: 'PO '+Math.floor((Math.random()*1000)+1),
+            status: status,
             created_by: user,
+            created_on: created_on,
+            date_required: date_required,
             customer: customer,
             forms: orderForms,
             services: services
+        });
+    }
+
+    this.addTestOrders = function (nrOrders, done){
+        this.clearAll(function () {
+            this.addForm('Module1', 'Form1', [
+                    {
+                        order: 1,
+                        title: 'Field name1',
+                        type: 'text',
+                        default_value: 'default value',
+                        require: true
+                    },
+                    {
+                        order: 2,
+                        title: 'Field name2',
+                        type: 'text',
+                        require: true
+                    }
+                ],[
+                    {
+                        priority: 2,
+                        title: 'Project1 Task2',
+                        duration: '2h'
+                    },
+                    {
+                        priority: 1,
+                        title: 'Project1 Task1',
+                        duration: '1h'
+                    },
+                    {
+                        priority: 3,
+                        title: 'Project1 Task3',
+                        duration: '1h'
+                    }
+                ])
+                .then(function (form) {
+                    this.addForm('Module1', 'Form2', [
+                            {
+                                order: 1,
+                                title: 'Field name1',
+                                type: 'text',
+                                default_value: 'default value',
+                                require: true
+                            },
+                            {
+                                order: 2,
+                                title: 'Field name2',
+                                default_value: 'default value',
+                                type: 'text',
+                                require: false
+                            }
+                        ], [
+                            {
+                                priority: 2,
+                                title: 'Project2 Task2',
+                                duration: '2h'
+                            },
+                            {
+                                priority: 1,
+                                title: 'Project2 Task1',
+                                duration: '1h'
+                            },
+                            {
+                                priority: 3,
+                                title: 'Project2 Task3',
+                                duration: '1h'
+                            }
+                        ]).then(function(form2){
+                            //Create customer and add order
+                            var orders = []
+                            new Array(nrOrders)
+                                .join().split(',')
+                                .map(function(item, i){
+                                    var customer = helper.setCustomer('Customer'+i);
+                                    helper.addUser('User'+i,i+'user@user.com').then(
+                                        function(user){
+                                            helper.addOrder(user, customer,[form,form2]).then(function(order){
+                                                console.log('user email:', user.email);
+                                                console.log('user password:', user.password);
+                                                console.log('Created order for '+order.customer.name);
+                                                orders.push(order);
+                                            }, function(err){
+                                                console.log('Error creating order:', err);
+                                            });
+                                        });
+                                });
+                            done(orders);
+                        })
+                })
         });
     }
 }

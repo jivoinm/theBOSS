@@ -1,25 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Order search</div>
+    <div class="panel-body">
 
-<div class="row">
-    <div class="col-md-4">
-        <quick-list quick-list="list" listType="list" title="Latest Orders"
-                    search-filter="order_search_fields"
-                    item-select="edit(item)" list-search="search(selectedFilter)">
-            <h4 class="list-group-item-heading" ng-click="selectItem({item:item._id})">
-                {{ item.customer.name }}
-                <span class="pull-right text-muted small"><em>{{ item.date_required | timeago:true }}</em></span>
-            </h4>
-            <p class="list-group-item-text">Created By: {{ item.created_by.name }} @ {{ item.last_updated_on | date}}</p>
-        </quick-list>
-    </div>
-    <div class="col-md-8">
-
-       <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
-           <order-details></order-details>
-            <div class="well">
-                <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
-                <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+        <div class="row ">
+            <div class="col-xs-2 tabs-left">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#/orders/new">Pending Approval orders asdas</a></li>
+                    <li><a href="#/orders/approved">Approved</a></li>
+                    <li><a href="#/orders">Messages</a></li>
+                    <li><a href="#/orders">Settings</a></li>
+                </ul>
             </div>
+            <div class="col-xs-10">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="gridStyle" ng-grid="gridOptions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        </form>
     </div>
 </div>

@@ -97,4 +97,41 @@ describe('Controller: OrderCtrl', function () {
         expect(modalService.confirmDelete).toHaveBeenCalled();
     }))
 
+    it('should be able to approve new orders', inject(function ($controller) {
+        var mockModalService = {
+            confirm: function(message, callback){
+                callback(true);
+            }
+        }
+
+        OrderCtrl = $controller('OrderCtrl', {
+            $scope: scope,
+            ModalService: mockModalService
+        });
+        scope.order = new orderService(savedOrder);
+        $httpBackend.expectPATCH('/api/orders/'+savedOrder._id+'/status/approved').respond({message:'order deleted'});
+        scope.setStatus('approved');
+
+        $httpBackend.flush();
+    }));
+
+    it('should be able to approve new orders', inject(function ($controller) {
+        var mockModalService = {
+            confirm: function(message, callback){
+                callback(true);
+            }
+        }
+
+        OrderCtrl = $controller('OrderCtrl', {
+            $scope: scope,
+            ModalService: mockModalService
+        });
+        scope.order = new orderService(savedOrder);
+        $httpBackend.expectPATCH('/api/orders/'+savedOrder._id+'/status/approved').respond({message:'order deleted'});
+        scope.setStatus('approved');
+
+        $httpBackend.flush();
+    }));
+
+
 });

@@ -1,1 +1,11 @@
-<p>This is the order view.</p>
+<div class="col-md-8">
+
+    <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveOrder(form)" ng-class="{submitted:submitted}">
+        <order-details></order-details>
+
+        <div class="well">
+            <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
+            <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+        </div>
+    </form>
+</div>

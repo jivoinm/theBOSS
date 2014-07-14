@@ -120,7 +120,7 @@ describe('Order server tests', function () {
             owner: helper.owner(),
             'customer.name': orderObj.customer.name,
             created_by: orderObj.created_by}, function (err, order) {
-            Order.queryOrders({owner: helper.owner()}, {last_updated_on: 1}, 'created_by').addBack(
+            Order.queryOrders({owner: helper.owner()}, {last_updated_on: -1}, 'created_by').addBack(
                 function (err, orders) {
                     orders[0].last_updated_on.getSeconds().should.be.exactly(order.last_updated_on.getSeconds());
                     done();

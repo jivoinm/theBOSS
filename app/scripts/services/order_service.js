@@ -11,7 +11,7 @@ angular.module('theBossApp')
                 url: '/api/orders/:orderId/projects',
                 method: 'GET',
                 params: {
-                    orderId:'@id'
+                    orderId:'@_id'
                 },
                 isArray: true
             },
@@ -33,11 +33,11 @@ angular.module('theBossApp')
                 isArray: true
             },
 
-            'setScheduled': {
-                url: '/api/orders/:orderId/:scheduled',
+            'setStatus': {
+                url: '/api/orders/:orderId/status/:status',
                 params: {
                     orderId: '@_id',
-                    scheduled: '@scheduled'
+                    status: '@status'
                 },
                 method: 'PATCH'
             }

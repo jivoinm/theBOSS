@@ -15,7 +15,8 @@ angular.module('theBossApp', [
         'ngAnimate',
         'ngDragDrop',
         'angularFileUpload',
-        'angularMoment'
+        'angularMoment',
+        'ngGrid'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
@@ -59,7 +60,7 @@ angular.module('theBossApp', [
               templateUrl: 'partials/order-details',
               controller: 'OrderDetailsCtrl'
             })
-            .when('/order', {
+            .when('/order/:id', {
               templateUrl: 'partials/order',
               controller: 'OrderCtrl'
             })
