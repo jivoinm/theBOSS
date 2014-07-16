@@ -1,9 +1,13 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService', function ($scope, OrderService) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', function ($scope, OrderService, $routeParams) {
         $scope.orders = [];
-        $scope.orderStatus = 'New';
+        $scope.orderStatus = 'new';
+
+        if($routeParams.status){
+            $scope.orderStatus = $routeParams.status;
+        }
 
         $scope.loadOrders = function (status,queryText, callback){
             var query = {};
@@ -21,8 +25,6 @@ angular.module('theBossApp')
                 callback(orders);
             });
         }
-
-        //$scope.loadOrders();
 
         $scope.filterOptions = {
             filterText: "",
@@ -74,14 +76,23 @@ angular.module('theBossApp')
                 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
             }
         }, true);
-
+        //customer.name po_number created_by.name created_on date_required status
         $scope.gridOptions = {
             data: 'myData',
             enablePaging: true,
             showFooter: true,
+            enableRowSelection:false,
             totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
-            filterOptions: $scope.filterOptions
+            filterOptions: $scope.filterOptions,
+            columnDefs: [
+                {field:'po_number', displayName:'PO #', cellTemplate: '<a href="#/order/{{row.entity._id}}">{{row.entity[col.field]}}</a>'},
+                {field:'customer.name', displayName:'Customer'},
+                {field:'created_by.name', displayName:'Created By'},
+                {field:'created_on', displayName:'Created On', cellTemplate: '<div>{{row.entity[col.field] | date}}</div>'},
+                {field:'status', displayName:'Status'},
+                {field:'_id', displayName:'', width: '20', cellTemplate: '<div tb-order-options orderId="{{row.entity[col.field]}}"></div>'}
+                ]
         };
 
     }]);

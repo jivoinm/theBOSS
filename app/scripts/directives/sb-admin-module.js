@@ -189,4 +189,21 @@ angular.module('theBossApp').
                 element.find('[data-toggle=popover]').popover();
             }
         };
-    });
+    }).
+
+    directive('sbUrlActive',['$location', function ($location) {
+        return{
+            restrict: 'A',
+            link: function (scope, element) {
+                if(element[0].hash){
+                    var path = element[0].hash.replace('#','');
+                    if($location.path() ===  path){
+                        element.addClass('active');
+                    }else{
+                        element.removeClass('active');
+                    }
+                }
+            }
+        }
+
+    }]);

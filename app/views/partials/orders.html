@@ -1,23 +1,62 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Order search</div>
-    <div class="panel-body">
-
-        <div class="row ">
-            <div class="col-xs-2 tabs-left">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#/orders/new">Pending Approval orders asdas</a></li>
-                    <li><a href="#/orders/approved">Approved</a></li>
-                    <li><a href="#/orders">Messages</a></li>
-                    <li><a href="#/orders">Settings</a></li>
-                </ul>
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">Filters</div>
+            <div class="panel-body">
+                <p>Select your orders by quick search by status or advanced search by additional order properties</p>
             </div>
-            <div class="col-xs-10">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+            <accordion close-others="oneAtATime">
+                <accordion-group heading="Quick Search" is-open="true" is-disabled="false">
+                    <!-- List group -->
+                    <ul class="list-group">
+                        <a href="#/orders/new" class="list-group-item" sb-url-active>
+                            New, pending approval
+                        </a>
+                        <a href="#/orders/approved" class="list-group-item" sb-url-active>
+                            Approved
+                        </a>
+                        <a href="#/orders/finished" class="list-group-item" sb-url-active>
+                            Completed
+                        </a>
+                    </ul>
+                </accordion-group>
+                <accordion-group heading="Advanced Search" is-open="false" is-disabled="true">
+
+                </accordion-group>
+            </accordion>
+
+
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">Order search</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class=well>
+                            <div class="row">
+                                <div class="col-md-10">
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                          <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">Go!</button>
+                                          </span>
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div><!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="gridStyle" ng-grid="gridOptions"></div>
                     </div>
                 </div>
+
             </div>
         </div>
 

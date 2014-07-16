@@ -1,20 +1,14 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Main menu</div>
-    <div class="panel-body">
-        <ul class="list-group" id="side-menu" sb-sidebar-menus menus-url="/api/menus">
-            <li class="list-group-item">
-                <sb-sidebar-search></sb-sidebar-search>
-            </li>
-            <li class="list-group-item" ng-repeat="menu in menus track by $index">
-                <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
-                <ul class="nav nav-second-level" ng-if="menu.subMenus">
-                    <li ng-repeat="subMenu in menu.subMenus track by $index">
-                        <a href="#{{ subMenu.route  }}">{{ subMenu.name }}</a>
-                    </li>
-                </ul>
+<ul class="nav navbar-nav navbar-left" sb-sidebar-menus menus-url="/api/menus">
+
+    <li ng-repeat="menu in menus track by $index">
+        <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
+        <ul class="nav nav-second-level" ng-if="menu.subMenus">
+            <li ng-repeat="subMenu in menu.subMenus track by $index">
+                <a href="#{{ subMenu.route  }}">{{ subMenu.name }}</a>
             </li>
         </ul>
-        <!-- /#side-menu -->
-    </div>
-</div>
+    </li>
+</ul>
+
+
 

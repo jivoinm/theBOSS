@@ -48,7 +48,7 @@ angular.module('theBossApp', [
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
             })
-            .when('/orders/:id', {
+            .when('/orders/:status', {
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
             })
