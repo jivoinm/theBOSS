@@ -68,12 +68,14 @@ angular.module('theBossApp').
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
-            scope:{},
             link: function (scope, element, attrs) {
-                scope.orders = [];
-                OrderService.tasks().$promise.then(function(data){
-                    scope.orders = data;
-                });
+                if(attrs.orders){
+                    scope.orders = attrs.orders;
+                }else{
+                    OrderService.tasks().$promise.then(function(data){
+                        scope.orders = data;
+                    });
+                }
 
                 scope.setTaskStatus = function(order,form,taskIndex,task,status){
                     task.changed_by = scope.$root.currentUser._id;
@@ -189,21 +191,4 @@ angular.module('theBossApp').
                 element.find('[data-toggle=popover]').popover();
             }
         };
-    }).
-
-    directive('sbUrlActive',['$location', function ($location) {
-        return{
-            restrict: 'A',
-            link: function (scope, element) {
-                if(element[0].hash){
-                    var path = element[0].hash.replace('#','');
-                    if($location.path() ===  path){
-                        element.addClass('active');
-                    }else{
-                        element.removeClass('active');
-                    }
-                }
-            }
-        }
-
-    }]);
+    });
