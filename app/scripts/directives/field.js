@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('field', ['$http', '$compile', '$rootScope', function ($http, $compile) {
+    .directive('field', ['$http', '$compile', function ($http, $compile) {
 
 
         var formField = function(field){

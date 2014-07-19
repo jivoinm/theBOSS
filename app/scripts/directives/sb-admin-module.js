@@ -68,9 +68,12 @@ angular.module('theBossApp').
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
+            scope: {
+              order: '='
+            },
             link: function (scope, element, attrs) {
-                if(attrs.orders){
-                    scope.orders = attrs.orders;
+                if(scope.order){
+                    scope.orders = [scope.order];
                 }else{
                     OrderService.tasks().$promise.then(function(data){
                         scope.orders = data;

@@ -17,6 +17,7 @@ angular.module('theBossApp')
             OrderService.get({orderId: $routeParams.id}).$promise.then(function(order){
                 //load order
                 $scope.order = order;
+                console.log('loaded the order');
             })
         }else{
             //create new orderService

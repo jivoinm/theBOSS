@@ -53,7 +53,32 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="gridStyle" ng-grid="gridOptions"></div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer</th>
+                                    <th>Date Required</th>
+                                    <th>Status</th>
+                                    <th>Created By</th>
+                                    <th>Created On</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in orders">
+                                        <td><a href="#/order/{{ order._id }}">{{ order.po_number }}</a></td>
+                                        <td><a href="#/order/{{ order._id }}">{{ order.customer.name }}</a></td>
+                                        <td>{{ order.date_required | date }}</td>
+                                        <td><order-status></order-status> </td>
+                                        <td>{{ order.created_by.name }}</td>
+                                        <td>{{ order.created_on | date }}</td>
+                                        <td class="table-options"><order-options order="order" showonparenthover></order-options></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

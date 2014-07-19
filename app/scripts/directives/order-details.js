@@ -12,10 +12,7 @@ angular.module('theBossApp')
                 scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
                 scope.order_service_fields = [{title:'Service Date', type:'date', require: true}, {title:'Details', type:'textarea', require: true},{title:'Done By', type:'text', require: false}];
                 scope.preview = attrs.preview || scope.$parent.preview;
-                if(!scope.order)
-                {
-                    element.text('there is no order present to show.');
-                }
+
             }
         };
     }]);

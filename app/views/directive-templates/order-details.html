@@ -46,17 +46,7 @@
                     step</p>
             </div>
 
-            <quick-list quick-list="form.tasks" listType="list" title="{{ form.form_name }}" ng-repeat="form in order.forms"
-                        editable-form="form"
-                        list-fields-to-edit="order_task_fields">
-
-                <h4 class="list-group-item-heading">
-                    {{ item.title }}
-                    <span class="pull-right text-muted small"><em>{{ item.status}}</em></span>
-                    <span class="badge">{{ item.duration }}</span>
-                </h4>
-
-            </quick-list>
+            <tasks order="order"></tasks>
 
         </div>
     </tab>
