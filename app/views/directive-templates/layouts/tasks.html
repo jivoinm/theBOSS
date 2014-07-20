@@ -6,7 +6,7 @@
           <div ng-repeat='item in orders'>
              <div class="panel panel-default" ng-repeat='form in item.forms'>
               <div class="panel-heading">
-                  Customer: {{ item.customer.name }} - P.O.#{{ item.po_number }} - {{ form.form_name }}
+                  <a href="#/order/{{ item._id }}">Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}</a>
               </div>
               <div class="panel-body">
                 <div class="row">

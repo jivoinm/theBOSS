@@ -114,7 +114,16 @@ var helper = function(ownerName){
             owner: ownerName,
             po_number: 'PO '+Math.floor((Math.random()*1000)+1),
             status: status,
-            created_by: user,
+            created_by:{
+                user_id: user._id,
+                name: user.name,
+                email: user.email
+            },
+            last_updated_by:{
+                user_id: user._id,
+                name: user.name,
+                email: user.email
+            },
             created_on: created_on,
             date_required: date_required,
             customer: customer,

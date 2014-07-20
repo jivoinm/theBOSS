@@ -1,49 +1,43 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$routeParams', 'OrderService', 'AlertService', 'ModalService', function ($scope, $routeParams, OrderService, AlertService, ModalService) {
-
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', function ($scope, $location, OrderService, ModalService, order, toaster) {
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
-                name = 'Order '+ ($scope.order.po_number ? $scope.order.po_number : '##') + ' / '
+                name = '['+($scope.order.po_number ? $scope.order.po_number : '##') + '] '
                     + ($scope.order.customer ? $scope.order.customer.name : '???')
             }
             return name;
         }
 
+        $scope.order = order;
 
-        if($routeParams.id){
-            OrderService.get({orderId: $routeParams.id}).$promise.then(function(order){
-                //load order
-                $scope.order = order;
-                console.log('loaded the order');
-            })
-        }else{
-            //create new orderService
-            $scope.order = new OrderService({});
+        $scope.redirectToList = function(){
+            $location.path('/orders');
         }
-
         //Save order
         $scope.save = function (isValidForm){
             if(isValidForm){
                 $scope.order.$save(function(){
-                    AlertService.addSuccess('Saved '+ $scope.getOrderName());
+                    $scope.redirectToList();
+                    toaster.pop('success', "Success", 'Saved you order '+ $scope.getOrderName());
                 },function(err){
-                    AlertService.addError('Error saving order '+err);
+                    toaster.pop('error', "Error", 'Error saving you order '+ err);
                 });
             }
         }
 
         //Set order status
         $scope.setStatus = function (status){
-            $scope.order.status = status;
-            ModalService.confirm('You are about to approve this order, are you sure?', function(confirmed){
+            ModalService.confirm('You are about to '+status+' this order, are you sure?', function(confirmed){
                 if(confirmed){
-                    $scope.order.$setStatus(function(){
-                        AlertService.addSuccess('Updated status to '+ status);
+                    $scope.order.$setStatus({status:status}, function(order){
+                        //$scope.order = order;
+                        $rootScope.$broadcast('order-changed',order);
+                        toaster.pop('success', "Success", 'Updated status to '+ status);
                     },function(err){
-                        AlertService.addError('Error saving order '+err);
+                        toaster.pop('error', "Error", 'Error updating status '+ err);
                     });
                 }
             })
@@ -54,26 +48,14 @@ angular.module('theBossApp')
             ModalService.confirmDelete('Are you sure you want to delete this order?', function(confirmed){
                 if(confirmed){
                     $scope.order.$delete(function(){
-                        AlertService.addSuccess('Saved '+ $scope.getOrderName());
+                        $scope.redirectToList();
+                        toaster.pop('success', "Success", 'Deleted you order '+ $scope.getOrderName());
                     },function(err){
-                        AlertService.addError('Error updating order status'+err);
+                        toaster.pop('error', "Error", 'Error deleting order '+ err);
                     });
                 }
             })
         }
 
-        //update order status
-        $scope.updateStatus = function (status){
-            $scope.order.status = status;
-            $scope.order.$save(function(){
-                AlertService.addSuccess('Saved '+ $scope.getOrderName()+' with status '+status);
-            },function(err){
-                AlertService.addError('Error saving order '+err);
-            });
-        }
-
-        //watch order changes and set the header name
-        $scope.$watch('order', function(){
-            $scope.$parent.pageHeader = $scope.getOrderName();
-        });
+        $scope.$parent.pageHeader = $scope.getOrderName();
   }]);

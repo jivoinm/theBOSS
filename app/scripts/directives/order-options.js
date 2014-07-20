@@ -28,7 +28,7 @@ angular.module('theBossApp')
                     //check permissions/role
                     if(scope.order.status.toLowerCase() === 'new')
                     {
-                        element.find('ul').append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Approve</a></li>');
+                        element.find('ul').append('<li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="approveOrder({{ scope.order._id }})">Approve</a></li>');
                     }
                 }
             }

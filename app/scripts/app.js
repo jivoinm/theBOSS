@@ -53,16 +53,32 @@ angular.module('theBossApp', [
                 controller: 'OrdersCtrl'
             })
             .when('/calendar', {
-              templateUrl: 'partials/calendar',
-              controller: 'CalendarCtrl'
+                templateUrl: 'partials/calendar',
+                controller: 'CalendarCtrl'
             })
             .when('/order-details/:orderId', {
-              templateUrl: 'partials/order-details',
-              controller: 'OrderDetailsCtrl'
+                templateUrl: 'partials/order-details',
+                controller: 'OrderDetailsCtrl'
+            })
+            .when('/order', {
+                templateUrl: 'partials/order',
+                controller: 'OrderCtrl',
+                resolve: {
+                    order: ['OrderService', function (OrderService){ return new OrderService();}]
+                }
             })
             .when('/order/:id', {
-              templateUrl: 'partials/order',
-              controller: 'OrderCtrl'
+                templateUrl: 'partials/order',
+                controller: 'OrderCtrl',
+                resolve: {
+                    order: ['OrderService', '$route', function (OrderService, $route){
+                        return OrderService.get({orderId: $route.current.params.id}).$promise.then(function(order){
+                            //load order
+                            return order;
+                        })
+
+                    }]
+                }
             })
             .otherwise({
                 redirectTo: '/main'

@@ -3,6 +3,10 @@
 angular.module('theBossApp')
     .service('OrderService', ['$resource', function ($resource) {
         return $resource('/api/orders/:orderId', {orderId: '@_id'}, {
+            'get': {
+                method: 'GET',
+                isArray: false
+            },
             'query': {
                 method: 'GET',
                 isArray: true
@@ -23,12 +27,6 @@ angular.module('theBossApp')
             },
             'accessories': {
                 url: '/api/orders/accessories',
-                method: 'GET',
-                isArray: true
-            },
-
-            'unscheduledOrders': {
-                url: '/api/orders/unscheduled',
                 method: 'GET',
                 isArray: true
             },

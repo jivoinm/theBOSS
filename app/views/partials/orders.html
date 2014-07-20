@@ -36,15 +36,14 @@
                     <div class="col-md-12">
                         <div class=well>
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-7">
 
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control">
-                                          <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">Go!</button>
-                                          </span>
+                                        <form ng-submit="loadOrders()">
+                                            <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
+                                        </form>
                                     </div><!-- /input-group -->
                                 </div><!-- /.col-lg-6 -->
                             </div><!-- /.row -->
@@ -63,7 +62,6 @@
                                     <th>Status</th>
                                     <th>Created By</th>
                                     <th>Created On</th>
-                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -74,7 +72,6 @@
                                         <td><order-status></order-status> </td>
                                         <td>{{ order.created_by.name }}</td>
                                         <td>{{ order.created_on | date }}</td>
-                                        <td class="table-options"><order-options order="order" showonparenthover></order-options></td>
                                     </tr>
                                 </tbody>
                             </table>

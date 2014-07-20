@@ -86,7 +86,7 @@ angular.module('theBossApp')
                     break;
                 case 'hidden':
                     fieldTemplate = '<input type="hidden" class="form-control" name="fieldName" ng-model="model" value="{{field.value}}"/>';
-                    fieldTemplate = formField(fieldTemplate);
+                    fieldTemplate = fieldTemplate;
                     break;
                 case 'password':
                     fieldTemplate = '<input type="password" class="form-control" name="fieldName" placeholder="{{field.title}}"'+

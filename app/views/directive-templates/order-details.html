@@ -56,7 +56,7 @@
         </div>
 
         <quick-list quick-list="order.ordered_accessories" listType="list" title="Ordered Accessories"
-                    list-fields-to-edit="order_accessories_fields" editable-form="order">
+                    list-fields-to-edit="order_accessories_fields" editable-form="order" broadcast-event="order-changed">
 
             <h4 class="list-group-item-heading">
                 {{ item.from_manufacturer }}
@@ -73,7 +73,7 @@
         </div>
 
         <quick-list quick-list="order.services" listType="list" title="List of services"
-                    list-fields-to-edit="order_service_fields" editable-form="order">
+                    list-fields-to-edit="order_service_fields" editable-form="order" broadcast-event="order-changed">
 
             <h4 class="list-group-item-heading">
                 {{ item.details }}

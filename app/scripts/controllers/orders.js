@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', function ($scope, OrderService, $routeParams) {
+    .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', 'ModalService', function ($scope, OrderService, $routeParams, ModalService) {
         $scope.orders = [];
-        //$scope.orderStatus = 'new';
 
         if($routeParams.status){
             $scope.orderStatus = $routeParams.status;
@@ -15,9 +14,9 @@ angular.module('theBossApp')
                 query.status = $scope.orderStatus;
             }
 
-//            if(queryText){
-//                query.text = queryText;
-//            }
+            if($scope.queryText){
+                query.text = $scope.queryText;
+            }
 
             OrderService.query(query).$promise.then (function (orders) {
                 $scope.orders = orders;
