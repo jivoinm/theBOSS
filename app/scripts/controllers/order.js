@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', function ($scope, $location, OrderService, ModalService, order, toaster) {
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', '$rootScope', function ($scope, $location, OrderService, ModalService, order, toaster, $rootScope) {
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -12,7 +12,15 @@ angular.module('theBossApp')
         }
 
         $scope.order = order;
-
+        $scope.preview = false;
+        if(order._id){
+            $scope.preview = true;
+        }
+      
+        $scope.edit = function (){
+            $rootScope.$broadcast('order-preview',false);
+        }
+        
         $scope.redirectToList = function(){
             $location.path('/orders');
         }
