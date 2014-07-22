@@ -4,7 +4,7 @@ angular.module('theBossApp')
     .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', 'ModalService', function ($scope, OrderService, $routeParams, ModalService) {
         $scope.orders = [];
         $scope.totalOrders = 0;
-        $scope.currentPage = 1;
+        $scope.currentPage = 0;
         
         if($routeParams.status){
             $scope.orderStatus = $routeParams.status;
