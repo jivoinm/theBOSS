@@ -9,7 +9,7 @@ angular.module('theBossApp')
             },
             'query': {
                 method: 'GET',
-                isArray: true
+                isArray: false
             },
             'projects': {
                 url: '/api/orders/:orderId/projects',
