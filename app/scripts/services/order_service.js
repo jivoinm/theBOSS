@@ -3,10 +3,6 @@
 angular.module('theBossApp')
     .service('OrderService', ['$resource', function ($resource) {
         return $resource('/api/orders/:orderId', {orderId: '@_id'}, {
-            'get': {
-                method: 'GET',
-                isArray: false
-            },
             'query': {
                 method: 'GET',
                 isArray: false
@@ -30,6 +26,11 @@ angular.module('theBossApp')
                 method: 'GET',
                 isArray: true
             },
+            'comments': {
+                url: '/api/orders/comments',
+                method: 'GET',
+                isArray: true
+            },
 
             'setStatus': {
                 url: '/api/orders/:orderId/status/:status',
@@ -38,6 +39,24 @@ angular.module('theBossApp')
                     status: '@status'
                 },
                 method: 'PATCH'
+            },
+            'setDateRequired': {
+                url: '/api/orders/:orderId/daterequired/:date_required',
+                params: {
+                    orderId: '@orderId',
+                    date_required: '@date_required'
+                },
+                method: 'PATCH'
+            },
+            'getOrders': {
+                url: '/api/orders/:status/:from/:to',
+                params: {
+                    status: '@status',
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: false,
+                method: 'GET'
             }
 
         });

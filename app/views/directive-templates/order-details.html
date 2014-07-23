@@ -1,95 +1,12 @@
-<tabset justified="true">
-    <tab>
-        <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
-
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">Order details
-                <div class="pull-right" ng-hide="true">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="" ng-click="delete()" ng-show="order._id">Delete</a></li>
-                            <li><a href="" ng-click="schedule()">Schedule order</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}" ng-readonly=""></div>
-                <div field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></div>
-                <div field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date', require:true}"></div>
-                <div field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></div>
-                <div field ng-model="order.customer.address" ng-field="{title:'Address', type:'text'}"></div>
-                <div field ng-model="order.customer.postal_code" ng-field="{title:'Postal Code', type:'text'}"></div>
-                <div field ng-model="order.customer.province" ng-field="{title:'Province', type:'select', show_options: ['Ontario', 'Quebec'], value: 'Ontario'}"></div>
-                <div field ng-model="order.customer.country" ng-field="{title:'Country', type:'select', show_options: ['Canada', 'USA'], value: 'Canada'}"></div>
+<div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}" ng-readonly=""></div>
+<div field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></div>
+<div field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date', require:true}"></div>
+<div field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></div>
+<div field ng-model="order.customer.address" ng-field="{title:'Address', type:'text'}"></div>
+<div field ng-model="order.customer.postal_code" ng-field="{title:'Postal Code', type:'text'}"></div>
+<div field ng-model="order.customer.province" ng-field="{title:'Province', type:'select', show_options: ['Ontario', 'Quebec'], value: 'Ontario'}"></div>
+<div field ng-model="order.customer.country" ng-field="{title:'Country', type:'select', show_options: ['Canada', 'USA'], value: 'Canada'}"></div>
 
 
-                <forms module="Projects" list-of-forms="order.forms"></forms>
+<forms module="Projects" list-of-forms="order.forms"></forms>
 
-            </div>
-
-        </div>
-
-
-    </tab>
-    <tab heading="Tasks" disabled="order.forms.length==0">
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">Tasks to do on this order</div>
-            <div class="panel-body">
-                <p>List of task and their status are shown here, you can change its status to the next
-                    step</p>
-            </div>
-
-            <tasks order="order"></tasks>
-
-        </div>
-    </tab>
-    <tab heading="Accessories" disabled="!order._id">
-        <div class=well>
-            Add list of accessories that was ordered from the manufacturers and needs to be received.
-        </div>
-
-        <quick-list quick-list="order.ordered_accessories" listType="list" title="Ordered Accessories"
-                    list-fields-to-edit="order_accessories_fields" editable-form="order" broadcast-event="order-changed">
-
-            <h4 class="list-group-item-heading">
-                {{ item.from_manufacturer }}
-                <span class="pull-right text-muted small"><em>Received:{{ item.date_received | timeago}}</em></span>
-            </h4>
-            <p class="list-group-item-text">{{ item.description }}</p>
-        </quick-list>
-
-
-    </tab>
-    <tab heading="Services" disabled="!order._id">
-        <div class=well>
-            Add list of services associated with this order.
-        </div>
-
-        <quick-list quick-list="order.services" listType="list" title="List of services"
-                    list-fields-to-edit="order_service_fields" editable-form="order" broadcast-event="order-changed">
-
-            <h4 class="list-group-item-heading">
-                {{ item.details }}
-                <span class="pull-right text-muted small"><em>Service Date:{{ item.date | timeago:true}}</em></span>
-            </h4>
-            <p class="list-group-item-text">To be done by: {{ item.done_by }}</p>
-        </quick-list>
-
-
-    </tab>
-    <tab heading="Files" disabled="!order._id">
-        <div class=well>
-            Add list of files associated with this order.
-        </div>
-        <file-uploads model="order.uploaded_files" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
-
-
-    </tab>
-</tabset>

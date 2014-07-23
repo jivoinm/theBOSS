@@ -4,7 +4,48 @@
 
         <div class="row">
             <div class="col-md-8">
-                <order-details preview="{{preview}}"></order-details>
+
+                <tabset justified="true">
+                    <tab>
+                        <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
+                        <div class=well>
+                             <order-details></order-details>
+                        </div>
+
+
+                    </tab>
+                    <tab heading="Tasks" disabled="order.forms.length==0">
+                        <div class=well>
+                            <p>Add list of tasks that needs to be done to finish the order.</p>
+                            <order-tasks></order-tasks>
+
+                        </div>
+                    </tab>
+                    <tab heading="Accessories" disabled="!order._id">
+                        <div class=well>
+                            <p>Add list of accessories that was ordered from the manufacturers and needs to be received.</p>
+                            <order-accessories></order-accessories>
+                        </div>
+
+                    </tab>
+                    <tab heading="Services" disabled="!order._id">
+                        <div class=well>
+                            <p>Add list of services associated with this order.</p>
+                            <order-services></order-services>
+                        </div>
+
+
+
+                    </tab>
+                    <tab heading="Files" disabled="!order._id">
+                        <div class=well>
+                            <p>Add list of files associated with this order.</p>
+                            <file-uploads model="order.uploaded_files" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
+                        </div>
+                    </tab>
+                </tabset>
+
+
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
@@ -41,28 +82,13 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Print</button>
-                            </div>
-                            <div class="btn-group">
                                 <button type="button" class="btn btn-danger" ng-click="delete()">Delete</button>
                             </div>
                         </div>
                     </div>
                  </div>
-                <quick-list quick-list="order.comments" listType="list" title="Comments"
-                            list-fields-to-edit="order_comment_fields" editable-form="order" broadcast-event="order-changed">
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">{{ item.from.name }}</strong>
-                            <small class="pull-right text-muted">
-                                <i class="fa fa-clock-o fa-fw"></i> {{ item.created_on | timeago}}
-                            </small>
-                        </div>
-                        <p>
-                            {{ item.message }}
-                        </p>
-                    </div>
-                </quick-list>
+
+                 <order-comments></order-comments>
             </div>
         </div>
 

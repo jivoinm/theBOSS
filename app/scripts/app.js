@@ -106,6 +106,10 @@ angular.module('theBossApp', [
             };
         }]);
     })
+    .constant('theBossSettings',{
+        orderChangedEvent: 'order-changed',
+        previewModeEvent: 'preview-mode'
+    })
     .run(function ($rootScope, $location, Auth) {
         // Redirect to login if route requires auth and you're not logged in
         $rootScope.$on('$routeChangeStart', function (event, next) {

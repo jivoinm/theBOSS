@@ -1,7 +1,6 @@
 'use strict';
-
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', '$rootScope', function ($scope, $location, OrderService, ModalService, order, toaster, $rootScope) {
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', '$rootScope', 'theBossSettings', function ($scope, $location, OrderService, ModalService, order, toaster, $rootScope, theBossSettings) {
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -18,7 +17,7 @@ angular.module('theBossApp')
         }
       
         $scope.edit = function (){
-            $rootScope.$broadcast('order-preview',false);
+            $rootScope.$broadcast(theBossSettings.previewModeEvent,false);
         }
         
         $scope.redirectToList = function(){
@@ -42,7 +41,7 @@ angular.module('theBossApp')
                 if(confirmed){
                     $scope.order.$setStatus({status:status}, function(order){
                         //$scope.order = order;
-                        $rootScope.$broadcast('order-changed',order);
+                        $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
                         toaster.pop('success', "Success", 'Updated status to '+ status);
                     },function(err){
                         toaster.pop('error', "Error", 'Error updating status '+ err);

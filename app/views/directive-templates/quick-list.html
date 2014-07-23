@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-{{ listType }} fa-fw"></i> {{ title }}
-        <div class="pull-right" ng-if="listFieldsToEdit && !preview">
+        <div class="pull-right" ng-if="listFieldsToEdit">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-xs" id="add" ng-click="addNewField(editableForm)">
                     Add new

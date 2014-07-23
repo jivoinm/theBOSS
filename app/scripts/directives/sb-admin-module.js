@@ -11,7 +11,7 @@ angular.module('theBossApp').
             }
         };
     }).
-    directive('messages', ['Message', function (Message) {
+    directive('messages', ['OrderService', function (OrderService) {
         return {
             controller: function ($scope) {
                 $scope.showBadge = function () {
@@ -25,7 +25,7 @@ angular.module('theBossApp').
                 scope.messages = [];
                 scope.newMessageForm = [{isInline:true, title:'Message', type:'text', require: true, action: {click:scope.sendMessage, title:'Send'}}];
 
-                Message.query().$promise.then(function(data){
+                OrderService.comments().$promise.then(function(data){
                     scope.messages = data;
                 })
 
