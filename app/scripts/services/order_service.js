@@ -5,42 +5,69 @@ angular.module('theBossApp')
         return $resource('/api/orders/:orderId', {orderId: '@_id'}, {
             'query': {
                 method: 'GET',
-                isArray: true
+                isArray: false
             },
             'projects': {
                 url: '/api/orders/:orderId/projects',
                 method: 'GET',
                 params: {
-                    orderId:'@id'
+                    orderId:'@_id'
                 },
                 isArray: true
             },
 
             'tasks': {
-                url: '/api/orders/tasks',
+                url: '/api/orders/tasks/:status',
                 method: 'GET',
                 isArray: true
             },
             'accessories': {
                 url: '/api/orders/accessories',
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                params: {
+                    status: '@status'
+                }
             },
-
-            'unscheduledOrders': {
-                url: '/api/orders/unscheduled',
+            'comments': {
+                url: '/api/orders/comments',
                 method: 'GET',
                 isArray: true
             },
-
-            'setScheduled': {
-                url: '/api/orders/:orderId/:scheduled',
+            'getOrders': {
+                url: '/api/orders/:status/:from/:to',
                 params: {
-                    orderId: '@id',
-                    scheduled: '@scheduled'
+                    status: '@status',
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: false,
+                method: 'GET'
+            },
+            'setStatus': {
+                url: '/api/orders/:orderId/status/:status',
+                params: {
+                    orderId: '@_id',
+                    status: '@status'
+                },
+                method: 'PATCH'
+            },
+            'setDateRequired': {
+                url: '/api/orders/:orderId/daterequired/:date_required',
+                params: {
+                    orderId: '@orderId',
+                    date_required: '@date_required'
+                },
+                method: 'PATCH'
+            },
+            'setTaskStatus': {
+                url: '/api/orders/:orderId/task/:taskId/:status',
+                params: {
+                    orderId: '@orderId',
+                    taskId: '@taskId',
+                    status: '@status'
                 },
                 method: 'PATCH'
             }
-
         });
     }]);

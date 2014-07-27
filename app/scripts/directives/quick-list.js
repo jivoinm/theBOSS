@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('quickList',['$http', 'ModalService', 'FormService', 'toaster', function ($http, ModalService, FormService, toaster) {
+    .directive('quickList',['$http', 'ModalService', 'FormService', 'toaster', '$rootScope', function ($http, ModalService, FormService, toaster, $rootScope) {
         return {
             templateUrl: '/views/directive-templates/quick-list.html',
             restrict: 'E',
@@ -21,6 +21,8 @@ angular.module('theBossApp')
                 scope.selectedFilter = {text:''};
                 scope.quickList = scope.quickList || [];
                 scope.preview = attrs.preview || scope.$parent.preview;
+                scope.selectedItem = null;
+
 
                 var pagesShown = 1;
                 var pageSize = 5;
@@ -62,11 +64,18 @@ angular.module('theBossApp')
                     ModalService.modalFormDialog('Add new field',
                         scope.listFieldsToEdit, function(model){
                             if(model){
-                                scope.quickList.push(model);
                                 if(form && form.$save){
-                                    form.$save(function(){
+                                    scope.quickList.push(model);
+                                    form.$save(function(serverModel){
+                                        if(attrs.broadcastEvent)
+                                        {
+                                            $rootScope.$broadcast(attrs.broadcastEvent,serverModel);
+                                        }
+//                                        else{
+//                                            scope.quickList.push(model);
+//                                        }
                                         toaster.pop('success', "Field was saved with success");
-                                        scope.quickList.push(model);
+
                                     },function(err){
                                         toaster.pop('error', "There was an error saving field on server, "+err.message);
                                     });
@@ -75,6 +84,11 @@ angular.module('theBossApp')
                             }
                         })
 
+                }
+
+                scope.selectItem = function(item){
+                    scope.selectedItem = item;
+                    scope.itemSelect(item);
                 }
             }
         };

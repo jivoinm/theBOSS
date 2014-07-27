@@ -1,19 +1,38 @@
 <quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status)">
-    <div ng-repeat='form in item.forms'>
-        <span class="label label-default">
-        Customer: {{ item.customer.name }} - P.O.#{{ item.po_number }} - {{ form.form_name }}
-        </span>
 
-        <ul class="list-group">
-
-            <li class="list-group-item" ng-class="{'list-group-item-danger': !task.status, 'list-group-item-warning': task.status==='start', 'list-group-item-success': task.status==='finish'}" ng-repeat="task in form.tasks">
-                <div class="row">
-                    <div class="col-xs-4">{{ task.title }} [{{ task.status ? task.status : 'Not Started' }}]</div>
-                    <div class="col-xs-4" ng-if="task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'finish'})">Finish</a></div>
-                    <div class="col-xs-4" ng-if="!task.status"><a href="" class="btn btn-default btn-block" ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'start'})">Start</a></div>
+    <div class="panel panel-default" ng-repeat='form in item.forms'>
+        <div class="panel-heading">
+            <a href="/order/{{ item._id }}">Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}</a>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    To Do
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks">
+                            {{ task.title }} <button ng-click="$emit(itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress'}))" class="btn btn-xs">Start</button>
+                        </li>
+                    </ul>
                 </div>
-            </li>
-
-        </ul>
+                <div class="col-md-4">
+                    In Progress
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
+                            {{ task.title }} <button ng-click="$emit(itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done'}))" class="btn btn-xs">Done</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    Done
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success" ng-repeat="task in form.tasks | filter:{status:'done'}">
+                            {{ task.title }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+
 </quick-list>
+

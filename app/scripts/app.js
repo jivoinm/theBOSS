@@ -8,17 +8,19 @@ angular.module('theBossApp', [
         'ui.calendar',
         'ui.bootstrap',
         'ui.select2',
+        'ui.router',
         'ngAnimate',
         'toaster',
         'chieffancypants.loadingBar',
         'ngAnimate',
         'ngDragDrop',
         'angularFileUpload',
-        'angularMoment'
+        'angularMoment',
+        'ngGrid'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
-
+        var access = routingConfig.accessLevels;
         $routeProvider
             .when('/', {
                 templateUrl: 'partials/main',
@@ -46,17 +48,37 @@ angular.module('theBossApp', [
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
             })
-            .when('/orders/:id', {
+            .when('/orders/:status', {
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
             })
             .when('/calendar', {
-              templateUrl: 'partials/calendar',
-              controller: 'CalendarCtrl'
+                templateUrl: 'partials/calendar',
+                controller: 'CalendarCtrl'
             })
             .when('/order-details/:orderId', {
-              templateUrl: 'partials/order-details',
-              controller: 'OrderDetailsCtrl'
+                templateUrl: 'partials/order-details',
+                controller: 'OrderDetailsCtrl'
+            })
+            .when('/order', {
+                templateUrl: 'partials/order',
+                controller: 'OrderCtrl',
+                resolve: {
+                    order: ['OrderService', function (OrderService){ return new OrderService();}]
+                }
+            })
+            .when('/order/:id', {
+                templateUrl: 'partials/order',
+                controller: 'OrderCtrl',
+                resolve: {
+                    order: ['OrderService', '$route', function (OrderService, $route){
+                        return OrderService.get({orderId: $route.current.params.id}).$promise.then(function(order){
+                            //load order
+                            return order;
+                        })
+
+                    }]
+                }
             })
             .otherwise({
                 redirectTo: '/main'
@@ -83,6 +105,11 @@ angular.module('theBossApp', [
                 }
             };
         }]);
+    })
+    .constant('theBossSettings',{
+        orderChangedEvent: 'order-changed',
+        previewModeEvent: 'preview-mode',
+        timeZone: '-05:00'
     })
     .run(function ($rootScope, $location, Auth) {
         // Redirect to login if route requires auth and you're not logged in

@@ -348,3 +348,7 @@ table.dataTable thead .sorting:after {
 .orderDetailsModal {
     width: 850px;
 }
+
+.table-options {
+    width: 10%
+}

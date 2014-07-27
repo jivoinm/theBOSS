@@ -1,19 +1,14 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav" id="side-menu" sb-sidebar-menus menus-url="/api/menus">
-            <li class="sidebar-search">
-                <sb-sidebar-search></sb-sidebar-search>
-            </li>
-            <li ng-repeat="menu in menus track by $index">
-                <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
-                <ul class="nav nav-second-level" ng-if="menu.subMenus">
-                    <li ng-repeat="subMenu in menu.subMenus track by $index">
-                        <a href="#{{ subMenu.route  }}">{{ subMenu.name }}</a>
-                    </li>
-                </ul>
+<ul class="nav navbar-nav navbar-left" sb-sidebar-menus menus-url="/api/menus">
+
+    <li ng-repeat="menu in menus track by $index">
+        <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
+        <ul class="nav nav-second-level" ng-if="menu.subMenus">
+            <li ng-repeat="subMenu in menu.subMenus track by $index">
+                <a href="#{{ subMenu.route  }}">{{ subMenu.name }}</a>
             </li>
         </ul>
-        <!-- /#side-menu -->
-    </div>
-    <!-- /.sidebar-collapse -->
-</nav>
+    </li>
+</ul>
+
+
+

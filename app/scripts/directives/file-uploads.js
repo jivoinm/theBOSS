@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('fileUploads', ['$upload', '$timeout',  function ($upload, $timeout) {
+  .directive('fileUploads', ['$upload', '$timeout', '$rootScope', 'theBossSettings',  function ($upload, $timeout, $rootScope, theBossSettings) {
       return {
           templateUrl: '/views/directive-templates/file-uploads.html',
           restrict: 'E',
@@ -11,6 +11,11 @@ angular.module('theBossApp')
                     
           link: function postLink(scope, element, attrs) {
               scope.preview = attrs.preview || scope.$parent.preview;
+
+              $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
+                  scope.preview = preview;
+              });
+
               if(attrs.uploadUrl){
                 scope.model = scope.model || [];
                 scope.uploadRightAway = true;

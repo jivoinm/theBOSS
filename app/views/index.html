@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css" />
     <link rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css" />
+    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
@@ -37,27 +38,32 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 <!-- Add your site or application content here -->
-<div id="wrapper">
-    <div ng-show="currentUser">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <top-nav title="theBOSS Admin v1.0"></top-nav>
-            <nav-user></nav-user>
-            <!-- /.navbar-top-links -->
-        </nav>
-        <div data-spy="affix" data-offset-top="0" data-offset-bottom="200">
-            <sb-sidebar></sb-sidebar>
-        </div>
+<div class="container-fluid">
+<div class="row" ng-show="currentUser">
+    <nav class="col-md-12 navbar navbar-default navbar-fixed-top" role="navigation">
+        <top-nav title="theBOSS Admin v1.0"></top-nav>
+        <sb-sidebar></sb-sidebar>
+        <nav-user></nav-user>
+        <!-- /.navbar-top-links -->
+    </nav>
+</div>
 
-        <div id="page-wrapper" class="col-md-10 content-wrapper">
-            <div class="main-header">
-                <h2>{{ pageHeader }}</h2>
-            </div>
-            <toaster-container toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
-            <!-- /.row -->
-            <ng-view></ng-view>
+<div class="row" ng-show="currentUser">
+
+    <div class="col-md-12">
+         <div class="page-header">
+            <h1>{{ pageHeader }}</h1>
         </div>
+        <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+        <!-- /.row -->
+        <ng-view></ng-view>
     </div>
-    <ng-view ng-show="!currentUser"></ng-view>
+</div>
+
+<div class="row">
+
+    <ng-view class="col-xs-12 col-md-12" ng-show="!currentUser"></ng-view>
+</div>
 </div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
@@ -107,11 +113,14 @@
 <script src="bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.js"></script>
 <script src="bower_components/moment/moment.js"></script>
 <script src="bower_components/angular-moment/angular-moment.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/ng-grid/build/ng-grid.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/routingConfig.js"></script>
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/navbar.js"></script>
@@ -133,12 +142,22 @@
 <script src="scripts/directives/field.js"></script>
 <script src="scripts/services/form_service.js"></script>
 <script src="scripts/controllers/calendar.js"></script>
-<script src="scripts/services/calendar_service.js"></script>
 <script src="scripts/directives/form.js"></script>
 <script src="scripts/services/modal-service.js"></script>
 <script src="scripts/directives/file-uploads.js"></script>
 <script src="scripts/directives/order-details.js"></script>
 <script src="scripts/controllers/user.js"></script>
+<script src="scripts/directives/selected-item.js"></script>
+<script src="scripts/controllers/order.js"></script>
+<script src="scripts/directives/order-options.js"></script>
+<script src="scripts/directives/showonparenthover.js"></script>
+<script src="scripts/directives/order-status.js"></script>
+<script src="scripts/directives/order-tasks.js"></script>
+<script src="scripts/directives/order-accessories.js"></script>
+<script src="scripts/directives/order-services.js"></script>
+<script src="scripts/directives/order-comments.js"></script>
+<script src="scripts/directives/order-calendar.js"></script>
+<script src="scripts/directives/order-preview.js"></script>
 <!-- endbuild -->
 </body>
 </html>

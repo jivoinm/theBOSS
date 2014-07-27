@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .factory('Auth', ['$location', '$rootScope', 'Session', 'User', '$cookieStore', function ($location, $rootScope, Session, User, $cookieStore) {
+    .factory('Auth', ['$location', '$rootScope', 'Session', 'User', '$cookieStore', function Auth($location, $rootScope, Session, User, $cookieStore) {
 
         // Get currentUser from cookie
         $rootScope.currentUser = $cookieStore.get('user') || null;

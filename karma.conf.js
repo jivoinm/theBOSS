@@ -32,11 +32,17 @@ module.exports = function(config) {
             'app/bower_components/angular-dragdrop/src/angular-dragdrop.js',
             'app/bower_components/ng-file-upload/angular-file-upload.js',
             'app/bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.js',
+            'app/bower_components/moment/moment.js',
+            'app/bower_components/angular-moment/angular-moment.js',
+            'app/bower_components/angular-ui-router/release/angular-ui-router.js',
 
             'app/scripts/*.js',
             'app/scripts/**/*.js',
             'test/client/mock/**/*.js',
-            'test/client/spec/**/*.js',
+            //'test/client/spec/**/*.js',
+            'test/client/spec/**/order.js',
+            'test/client/spec/**/orders.js',
+            'test/client/spec/**/order-details.js',
             'app/views/**/**/*html'
         ],
 

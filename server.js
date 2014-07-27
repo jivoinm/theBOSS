@@ -21,11 +21,13 @@ var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 // Bootstrap models
 var modelsPath = path.join(__dirname, 'lib/models');
 fs.readdirSync(modelsPath).forEach(function (file) {
-  if (/(.*)\.(js$|coffee$)/.test(file)) {
-    require(modelsPath + '/' + file);
-  }
+    console.log(modelsPath, file);
+    if (/(.*)\.(js$|coffee$)/.test(file)) {
+        require(modelsPath + '/' + file);
+    }
 });
 
+console.log('process.env.NODE_ENV:',process.env.NODE_ENV);
 // Populate empty DB with sample data
 if(process.env.NODE_ENV === 'development')
 {
@@ -45,7 +47,7 @@ require('./lib/routes')(app);
 
 // Start server
 app.listen(config.port, function () {
-  console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
+    console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 });
 
 //app.use(express.multipart())
