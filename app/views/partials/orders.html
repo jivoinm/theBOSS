@@ -4,49 +4,34 @@
             <div class="panel-heading">Filters</div>
             <div class="panel-body">
                 <p>Select your orders by quick search by status or advanced search by additional order properties</p>
+                <a class="btn btn-primary btn-lg" href="#/order">New Order</a>
             </div>
-            <accordion close-others="oneAtATime">
-                <accordion-group heading="Quick Search" is-open="true" is-disabled="false">
-                    <!-- List group -->
-                    <ul class="list-group">
-                        <a href="#/orders/new" class="list-group-item" sb-url-active>
-                            New, pending approval
-                        </a>
-                        <a href="#/orders/approved" class="list-group-item" sb-url-active>
-                            Approved
-                        </a>
-                        <a href="#/orders/finished" class="list-group-item" sb-url-active>
-                            Completed
-                        </a>
-                    </ul>
-                </accordion-group>
-                <accordion-group heading="Advanced Search" is-open="false" is-disabled="true">
-
-                </accordion-group>
-            </accordion>
+            <ul class="list-group">
+                <a href="#/orders/new" class="list-group-item" sb-url-active>
+                    New, pending approval
+                </a>
+                <a href="#/orders/approved" class="list-group-item" sb-url-active>
+                    Approved
+                </a>
+                <a href="#/orders/finished" class="list-group-item" sb-url-active>
+                    Completed
+                </a>
+                <a href="#/orders" class="list-group-item" sb-url-active>
+                    All
+                </a>
+            </ul>
         </div>
     </div>
     <div class="col-md-10">
         <div class="panel panel-default">
             <div class="panel-heading">Order search</div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=well>
-                            <div class="row">
-                                <div class="col-md-7">
-
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="input-group">
-                                        <form ng-submit="loadOrders()">
-                                            <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
-                                        </form>
-                                    </div><!-- /input-group -->
-                                </div><!-- /.col-lg-6 -->
-                            </div><!-- /.row -->
-                        </div>
-                    </div>
+                <div class=well>
+                    <form ng-submit="loadOrders()">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
+                    </div><!-- /input-group -->
+                    </form>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -68,14 +53,14 @@
                                         <td><a href="#/order/{{ order._id }}">{{ order.customer.name }}</a></td>
                                         <td>{{ order.date_required | date }}</td>
                                         <td><order-status></order-status> </td>
-                                        <td>{{ order.created_by.name }}</td>
+                                        <td>{{ order.createdBy.name }}</td>
                                         <td>{{ order.created_on | date }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                             
                             <pagination total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
-    <pre>Page: {{currentPage}} / {{numPages}}</pre>
+                             <pre>Page: {{currentPage}} / {{numPages}}</pre>
                         </div>
                     </div>
                 </div>

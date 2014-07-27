@@ -1,12 +1,10 @@
-<div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}" ng-readonly=""></div>
+<div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}"></div>
 <div field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></div>
 <div field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date', require:true}"></div>
 <div field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></div>
-<div field ng-model="order.customer.address" ng-field="{title:'Address', type:'text'}"></div>
-<div field ng-model="order.customer.postal_code" ng-field="{title:'Postal Code', type:'text'}"></div>
-<div field ng-model="order.customer.province" ng-field="{title:'Province', type:'select', show_options: ['Ontario', 'Quebec'], value: 'Ontario'}"></div>
-<div field ng-model="order.customer.country" ng-field="{title:'Country', type:'select', show_options: ['Canada', 'USA'], value: 'Canada'}"></div>
 
 
-<forms module="Projects" list-of-forms="order.forms"></forms>
+<forms module="Projects" list-of-forms="order.forms" preview="preview"></forms>
+
+
 

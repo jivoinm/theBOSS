@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', function (OrderService, toaster, ModalService, moment) {
+    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', function (OrderService, toaster, ModalService, moment, theBossSettings) {
         return {
             template: '<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>',
             restrict: 'E',
@@ -13,7 +13,7 @@ angular.module('theBossApp')
 
 
                 $scope.eventsF = function (start, end, callback) {
-                    OrderService.getOrders({status:'Finished', from: moment(start).format('YYYY-MM-DD'), to: moment(end).format('YYYY-MM-DD')}).$promise.
+                    OrderService.getOrders({status:'Finished', from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
                         then(function (orders){
                             //set order to calendar
                             var events = [];
@@ -59,7 +59,7 @@ angular.module('theBossApp')
 
                 $scope.eventMouseover = function(event, jsEvent, view ) {
                     console.log(event);
-                    jsEvent.target.append("<order-options></order-options>")
+                    //jsEvent.target.append("<order-options></order-options>")
 
                 }
 
@@ -74,7 +74,7 @@ angular.module('theBossApp')
                         header:{
                             left: 'today prev,next',
                             center: 'title',
-                            right: 'month,basicWeek,basicDay'
+                            right: 'month,basicWeek,basicDay,agendaWeek'
                         },
                         editable: true,
                         eventClick: $scope.eventClick,
@@ -92,7 +92,7 @@ angular.module('theBossApp')
 
                 //update calendar event on server and ui
                 function updateCalendarEvent(event) {
-                    OrderService.setDateRequired({orderId:event.order_id, date_required: moment(event.start).format('YYYY-MM-DD')});
+                    OrderService.setDateRequired({orderId:event.order_id, date_required: moment(event.start).zone(theBossSettings.timeZone).format('YYYY-MM-DD')});
                 }
 
                 $scope.eventSources = [$scope.eventsF];

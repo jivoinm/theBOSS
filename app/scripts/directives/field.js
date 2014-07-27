@@ -5,12 +5,10 @@ angular.module('theBossApp')
 
 
         var formField = function(field){
-            //var action = '<div class="col-lg-6"><div class="input-group">'+field+'<span class="input-group-btn"><button class="btn btn-default" type="button" ng-click="{{ field.action.click }}">{{ field.action.title }}</button></span></div></div>';
-            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" class="btn btn-default">' +
+            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
                 '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
-                '<div class="form-control-static" ng-if="preview">{{ model }}</div>' +
-                '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInine}" ng-if="!preview">'+ field+'</div>' +
-                    '<div class="col-sm-2" ng-show="!isInline" ng-if="!preview">'+
+                '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInine}">'+ field+'</div>' +
+                    '<div class="col-sm-2" ng-show="!isInline">'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                             '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field,index)"></button>' +
                             '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete(fieldForm,field,index)"></button>' +
@@ -21,6 +19,7 @@ angular.module('theBossApp')
 
         function getFieldTemplate(scope, element, attr){
             var fieldTemplate = '';
+
             switch(scope.field.type) {
                 case 'date':
                     scope.today = function() {
@@ -169,17 +168,11 @@ angular.module('theBossApp')
                 field: '=ngField',
                 edit: '&',
                 delete: '&',
-                index: '='
+                index: '=',
+                preview: '@'
             },
 
-
-
             link: function(scope, elem, attr){
-                scope.preview = attr.preview || scope.$parent.preview;
-                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
-                    scope.preview = preview;
-                });
-
                 scope.splitOptions = function(optionString){
                     if( Object.prototype.toString.call( optionString ) === '[object Array]' ) return optionString;
                     return optionString ? optionString.split(',') : [];

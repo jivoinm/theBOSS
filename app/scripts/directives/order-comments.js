@@ -18,17 +18,18 @@ angular.module('theBossApp')
                 '            </div>' +
                 '            </quick-list>',
             restrict: 'E',
+            controller: function ($scope){
+                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
+                    $scope.preview = preview;
+                });
+
+                $scope.order_comment_fields = [{title:'message', type:'text', require: true}, {title:'from.user_id', type:'hidden', value: $rootScope.currentUser.user_id}, {title:'from.name', type:'hidden', value: $rootScope.currentUser.name}, {title:'from.email', type:'hidden', value: $rootScope.currentUser.email}];
+            },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){
                     element.text('Missing order on the scope');
                     return;
                 }
-
-                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
-                    scope.preview = preview;
-                });
-
-                scope.order_comment_fields = [{title:'message', type:'text', require: true}, {title:'from.user_id', type:'hidden', value: $rootScope.currentUser.user_id}, {title:'from.name', type:'hidden', value: $rootScope.currentUser.name}, {title:'from.email', type:'hidden', value: $rootScope.currentUser.email}];
             }
         };
     }]);

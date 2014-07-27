@@ -108,7 +108,8 @@ angular.module('theBossApp', [
     })
     .constant('theBossSettings',{
         orderChangedEvent: 'order-changed',
-        previewModeEvent: 'preview-mode'
+        previewModeEvent: 'preview-mode',
+        timeZone: '-05:00'
     })
     .run(function ($rootScope, $location, Auth) {
         // Redirect to login if route requires auth and you're not logged in

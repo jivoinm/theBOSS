@@ -105,10 +105,10 @@ describe('Order server tests', function () {
 
     it("should be able to return orders for one owner created by user", function (done) {
 
-        Order.queryOrders({owner: helper.owner(), created_by: user}, null, 'created_by').addBack(
+        Order.queryOrders({owner: helper.owner(), createdBy: user}, null, 'createdBy').addBack(
             function (err, orders) {
                 orders.length.should.equal(1);
-                should.exist(orders[0].created_by.name);
+                should.exist(orders[0].createdBy.name);
                 should.exist(orders[0].customer.name);
                 orders[0].forms.length.should.equal(2);
                 done();
@@ -119,8 +119,8 @@ describe('Order server tests', function () {
         Order.create({
             owner: helper.owner(),
             'customer.name': orderObj.customer.name,
-            created_by: orderObj.created_by}, function (err, order) {
-            Order.queryOrders({owner: helper.owner()}, {last_updated_on: -1}, 'created_by').addBack(
+            createdBy: orderObj.createdBy}, function (err, order) {
+            Order.queryOrders({owner: helper.owner()}, {last_updated_on: -1}, 'createdBy').addBack(
                 function (err, orders) {
                     orders[0].last_updated_on.getSeconds().should.be.exactly(order.last_updated_on.getSeconds());
                     done();
@@ -139,7 +139,7 @@ describe('Order server tests', function () {
 
     it("should query order by customer name and return one result", function (done) {
         var regExp = new RegExp('cust', "i");
-        Order.queryOrders({owner: helper.owner(), $or: [{"customer.name": regExp}, {"forms.fields": {$elemMatch: {"value": regExp}}}]}, null, 'created_by')
+        Order.queryOrders({owner: helper.owner(), $or: [{"customer.name": regExp}, {"forms.fields": {$elemMatch: {"value": regExp}}}]}, null, 'createdBy')
             .addBack(function (err, res) {
                 res.should.be.length(1);
                 done();

@@ -9,7 +9,9 @@
                     <tab>
                         <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
                         <div class=well>
-                             <order-details></order-details>
+                             <order-details order="order" ng-if="!preview"></order-details>
+                             <order-preview order="order" ng-if="preview"></order-preview>
+
                         </div>
 
 
@@ -57,7 +59,7 @@
                                 Status:
                             </li>
                             <li class="list-group-item">
-                                <span class="pull-right">{{ order.created_by.name }} on {{ order.created_on | date }}</span>
+                                <span class="pull-right">{{ order.createdBy.name }} on {{ order.created_on | date }}</span>
                                 Created by:
                             </li>
                             <li class="list-group-item">

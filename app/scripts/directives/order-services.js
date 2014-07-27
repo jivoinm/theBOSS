@@ -12,17 +12,18 @@ angular.module('theBossApp')
                 '            <p class="list-group-item-text">To be done by: {{ item.done_by }}</p>' +
                 '        </quick-list>',
             restrict: 'E',
+            controller: function ($scope){
+                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
+                    $scope.preview = preview;
+                });
+
+                $scope.order_service_fields = [{title:'Service Date', type:'date', require: true}, {title:'Details', type:'textarea', require: true},{title:'Done By', type:'text', require: false}];
+            },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){
                     element.text('Missing order on the scope');
                     return;
                 }
-
-                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
-                    scope.preview = preview;
-                });
-
-                scope.order_service_fields = [{title:'Service Date', type:'date', require: true}, {title:'Details', type:'textarea', require: true},{title:'Done By', type:'text', require: false}];
             }
         };
     }]);

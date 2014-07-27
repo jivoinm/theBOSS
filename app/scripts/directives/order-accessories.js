@@ -12,15 +12,18 @@ angular.module('theBossApp')
                 '                <p class="list-group-item-text">{{ item.description }}</p>' +
                 '</quick-list>',
             restrict: 'E',
+            controller: function ($scope){
+                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
+                    $scope.preview = preview;
+                });
+
+                $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
+            },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){
                     element.text('Missing order on the scope');
                     return;
                 }
-                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
-                    scope.preview = preview;
-                });
-                scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
             }
         };
     }]);

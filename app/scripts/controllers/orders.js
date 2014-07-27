@@ -4,8 +4,9 @@ angular.module('theBossApp')
     .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', 'ModalService', function ($scope, OrderService, $routeParams, ModalService) {
         $scope.orders = [];
         $scope.totalOrders = 0;
-        $scope.currentPage = 0;
-        
+        $scope.currentPage = 1;
+        $scope.maxSize = 10;
+
         if($routeParams.status){
             $scope.orderStatus = $routeParams.status;
         }
@@ -20,7 +21,7 @@ angular.module('theBossApp')
                 query.text = $scope.queryText;
             }
             
-            query.limit = 10;
+            query.limit = $scope.maxSize = 10;
             query.page = $scope.currentPage;
 
             OrderService.query(query).$promise.then (function (orders) {

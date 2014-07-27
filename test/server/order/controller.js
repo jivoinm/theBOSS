@@ -154,7 +154,7 @@ describe('Order controller', function () {
             .end(function (err, res) {
                 res.body.should.be.length(1);
                 res.body[0].customer.name.should.equal('Customer');
-                res.body[0].created_by.name.should.equal(user.name);
+                res.body[0].createdBy.name.should.equal(user.name);
                 done();
             });
 
@@ -168,7 +168,7 @@ describe('Order controller', function () {
             .end(function (err, res) {
                 res.body.should.be.length(1);
                 res.body[0].customer.name.should.equal('Customer');
-                res.body[0].created_by.name.should.equal(user.name);
+                res.body[0].createdBy.name.should.equal(user.name);
                 done();
             });
 

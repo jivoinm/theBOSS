@@ -68,23 +68,21 @@ angular.module('theBossApp').
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
-            scope: {
-              order: '='
-            },
-            link: function (scope, element, attrs) {
-                if(scope.order){
-                    scope.orders = [scope.order];
+            controller: function ($scope) {
+                if($scope.order){
+                    $scope.orders = [$scope.order];
                 }else{
-                    OrderService.tasks().$promise.then(function(data){
-                        scope.orders = data;
+                    OrderService.tasks({status: 'approved'}).$promise.then(function(data){
+                        $scope.orders = data;
                     });
                 }
 
-                scope.setTaskStatus = function(order,form,taskIndex,task,status){
-                    task.changed_by = scope.$root.currentUser._id;
+                $scope.setTaskStatus = function(order,form,taskIndex,task,status){
+                    task.changed_by = $scope.$root.currentUser._id;
                     task.changed_on = new Date();
                     task.status = status;
-                    order.$save(function(){
+                    //if all tasks are finished then set order status to finish
+                    OrderService.setTaskStatus({orderId: order._id, taskId: task._id, status: status}, function(){
                         if(status=='finish'){
                             form.tasks.splice(taskIndex,1);
                         }
@@ -194,4 +192,21 @@ angular.module('theBossApp').
                 element.find('[data-toggle=popover]').popover();
             }
         };
-    });
+    }).
+
+    directive('sbUrlActive',['$location', function ($location) {
+        return{
+            restrict: 'A',
+            link: function (scope, element) {
+                if(element[0].hash){
+                    var path = element[0].hash.replace('#','');
+                    if($location.path() ===  path){
+                        element.addClass('active');
+                    }else{
+                        element.removeClass('active');
+                    }
+                }
+            }
+        }
+
+    }]);

@@ -17,17 +17,23 @@ angular.module('theBossApp')
         }
       
         $scope.edit = function (){
-            $rootScope.$broadcast(theBossSettings.previewModeEvent,false);
+            //$rootScope.$broadcast(theBossSettings.previewModeEvent,false);
+            $scope.preview = false;
         }
-        
+
         $scope.redirectToList = function(){
-            $location.path('/orders');
+           // $location.path('/orders');
         }
         //Save order
         $scope.save = function (isValidForm){
             if(isValidForm){
-                $scope.order.$save(function(){
-                    $scope.redirectToList();
+                $scope.order.$save(function(savedOrder){
+                    if($scope.order._id)
+                    {
+                        $scope.redirectToList();
+                    }else{
+                        $scope.order = savedOrder;
+                    }
                     toaster.pop('success', "Success", 'Saved you order '+ $scope.getOrderName());
                 },function(err){
                     toaster.pop('error', "Error", 'Error saving you order '+ err);

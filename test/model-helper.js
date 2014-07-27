@@ -68,12 +68,12 @@ var helper = function(ownerName){
         };
     }
 
-    this.setValuesToFormFieldsAndTasks = function (forms){
+    this.setValuesToFormFieldsAndTasks = function (forms, customer){
         var orderForms = [];
         if(forms){
             forms.forEach(function(form){
                 var orderForm = {};
-                orderForm.formName = form.formName;
+                orderForm.form_name = form.formName;
                 orderForm.fields = [];
                 orderForm.tasks = [];
                 //set order fields and tasks
@@ -85,7 +85,7 @@ var helper = function(ownerName){
                         {
                             order_field.value = field.show_options.split(',')[0];
                         }else{
-                            order_field.value = "some value "+i;
+                            order_field.value =  customer.name + " some value "+i;
                         }
                         orderForm.fields.push(order_field);
                     });
@@ -106,7 +106,7 @@ var helper = function(ownerName){
     }
 
     this.addOrder = function(user, customer, forms, services){
-        var orderForms = this.setValuesToFormFieldsAndTasks(forms);
+        var orderForms = this.setValuesToFormFieldsAndTasks(forms, customer);
         var created_on = this.randomDate(new Date(2012, 0, 1), new Date());
         var date_required = this.randomDate(new Date(2012, 0, 1), new Date(new Date().setMonth(new Date().getMonth() + 2)));
         var status = date_required < new Date() ? 'Finished' : 'New';
@@ -114,7 +114,7 @@ var helper = function(ownerName){
             owner: ownerName,
             po_number: 'PO '+Math.floor((Math.random()*1000)+1),
             status: status,
-            created_by:{
+            createdBy:{
                 user_id: user._id,
                 name: user.name,
                 email: user.email

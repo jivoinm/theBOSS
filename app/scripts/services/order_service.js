@@ -17,21 +17,33 @@ angular.module('theBossApp')
             },
 
             'tasks': {
-                url: '/api/orders/tasks',
+                url: '/api/orders/tasks/:status',
                 method: 'GET',
                 isArray: true
             },
             'accessories': {
                 url: '/api/orders/accessories',
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                params: {
+                    status: '@status'
+                }
             },
             'comments': {
                 url: '/api/orders/comments',
                 method: 'GET',
                 isArray: true
             },
-
+            'getOrders': {
+                url: '/api/orders/:status/:from/:to',
+                params: {
+                    status: '@status',
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: false,
+                method: 'GET'
+            },
             'setStatus': {
                 url: '/api/orders/:orderId/status/:status',
                 params: {
@@ -48,16 +60,14 @@ angular.module('theBossApp')
                 },
                 method: 'PATCH'
             },
-            'getOrders': {
-                url: '/api/orders/:status/:from/:to',
+            'setTaskStatus': {
+                url: '/api/orders/:orderId/task/:taskId/:status',
                 params: {
-                    status: '@status',
-                    from: '@from',
-                    to: '@to'
+                    orderId: '@orderId',
+                    taskId: '@taskId',
+                    status: '@status'
                 },
-                isArray: false,
-                method: 'GET'
+                method: 'PATCH'
             }
-
         });
     }]);

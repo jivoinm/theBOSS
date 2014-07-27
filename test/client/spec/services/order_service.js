@@ -18,7 +18,7 @@ describe('Service: OrderService', function () {
                 {Project: '1'},
                 {Project: '2'}
             ],
-            created_by: 'createdBy'};
+            createdBy: 'createdBy'};
     }));
 
 
