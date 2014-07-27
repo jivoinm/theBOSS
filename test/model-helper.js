@@ -73,7 +73,7 @@ var helper = function(ownerName){
         if(forms){
             forms.forEach(function(form){
                 var orderForm = {};
-                orderForm.form_name = form.formName;
+                orderForm.formName = form.formName;
                 orderForm.fields = [];
                 orderForm.tasks = [];
                 //set order fields and tasks
@@ -81,9 +81,9 @@ var helper = function(ownerName){
                     form.fields.forEach(function(field, i){
                         var order_field = field;
                         delete order_field._id;
-                        if(field.show_options)
+                        if(field.showOptions)
                         {
-                            order_field.value = field.show_options.split(',')[0];
+                            order_field.value = field.showOptions.split(',')[0];
                         }else{
                             order_field.value =  customer.name + " some value "+i;
                         }

@@ -7,15 +7,6 @@ angular.module('theBossApp')
                 method: 'GET',
                 isArray: false
             },
-            'projects': {
-                url: '/api/orders/:orderId/projects',
-                method: 'GET',
-                params: {
-                    orderId:'@_id'
-                },
-                isArray: true
-            },
-
             'tasks': {
                 url: '/api/orders/tasks/:status',
                 method: 'GET',

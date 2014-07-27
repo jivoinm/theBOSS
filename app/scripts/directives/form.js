@@ -44,12 +44,12 @@ angular.module('theBossApp')
                     return [
                         {title: 'Title', value: field.title, require: true, type: 'text'},
                         {title: 'Value', value: field.value, require: false, type: 'text'},
-                        {title: 'Type', value: field.type, require: true, type: 'select', show_options: field_types},
-                        {title: 'Show Options', value: field.show_options, require: false, type: 'tokens'},
+                        {title: 'Type', value: field.type, require: true, type: 'select', showOptions: field_types},
+                        {title: 'Show Options', value: field.showOptions, require: false, type: 'tokens'},
                         {title: 'Require', value: field.require, require: false, type: 'checkbox'}
-//                            {title:'Action', value: field.action, type:'select', show_options: field_actions},
-//                            {title:'When field', value: field.when, type:'select', show_options: form_fields},
-//                            {title:'Condition', value: field.condition, type:'select', show_options: ['eq','ls','gt','diff']},
+//                            {title:'Action', value: field.action, type:'select', showOptions: field_actions},
+//                            {title:'When field', value: field.when, type:'select', showOptions: form_fields},
+//                            {title:'Condition', value: field.condition, type:'select', showOptions: ['eq','ls','gt','diff']},
 //                            {title:'Value', value: field.condition_value, type:'text'}
 
                     ];
@@ -80,26 +80,26 @@ angular.module('theBossApp')
                     StopEventPropagation(e);
                     var forms_to_clone_from =[];
                     angular.forEach($scope.moduleForms ,function(form){
-                        this.push(form.form_name);
+                        this.push(form.formName);
                     },forms_to_clone_from)
 
                     ModalService.modalFormDialog('Add new form',[
                         {title:'Form Name',value:'',require:true,type:'text'},
-                        {title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from}
+                        {title:'Clone From',value:'',require:false,type:'select',showOptions:forms_to_clone_from}
                         ], function(model){
                         var newForm = {};
                         if(model.clone_from){
                             angular.forEach($scope.moduleForms, function(form){
-                                if(form.form_name == model.clone_from){
+                                if(form.formName == model.clone_from){
                                     newForm = angular.copy(form);
                                     delete newForm._id;
                                 }
                             })
                         }
-                        newForm.form_name = model.form_name
+                        newForm.formName = model.form_name
                         newForm.module = $scope.module;
 
-                        FormService.save({},newForm, function(form){
+                        new FormService(newForm).$save(function(form){
                             if(!form){
                                 toaster.pop('error', "There was an error saving new form on server.");
                             }else{

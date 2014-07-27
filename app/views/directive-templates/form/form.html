@@ -8,7 +8,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.form_name }}</a></li>
+                    <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.formName }}</a></li>
                     <li class="divider"></li>
                     <li><a href="" ng-click="addNewForm()">New Form</a></li>
                 </ul>
@@ -18,17 +18,16 @@
     <div class="panel-heading" ng-if="preview">{{ module }}</div>
     <div class="panel-body">
         <accordion close-others="oneAtATime">
-            <accordion-group heading="{{form.form_name}}" ng-repeat="form in listOfForms" is-open="$index==0">
+            <accordion-group heading="{{form.formName}}" ng-repeat="form in listOfForms" is-open="$index==0">
                 <accordion-heading>
                     <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview"></i>
 
-                    <span>{{form.form_name}}</span>
-                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.form_name}}" ng-if="!preview">
+                    <span>{{form.formName}}</span>
+                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview">
 
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
                         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>
                     </div>
-
 
                 </accordion-heading>
 

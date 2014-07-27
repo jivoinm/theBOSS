@@ -112,14 +112,14 @@ angular.module('theBossApp')
                     fieldTemplate = '<select ui-select2="select2Options" name="fieldName" placeholder="{{field.title}}"'+
                         'ng-model="model"  ng-required="{{ field.require }}">' +
                         '<option value=""></option>'+
-                        '<option ng-repeat="option in splitOptions(field.show_options) track by $index" value="{{option}}">{{option}}</option>' +
+                        '<option ng-repeat="option in splitOptions(field.showOptions) track by $index" value="{{option}}">{{option}}</option>' +
                         '</select>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
 
                 case 'select':
                     fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
-                         'ng-model="model"  ng-required="{{ field.require }}" ng-options="value for value in splitOptions(field.show_options)"'+
+                         'ng-model="model"  ng-required="{{ field.require }}" ng-options="value for value in splitOptions(field.showOptions)"'+
                          'ng-show="!editmode">' +
                          '<option value=""></option>'+
                          '</select>';
@@ -135,7 +135,7 @@ angular.module('theBossApp')
                     break;
                 case 'radio':
                     fieldTemplate = '<div class="radio"> ' +
-                        '<div class="radio" ng-repeat="option in splitOptions(field.show_options)">' +
+                        '<div class="radio" ng-repeat="option in splitOptions(field.showOptions)">' +
                         '<label><input type="radio" name="fieldName" ng-model="model" ng-value="option">{{ option.value }}</label>' +
                         '</div>' +
                     '</div>';
@@ -154,7 +154,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'composite':
-                    fieldTemplate = '<div class="well"><div  field ng-model="composite_field.value" ng-field="composite_field" ng-repeat="composite_field in field.show_options"></div></div>';
+                    fieldTemplate = '<div class="well"><div  field ng-model="composite_field.value" ng-field="composite_field" ng-repeat="composite_field in field.showOptions"></div></div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
             }
