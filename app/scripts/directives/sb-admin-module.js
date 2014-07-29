@@ -26,7 +26,7 @@ angular.module('theBossApp').
                 scope.newMessageForm = [{isInline:true, title:'Message', type:'text', require: true, action: {click:scope.sendMessage, title:'Send'}}];
 
                 OrderService.comments().$promise.then(function(data){
-                    scope.messages = data;
+                    scope.messages = data.comments;
                 })
 
                 scope.sendMessage = function(){

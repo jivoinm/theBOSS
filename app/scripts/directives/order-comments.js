@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderComments', ['$rootScope', 'theBossSettings', function ($rootScope, theBossSettings) {
+    .directive('orderComments', ['$rootScope', 'theBossSettings', 'OrderService', function ($rootScope, theBossSettings, OrderService) {
         return {
-            template: '<quick-list quick-list="order.comments" listType="list" title="Comments"' +
+            template: '<quick-list quick-list="comments" listType="list" title="Comments"' +
                 '        list-fields-to-edit="order_comment_fields" editable-form="order" broadcast-event="order-changed">' +
                 '            <div class="chat-body clearfix">' +
                 '                <div class="header">' +
@@ -27,8 +27,11 @@ angular.module('theBossApp')
             },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){
-                    element.text('Missing order on the scope');
-                    return;
+                    OrderService.comments().$promise.then(function(data){
+                        scope.comments = data[0].comments;
+                    })
+                } else {
+                    scope.comments = scope.order.comments;
                 }
             }
         };
