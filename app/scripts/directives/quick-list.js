@@ -65,7 +65,7 @@ angular.module('theBossApp')
                         scope.listFieldsToEdit, function(model){
                             if(model){
                                 if(form && form.$save){
-                                    scope.quickList.push(model);
+                                    scope.quickList.unshift(model);
                                     form.$save(function(serverModel){
                                         if(attrs.broadcastEvent)
                                         {

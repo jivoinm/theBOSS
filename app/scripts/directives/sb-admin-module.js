@@ -82,7 +82,7 @@ angular.module('theBossApp').
                     task.changed_on = new Date();
                     task.status = status;
                     //if all tasks are finished then set order status to finish
-                    OrderService.setTaskStatus({orderId: order._id, taskId: task._id, status: status}, function(){
+                    order.$save(function(){
                         if(status=='finish'){
                             form.tasks.splice(taskIndex,1);
                         }

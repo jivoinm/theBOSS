@@ -5,13 +5,11 @@
         <div class="row">
             <div class="col-md-8">
 
-                <tabset justified="true">
+                <tabset justified="true" ng-if="!preview">
                     <tab>
                         <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
                         <div class=well>
-                             <order-details order="order" ng-if="!preview"></order-details>
-                             <order-preview order="order" ng-if="preview"></order-preview>
-
+                             <order-details order="order" ></order-details>
                         </div>
 
 
@@ -46,7 +44,7 @@
                         </div>
                     </tab>
                 </tabset>
-
+                <order-preview order="order" ng-if="preview"></order-preview>
 
             </div>
             <div class="col-md-4">
@@ -67,23 +65,14 @@
                                 Last updated by:
                             </li>
                         </ul>
+                        <order-workflow order="order"></order-workflow>
                         <div class="btn-group btn-group-justified">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" ng-click="edit()">Edit</button>
                             </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                    Set Status
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="" ng-click="setStatus('approved')">Approved</a></li>
-                                    <li><a href="" ng-click="setStatus('finished')">Finished</a></li>
-                                    <li><a href="" ng-click="setStatus('blocked')">Blocked</a></li>
-                                </ul>
-                            </div>
 
                             <div class="btn-group">
+
                                 <button type="button" class="btn btn-danger" ng-click="delete()">Delete</button>
                             </div>
                         </div>

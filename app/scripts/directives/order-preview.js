@@ -44,8 +44,14 @@ angular.module('theBossApp')
                             other.append(CreatePanel('Tasks', function(){
                                 var body = '';
                                 form.tasks.forEach(function (task){
-                                    body += CreateField(task.title, task.status);
-                                    body += CreateField('By', task.changed_by + ' @ '+ task.changed_on);
+                                    if(task.status)
+                                    {
+                                        body += CreateField(task.title, task.status);
+                                    }
+                                    if(task.changed_by)
+                                    {
+                                        body += CreateField('By', task.changed_by + ' @ '+ task.changed_on);
+                                    }
                                 })
                                 return body;
                             }));

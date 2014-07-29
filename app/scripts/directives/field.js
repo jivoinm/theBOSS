@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('field', ['$http', '$compile', '$rootScope', 'theBossSettings', function ($http, $compile, $rootScope, theBossSettings) {
+    .directive('field', ['$http', '$compile', '$timeout', function ($http, $compile,$timeout) {
 
 
         var formField = function(field){
@@ -183,7 +183,17 @@ angular.module('theBossApp')
                     $compile($field)(scope);
                     if(scope.field.type=='tokens')
                     {
-                        elem.find('.tokenfield').tokenfield({tokens:scope.field.value});
+                        $timeout(function() {
+                            elem.find('.tokenfield').tokenfield({tokens:scope.field.value});
+                        }, 700);
+
+                    }
+
+                    if(scope.field.focus === true){
+                        $timeout(function() {
+                            elem.find('input, select, textarea').focus();
+                        }, 700);
+
                     }
                 }
             }

@@ -50,15 +50,6 @@ angular.module('theBossApp')
                     date_required: '@date_required'
                 },
                 method: 'PATCH'
-            },
-            'setTaskStatus': {
-                url: '/api/orders/:orderId/task/:taskId/:status',
-                params: {
-                    orderId: '@orderId',
-                    taskId: '@taskId',
-                    status: '@status'
-                },
-                method: 'PATCH'
             }
         });
     }]);

@@ -23,7 +23,7 @@ angular.module('theBossApp')
                     $scope.preview = preview;
                 });
 
-                $scope.order_comment_fields = [{title:'message', type:'text', require: true}, {title:'from.user_id', type:'hidden', value: $rootScope.currentUser.user_id}, {title:'from.name', type:'hidden', value: $rootScope.currentUser.name}, {title:'from.email', type:'hidden', value: $rootScope.currentUser.email}];
+                $scope.order_comment_fields = [{title:'Message', type:'text', require: true, focus:true}, {title:'from.user_id', type:'hidden', value: $rootScope.currentUser.user_id}, {title:'from.name', type:'hidden', value: $rootScope.currentUser.name}, {title:'from.email', type:'hidden', value: $rootScope.currentUser.email}];
             },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){

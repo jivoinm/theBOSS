@@ -112,7 +112,6 @@ angular.module('theBossApp')
                     }
                 });
             }
-            
-            
+
         }
     }]);
