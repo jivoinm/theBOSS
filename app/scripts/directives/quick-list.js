@@ -71,9 +71,6 @@ angular.module('theBossApp')
                                         {
                                             $rootScope.$broadcast(attrs.broadcastEvent,serverModel);
                                         }
-//                                        else{
-//                                            scope.quickList.push(model);
-//                                        }
                                         toaster.pop('success', "Field was saved with success");
 
                                     },function(err){
