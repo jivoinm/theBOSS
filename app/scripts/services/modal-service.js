@@ -1,16 +1,34 @@
 'use strict';
 
 angular.module('theBossApp')
-    .service('ModalService',['$modal', function ($modal) {
+    .service('ModalService',['$modal','_', function ($modal,_) {
         var fieldsToModel = function(fields){
+
             var model = {};
             angular.forEach(fields, function(field){
-                model[field.title.toLowerCase().replace(' ','_')] = field.value;
+                var fieldName = field.name || field.title;
+                var fieldValue = field.value;
+                var path = fieldName.toLowerCase().replace(' ','_').split('.');
+                setProperty(model,path,fieldValue);
                 field.value = null;
             });
             return model;
         }
-        
+
+        function setProperty(obj, keyPath, value) {
+            var i = 0,
+                len = keyPath.length - 1;
+
+            for (; i < len; i++) {
+
+                if(!obj[keyPath[i]]){
+                    obj[keyPath[i]] = {};
+                }
+                obj = obj[keyPath[i]];
+            }
+
+            obj[keyPath[i]] = value;
+        }
         return {
             confirmDelete: function(question, callback){
                 var modal = $modal.open({

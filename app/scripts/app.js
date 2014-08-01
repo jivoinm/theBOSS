@@ -16,7 +16,8 @@ angular.module('theBossApp', [
         'ngDragDrop',
         'angularFileUpload',
         'angularMoment',
-        'ngGrid'
+        'ngGrid',
+        'underscore'
     ])
     .config(function ($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);

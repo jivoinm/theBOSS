@@ -24,7 +24,9 @@
     "bootstrap-tokenfield": "~0.12.0",
     "angular-moment": "~0.7.1",
     "angular-ui-router": "~0.2.10",
-    "ng-grid": "~2.0.11"
+    "ng-grid": "~2.0.11",
+    "underscore": "*",
+    "angular-underscore-module": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.11",
