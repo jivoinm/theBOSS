@@ -1,6 +1,6 @@
 'use strict';
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', '$rootScope', 'theBossSettings', function ($scope, $location, OrderService, ModalService, order, toaster, $rootScope, theBossSettings) {
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', function ($scope, $location, OrderService, ModalService, order, toaster) {
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -9,21 +9,23 @@ angular.module('theBossApp')
             }
             return name;
         }
+        $scope.$parent.pageHeader = $scope.getOrderName();
 
         $scope.order = order;
+        $scope.orderOriginal = angular.copy(order);
         $scope.preview = false;
         if(order._id){
             $scope.preview = true;
         }
       
         $scope.edit = function (){
-            //$rootScope.$broadcast(theBossSettings.previewModeEvent,false);
             $scope.preview = false;
         }
 
         $scope.redirectToList = function(){
-           // $location.path('/orders');
+            $location.path('/orders');
         }
+
         //Save order
         $scope.save = function (isValidForm){
             if(isValidForm){
@@ -57,5 +59,5 @@ angular.module('theBossApp')
             })
         }
 
-        $scope.$parent.pageHeader = $scope.getOrderName();
+
   }]);
