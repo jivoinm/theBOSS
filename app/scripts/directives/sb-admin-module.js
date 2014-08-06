@@ -11,39 +11,7 @@ angular.module('theBossApp').
             }
         };
     }).
-    directive('messages', ['OrderService', function (OrderService) {
-        return {
-            controller: function ($scope) {
-                $scope.showBadge = function () {
-                    return $scope.messages && $scope.messages.length > 0;
-                }
 
-            },
-            restrict: 'E',
-            templateUrl: '/views/directive-templates/layouts/messages.html',
-            link: function (scope) {
-                scope.messages = [];
-                scope.newMessageForm = [{isInline:true, title:'Message', type:'text', require: true, action: {click:scope.sendMessage, title:'Send'}}];
-
-                OrderService.comments().$promise.then(function(data){
-                    scope.messages = data.comments;
-                })
-
-                scope.sendMessage = function(){
-                    if(scope.message){
-                        var messageService = new Message({
-                            type: 'info',
-                            content: scope.message
-                        });
-                        messageService.$save(function(message){
-                            scope.messages.unshift(message);
-                            scope.message = null;
-                        });
-                    }
-                }
-            }
-        };
-    }]).
     directive('accessories', ['OrderService', function (OrderService) {
         return {
             restrict: 'E',
@@ -64,10 +32,11 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('tasks', ['OrderService', function (OrderService) {
+    directive('tasks', ['OrderService','$location', function (OrderService, $location) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
+            scope: true,
             controller: function ($scope) {
                 if($scope.order){
                     $scope.orders = [$scope.order];
@@ -88,6 +57,10 @@ angular.module('theBossApp').
                         }
                     });
                 };
+
+                $scope.loadOrder = function(id){
+                    $location.path('/order/' + id);
+                }
             }
         };
     }]).
@@ -151,12 +124,7 @@ angular.module('theBossApp').
 
                 $http.get(attrs.menusUrl).success(function (data) {
                     scope.menus = data;
-
-                    $timeout(function () {
-                        element.metisMenu();
-                    });
                 });
-
             }
         };
     }]).

@@ -1,0 +1,80 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                <i class="fa fa-envelope fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+                <div class="huge">{{ messages.length }}</div>
+                <div>New Messages!</div>
+            </div>
+        </div>
+    </div>
+    <a href="" ng-click="isCollapsed = !isCollapsed">
+        <div class="panel-footer">
+            <span class="pull-left">View messages</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+        </div>
+    </a>
+    
+    <div collapse="!isCollapsed">
+        <div class="chat-panel panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-comments fa-fw"></i>
+                Unresolved Messages
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <ul class="chat">
+                    <li class="clearfix" ng-class-odd="'left'" ng-class-even="'right'" ng-repeat="item in messages">
+                        <span class="chat-img" ng-class-odd="'pull-left'" ng-class-even="'pull-right'">
+                            <img class="img-circle" alt="{{ item.from.name }}" src="http://placehold.it/50/55C1E7/fff">
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <strong class="primary-font" ng-class-odd="''" ng-class-even="'pull-right'">
+                                <a href="#/order/{{ item.order._id }}">{{ item.from.name }} - {{ item.order.po_number }}</a>
+                                </strong>
+                                <small class="text-muted" ng-class-odd="'pull-right'" ng-class-even="''">
+                                    <i class="fa fa-clock-o fa-fw"></i> {{ item.posted_on | timeago }}
+                                </small>
+                            </div>
+                            <p>
+                                {{ item.content }}
+                            </p>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.panel-body -->
+            <div class="panel-footer">
+            <form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveMessage(form.$valid)" ng-class="{submitted:submitted}">
+                <h4>Add New Message</h4>
+                <fieldset>
+                    <div class="form-group" ng-class="{ 'has-error' : form.order.$invalid && !form.order.$pristine }">
+                        <input type="text" name="order" ng-model="message.asyncSelected" placeholder="Lookup an order" ng-required="true" 
+                        typeahead="(orders.po_number + ', ' + orders.customer.name) for orders in loadOrders($viewValue)" 
+                        typeahead-loading="loadingLocations" 
+                        typeahead-on-select="selectedOrder($item, $model, $label)"
+                        class="form-control">
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    </div>    
+                    <div class="form-group" ng-class="{ 'has-error' : form.message.$invalid && !form.message.$pristine }">
+                        <input type="text" name="message" ng-model="message.content" placeholder="Message" ng-required="true" class="form-control">
+                    </div>    
+
+                </fieldset>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                      <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Send Message</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <!-- /.panel-footer -->
+        </div>
+    </div>
+</div>

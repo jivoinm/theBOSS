@@ -2,6 +2,7 @@
 
 angular.module('theBossApp')
     .controller('OrdersCtrl', ['$scope', 'OrderService', '$routeParams', 'ModalService', function ($scope, OrderService, $routeParams, ModalService) {
+        $scope.$parent.pageHeader = 'Orders';
         $scope.orders = [];
         $scope.totalOrders = 0;
         $scope.currentPage = 1;
@@ -35,7 +36,6 @@ angular.module('theBossApp')
         
         $scope.$watch('currentPage', function (pageNo) {
             $scope.loadOrders();
-            console.log('loaded page',pageNo)
         });
 
     }]);

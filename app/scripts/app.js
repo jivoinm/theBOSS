@@ -7,7 +7,6 @@ angular.module('theBossApp', [
         'ngRoute',
         'ui.calendar',
         'ui.bootstrap',
-        'ui.select2',
         'ui.router',
         'ngAnimate',
         'toaster',
@@ -55,7 +54,11 @@ angular.module('theBossApp', [
             })
             .when('/calendar', {
                 templateUrl: 'partials/calendar',
-                controller: 'CalendarCtrl'
+                controller: 'CalendarCtrl',
+            })
+            .when('/calendar/:status', {
+                templateUrl: 'partials/calendar',
+                controller: 'CalendarCtrl',
             })
             .when('/order-details/:orderId', {
                 templateUrl: 'partials/order-details',

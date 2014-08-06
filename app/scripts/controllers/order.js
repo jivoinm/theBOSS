@@ -9,11 +9,11 @@ angular.module('theBossApp')
             }
             return name;
         }
-        $scope.$parent.pageHeader = $scope.getOrderName();
-
+        
         $scope.order = order;
         $scope.orderOriginal = angular.copy(order);
         $scope.preview = false;
+        $scope.$parent.pageHeader = $scope.getOrderName();
         if(order._id){
             $scope.preview = true;
         }

@@ -9,12 +9,11 @@
     "angular-resource": "1.2.11",
     "angular-cookies": "1.2.11",
     "angular-route": "1.2.11",
-    "components-font-awesome": "~4.0.3",
+    "components-font-awesome": "~4.1.0",
     "angular-sanitize": "~1.2.14",
     "angular-ui-calendar": "~0.8.0",
     "dialogs": "~3.1.0",
-    "ui.bootstrap": "~0.10.0",
-    "angular-ui-select2": "~0.0.5",
+    "ui.bootstrap": "latest",
     "AngularJS-Toaster": "~0.4.6",
     "angular-loading-bar": "~0.4.1",
     "angular-animate": "~1.2.16",
@@ -34,6 +33,7 @@
   "testPath": "test/client/spec",
   "resolutions": {
     "angular": "1.2.16",
-    "jquery": "2.x"
+    "jquery": "2.x",
+    "bootstrap": "~3.2.0"
   }
 }

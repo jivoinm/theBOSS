@@ -2,7 +2,7 @@
 
     <div class="panel panel-default" ng-repeat='form in item.forms'>
         <div class="panel-heading">
-            <a href="/order/{{ item._id }}">Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}</a>
+            Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}
         </div>
         <div class="panel-body">
             <div class="row">

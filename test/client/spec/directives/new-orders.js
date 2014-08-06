@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: orderComments', function () {
+describe('Directive: newOrders', function () {
 
   // load the directive's module
   beforeEach(module('theBossApp'));
@@ -13,8 +13,8 @@ describe('Directive: orderComments', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<order-comments></order-comments>');
+    element = angular.element('<new-orders></new-orders>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the orderComments directive');
+    expect(element.text()).toBe('this is the newOrders directive');
   }));
 });

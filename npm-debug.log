@@ -1,0 +1,741 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'generator-angular' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.30
+4 verbose cache add [ 'generator-angular', null ]
+5 verbose cache add name=undefined spec="generator-angular" args=["generator-angular",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'generator-angular',
+6 verbose parsed url   path: 'generator-angular',
+6 verbose parsed url   href: 'generator-angular' }
+7 silly lockFile 458e0b50-generator-angular generator-angular
+8 verbose lock generator-angular /home/mircea/.npm/458e0b50-generator-angular.lock
+9 silly lockFile 458e0b50-generator-angular generator-angular
+10 silly lockFile 458e0b50-generator-angular generator-angular
+11 verbose addNamed [ 'generator-angular', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 0345f598-generator-angular generator-angular@
+14 verbose lock generator-angular@ /home/mircea/.npm/0345f598-generator-angular.lock
+15 silly addNameRange { name: 'generator-angular', range: '*', hasData: false }
+16 verbose request where is /generator-angular
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id 29bcec0e1493cbee
+19 verbose url raw /generator-angular
+20 verbose url resolving [ 'https://registry.npmjs.org/', './generator-angular' ]
+21 verbose url resolved https://registry.npmjs.org/generator-angular
+22 verbose request where is https://registry.npmjs.org/generator-angular
+23 info trying registry request attempt 1 at 16:57:58
+24 verbose etag "23R0PI73VZJ2ZOER6U1FLR3G6"
+25 http GET https://registry.npmjs.org/generator-angular
+26 http 304 https://registry.npmjs.org/generator-angular
+27 silly registry.get cb [ 304,
+27 silly registry.get   { date: 'Sat, 02 Aug 2014 20:57:58 GMT',
+27 silly registry.get     server: 'Apache',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     'last-modified': 'Sat, 02 Aug 2014 20:57:58 GMT',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     etag: '"23R0PI73VZJ2ZOER6U1FLR3G6"',
+27 silly registry.get     'x-served-by': 'cache-ord1725-ORD',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1407013078.374397,VS0,VE262',
+27 silly registry.get     vary: 'Accept',
+27 silly registry.get     'content-length': '0',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 verbose etag https://registry.npmjs.org/generator-angular from cache
+29 silly addNameRange number 2 { name: 'generator-angular', range: '*', hasData: true }
+30 silly addNameRange versions [ 'generator-angular',
+30 silly addNameRange   [ '0.1.0',
+30 silly addNameRange     '0.1.1',
+30 silly addNameRange     '0.1.2',
+30 silly addNameRange     '0.1.3',
+30 silly addNameRange     '0.1.4',
+30 silly addNameRange     '0.1.5',
+30 silly addNameRange     '0.2.0',
+30 silly addNameRange     '0.2.1',
+30 silly addNameRange     '0.2.2',
+30 silly addNameRange     '0.3.0',
+30 silly addNameRange     '0.3.1',
+30 silly addNameRange     '0.4.0',
+30 silly addNameRange     '0.5.0',
+30 silly addNameRange     '0.5.1',
+30 silly addNameRange     '0.6.0-rc.1',
+30 silly addNameRange     '0.6.0-rc.2',
+30 silly addNameRange     '0.6.0',
+30 silly addNameRange     '0.7.0',
+30 silly addNameRange     '0.7.1',
+30 silly addNameRange     '0.8.0',
+30 silly addNameRange     '0.9.0-0',
+30 silly addNameRange     '0.9.0-1',
+30 silly addNameRange     '0.9.0',
+30 silly addNameRange     '0.9.1',
+30 silly addNameRange     '0.9.2',
+30 silly addNameRange     '0.9.3',
+30 silly addNameRange     '0.9.5' ] ]
+31 verbose addNamed [ 'generator-angular', '0.9.5' ]
+32 verbose addNamed [ '0.9.5', '0.9.5' ]
+33 silly lockFile d21c00c0-generator-angular-0-9-5 generator-angular@0.9.5
+34 verbose lock generator-angular@0.9.5 /home/mircea/.npm/d21c00c0-generator-angular-0-9-5.lock
+35 silly lockFile d21c00c0-generator-angular-0-9-5 generator-angular@0.9.5
+36 silly lockFile d21c00c0-generator-angular-0-9-5 generator-angular@0.9.5
+37 silly lockFile 0345f598-generator-angular generator-angular@
+38 silly lockFile 0345f598-generator-angular generator-angular@
+39 silly resolved [ { name: 'generator-angular',
+39 silly resolved     version: '0.9.5',
+39 silly resolved     description: 'Yeoman generator for AngularJS',
+39 silly resolved     keywords:
+39 silly resolved      [ 'yeoman-generator',
+39 silly resolved        'scaffold',
+39 silly resolved        'framework',
+39 silly resolved        'component',
+39 silly resolved        'front-end',
+39 silly resolved        'app',
+39 silly resolved        'angular' ],
+39 silly resolved     author: { name: 'The Yeoman Team' },
+39 silly resolved     main: 'app/index.js',
+39 silly resolved     files:
+39 silly resolved      [ 'app',
+39 silly resolved        'common',
+39 silly resolved        'constant',
+39 silly resolved        'controller',
+39 silly resolved        'decorator',
+39 silly resolved        'directive',
+39 silly resolved        'factory',
+39 silly resolved        'filter',
+39 silly resolved        'main',
+39 silly resolved        'provider',
+39 silly resolved        'route',
+39 silly resolved        'service',
+39 silly resolved        'templates',
+39 silly resolved        'value',
+39 silly resolved        'view',
+39 silly resolved        'script-base.js',
+39 silly resolved        'util.js' ],
+39 silly resolved     repository:
+39 silly resolved      { type: 'git',
+39 silly resolved        url: 'https://github.com/yeoman/generator-angular' },
+39 silly resolved     scripts: { test: 'mocha' },
+39 silly resolved     dependencies:
+39 silly resolved      { wiredep: '^1.0.0',
+39 silly resolved        'yeoman-generator': '^0.16.0',
+39 silly resolved        yosay: '^0.2.0',
+39 silly resolved        chalk: '^0.4.0' },
+39 silly resolved     peerDependencies: { 'generator-karma': '>=0.8.2', yo: '>=1.0.0' },
+39 silly resolved     devDependencies:
+39 silly resolved      { grunt: '~0.4.1',
+39 silly resolved        'grunt-contrib-jshint': '~0.8.0',
+39 silly resolved        'grunt-conventional-changelog': '~1.1.0',
+39 silly resolved        'grunt-release': '~0.6.0',
+39 silly resolved        'load-grunt-tasks': '~0.3.0',
+39 silly resolved        mocha: '*',
+39 silly resolved        semver: '~2.3.0',
+39 silly resolved        'underscore.string': '~2.3.1' },
+39 silly resolved     engines: { node: '>=0.10.0', npm: '>=1.2.10' },
+39 silly resolved     licenses: [ [Object] ],
+39 silly resolved     gitHead: '43978f5e7c4e72ca5861744cb642eb1b6a315151',
+39 silly resolved     bugs: { url: 'https://github.com/yeoman/generator-angular/issues' },
+39 silly resolved     homepage: 'https://github.com/yeoman/generator-angular',
+39 silly resolved     _id: 'generator-angular@0.9.5',
+39 silly resolved     _shasum: '5ce212d2c46fbcb07cfe3aebeb97b1965b415097',
+39 silly resolved     _from: 'generator-angular@',
+39 silly resolved     _npmVersion: '1.5.0-alpha-1',
+39 silly resolved     _npmUser: { name: 'eddiemonge', email: 'eddie+npm@eddiemonge.com' },
+39 silly resolved     maintainers:
+39 silly resolved      [ [Object],
+39 silly resolved        [Object],
+39 silly resolved        [Object],
+39 silly resolved        [Object],
+39 silly resolved        [Object],
+39 silly resolved        [Object],
+39 silly resolved        [Object] ],
+39 silly resolved     dist:
+39 silly resolved      { shasum: '5ce212d2c46fbcb07cfe3aebeb97b1965b415097',
+39 silly resolved        tarball: 'http://registry.npmjs.org/generator-angular/-/generator-angular-0.9.5.tgz' },
+39 silly resolved     directories: {},
+39 silly resolved     _resolved: 'https://registry.npmjs.org/generator-angular/-/generator-angular-0.9.5.tgz',
+39 silly resolved     readme: 'ERROR: No README data found!' } ]
+40 info install generator-angular@0.9.5 into /home/mircea/.node/lib
+41 info installOne generator-angular@0.9.5
+42 verbose lib/node_modules/generator-angular unbuild
+43 verbose tar unpack /home/mircea/.npm/generator-angular/0.9.5/package.tgz
+44 silly lockFile 65ca8d14-b-node-modules-generator-angular tar:///home/mircea/.node/lib/node_modules/generator-angular
+45 verbose lock tar:///home/mircea/.node/lib/node_modules/generator-angular /home/mircea/.npm/65ca8d14-b-node-modules-generator-angular.lock
+46 silly lockFile 824e4113-erator-angular-0-9-5-package-tgz tar:///home/mircea/.npm/generator-angular/0.9.5/package.tgz
+47 verbose lock tar:///home/mircea/.npm/generator-angular/0.9.5/package.tgz /home/mircea/.npm/824e4113-erator-angular-0-9-5-package-tgz.lock
+48 silly gunzTarPerm modes [ '775', '664' ]
+49 silly gunzTarPerm extractEntry package.json
+50 silly gunzTarPerm modified mode [ 'package.json', 420, 436 ]
+51 silly gunzTarPerm extractEntry script-base.js
+52 silly gunzTarPerm modified mode [ 'script-base.js', 420, 436 ]
+53 silly gunzTarPerm extractEntry util.js
+54 silly gunzTarPerm modified mode [ 'util.js', 420, 436 ]
+55 silly gunzTarPerm extractEntry controller/index.js
+56 silly gunzTarPerm modified mode [ 'controller/index.js', 420, 436 ]
+57 silly gunzTarPerm extractEntry controller/USAGE
+58 silly gunzTarPerm modified mode [ 'controller/USAGE', 420, 436 ]
+59 silly gunzTarPerm extractEntry decorator/index.js
+60 silly gunzTarPerm modified mode [ 'decorator/index.js', 420, 436 ]
+61 silly gunzTarPerm extractEntry decorator/USAGE
+62 silly gunzTarPerm modified mode [ 'decorator/USAGE', 420, 436 ]
+63 silly gunzTarPerm extractEntry directive/index.js
+64 silly gunzTarPerm modified mode [ 'directive/index.js', 420, 436 ]
+65 silly gunzTarPerm extractEntry directive/USAGE
+66 silly gunzTarPerm modified mode [ 'directive/USAGE', 420, 436 ]
+67 silly gunzTarPerm extractEntry factory/index.js
+68 silly gunzTarPerm modified mode [ 'factory/index.js', 420, 436 ]
+69 silly gunzTarPerm extractEntry factory/USAGE
+70 silly gunzTarPerm modified mode [ 'factory/USAGE', 420, 436 ]
+71 silly gunzTarPerm extractEntry filter/index.js
+72 silly gunzTarPerm modified mode [ 'filter/index.js', 420, 436 ]
+73 silly gunzTarPerm extractEntry filter/USAGE
+74 silly gunzTarPerm modified mode [ 'filter/USAGE', 420, 436 ]
+75 silly gunzTarPerm extractEntry main/index.js
+76 silly gunzTarPerm modified mode [ 'main/index.js', 420, 436 ]
+77 silly gunzTarPerm extractEntry value/index.js
+78 silly gunzTarPerm modified mode [ 'value/index.js', 420, 436 ]
+79 silly gunzTarPerm extractEntry value/USAGE
+80 silly gunzTarPerm modified mode [ 'value/USAGE', 420, 436 ]
+81 silly gunzTarPerm extractEntry common/index.js
+82 silly gunzTarPerm modified mode [ 'common/index.js', 420, 436 ]
+83 silly gunzTarPerm extractEntry provider/index.js
+84 silly gunzTarPerm modified mode [ 'provider/index.js', 420, 436 ]
+85 silly gunzTarPerm extractEntry provider/USAGE
+86 silly gunzTarPerm modified mode [ 'provider/USAGE', 420, 436 ]
+87 silly gunzTarPerm extractEntry readme.md
+88 silly gunzTarPerm modified mode [ 'readme.md', 420, 436 ]
+89 silly gunzTarPerm extractEntry route/index.js
+90 silly gunzTarPerm modified mode [ 'route/index.js', 420, 436 ]
+91 silly gunzTarPerm extractEntry route/USAGE
+92 silly gunzTarPerm modified mode [ 'route/USAGE', 420, 436 ]
+93 silly gunzTarPerm extractEntry app/index.js
+94 silly gunzTarPerm modified mode [ 'app/index.js', 420, 436 ]
+95 silly gunzTarPerm extractEntry app/USAGE
+96 silly gunzTarPerm modified mode [ 'app/USAGE', 420, 436 ]
+97 silly gunzTarPerm extractEntry service/index.js
+98 silly gunzTarPerm modified mode [ 'service/index.js', 420, 436 ]
+99 silly gunzTarPerm extractEntry service/USAGE
+100 silly gunzTarPerm modified mode [ 'service/USAGE', 420, 436 ]
+101 silly gunzTarPerm extractEntry templates/coffeescript/app.coffee
+102 silly gunzTarPerm modified mode [ 'templates/coffeescript/app.coffee', 420, 436 ]
+103 silly gunzTarPerm extractEntry templates/coffeescript/controller.coffee
+104 silly gunzTarPerm modified mode [ 'templates/coffeescript/controller.coffee', 420, 436 ]
+105 silly gunzTarPerm extractEntry templates/coffeescript/decorator.coffee
+106 silly gunzTarPerm modified mode [ 'templates/coffeescript/decorator.coffee', 420, 436 ]
+107 silly gunzTarPerm extractEntry templates/coffeescript/directive.coffee
+108 silly gunzTarPerm modified mode [ 'templates/coffeescript/directive.coffee', 420, 436 ]
+109 silly gunzTarPerm extractEntry templates/coffeescript/filter.coffee
+110 silly gunzTarPerm modified mode [ 'templates/coffeescript/filter.coffee', 420, 436 ]
+111 silly gunzTarPerm extractEntry templates/coffeescript/service/constant.coffee
+112 silly gunzTarPerm modified mode [ 'templates/coffeescript/service/constant.coffee', 420, 436 ]
+113 silly gunzTarPerm extractEntry templates/coffeescript/service/factory.coffee
+114 silly gunzTarPerm modified mode [ 'templates/coffeescript/service/factory.coffee', 420, 436 ]
+115 silly gunzTarPerm extractEntry templates/coffeescript/service/provider.coffee
+116 silly gunzTarPerm modified mode [ 'templates/coffeescript/service/provider.coffee', 420, 436 ]
+117 silly gunzTarPerm extractEntry templates/coffeescript/service/service.coffee
+118 silly gunzTarPerm modified mode [ 'templates/coffeescript/service/service.coffee', 420, 436 ]
+119 silly gunzTarPerm extractEntry templates/coffeescript/service/value.coffee
+120 silly gunzTarPerm modified mode [ 'templates/coffeescript/service/value.coffee', 420, 436 ]
+121 silly gunzTarPerm extractEntry templates/coffeescript/spec/controller.coffee
+122 silly gunzTarPerm modified mode [ 'templates/coffeescript/spec/controller.coffee', 420, 436 ]
+123 silly gunzTarPerm extractEntry templates/coffeescript/spec/directive.coffee
+124 silly gunzTarPerm modified mode [ 'templates/coffeescript/spec/directive.coffee', 420, 436 ]
+125 silly gunzTarPerm extractEntry templates/coffeescript/spec/filter.coffee
+126 silly gunzTarPerm modified mode [ 'templates/coffeescript/spec/filter.coffee', 420, 436 ]
+127 silly gunzTarPerm extractEntry templates/coffeescript/spec/service.coffee
+128 silly gunzTarPerm modified mode [ 'templates/coffeescript/spec/service.coffee', 420, 436 ]
+129 silly gunzTarPerm extractEntry templates/common/app/.buildignore
+130 silly gunzTarPerm modified mode [ 'templates/common/app/.buildignore', 420, 436 ]
+131 silly gunzTarPerm extractEntry templates/common/app/.htaccess
+132 silly gunzTarPerm modified mode [ 'templates/common/app/.htaccess', 420, 436 ]
+133 silly gunzTarPerm extractEntry templates/common/app/404.html
+134 silly gunzTarPerm modified mode [ 'templates/common/app/404.html', 420, 436 ]
+135 silly gunzTarPerm extractEntry templates/common/app/favicon.ico
+136 silly gunzTarPerm modified mode [ 'templates/common/app/favicon.ico', 420, 436 ]
+137 silly gunzTarPerm extractEntry templates/common/app/images/yeoman.png
+138 silly gunzTarPerm modified mode [ 'templates/common/app/images/yeoman.png', 420, 436 ]
+139 silly gunzTarPerm extractEntry templates/common/app/index.html
+140 silly gunzTarPerm modified mode [ 'templates/common/app/index.html', 420, 436 ]
+141 silly gunzTarPerm extractEntry templates/common/app/robots.txt
+142 silly gunzTarPerm modified mode [ 'templates/common/app/robots.txt', 420, 436 ]
+143 silly gunzTarPerm extractEntry templates/common/app/styles/main.css
+144 silly gunzTarPerm modified mode [ 'templates/common/app/styles/main.css', 420, 436 ]
+145 silly gunzTarPerm extractEntry templates/common/app/styles/main.scss
+146 silly gunzTarPerm modified mode [ 'templates/common/app/styles/main.scss', 420, 436 ]
+147 silly gunzTarPerm extractEntry templates/common/app/views/main.html
+148 silly gunzTarPerm modified mode [ 'templates/common/app/views/main.html', 420, 436 ]
+149 silly gunzTarPerm extractEntry templates/common/app/views/view.html
+150 silly gunzTarPerm modified mode [ 'templates/common/app/views/view.html', 420, 436 ]
+151 silly gunzTarPerm extractEntry templates/common/root/_Gruntfile.js
+152 silly gunzTarPerm modified mode [ 'templates/common/root/_Gruntfile.js', 420, 436 ]
+153 silly gunzTarPerm extractEntry templates/common/root/.editorconfig
+154 silly gunzTarPerm modified mode [ 'templates/common/root/.editorconfig', 420, 436 ]
+155 silly gunzTarPerm extractEntry templates/common/root/.gitattributes
+156 silly gunzTarPerm modified mode [ 'templates/common/root/.gitattributes', 420, 436 ]
+157 silly gunzTarPerm extractEntry templates/common/root/.jshintrc
+158 silly gunzTarPerm modified mode [ 'templates/common/root/.jshintrc', 420, 436 ]
+159 silly gunzTarPerm extractEntry templates/common/root/_bower.json
+160 silly gunzTarPerm modified mode [ 'templates/common/root/_bower.json', 420, 436 ]
+161 silly gunzTarPerm extractEntry templates/common/root/_bowerrc
+162 silly gunzTarPerm modified mode [ 'templates/common/root/_bowerrc', 420, 436 ]
+163 silly gunzTarPerm extractEntry templates/common/root/_package.json
+164 silly gunzTarPerm modified mode [ 'templates/common/root/_package.json', 420, 436 ]
+165 silly gunzTarPerm extractEntry templates/common/root/gitignore
+166 silly gunzTarPerm modified mode [ 'templates/common/root/gitignore', 420, 436 ]
+167 silly gunzTarPerm extractEntry templates/common/root/test/.jshintrc
+168 silly gunzTarPerm modified mode [ 'templates/common/root/test/.jshintrc', 420, 436 ]
+169 silly gunzTarPerm extractEntry templates/javascript/app.js
+170 silly gunzTarPerm modified mode [ 'templates/javascript/app.js', 420, 436 ]
+171 silly gunzTarPerm extractEntry templates/javascript/controller.js
+172 silly gunzTarPerm modified mode [ 'templates/javascript/controller.js', 420, 436 ]
+173 silly gunzTarPerm extractEntry templates/javascript/decorator.js
+174 silly gunzTarPerm modified mode [ 'templates/javascript/decorator.js', 420, 436 ]
+175 silly gunzTarPerm extractEntry templates/javascript/directive.js
+176 silly gunzTarPerm modified mode [ 'templates/javascript/directive.js', 420, 436 ]
+177 silly gunzTarPerm extractEntry templates/javascript/filter.js
+178 silly gunzTarPerm modified mode [ 'templates/javascript/filter.js', 420, 436 ]
+179 silly gunzTarPerm extractEntry templates/javascript/service/constant.js
+180 silly gunzTarPerm modified mode [ 'templates/javascript/service/constant.js', 420, 436 ]
+181 silly gunzTarPerm extractEntry templates/javascript/service/factory.js
+182 silly gunzTarPerm modified mode [ 'templates/javascript/service/factory.js', 420, 436 ]
+183 silly gunzTarPerm extractEntry templates/javascript/service/provider.js
+184 silly gunzTarPerm modified mode [ 'templates/javascript/service/provider.js', 420, 436 ]
+185 silly gunzTarPerm extractEntry templates/javascript/service/service.js
+186 silly gunzTarPerm modified mode [ 'templates/javascript/service/service.js', 420, 436 ]
+187 silly gunzTarPerm extractEntry templates/javascript/service/value.js
+188 silly gunzTarPerm modified mode [ 'templates/javascript/service/value.js', 420, 436 ]
+189 silly gunzTarPerm extractEntry templates/javascript/spec/controller.js
+190 silly gunzTarPerm modified mode [ 'templates/javascript/spec/controller.js', 420, 436 ]
+191 silly gunzTarPerm extractEntry templates/javascript/spec/directive.js
+192 silly gunzTarPerm modified mode [ 'templates/javascript/spec/directive.js', 420, 436 ]
+193 silly gunzTarPerm extractEntry templates/javascript/spec/filter.js
+194 silly gunzTarPerm modified mode [ 'templates/javascript/spec/filter.js', 420, 436 ]
+195 silly gunzTarPerm extractEntry templates/javascript/spec/service.js
+196 silly gunzTarPerm modified mode [ 'templates/javascript/spec/service.js', 420, 436 ]
+197 silly gunzTarPerm extractEntry constant/index.js
+198 silly gunzTarPerm modified mode [ 'constant/index.js', 420, 436 ]
+199 silly gunzTarPerm extractEntry constant/USAGE
+200 silly gunzTarPerm modified mode [ 'constant/USAGE', 420, 436 ]
+201 silly gunzTarPerm extractEntry view/index.js
+202 silly gunzTarPerm modified mode [ 'view/index.js', 420, 436 ]
+203 silly gunzTarPerm extractEntry view/USAGE
+204 silly gunzTarPerm modified mode [ 'view/USAGE', 420, 436 ]
+205 silly lockFile 65ca8d14-b-node-modules-generator-angular tar:///home/mircea/.node/lib/node_modules/generator-angular
+206 silly lockFile 65ca8d14-b-node-modules-generator-angular tar:///home/mircea/.node/lib/node_modules/generator-angular
+207 silly lockFile 824e4113-erator-angular-0-9-5-package-tgz tar:///home/mircea/.npm/generator-angular/0.9.5/package.tgz
+208 silly lockFile 824e4113-erator-angular-0-9-5-package-tgz tar:///home/mircea/.npm/generator-angular/0.9.5/package.tgz
+209 info preinstall generator-angular@0.9.5
+210 verbose readDependencies using package.json deps
+211 verbose readDependencies using package.json deps
+212 verbose cache add [ 'wiredep@^1.0.0', null ]
+213 verbose cache add name=undefined spec="wiredep@^1.0.0" args=["wiredep@^1.0.0",null]
+214 verbose parsed url { protocol: null,
+214 verbose parsed url   slashes: null,
+214 verbose parsed url   auth: null,
+214 verbose parsed url   host: null,
+214 verbose parsed url   port: null,
+214 verbose parsed url   hostname: null,
+214 verbose parsed url   hash: null,
+214 verbose parsed url   search: null,
+214 verbose parsed url   query: null,
+214 verbose parsed url   pathname: 'wiredep@^1.0.0',
+214 verbose parsed url   path: 'wiredep@^1.0.0',
+214 verbose parsed url   href: 'wiredep@^1.0.0' }
+215 verbose cache add [ 'yeoman-generator@^0.16.0', null ]
+216 verbose cache add name=undefined spec="yeoman-generator@^0.16.0" args=["yeoman-generator@^0.16.0",null]
+217 verbose parsed url { protocol: null,
+217 verbose parsed url   slashes: null,
+217 verbose parsed url   auth: null,
+217 verbose parsed url   host: null,
+217 verbose parsed url   port: null,
+217 verbose parsed url   hostname: null,
+217 verbose parsed url   hash: null,
+217 verbose parsed url   search: null,
+217 verbose parsed url   query: null,
+217 verbose parsed url   pathname: 'yeoman-generator@^0.16.0',
+217 verbose parsed url   path: 'yeoman-generator@^0.16.0',
+217 verbose parsed url   href: 'yeoman-generator@^0.16.0' }
+218 verbose cache add name="wiredep" spec="^1.0.0" args=["wiredep","^1.0.0"]
+219 verbose parsed url { protocol: null,
+219 verbose parsed url   slashes: null,
+219 verbose parsed url   auth: null,
+219 verbose parsed url   host: null,
+219 verbose parsed url   port: null,
+219 verbose parsed url   hostname: null,
+219 verbose parsed url   hash: null,
+219 verbose parsed url   search: null,
+219 verbose parsed url   query: null,
+219 verbose parsed url   pathname: '^1.0.0',
+219 verbose parsed url   path: '^1.0.0',
+219 verbose parsed url   href: '^1.0.0' }
+220 verbose addNamed [ 'wiredep', '^1.0.0' ]
+221 verbose addNamed [ null, '>=1.0.0-0 <2.0.0-0' ]
+222 silly lockFile e90484a3-wiredep-1-0-0 wiredep@^1.0.0
+223 verbose lock wiredep@^1.0.0 /home/mircea/.npm/e90484a3-wiredep-1-0-0.lock
+224 verbose cache add [ 'yosay@^0.2.0', null ]
+225 verbose cache add name=undefined spec="yosay@^0.2.0" args=["yosay@^0.2.0",null]
+226 verbose parsed url { protocol: null,
+226 verbose parsed url   slashes: null,
+226 verbose parsed url   auth: null,
+226 verbose parsed url   host: null,
+226 verbose parsed url   port: null,
+226 verbose parsed url   hostname: null,
+226 verbose parsed url   hash: null,
+226 verbose parsed url   search: null,
+226 verbose parsed url   query: null,
+226 verbose parsed url   pathname: 'yosay@^0.2.0',
+226 verbose parsed url   path: 'yosay@^0.2.0',
+226 verbose parsed url   href: 'yosay@^0.2.0' }
+227 verbose cache add [ 'chalk@^0.4.0', null ]
+228 verbose cache add name=undefined spec="chalk@^0.4.0" args=["chalk@^0.4.0",null]
+229 verbose parsed url { protocol: null,
+229 verbose parsed url   slashes: null,
+229 verbose parsed url   auth: null,
+229 verbose parsed url   host: null,
+229 verbose parsed url   port: null,
+229 verbose parsed url   hostname: null,
+229 verbose parsed url   hash: null,
+229 verbose parsed url   search: null,
+229 verbose parsed url   query: null,
+229 verbose parsed url   pathname: 'chalk@^0.4.0',
+229 verbose parsed url   path: 'chalk@^0.4.0',
+229 verbose parsed url   href: 'chalk@^0.4.0' }
+230 verbose cache add name="yeoman-generator" spec="^0.16.0" args=["yeoman-generator","^0.16.0"]
+231 verbose parsed url { protocol: null,
+231 verbose parsed url   slashes: null,
+231 verbose parsed url   auth: null,
+231 verbose parsed url   host: null,
+231 verbose parsed url   port: null,
+231 verbose parsed url   hostname: null,
+231 verbose parsed url   hash: null,
+231 verbose parsed url   search: null,
+231 verbose parsed url   query: null,
+231 verbose parsed url   pathname: '^0.16.0',
+231 verbose parsed url   path: '^0.16.0',
+231 verbose parsed url   href: '^0.16.0' }
+232 verbose addNamed [ 'yeoman-generator', '^0.16.0' ]
+233 verbose addNamed [ null, '>=0.16.0-0 <0.17.0-0' ]
+234 silly lockFile 41a54158-yeoman-generator-0-16-0 yeoman-generator@^0.16.0
+235 verbose lock yeoman-generator@^0.16.0 /home/mircea/.npm/41a54158-yeoman-generator-0-16-0.lock
+236 verbose cache add name="yosay" spec="^0.2.0" args=["yosay","^0.2.0"]
+237 verbose parsed url { protocol: null,
+237 verbose parsed url   slashes: null,
+237 verbose parsed url   auth: null,
+237 verbose parsed url   host: null,
+237 verbose parsed url   port: null,
+237 verbose parsed url   hostname: null,
+237 verbose parsed url   hash: null,
+237 verbose parsed url   search: null,
+237 verbose parsed url   query: null,
+237 verbose parsed url   pathname: '^0.2.0',
+237 verbose parsed url   path: '^0.2.0',
+237 verbose parsed url   href: '^0.2.0' }
+238 verbose addNamed [ 'yosay', '^0.2.0' ]
+239 verbose addNamed [ null, '>=0.2.0-0 <0.3.0-0' ]
+240 silly lockFile 3979183b-yosay-0-2-0 yosay@^0.2.0
+241 verbose lock yosay@^0.2.0 /home/mircea/.npm/3979183b-yosay-0-2-0.lock
+242 verbose cache add name="chalk" spec="^0.4.0" args=["chalk","^0.4.0"]
+243 verbose parsed url { protocol: null,
+243 verbose parsed url   slashes: null,
+243 verbose parsed url   auth: null,
+243 verbose parsed url   host: null,
+243 verbose parsed url   port: null,
+243 verbose parsed url   hostname: null,
+243 verbose parsed url   hash: null,
+243 verbose parsed url   search: null,
+243 verbose parsed url   query: null,
+243 verbose parsed url   pathname: '^0.4.0',
+243 verbose parsed url   path: '^0.4.0',
+243 verbose parsed url   href: '^0.4.0' }
+244 verbose addNamed [ 'chalk', '^0.4.0' ]
+245 verbose addNamed [ null, '>=0.4.0-0 <0.5.0-0' ]
+246 silly lockFile b2f4396d-chalk-0-4-0 chalk@^0.4.0
+247 verbose lock chalk@^0.4.0 /home/mircea/.npm/b2f4396d-chalk-0-4-0.lock
+248 silly addNameRange { name: 'wiredep', range: '>=1.0.0-0 <2.0.0-0', hasData: false }
+249 silly addNameRange { name: 'yeoman-generator',
+249 silly addNameRange   range: '>=0.16.0-0 <0.17.0-0',
+249 silly addNameRange   hasData: false }
+250 silly addNameRange { name: 'yosay', range: '>=0.2.0-0 <0.3.0-0', hasData: false }
+251 silly addNameRange { name: 'chalk', range: '>=0.4.0-0 <0.5.0-0', hasData: false }
+252 verbose request where is /wiredep
+253 verbose request registry https://registry.npmjs.org/
+254 verbose url raw /wiredep
+255 verbose url resolving [ 'https://registry.npmjs.org/', './wiredep' ]
+256 verbose url resolved https://registry.npmjs.org/wiredep
+257 verbose request where is https://registry.npmjs.org/wiredep
+258 info trying registry request attempt 1 at 16:57:58
+259 verbose etag "UJDON8RKKBADJ2QBE9CBZFBF"
+260 http GET https://registry.npmjs.org/wiredep
+261 verbose request where is /yeoman-generator
+262 verbose request registry https://registry.npmjs.org/
+263 verbose url raw /yeoman-generator
+264 verbose url resolving [ 'https://registry.npmjs.org/', './yeoman-generator' ]
+265 verbose url resolved https://registry.npmjs.org/yeoman-generator
+266 verbose request where is https://registry.npmjs.org/yeoman-generator
+267 info trying registry request attempt 1 at 16:57:58
+268 verbose etag "11F2GC4IJWI8UOAMNMLHR7ZL9"
+269 http GET https://registry.npmjs.org/yeoman-generator
+270 verbose request where is /yosay
+271 verbose request registry https://registry.npmjs.org/
+272 verbose url raw /yosay
+273 verbose url resolving [ 'https://registry.npmjs.org/', './yosay' ]
+274 verbose url resolved https://registry.npmjs.org/yosay
+275 verbose request where is https://registry.npmjs.org/yosay
+276 info trying registry request attempt 1 at 16:57:58
+277 verbose etag "36SMQFOFKXUW4K4QXWR1DPKGV"
+278 http GET https://registry.npmjs.org/yosay
+279 verbose request where is /chalk
+280 verbose request registry https://registry.npmjs.org/
+281 verbose url raw /chalk
+282 verbose url resolving [ 'https://registry.npmjs.org/', './chalk' ]
+283 verbose url resolved https://registry.npmjs.org/chalk
+284 verbose request where is https://registry.npmjs.org/chalk
+285 info trying registry request attempt 1 at 16:57:58
+286 verbose etag "7TZVWKF58IER7S85DN0ESJX0R"
+287 http GET https://registry.npmjs.org/chalk
+288 http 304 https://registry.npmjs.org/chalk
+289 silly registry.get cb [ 304,
+289 silly registry.get   { date: 'Sat, 02 Aug 2014 20:57:58 GMT',
+289 silly registry.get     server: 'Apache',
+289 silly registry.get     via: '1.1 varnish',
+289 silly registry.get     'last-modified': 'Sat, 02 Aug 2014 20:57:58 GMT',
+289 silly registry.get     'cache-control': 'max-age=60',
+289 silly registry.get     etag: '"7TZVWKF58IER7S85DN0ESJX0R"',
+289 silly registry.get     'x-served-by': 'cache-ord1732-ORD',
+289 silly registry.get     'x-cache': 'HIT',
+289 silly registry.get     'x-cache-hits': '1',
+289 silly registry.get     'x-timer': 'S1407013078.939754,VS0,VE0',
+289 silly registry.get     vary: 'Accept',
+289 silly registry.get     'content-length': '0',
+289 silly registry.get     'keep-alive': 'timeout=10, max=50',
+289 silly registry.get     connection: 'Keep-Alive' } ]
+290 verbose etag https://registry.npmjs.org/chalk from cache
+291 silly addNameRange number 2 { name: 'chalk', range: '>=0.4.0-0 <0.5.0-0', hasData: true }
+292 silly addNameRange versions [ 'chalk',
+292 silly addNameRange   [ '0.1.0',
+292 silly addNameRange     '0.1.1',
+292 silly addNameRange     '0.2.0',
+292 silly addNameRange     '0.2.1',
+292 silly addNameRange     '0.3.0',
+292 silly addNameRange     '0.4.0',
+292 silly addNameRange     '0.5.0',
+292 silly addNameRange     '0.5.1' ] ]
+293 verbose addNamed [ 'chalk', '0.4.0' ]
+294 verbose addNamed [ '0.4.0', '0.4.0' ]
+295 silly lockFile 1efe4790-chalk-0-4-0 chalk@0.4.0
+296 verbose lock chalk@0.4.0 /home/mircea/.npm/1efe4790-chalk-0-4-0.lock
+297 silly lockFile 1efe4790-chalk-0-4-0 chalk@0.4.0
+298 silly lockFile 1efe4790-chalk-0-4-0 chalk@0.4.0
+299 silly lockFile b2f4396d-chalk-0-4-0 chalk@^0.4.0
+300 silly lockFile b2f4396d-chalk-0-4-0 chalk@^0.4.0
+301 http 304 https://registry.npmjs.org/wiredep
+302 silly registry.get cb [ 304,
+302 silly registry.get   { date: 'Sat, 02 Aug 2014 20:57:58 GMT',
+302 silly registry.get     server: 'Apache',
+302 silly registry.get     via: '1.1 varnish',
+302 silly registry.get     'last-modified': 'Sat, 02 Aug 2014 20:57:58 GMT',
+302 silly registry.get     'cache-control': 'max-age=60',
+302 silly registry.get     etag: '"UJDON8RKKBADJ2QBE9CBZFBF"',
+302 silly registry.get     'x-served-by': 'cache-ord1734-ORD',
+302 silly registry.get     'x-cache': 'MISS',
+302 silly registry.get     'x-cache-hits': '0',
+302 silly registry.get     'x-timer': 'S1407013078.911953,VS0,VE49',
+302 silly registry.get     vary: 'Accept',
+302 silly registry.get     'content-length': '0',
+302 silly registry.get     'keep-alive': 'timeout=10, max=50',
+302 silly registry.get     connection: 'Keep-Alive' } ]
+303 verbose etag https://registry.npmjs.org/wiredep from cache
+304 silly addNameRange number 2 { name: 'wiredep', range: '>=1.0.0-0 <2.0.0-0', hasData: true }
+305 silly addNameRange versions [ 'wiredep',
+305 silly addNameRange   [ '0.1.0',
+305 silly addNameRange     '0.1.1',
+305 silly addNameRange     '0.1.2',
+305 silly addNameRange     '0.1.4',
+305 silly addNameRange     '0.1.5',
+305 silly addNameRange     '0.1.6',
+305 silly addNameRange     '0.1.7',
+305 silly addNameRange     '0.1.8',
+305 silly addNameRange     '0.2.0',
+305 silly addNameRange     '0.3.0',
+305 silly addNameRange     '0.3.1',
+305 silly addNameRange     '0.4.0',
+305 silly addNameRange     '0.4.1',
+305 silly addNameRange     '0.4.2',
+305 silly addNameRange     '0.5.0',
+305 silly addNameRange     '0.5.1',
+305 silly addNameRange     '0.5.2',
+305 silly addNameRange     '1.0.0',
+305 silly addNameRange     '1.1.0',
+305 silly addNameRange     '1.1.1',
+305 silly addNameRange     '1.2.0',
+305 silly addNameRange     '1.2.1',
+305 silly addNameRange     '1.2.2',
+305 silly addNameRange     '1.3.0',
+305 silly addNameRange     '1.3.1',
+305 silly addNameRange     '1.3.2',
+305 silly addNameRange     '1.3.3',
+305 silly addNameRange     '1.4.0',
+305 silly addNameRange     '1.4.1',
+305 silly addNameRange     '1.4.2',
+305 silly addNameRange     '1.4.3',
+305 silly addNameRange     '1.4.4',
+305 silly addNameRange     '1.5.0',
+305 silly addNameRange     '1.6.0',
+305 silly addNameRange     '1.6.1',
+305 silly addNameRange     '1.6.2',
+305 silly addNameRange     '1.7.0',
+305 silly addNameRange     '1.7.1',
+305 silly addNameRange     '1.7.2',
+305 silly addNameRange     '1.7.3',
+305 silly addNameRange     '1.8.0',
+305 silly addNameRange     '1.8.1',
+305 silly addNameRange     '1.8.2' ] ]
+306 verbose addNamed [ 'wiredep', '1.8.2' ]
+307 verbose addNamed [ '1.8.2', '1.8.2' ]
+308 silly lockFile a6ff38d4-wiredep-1-8-2 wiredep@1.8.2
+309 verbose lock wiredep@1.8.2 /home/mircea/.npm/a6ff38d4-wiredep-1-8-2.lock
+310 silly lockFile a6ff38d4-wiredep-1-8-2 wiredep@1.8.2
+311 silly lockFile a6ff38d4-wiredep-1-8-2 wiredep@1.8.2
+312 silly lockFile e90484a3-wiredep-1-0-0 wiredep@^1.0.0
+313 silly lockFile e90484a3-wiredep-1-0-0 wiredep@^1.0.0
+314 http 304 https://registry.npmjs.org/yosay
+315 silly registry.get cb [ 304,
+315 silly registry.get   { date: 'Sat, 02 Aug 2014 20:57:58 GMT',
+315 silly registry.get     server: 'Apache',
+315 silly registry.get     via: '1.1 varnish',
+315 silly registry.get     'last-modified': 'Sat, 02 Aug 2014 20:57:59 GMT',
+315 silly registry.get     'cache-control': 'max-age=60',
+315 silly registry.get     etag: '"36SMQFOFKXUW4K4QXWR1DPKGV"',
+315 silly registry.get     'x-served-by': 'cache-ord1728-ORD',
+315 silly registry.get     'x-cache': 'HIT',
+315 silly registry.get     'x-cache-hits': '1',
+315 silly registry.get     'x-timer': 'S1407013078.932195,VS0,VE270',
+315 silly registry.get     vary: 'Accept',
+315 silly registry.get     'content-length': '0',
+315 silly registry.get     'keep-alive': 'timeout=10, max=50',
+315 silly registry.get     connection: 'Keep-Alive' } ]
+316 verbose etag https://registry.npmjs.org/yosay from cache
+317 http 304 https://registry.npmjs.org/yeoman-generator
+318 silly registry.get cb [ 304,
+318 silly registry.get   { date: 'Sat, 02 Aug 2014 20:57:58 GMT',
+318 silly registry.get     server: 'Apache',
+318 silly registry.get     via: '1.1 varnish',
+318 silly registry.get     'last-modified': 'Sat, 02 Aug 2014 20:57:59 GMT',
+318 silly registry.get     'cache-control': 'max-age=60',
+318 silly registry.get     etag: '"11F2GC4IJWI8UOAMNMLHR7ZL9"',
+318 silly registry.get     'x-served-by': 'cache-ord1728-ORD',
+318 silly registry.get     'x-cache': 'HIT',
+318 silly registry.get     'x-cache-hits': '1',
+318 silly registry.get     'x-timer': 'S1407013078.938628,VS0,VE264',
+318 silly registry.get     vary: 'Accept',
+318 silly registry.get     'content-length': '0',
+318 silly registry.get     'keep-alive': 'timeout=10, max=50',
+318 silly registry.get     connection: 'Keep-Alive' } ]
+319 verbose etag https://registry.npmjs.org/yeoman-generator from cache
+320 silly addNameRange number 2 { name: 'yosay', range: '>=0.2.0-0 <0.3.0-0', hasData: true }
+321 silly addNameRange versions [ 'yosay', [ '0.1.0', '0.2.0', '0.2.1', '0.3.0' ] ]
+322 verbose addNamed [ 'yosay', '0.2.1' ]
+323 verbose addNamed [ '0.2.1', '0.2.1' ]
+324 silly lockFile 2500b4f5-yosay-0-2-1 yosay@0.2.1
+325 verbose lock yosay@0.2.1 /home/mircea/.npm/2500b4f5-yosay-0-2-1.lock
+326 silly addNameRange number 2 { name: 'yeoman-generator',
+326 silly addNameRange   range: '>=0.16.0-0 <0.17.0-0',
+326 silly addNameRange   hasData: true }
+327 silly addNameRange versions [ 'yeoman-generator',
+327 silly addNameRange   [ '0.10.0',
+327 silly addNameRange     '0.10.1',
+327 silly addNameRange     '0.10.2',
+327 silly addNameRange     '0.10.3',
+327 silly addNameRange     '0.10.4',
+327 silly addNameRange     '0.10.5',
+327 silly addNameRange     '0.11.0',
+327 silly addNameRange     '0.11.1',
+327 silly addNameRange     '0.11.2',
+327 silly addNameRange     '0.11.3',
+327 silly addNameRange     '0.11.4',
+327 silly addNameRange     '0.12.0',
+327 silly addNameRange     '0.12.1',
+327 silly addNameRange     '0.12.2',
+327 silly addNameRange     '0.12.3',
+327 silly addNameRange     '0.13.0',
+327 silly addNameRange     '0.13.1',
+327 silly addNameRange     '0.13.2',
+327 silly addNameRange     '0.13.3',
+327 silly addNameRange     '0.13.4',
+327 silly addNameRange     '0.14.0-rc.1',
+327 silly addNameRange     '0.14.0-rc.2',
+327 silly addNameRange     '0.14.0',
+327 silly addNameRange     '0.14.1',
+327 silly addNameRange     '0.14.2',
+327 silly addNameRange     '0.15.0-pre.1',
+327 silly addNameRange     '0.15.0-pre.2',
+327 silly addNameRange     '0.15.0-pre.3',
+327 silly addNameRange     '0.15.0',
+327 silly addNameRange     '0.16.0',
+327 silly addNameRange     '0.17.0-pre.1',
+327 silly addNameRange     '0.17.0-pre.2',
+327 silly addNameRange     '0.17.0-pre.3',
+327 silly addNameRange     '0.17.0-pre.4',
+327 silly addNameRange     '0.17.0',
+327 silly addNameRange     '0.17.1' ] ]
+328 verbose addNamed [ 'yeoman-generator', '0.16.0' ]
+329 verbose addNamed [ '0.16.0', '0.16.0' ]
+330 silly lockFile 7ecb361d-yeoman-generator-0-16-0 yeoman-generator@0.16.0
+331 verbose lock yeoman-generator@0.16.0 /home/mircea/.npm/7ecb361d-yeoman-generator-0-16-0.lock
+332 silly lockFile 7bf72890--npmjs-org-yosay-yosay-0-2-1-tgz https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+333 verbose lock https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz /home/mircea/.npm/7bf72890--npmjs-org-yosay-yosay-0-2-1-tgz.lock
+334 silly lockFile 89d75fad-ator-yeoman-generator-0-16-0-tgz https://registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz
+335 verbose lock https://registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz /home/mircea/.npm/89d75fad-ator-yeoman-generator-0-16-0-tgz.lock
+336 verbose addRemoteTarball [ 'https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz',
+336 verbose addRemoteTarball   '01381b2165c8ef717610e073ecfa266dde195ae9' ]
+337 verbose addRemoteTarball [ 'https://registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz',
+337 verbose addRemoteTarball   '0d1b655ea31660ab66837af1e686b795eae57c59' ]
+338 info retry fetch attempt 1 at 16:57:59
+339 verbose fetch to= /tmp/npm-3896-bCZGqyhN/registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+340 info retry fetch attempt 1 at 16:57:59
+341 verbose fetch to= /tmp/npm-3896-bCZGqyhN/registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz
+342 http GET https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+343 http GET https://registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz
+344 http 200 https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+345 silly lockFile 7bf72890--npmjs-org-yosay-yosay-0-2-1-tgz https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+346 silly lockFile 7bf72890--npmjs-org-yosay-yosay-0-2-1-tgz https://registry.npmjs.org/yosay/-/yosay-0.2.1.tgz
+347 silly lockFile 2500b4f5-yosay-0-2-1 yosay@0.2.1
+348 silly lockFile 2500b4f5-yosay-0-2-1 yosay@0.2.1
+349 silly lockFile 3979183b-yosay-0-2-0 yosay@^0.2.0
+350 silly lockFile 3979183b-yosay-0-2-0 yosay@^0.2.0
+351 verbose about to build /home/mircea/.node/lib/node_modules/generator-angular
+352 verbose lib/node_modules/generator-angular unbuild
+353 info preuninstall generator-angular@0.9.5
+354 info uninstall generator-angular@0.9.5
+355 http 200 https://registry.npmjs.org/yeoman-generator/-/yeoman-generator-0.16.0.tgz
+356 verbose true,/home/mircea/.node/lib/node_modules,/home/mircea/.node/lib/node_modules unbuild generator-angular@0.9.5
+357 info postuninstall generator-angular@0.9.5
+358 error Error: EACCES, mkdir '/home/mircea/.npm/yosay/0.2.1'
+358 error  { [Error: EACCES, mkdir '/home/mircea/.npm/yosay/0.2.1']
+358 error   errno: 3,
+358 error   code: 'EACCES',
+358 error   path: '/home/mircea/.npm/yosay/0.2.1',
+358 error   parent: 'generator-angular' }
+359 error Please try running this command again as root/Administrator.
+360 error System Linux 3.13.0-32-generic
+361 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "generator-angular"
+362 error cwd /home/mircea/dev/theBOSS
+363 error node -v v0.10.30
+364 error npm -v 1.4.21
+365 error path /home/mircea/.npm/yosay/0.2.1
+366 error code EACCES
+367 error errno 3
+368 error stack Error: EACCES, mkdir '/home/mircea/.npm/yosay/0.2.1'
+369 verbose exit [ 3, true ]

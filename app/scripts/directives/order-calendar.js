@@ -5,15 +5,33 @@ angular.module('theBossApp')
         return {
             template: '<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>',
             restrict: 'E',
+            scope: {
+                orderStatus: '='
+            },
             controller: function ($scope) {
                 var date = new Date();
                 var d = date.getDate();
                 var m = date.getMonth();
                 var y = date.getFullYear();
 
+                $scope.getLabelClass = function (status){
+                    
+                    if(status.toLowerCase() === 'finished'){
+                        return 'label label-success';
+                    }else if(status.toLowerCase() === 'in progress'){
+                        return 'label label-primary';
+                    }else if(status.toLowerCase() === 'blocked'){
+                        return 'label label-warning';
+                    }else if(status.toLowerCase() === 'new'){
+                        return 'label label-warning';
+                    }else {
+                        return 'label label-default';
+                    }
+                }
 
                 $scope.eventsF = function (start, end, callback) {
-                    OrderService.getOrders({status:'Finished', from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
+
+                    OrderService.getOrders({status: $scope.orderStatus || 'New', from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
                         then(function (orders){
                             //set order to calendar
                             var events = [];
@@ -23,6 +41,7 @@ angular.module('theBossApp')
                                 calendarOrder.title = '['+ order.po_number + '] '+ order.customer.name;
                                 calendarOrder.start = order.date_required;
                                 calendarOrder.end = order.date_required;
+                                calendarOrder.color = $scope.getLabelClass(order.status);
                                 this.push(calendarOrder);
 
                             }, events);
@@ -34,6 +53,8 @@ angular.module('theBossApp')
                         });
 
                 };
+
+                
 
                 $scope.eventDrop = function (event,dayDelta,minuteDelta,revertFunc) {
                     updateCalendarEvent(event);
