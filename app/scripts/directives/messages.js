@@ -35,7 +35,7 @@ angular.module('theBossApp')
         }
 
         scope.loadOrders = function(val) {
-          return OrderService.query({text:val}).$promise.then(function(res){
+          return OrderService.query({text:val, limit:10}).$promise.then(function(res){
             var orders = [];
             angular.forEach(res.orders, function(item){
               orders.push(item);
