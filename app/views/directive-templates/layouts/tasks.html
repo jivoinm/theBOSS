@@ -10,7 +10,7 @@
                     To Do
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks">
-                            {{ task.title }} <button ng-click="$emit(itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress'}))" class="btn btn-xs">Start</button>
+                            {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress'})" class="btn btn-xs">Start</button>
                         </li>
                     </ul>
                 </div>
@@ -18,7 +18,7 @@
                     In Progress
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
-                            {{ task.title }} <button ng-click="$emit(itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done'}))" class="btn btn-xs">Done</button>
+                            {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done'})" class="btn btn-xs">Done</button>
                         </li>
                     </ul>
                 </div>

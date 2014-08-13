@@ -23,8 +23,13 @@ angular.module('theBossApp')
       	})
       	
       	scope.resolved = function (message){
-      		message.$save(function (){}, function(){
+      		message.$save({},function (msg){
+            console.log(msg);
+
+            message.resolved = true;
+          }, function(err){
               //error
+              console.log(err);
               message.resolved = false;
           });
       	}

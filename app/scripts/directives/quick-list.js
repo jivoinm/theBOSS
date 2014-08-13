@@ -66,14 +66,9 @@ angular.module('theBossApp')
                             if(model){
                                 if(form && form.$save){
                                     scope.quickList.unshift(model);
-                                    form.$save(function(serverModel){
-                                        if(attrs.broadcastEvent)
-                                        {
-                                            $rootScope.$broadcast(attrs.broadcastEvent,serverModel);
-                                        }
+                                    form.$save(function(savedResponse){
                                         toaster.pop('success', "Field was saved with success");
-
-                                    },function(err){
+                                    }, function(err) {
                                         toaster.pop('error', "There was an error saving field on server, "+err.message);
                                     });
                                 }

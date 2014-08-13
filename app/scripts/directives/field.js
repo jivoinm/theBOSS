@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('field', ['$http', '$compile', '$timeout', function ($http, $compile,$timeout) {
+    .directive('field', ['$http', '$compile', '$timeout', 'User', function ($http, $compile, $timeout, User) {
 
 
         var formField = function(field){
@@ -97,23 +97,21 @@ angular.module('theBossApp')
                         '</div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
-                case 'select2':
-                    scope.select2Options = {
-                        allowClear: true,
-                        value: scope.field.value,
-                        triggerChange: true,
-                        width: 'off',
-                        containerCssClass: 'form-control',
-                        initSelection: function(element, callback){
-                            var data = {id: element.val(), text: element.val()};
-                            callback(data);
-                        }
-                    };
-                    fieldTemplate = '<select ui-select2="select2Options" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model"  ng-required="{{ field.require }}">' +
-                        '<option value=""></option>'+
-                        '<option ng-repeat="option in splitOptions(field.showOptions) track by $index" value="{{option}}">{{option}}</option>' +
-                        '</select>';
+                case 'user':
+                    scope.getUsers = function (text){
+                        return User.query({name: text}).$promise.then(function(users){
+                            var usersToAdd = [];
+                            angular.forEach(users, function (user){
+                                usersToAdd.push(user);
+                            })
+                            return usersToAdd;
+                        });
+                    }
+                    scope.selectedUser = function(item, model, label){
+                       scope.model = item._id;
+                    }
+
+                    fieldTemplate = ' <input type="text" ng-model="user" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
 
