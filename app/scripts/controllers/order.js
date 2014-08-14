@@ -1,6 +1,7 @@
 'use strict';
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', function ($scope, $location, OrderService, ModalService, order, toaster) {
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', 
+    function ($scope, $location, OrderService, ModalService, order, toaster) {
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -58,6 +59,4 @@ angular.module('theBossApp')
                 }
             })
         }
-
-
   }]);

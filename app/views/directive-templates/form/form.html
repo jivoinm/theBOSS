@@ -9,8 +9,8 @@
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
                     <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.formName }}</a></li>
-                    <li class="divider"></li>
-                    <li><a href="" ng-click="addNewForm()">New Form</a></li>
+                    <li class="divider" restricted-access></li>
+                    <li restricted-access><a href="" ng-click="addNewForm()">New Form</a></li>
                 </ul>
             </div>
         </div>
@@ -23,7 +23,7 @@
                     <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview"></i>
 
                     <span>{{form.formName}}</span>
-                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview">
+                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview" restricted-access>
 
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
                         <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>

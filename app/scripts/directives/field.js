@@ -8,7 +8,7 @@ angular.module('theBossApp')
             return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
                 '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
                 '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInine}">'+ field+'</div>' +
-                    '<div class="col-sm-2" ng-show="!isInline">'+
+                    '<div class="col-sm-2" ng-show="!isInline" restricted-access>'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                             '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field,index)"></button>' +
                             '<button type="button" class="btn btn-default fa fa-trash-o" ng-click="delete(fieldForm,field,index)"></button>' +

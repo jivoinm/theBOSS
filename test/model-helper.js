@@ -36,10 +36,11 @@ var helper = function(ownerName){
         })
     }
 
-    this.addUser = function(userName, email, password){
+    this.addUser = function(userName, role, email, password){
         return User.create({
             name: userName,
             owner: ownerName,
+            role: role || 'user',
             email: email || userName+'@email.com',
             password: password || 'test'
         });

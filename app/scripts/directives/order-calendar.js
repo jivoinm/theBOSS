@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', function (OrderService, toaster, ModalService, moment, theBossSettings) {
+    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', 'roles', 
+        function (OrderService, toaster, ModalService, moment, theBossSettings, roles) {
         return {
             template: '<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>',
             restrict: 'E',
@@ -22,8 +23,6 @@ angular.module('theBossApp')
                         return 'label label-primary';
                     }else if(status.toLowerCase() === 'blocked'){
                         return 'label label-warning';
-                    }else if(status.toLowerCase() === 'new'){
-                        return 'label label-warning';
                     }else {
                         return 'label label-default';
                     }
@@ -31,7 +30,7 @@ angular.module('theBossApp')
 
                 $scope.eventsF = function (start, end, callback) {
 
-                    OrderService.getOrders({status: $scope.orderStatus || 'New', from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
+                    OrderService.getOrders({status: $scope.orderStatus, from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
                         then(function (orders){
                             //set order to calendar
                             var events = [];
@@ -41,7 +40,7 @@ angular.module('theBossApp')
                                 calendarOrder.title = '['+ order.po_number + '] '+ order.customer.name;
                                 calendarOrder.start = order.date_required;
                                 calendarOrder.end = order.date_required;
-                                calendarOrder.color = $scope.getLabelClass(order.status);
+                                calendarOrder.className = $scope.getLabelClass(order.status);
                                 this.push(calendarOrder);
 
                             }, events);
@@ -74,20 +73,6 @@ angular.module('theBossApp')
                     updateCalendarEvent(event);
                 };
 
-                $scope.startCallback = function (event){
-                    console.log(event);
-                }
-
-                $scope.eventMouseover = function(event, jsEvent, view ) {
-                    console.log(event);
-                    //jsEvent.target.append("<order-options></order-options>")
-
-                }
-
-                $scope.eventMouseout = function(event, jsEvent, view ) {
-                    console.log(event);
-                }
-
 
                 /* config object */
                 $scope.uiConfig = {
@@ -95,9 +80,9 @@ angular.module('theBossApp')
                         header:{
                             left: 'today prev,next',
                             center: 'title',
-                            right: 'month,basicWeek,basicDay,agendaWeek'
+                            right: 'month,basicWeek'
                         },
-                        editable: true,
+                        editable: roles.validateRoleAdmin($scope.currentUser),
                         eventClick: $scope.eventClick,
                         eventDrop: $scope.eventDrop,
                         eventResize: $scope.eventResize,

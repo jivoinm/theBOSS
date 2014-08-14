@@ -109,17 +109,52 @@ angular.module('theBossApp', [
                 }
             };
         }]);
-    })
-    .constant('theBossSettings',{
+    }).config(function ($httpProvider) {
+      var logsOutUserOn401 = ['$q', '$location', function ($q, $location) {
+        var success = function (response) {
+          return response;
+        };
+
+        var error = function (response) {
+          if (response.status === 401) {
+            //redirect them back to login page
+            $location.path('/login');
+
+            return $q.reject(response);
+          } 
+          else {
+            return $q.reject(response);
+          }
+        };
+
+        return function (promise) {
+          return promise.then(success, error);
+        };
+      }];
+
+      $httpProvider.responseInterceptors.push(logsOutUserOn401);
+   }).constant('theBossSettings',{
         orderChangedEvent: 'order-changed',
         previewModeEvent: 'preview-mode',
         timeZone: '-05:00'
     })
     .run(function ($rootScope, $location, Auth) {
-        // Redirect to login if route requires auth and you're not logged in
-        $rootScope.$on('$routeChangeStart', function (event, next) {
-            if (next.authenticate && !Auth.isLoggedIn()) {
-                $location.path("/login");
-            }
+        // enumerate routes that don't need authentication
+        var routesThatDontRequireAuth = ['/login'];
+
+        // check if current location matches route  
+        var routeClean = function (route) {
+        return _.find(routesThatDontRequireAuth,
+          function (noAuthRoute) {
+            return _.str.startsWith(route, noAuthRoute);
+          });
+        };
+
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        // if route requires auth and user is not logged in
+        if (!routeClean($location.url()) && !Auth.isLoggedIn()) {
+          // redirect back to login
+          $location.path('/login');
+        }
         });
     });

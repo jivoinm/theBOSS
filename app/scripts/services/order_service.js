@@ -26,7 +26,7 @@ angular.module('theBossApp')
                 isArray: true
             },
             'getOrders': {
-                url: '/api/orders/:status/:from/:to',
+                url: '/api/orders/calendar/:from/:to/:status',
                 params: {
                     status: '@status',
                     from: '@from',
