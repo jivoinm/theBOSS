@@ -7,12 +7,12 @@
  * # restrictedAccess
  */
 angular.module('theBossApp')
-  .directive('restrictedAccess', ['roles', function (roles) {
+  .directive('restrictedAccess', ['$rootScope', 'roles', function ($rootScope, roles) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
-      	if(!roles.validateRoleAdmin(scope.currentUser)){
-      		element.hide();
+      	if(!roles.validateRoleAdmin($rootScope.currentUser)){
+      		element.remove();
       	}
       }
     };

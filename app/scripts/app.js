@@ -136,7 +136,13 @@ angular.module('theBossApp', [
    }).constant('theBossSettings',{
         orderChangedEvent: 'order-changed',
         previewModeEvent: 'preview-mode',
-        timeZone: '-05:00'
+        timeZone: '-05:00',
+        taskStatuses: {
+            New: 'new',
+            InProgress: 'in progress',
+            Finished: 'finished',
+            Blocked: 'blocked'
+        }
     })
     .run(function ($rootScope, $location, Auth) {
         // enumerate routes that don't need authentication

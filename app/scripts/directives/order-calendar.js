@@ -16,6 +16,7 @@ angular.module('theBossApp')
                 var y = date.getFullYear();
 
                 $scope.getLabelClass = function (status){
+                    if (!status) {return 'label label-default';};
                     
                     if(status.toLowerCase() === 'finished'){
                         return 'label label-success';

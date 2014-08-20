@@ -50,6 +50,7 @@ angular.module('theBossApp').
                     task.changed_by = $scope.$root.currentUser._id;
                     task.changed_on = new Date();
                     task.status = status;
+                    
                     //if all tasks are finished then set order status to finish
                     return order.$save(function(){
                         if(status=='finish'){

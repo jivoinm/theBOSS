@@ -27,6 +27,7 @@ angular.module('theBossApp')
                 scope.showWorkflowAction = function (action){
                     switch(scope.order.status ? scope.order.status.toLowerCase() : '') {
                         case 'approved':
+                        case 'in progress':
                             return action === 'blocked' || action === 'finished';
                         case 'blocked':
                             return action === 'approved' || action === 'finished';

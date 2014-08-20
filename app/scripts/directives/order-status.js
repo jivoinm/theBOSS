@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderStatus', ['$rootScope', function ($rootScope) {
+    .directive('orderStatus', ['$rootScope','theBossSettings', function ($rootScope, theBossSettings) {
         return {
             template: '<span class="label"></span>',
             restrict: 'E',
@@ -20,13 +20,13 @@ angular.module('theBossApp')
                 scope.setLabelClass = function (status){
                     var span = element.find('span');
                     span.text(status);
-                    if(status.toLowerCase() === 'finished'){
+                    if(status.toLowerCase() === theBossSettings.taskStatuses.Finished){
                         span.attr('class', 'label label-success');
-                    }else if(status.toLowerCase() === 'in progress'){
+                    }else if(status.toLowerCase() === theBossSettings.taskStatuses.InProgress){
                         span.attr('class', 'label label-primary');
-                    }else if(status.toLowerCase() === 'blocked'){
-                        span.attr('class', 'label label-warning');
-                    }else if(status.toLowerCase() === 'new'){
+                    }else if(status.toLowerCase() === theBossSettings.taskStatuses.Blocked){
+                        span.attr('class', 'label label-danger');
+                    }else if(status.toLowerCase() === theBossSettings.taskStatuses.New){
                         span.attr('class', 'label label-warning');
                     }else {
                         span.attr('class', 'label label-default');

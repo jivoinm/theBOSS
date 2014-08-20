@@ -21,14 +21,24 @@
                 </a>
             </ul>
 		  </div>
+          <div class="panel-footer">
+             <form ng-submit="loadOrders()">
+                <div class="input-group">
+                  <input type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Search</button>
+                  </span>
+                </div><!-- /input-group -->
+            </form>
+          </div>
 		</div>
 		<div class="panel panel-default">
 		  <div class="panel-heading">Legend</div>
 		  <div class="panel-body">
-		    <span class="label label-default">New Unapproved Orders</span>
+		    <span class="label label-warning">New Unapproved Orders</span>
 			<span class="label label-primary">In Progress</span>
 			<span class="label label-success">Finished Orders</span>
-			<span class="label label-warning">Blocked</span>
+			<span class="label label-danger">Blocked</span>
 		  </div>
 		</div>
     </div>

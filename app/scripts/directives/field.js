@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('field', ['$http', '$compile', '$timeout', 'User', function ($http, $compile, $timeout, User) {
+    .directive('field', ['$http', '$compile', '$timeout', 'User', '_', 'datepickerConfig', 
+        function ($http, $compile, $timeout, User, _, datepickerConfig) {
 
 
         var formField = function(field){
@@ -39,7 +40,15 @@ angular.module('theBossApp')
                         scope.minDate = scope.minDate ? null : new Date();
                     };
 
-                    scope.toggleMin();
+                    if(_.some(scope.field.showOptions, function(option) {
+                            return option.showMinToday;
+                        })){
+                        scope.minDate = new Date();  
+                        datepickerConfig.minDate = new Date();
+                    }
+                    
+                    //scope.minDate = new Date();  
+                    //scope.toggleMin();
 
                     scope.show_calendar = false;
                     scope.openCalendar = function($event){
@@ -51,7 +60,8 @@ angular.module('theBossApp')
 
                     scope.dateOptions = {
                         formatYear: 'yy',
-                        startingDay: 1
+                        startingDay: 1,
+
                     };
 
                     scope.initDate = new Date(scope.field.value)
@@ -61,7 +71,7 @@ angular.module('theBossApp')
                         '<div class="col-md-6">' +
                         '<p class="input-group">' +
                         '<input type="text" class="form-control" datepicker-append-to-body="false" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" />' +
+                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
                         '<span class="input-group-btn">' +
                         '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
                         '</span>' +

@@ -56,6 +56,33 @@ angular.module('theBossApp')
                                 return body;
                             }));
                         }
+
+                        if(form.ordered_accessories){
+                            other.append(CreatePanel('Ordered Accessories', function(){
+                                var body = '';
+                                form.ordered_accessories.forEach(function (item){
+                                    body += CreateField(item.title, item.status);
+                                    
+                                    if(item.date_received)
+                                    {
+                                        body += CreateField('Received by', item.received_by + ' @ '+ item.date_received);
+                                    }
+                                })
+                                return body;
+                            }));
+                        }
+
+                        if(form.services){
+                            other.append(CreatePanel('Services', function(){
+                                var body = '';
+                                form.services.forEach(function (service){
+                                    body += CreateField(service.details, service.date);
+                                    
+                                })
+                                return body;
+                            }));
+                        }
+
                     });
 
                 }else {
