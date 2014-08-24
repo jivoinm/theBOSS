@@ -24,9 +24,9 @@
           <div class="panel-footer">
              <form ng-submit="loadOrders()">
                 <div class="input-group">
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" ng-model="queryText">
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Search</button>
+                    <button class="btn btn-default" type="submit">Search</button>
                   </span>
                 </div><!-- /input-group -->
             </form>
