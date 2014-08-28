@@ -144,7 +144,7 @@ angular.module('theBossApp')
                 case 'radio':
                     fieldTemplate = '<div class="radio"> ' +
                         '<div class="radio" ng-repeat="option in splitOptions(field.showOptions)">' +
-                        '<label><input type="radio" name="fieldName" ng-model="model" ng-value="option">{{ option.value }}</label>' +
+                        '<label><input type="radio" name="fieldName" ng-model="model" ng-value="option">{{ option }}</label>' +
                         '</div>' +
                     '</div>';
                     fieldTemplate = formField(fieldTemplate);

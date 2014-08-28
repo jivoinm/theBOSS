@@ -17,7 +17,9 @@ angular.module('theBossApp')
                     $scope.preview = preview;
                 });
 
-                $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},{title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true},{title:'Received', type:'checkbox', require: false},{title:'Date Received', type:'date', require: false}];
+                $scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},
+                {title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true}
+                ];
             },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){

@@ -4,7 +4,7 @@
         <a href="#{{ menu.route }}">{{ menu.name }}<span class="fa arrow" ng-if="menu.subMenus"></span></a>
         <ul class="nav nav-second-level" ng-if="menu.subMenus">
             <li ng-repeat="subMenu in menu.subMenus track by $index">
-                <a href="#{{ subMenu.route  }}">{{ subMenu.name }}</a>
+                <a href="#{{ subMenu.route  }}" sb-url-active-menu>{{ subMenu.name }}</a>
             </li>
         </ul>
     </li>

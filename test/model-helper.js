@@ -110,7 +110,7 @@ var helper = function(ownerName){
         var orderForms = this.setValuesToFormFieldsAndTasks(forms, customer);
         var created_on = this.randomDate(new Date(2012, 0, 1), new Date());
         var date_required = this.randomDate(new Date(2012, 0, 1), new Date(new Date().setMonth(new Date().getMonth() + 2)));
-        var status = date_required < new Date() ? 'Finished' : 'New';
+        var status = date_required < new Date() ? 'finished' : 'new';
         return Order.create({
             owner: ownerName,
             po_number: 'PO '+Math.floor((Math.random()*1000)+1),

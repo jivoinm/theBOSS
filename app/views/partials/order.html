@@ -4,7 +4,6 @@
 
         <div class="row">
             <div class="col-md-8">
-
                 <tabset justified="true" ng-if="!preview">
                     <tab>
                         <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
@@ -14,7 +13,7 @@
 
 
                     </tab>
-                    <tab heading="Tasks" disabled="order.forms.length==0">
+                    <tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'New' ">
                         <div class=well>
                             <p>Add list of tasks that needs to be done to finish the order.</p>
                             <order-tasks></order-tasks>
@@ -28,7 +27,7 @@
                         </div>
 
                     </tab>
-                    <tab heading="Services" disabled="!order._id">
+                    <tab heading="Services" disabled="!order._id || !order.status || order.status !== 'finished'">
                         <div class=well>
                             <p>Add list of services associated with this order.</p>
                             <order-services></order-services>

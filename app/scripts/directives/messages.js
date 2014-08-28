@@ -14,7 +14,7 @@ angular.module('theBossApp')
       scope: true,
       link: function postLink(scope, element, attrs) {
       	scope.messages = [];
-        scope.message = {};
+        
         scope.loadMessages = function (){
           Message.New().$promise.then(function (messages) {
              scope.messages = messages;
@@ -22,33 +22,7 @@ angular.module('theBossApp')
             console.log(err);
           });  
         }
-      	
-
-        scope.saveMessage = function (isValid){
-          if(isValid) {
-            var message = new Message(scope.message);
-            message.$save(function (res){
-              scope.message = {};
-              scope.loadMessages();
-            });
-          }
-        }
-
-        scope.loadOrders = function(val) {
-          return OrderService.query({text:val, limit:10}).$promise.then(function(res){
-            var orders = [];
-            angular.forEach(res.orders, function(item){
-              orders.push(item);
-            });
-            return orders;
-          });
-        };
-
-        scope.selectedOrder = function(item, model, label){
-            scope.message.order = item._id;
-        }
-
-        scope.loadMessages();
+      	scope.loadMessages();
       }
     };
   }]);

@@ -146,7 +146,7 @@ angular.module('theBossApp', [
     })
     .run(function ($rootScope, $location, Auth) {
         // enumerate routes that don't need authentication
-        var routesThatDontRequireAuth = ['/login'];
+        var routesThatDontRequireAuth = ['/login', '/signup'];
 
         // check if current location matches route  
         var routeClean = function (route) {

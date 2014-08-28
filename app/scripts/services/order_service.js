@@ -8,7 +8,7 @@ angular.module('theBossApp')
                 isArray: false
             },
             'tasks': {
-                url: '/api/orders/tasks/:status',
+                url: '/api/orders/todotasks',
                 method: 'GET',
                 isArray: true
             },

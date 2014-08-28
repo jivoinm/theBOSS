@@ -14,7 +14,6 @@ angular.module('theBossApp')
       link: function postLink(scope, element, attrs) {
       	scope.messages = [];
       	if(!attrs.orderid){
-      		element.text('Missing orderid attribute');
       		return;
       	}
       	

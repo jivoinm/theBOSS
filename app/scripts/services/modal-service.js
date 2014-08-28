@@ -83,7 +83,7 @@ angular.module('theBossApp')
             showOrderDetailsPopup: function(title, order, callback){
 
                 var modal = $modal.open({
-                    width: "750px",
+                    size: 'lg',
                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
                     resolve: {
                         order: function(){return order;}

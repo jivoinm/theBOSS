@@ -18,7 +18,7 @@ angular.module('theBossApp')
                 });
 
                 $scope.order_service_fields = [
-                    {title:'Service Date', type:'date', require: true}, 
+                    {title:'Date', type:'date', require: true}, 
                     {title:'Details', type:'textarea', require: true},
                     //{title:'Done By', type:'user', require: false}
                 ];

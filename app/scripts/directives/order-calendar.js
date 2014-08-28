@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', 'roles', 
-        function (OrderService, toaster, ModalService, moment, theBossSettings, roles) {
+    .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', 'roles', '$location',
+        function (OrderService, toaster, ModalService, moment, theBossSettings, roles, $location) {
         return {
             template: '<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>',
             restrict: 'E',
@@ -16,33 +16,42 @@ angular.module('theBossApp')
                 var y = date.getFullYear();
 
                 $scope.getLabelClass = function (status){
-                    if (!status) {return 'label label-default';};
+                    if (!status) {return 'label label-warning';};
                     
                     if(status.toLowerCase() === 'finished'){
                         return 'label label-success';
                     }else if(status.toLowerCase() === 'in progress'){
                         return 'label label-primary';
-                    }else if(status.toLowerCase() === 'blocked'){
-                        return 'label label-warning';
+                    }else if(status.toLowerCase() === 'blocked' ||status.toLowerCase() === 'service'){
+                        return 'label label-danger';
                     }else {
-                        return 'label label-default';
+                        return 'label label-warning';
                     }
                 }
 
                 $scope.eventsF = function (start, end, callback) {
-
-                    OrderService.getOrders({status: $scope.orderStatus, from: moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD'), to: moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD')}).$promise.
+                    console.log($location.search());
+                    var query = {};
+                    if($location.search()){
+                        query = $location.search();
+                    }
+                    query.status = $scope.orderStatus;
+                    query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+                    query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+                    OrderService.getOrders(query).$promise.
                         then(function (orders){
                             //set order to calendar
                             var events = [];
                             angular.forEach(orders.orders, function (order){
-                                var calendarOrder = {};
-                                calendarOrder.order_id = order._id;
-                                calendarOrder.title = '['+ order.po_number + '] '+ order.customer.name;
-                                calendarOrder.start = order.date_required;
-                                calendarOrder.end = order.date_required;
-                                calendarOrder.className = $scope.getLabelClass(order.status);
-                                this.push(calendarOrder);
+                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name),
+                                    order.date_required,$scope.getLabelClass(order.status)));
+                                if(order.services && order.services.length > 0){
+                                    angular.forEach(order.services, function(service){
+                                        this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name + '- Service'),
+                                            order.date_required,$scope.getLabelClass('service')));
+
+                                    });
+                                }
 
                             }, events);
                             callback(events);
@@ -54,7 +63,15 @@ angular.module('theBossApp')
 
                 };
 
-                
+                $scope.createEvent = function(orderId, title, start, className){
+                    var calendarOrder = {};
+                    calendarOrder.order_id = orderId;
+                    calendarOrder.title = title;
+                    calendarOrder.start = start;
+                    calendarOrder.end = start;
+                    calendarOrder.className = className;
+                    return calendarOrder;
+                }
 
                 $scope.eventDrop = function (event,dayDelta,minuteDelta,revertFunc) {
                     updateCalendarEvent(event);
@@ -83,7 +100,7 @@ angular.module('theBossApp')
                             center: 'title',
                             right: 'month,basicWeek'
                         },
-                        editable: roles.validateRoleAdmin($scope.currentUser),
+                        editable: roles.validateRoleAdmin($scope.$root.currentUser),
                         eventClick: $scope.eventClick,
                         eventDrop: $scope.eventDrop,
                         eventResize: $scope.eventResize,

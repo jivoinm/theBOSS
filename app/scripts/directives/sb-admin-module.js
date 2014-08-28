@@ -32,7 +32,7 @@ angular.module('theBossApp').
             }
         };
     }]).
-    directive('tasks', ['OrderService','$location', function (OrderService, $location) {
+    directive('tasks', ['OrderService','$location', '_', function (OrderService, $location, _) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/tasks.html',
@@ -41,7 +41,7 @@ angular.module('theBossApp').
                 if($scope.order){
                     $scope.orders = [$scope.order];
                 }else{
-                    OrderService.tasks({status: 'approved'}).$promise.then(function(data){
+                    OrderService.tasks({}).$promise.then(function(data){
                         $scope.orders = data;
                     });
                 }
@@ -51,10 +51,10 @@ angular.module('theBossApp').
                     task.changed_on = new Date();
                     task.status = status;
                     
-                    //if all tasks are finished then set order status to finish
-                    return order.$save(function(){
-                        if(status=='finish'){
-                            form.tasks.splice(taskIndex,1);
+                    //if all tasks are finished then remove from the list
+                    return order.$save(function(savedOrder){
+                        if(savedOrder.status === 'finished'){
+                            order.forms = _.without(order.forms, _.findWhere(order.forms, {_id: form._id}));
                         }
                     });
                 };
@@ -173,6 +173,23 @@ angular.module('theBossApp').
                         element.addClass('active');
                     }else{
                         element.removeClass('active');
+                    }
+                }
+            }
+        }
+
+    }]).
+    directive('sbUrlActiveMenu',['$location', function ($location) {
+        return{
+            restrict: 'A',
+            link: function (scope, element) {
+                if(element[0].hash){
+                    var path = element[0].hash.replace('#','');
+                    console.log($location.path(), element.parent());
+                    if($location.path() ===  path){
+                        element.parent().addClass('active');
+                    }else{
+                        element.parent().removeClass('active');
                     }
                 }
             }

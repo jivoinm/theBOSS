@@ -32,7 +32,7 @@ angular.module('theBossApp')
                     details.append(CreateField('Customer', scope.order.customer.name));
                     details.append(CreateField('Email', scope.order.customer.email));
                     scope.order.forms.forEach(function (form) {
-                        details.append(CreatePanel(form.form_name, function(){
+                        details.append(CreatePanel(form.formName, function(){
                             var body = '';
                             form.fields.forEach(function (field) {
                                 body += CreateField(field.title, field.value);
@@ -56,35 +56,43 @@ angular.module('theBossApp')
                                 return body;
                             }));
                         }
-
-                        if(form.ordered_accessories){
-                            other.append(CreatePanel('Ordered Accessories', function(){
-                                var body = '';
-                                form.ordered_accessories.forEach(function (item){
-                                    body += CreateField(item.title, item.status);
-                                    
-                                    if(item.date_received)
-                                    {
-                                        body += CreateField('Received by', item.received_by + ' @ '+ item.date_received);
-                                    }
-                                })
-                                return body;
-                            }));
-                        }
-
-                        if(form.services){
-                            other.append(CreatePanel('Services', function(){
-                                var body = '';
-                                form.services.forEach(function (service){
-                                    body += CreateField(service.details, service.date);
-                                    
-                                })
-                                return body;
-                            }));
-                        }
-
                     });
 
+                    if(scope.order.ordered_accessories){
+                        other.append(CreatePanel('Ordered Accessories', function(){
+                            var body = '';
+                            scope.order.ordered_accessories.forEach(function (item){
+                                body += CreateField('From',item.from_manufacturer);
+                                body += CreateField('Description',item.description);
+                                body += CreateField('Quantity',item.quantity);
+                                body += CreateField('Received',item.received);
+                                
+                            })
+                            return body;
+                        }));
+                    }
+
+                    if(scope.order.services){
+                        other.append(CreatePanel('Services', function(){
+                            var body = '';
+                            scope.order.services.forEach(function (service){
+                                body += CreateField('Date', service.date);
+                                body += CreateField('Details', service.details);
+                                
+                            })
+                            return body;
+                        }));
+                    }
+                    if(scope.order.uploaded_files){
+                        other.append(CreatePanel('Files', function(){
+                            var body = '<div class="list-group">';
+                            scope.order.uploaded_files.forEach(function (f){
+                                body += '<a href="/uploads/'+ f.filename +'" target="_blank" class="list-group-item">'+f.filename+'<span class="badge">'+f.size+' kb</span></a>';
+                            });
+                            body += '</div>';
+                            return body;
+                        }));   
+                    }
                 }else {
                     element.text('Missing order on the scope');
                 }

@@ -16,7 +16,7 @@ angular.module('theBossApp')
       	scope.totalOrders = 0;
       	scope.orders = [];
      	var query = {};
-        query.status = 'New';
+        query.status = 'new';
         query.limit = null;
         query.page = null;
         OrderService.query(query).$promise.then (function (data) {
