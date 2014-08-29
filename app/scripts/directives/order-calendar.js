@@ -30,7 +30,6 @@ angular.module('theBossApp')
                 }
 
                 $scope.eventsF = function (start, end, callback) {
-                    console.log($location.search());
                     var query = {};
                     if($location.search()){
                         query = $location.search();
@@ -43,11 +42,11 @@ angular.module('theBossApp')
                             //set order to calendar
                             var events = [];
                             angular.forEach(orders.orders, function (order){
-                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name),
+                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+' - '+order.doors),
                                     order.date_required,$scope.getLabelClass(order.status)));
                                 if(order.services && order.services.length > 0){
                                     angular.forEach(order.services, function(service){
-                                        this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name + '- Service'),
+                                        this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+' - '+order.doors + '- Service'),
                                             order.date_required,$scope.getLabelClass('service')));
 
                                     });

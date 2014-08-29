@@ -44,6 +44,16 @@ angular.module('theBossApp', [
                 controller: 'SettingsCtrl',
                 authenticate: true
             })
+            .when('/users', {
+                templateUrl: 'partials/users',
+                controller: 'UserCtrl',
+                authenticate: true
+            })
+            .when('/users/:role', {
+                templateUrl: 'partials/users',
+                controller: 'UserCtrl',
+                authenticate: true
+            })
             .when('/orders', {
                 templateUrl: 'partials/orders',
                 controller: 'OrdersCtrl'
@@ -103,7 +113,6 @@ angular.module('theBossApp', [
                         return $q.reject(response);
                     }
                     else {
-                        console.log("Response " + response.status);
                         return $q.reject(response);
                     }
                 }
