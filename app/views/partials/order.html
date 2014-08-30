@@ -13,7 +13,7 @@
 
 
                     </tab>
-                    <tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'New' ">
+                    <tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'new' ">
                         <div class=well>
                             <p>Add list of tasks that needs to be done to finish the order.</p>
                             <order-tasks></order-tasks>
@@ -32,8 +32,6 @@
                             <p>Add list of services associated with this order.</p>
                             <order-services></order-services>
                         </div>
-
-
 
                     </tab>
                     <tab heading="Files" disabled="!order._id">

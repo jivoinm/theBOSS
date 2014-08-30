@@ -44,7 +44,7 @@ angular.module('theBossApp')
                     return [
                         {title: 'Title', value: field.title, require: true, type: 'text'},
                         {title: 'Value', value: field.value, require: false, type: 'text'},
-                        {title: 'Type', value: field.type, require: true, type: 'select', showOptions: field_types},
+                        {title: 'Type', value: field.type, require: true, type: 'select', show_options: field_types},
                         {title: 'Show Options', value: field.show_options, require: false, type: 'tokens'},
                         {title: 'Require', value: field.require, require: false, type: 'checkbox'}
 //                            {title:'Action', value: field.action, type:'select', showOptions: field_actions},
@@ -85,7 +85,7 @@ angular.module('theBossApp')
 
                     ModalService.modalFormDialog('Add new form',[
                         {title:'Form Name',value:'',require:true,type:'text'},
-                        {title:'Clone From',value:'',require:false,type:'select',showOptions:forms_to_clone_from}
+                        {title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from}
                         ], function(model){
                         var newForm = {};
                         if(model.clone_from){
@@ -123,10 +123,11 @@ angular.module('theBossApp')
 
                 $scope.deleteForm = function(form, e, $index){
                     StopEventPropagation(e);
-                    ModalService.confirmDelete("Are you sure you want to permanently delete "+form.form_name+'?',function(confirmed){
+                    ModalService.confirmDelete("Are you sure you want to permanently delete "+form.formName+'?',function(confirmed){
                         if(confirmed){
                             //delete
-                            form.$delete(function(){
+                            var formService = new FormService(form);
+                            formService.$delete(function(){
                                 toaster.pop('success', "Form was deleted with success");
                                 $scope.listOfForms.splice($index, 1);
                                 $scope.moduleForms.splice($scope.moduleForms.indexOf(form), 1);
@@ -141,10 +142,10 @@ angular.module('theBossApp')
                     ModalService.confirmDelete("Are you sure you want to permanently delete "+field.title+'?',function(confirmed){
                         if(confirmed){
                             //delete
-                            form.$deleteField({fieldId:field._id}, function(updated_form){
+                            var formService = new FormService(form);
+                            formService.$deleteField({id: form._id ,fieldId: field._id}, function(updated_form){
                                 toaster.pop('success', "Form field was deleted with success");
                                 form.fields.splice($index,1);
-
                             });
 
                         }
@@ -154,7 +155,7 @@ angular.module('theBossApp')
 
                 $scope.removeForm =  function(list,index,e){
                     StopEventPropagation(e);
-                    ModalService.confirmDelete("Remove "+list[index].form_name+' from this form?',function(confirmed){
+                    ModalService.confirmDelete("Remove "+list[index].formName+' from this form?',function(confirmed){
                         if(confirmed){
                             //delete
                             list.splice(index,1);
