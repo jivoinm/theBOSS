@@ -40,13 +40,13 @@ angular.module('theBossApp')
                     OrderService.getOrders(query).$promise.
                         then(function (orders){
                             //set order to calendar
-                            var events = [];
+                            var events = []; 
                             angular.forEach(orders.orders, function (order){
-                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+' - '+order.doors),
+                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
                                     order.date_required,$scope.getLabelClass(order.status)));
                                 if(order.services && order.services.length > 0){
                                     angular.forEach(order.services, function(service){
-                                        this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+' - '+order.doors + '- Service'),
+                                        events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
                                             order.date_required,$scope.getLabelClass('service')));
 
                                     });

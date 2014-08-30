@@ -45,7 +45,7 @@ angular.module('theBossApp')
                         {title: 'Title', value: field.title, require: true, type: 'text'},
                         {title: 'Value', value: field.value, require: false, type: 'text'},
                         {title: 'Type', value: field.type, require: true, type: 'select', showOptions: field_types},
-                        {title: 'Show Options', value: field.showOptions, require: false, type: 'tokens'},
+                        {title: 'Show Options', value: field.show_options, require: false, type: 'tokens'},
                         {title: 'Require', value: field.require, require: false, type: 'checkbox'}
 //                            {title:'Action', value: field.action, type:'select', showOptions: field_actions},
 //                            {title:'When field', value: field.when, type:'select', showOptions: form_fields},

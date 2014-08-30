@@ -40,7 +40,7 @@ angular.module('theBossApp')
                         scope.minDate = scope.minDate ? null : new Date();
                     };
 
-                    if(_.some(scope.field.showOptions, function(option) {
+                    if(_.some(scope.field.show_options, function(option) {
                             return option.showMinToday;
                         })){
                         scope.minDate = new Date();  
@@ -127,7 +127,7 @@ angular.module('theBossApp')
 
                 case 'select':
                     fieldTemplate = '<select name="fieldName" class="form-control" placeholder="{{field.title}}"'+
-                         'ng-model="model"  ng-required="{{ field.require }}" ng-options="value for value in splitOptions(field.showOptions)"'+
+                         'ng-model="model"  ng-required="{{ field.require }}" ng-options="value for value in splitOptions(field.show_options)"'+
                          'ng-show="!editmode">' +
                          '<option value=""></option>'+
                          '</select>';
@@ -143,7 +143,7 @@ angular.module('theBossApp')
                     break;
                 case 'radio':
                     fieldTemplate = '<div class="radio"> ' +
-                        '<div class="radio" ng-repeat="option in splitOptions(field.showOptions)">' +
+                        '<div class="radio" ng-repeat="option in splitOptions(field.show_options)">' +
                         '<label><input type="radio" name="fieldName" ng-model="model" ng-value="option">{{ option }}</label>' +
                         '</div>' +
                     '</div>';
@@ -162,7 +162,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'composite':
-                    fieldTemplate = '<div class="well"><div  field ng-model="composite_field.value" ng-field="composite_field" ng-repeat="composite_field in field.showOptions"></div></div>';
+                    fieldTemplate = '<div class="well"><div  field ng-model="composite_field.value" ng-field="composite_field" ng-repeat="composite_field in field.show_options"></div></div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
             }

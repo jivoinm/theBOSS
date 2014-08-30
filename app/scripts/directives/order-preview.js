@@ -31,6 +31,7 @@ angular.module('theBossApp')
                     var other = element.find('#other');
                     details.append(CreateField('Customer', scope.order.customer.name));
                     details.append(CreateField('Email', scope.order.customer.email));
+                    details.append(CreateField('Doors', scope.order.doors));
                     scope.order.forms.forEach(function (form) {
                         details.append(CreatePanel(form.formName, function(){
                             var body = '';
