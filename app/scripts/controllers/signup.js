@@ -2,7 +2,7 @@
 
 angular.module('theBossApp')
     .controller('SignupCtrl', ['$scope', 'Auth', '$location', function ($scope, Auth, $location) {
-        $scope.user = {};
+        $scope.user = {role:'user'};
         $scope.errors = {};
 
         $scope.register = function (form) {
@@ -13,13 +13,14 @@ angular.module('theBossApp')
                     owner: 'DelPriore',
                     name: $scope.user.name,
                     email: $scope.user.email,
+                    role: $scope.user.role,
                     password: $scope.user.password
                 };
 
                 Auth.createUser(user)
                     .then(function () {
                         // Account created, redirect to home
-                        $location.path('/');
+                        $location.path('/users');
                     })
                     .catch(function (err) {
                         err = err.data;

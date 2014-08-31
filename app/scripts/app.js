@@ -24,8 +24,7 @@ angular.module('theBossApp', [
         $routeProvider
             .when('/', {
                 templateUrl: 'partials/main',
-                controller: 'MainCtrl',
-                authenticate: true
+                controller: 'MainCtrl'
             })
             .when('/index', {
                 templateUrl: 'partials/index',
@@ -37,7 +36,8 @@ angular.module('theBossApp', [
             })
             .when('/signup', {
                 templateUrl: 'partials/signup',
-                controller: 'SignupCtrl'
+                controller: 'SignupCtrl',
+                authenticate: true
             })
             .when('/settings', {
                 templateUrl: 'partials/settings',
@@ -153,23 +153,35 @@ angular.module('theBossApp', [
             Blocked: 'blocked'
         }
     })
-    .run(function ($rootScope, $location, Auth) {
+    .run(function ($rootScope, $location, Auth, roles) {
         // enumerate routes that don't need authentication
-        var routesThatDontRequireAuth = ['/login', '/signup'];
+        var routesThatDontRequireAuth = ['/login'];
+        var routesThatForAdmins = ['/users'];
 
         // check if current location matches route  
         var routeClean = function (route) {
-        return _.find(routesThatDontRequireAuth,
-          function (noAuthRoute) {
-            return _.str.startsWith(route, noAuthRoute);
-          });
+            return _.find(routesThatDontRequireAuth,
+              function (noAuthRoute) {
+                return _.str.startsWith(route, noAuthRoute);
+              });
         };
 
-        $rootScope.$on('$routeChangeStart', function (event, next, current) {
-        // if route requires auth and user is not logged in
-        if (!routeClean($location.url()) && !Auth.isLoggedIn()) {
-          // redirect back to login
-          $location.path('/login');
+        var routeAdmin = function(route) { 
+            return _.find(routesThatForAdmins,
+              function (routeForAdmin) {
+                return _.str.startsWith(route, routeForAdmin);
+                });
         }
+
+
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            // if route requires auth and user is not logged in
+            if (!routeClean($location.url()) && !Auth.isLoggedIn()) {
+              // redirect back to login
+              $location.path('/login');
+            } else if (routeAdmin($location.url()) && !roles.validateRoleAdmin()) {
+              // redirect to error page
+              $location.path('/error');
+            }
         });
     });

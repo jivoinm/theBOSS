@@ -3,7 +3,7 @@
 angular.module('theBossApp')
     .controller('SettingsCtrl', ['$scope', 'User', 'Auth', function ($scope, User, Auth) {
         $scope.errors = {};
-
+        $scope.$parent.pageHeader = 'Reset your password';
         $scope.changePassword = function (form) {
             $scope.submitted = true;
 

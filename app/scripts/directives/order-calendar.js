@@ -47,7 +47,7 @@ angular.module('theBossApp')
                                 if(order.services && order.services.length > 0){
                                     angular.forEach(order.services, function(service){
                                         events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
-                                            order.date_required,$scope.getLabelClass('service')));
+                                            service.date,$scope.getLabelClass('service')));
 
                                     });
                                 }

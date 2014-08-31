@@ -60,7 +60,6 @@ angular.module('theBossApp')
 
                 return User.save(user,
                     function (user) {
-                        $rootScope.currentUser = user;
                         return cb(user);
                     },
                     function (err) {
