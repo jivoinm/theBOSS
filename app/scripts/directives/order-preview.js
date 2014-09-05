@@ -10,6 +10,12 @@ angular.module('theBossApp')
                 '</div>';
         }
 
+        function CreateAccordion (titile, content){
+            return '<accordion-group heading="'+title+'">'+
+                    content +
+                    '</accordion-group>'
+        }
+        
         function CreatePanel(title, body){
             return '<div class="panel panel-default"><div class="panel-heading">'+title+'</div><div class="panel-body">' + body() + '</div></div>';
         }
@@ -30,7 +36,11 @@ angular.module('theBossApp')
                     var details = element.find('#details');
                     var other = element.find('#other');
                     details.append(CreateField('Customer', scope.order.customer.name));
-                    details.append(CreateField('Email', scope.order.customer.email));
+                    if(scope.order.customer.bill_to)  details.append(CreateField('Bill To', scope.order.customer.bill_to));
+                    if(scope.order.customer.ship_to)  details.append(CreateField('Ship To', scope.order.customer.ship_to));
+                    if(scope.order.customer.email)  details.append(CreateField('Email', scope.order.customer.email));
+                    if(scope.order.customer.phone)  details.append(CreateField('Phone', scope.order.customer.phone));
+                    if(scope.order.customer.cell)  details.append(CreateField('Cell', scope.order.customer.cell));
                     details.append(CreateField('Doors', scope.order.doors));
                     scope.order.forms.forEach(function (form) {
                         details.append(CreatePanel(form.formName, function(){
@@ -61,14 +71,16 @@ angular.module('theBossApp')
 
                     if(scope.order.ordered_accessories){
                         other.append(CreatePanel('Ordered Accessories', function(){
-                            var body = '';
+                            var body = '<accordion close-others="oneAtATime">';
                             scope.order.ordered_accessories.forEach(function (item){
+                                body += CreateAccordion('From: '+item.from_manufacturer+' - '+item.description, );
                                 body += CreateField('From',item.from_manufacturer);
                                 body += CreateField('Description',item.description);
                                 body += CreateField('Quantity',item.quantity);
                                 body += CreateField('Received',item.received);
                                 
                             })
+                            body += '</accordion>'
                             return body;
                         }));
                     }

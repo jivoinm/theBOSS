@@ -1,7 +1,8 @@
 'use strict';
 angular.module('theBossApp')
-  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', 
-    function ($scope, $location, OrderService, ModalService, order, toaster) {
+  .controller('OrderCtrl', ['$scope', '$location', 'OrderService', 'ModalService','order', 'toaster', 'roles', 
+    function ($scope, $location, OrderService, ModalService, order, toaster, roles) {
+        $scope.actives = {};
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -27,10 +28,8 @@ angular.module('theBossApp')
             $location.path('/orders');
         }
 
-        //Save order
-        $scope.save = function (isValidForm){
-            if(isValidForm){
-                $scope.order.$save(function(savedOrder){
+        $scope.saveOrder = function(){
+            $scope.order.$save(function(savedOrder){
                     if($scope.order._id)
                     {
                         $scope.redirectToList();
@@ -41,6 +40,24 @@ angular.module('theBossApp')
                 },function(err){
                     toaster.pop('error', "Error", 'Error saving you order '+ err);
                 });
+        }
+
+        //Save order
+        $scope.save = function (isValidForm){
+            if(isValidForm){
+                if(!roles.validateRoleAdmin() && $scope.order.ordered_accessories.length === 0){
+                    ModalService.confirm('Do you want to add accesories to this order?', function(confirmed){
+                        if(confirmed){
+                           $scope.actives.two = true;
+                           return;
+                        }else{
+                            $scope.saveOrder();
+                        }
+                     })
+                }else{
+                    $scope.saveOrder();
+                }
+                
             }
         }
 
