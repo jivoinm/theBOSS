@@ -10,7 +10,7 @@ angular.module('theBossApp')
                 '</div>';
         }
 
-        function CreateAccordion (titile, content){
+        function CreateAccordion (title, content){
             return '<accordion-group heading="'+title+'">'+
                     content +
                     '</accordion-group>'
@@ -71,16 +71,16 @@ angular.module('theBossApp')
 
                     if(scope.order.ordered_accessories){
                         other.append(CreatePanel('Ordered Accessories', function(){
-                            var body = '<accordion close-others="oneAtATime">';
+                            var body = '<ul class="list-group">';
                             scope.order.ordered_accessories.forEach(function (item){
-                                body += CreateAccordion('From: '+item.from_manufacturer+' - '+item.description, );
-                                body += CreateField('From',item.from_manufacturer);
-                                body += CreateField('Description',item.description);
-                                body += CreateField('Quantity',item.quantity);
-                                body += CreateField('Received',item.received);
+                                body += '<li class="list-group-item">'+
                                 
+                                '<h4>'+('From: '+item.from_manufacturer+' - '+item.description)+'</h4>'+
+                                '<p class="list-group-item-text">' +'Received '+ (item.items_received || 0 )+ ' of '+(item.quantity || 0) + '</p>'+
+                                
+                                '</li>';
                             })
-                            body += '</accordion>'
+                            body += '</ul>'
                             return body;
                         }));
                     }

@@ -12,22 +12,21 @@ angular.module('theBossApp').
         };
     }).
 
-    directive('accessories', ['OrderService', function (OrderService) {
+    directive('accessories', ['OrderService','$timeout', function (OrderService, $timeout) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/accessories.html',
             scope:{},
             link: function (scope) {
                 scope.orders = [];
+                var secondsToWaitBeforeSave = 2;
+                var timeout = null;
                 OrderService.accessories().$promise.then(function(data){
                     scope.orders = data;
-                })
+                });
 
-                scope.received = function(order,accessory){
-                    accessory.received_by = scope.$root.currentUser.user_id;
-                    accessory.date_received = new Date();
-                    accessory.received = true;
-                    order.$save();
+                var saveUpdates = function(newVal) {
+                    console.log("Tried to save updates to item #" + (newVal) + " but the form is invalid.");
                 };
             }
         };
