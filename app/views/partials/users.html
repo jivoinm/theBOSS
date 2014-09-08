@@ -42,6 +42,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -55,6 +56,7 @@
                                                 <label class="btn btn-primary" ng-model="user.role" btn-radio="'worker'" ng-click="changRole(user,'worker')">Worker</label>
                                             </div>
                                         </td>
+                                        <td><button type="button" class="btn btn-danger" ng-click="delete(user,$index)">Delete</button></td>
                                     </tr>
                                 </tbody>
                             </table>

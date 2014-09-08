@@ -1,6 +1,10 @@
-<quick-list quick-list="orders" list-type="list" title="Ordered Accessories" item-select="received(order,accessory)">
-
-            {{ item.customer.name }} - {{ item.po_number }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Ordered Accessories
+    </div>
+    <div class="panel-body">
+        <div class="pannel" ng-repeat="item in orders">
+             {{ item.customer.name }} - {{ item.po_number }}
 
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -13,19 +17,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="accessory in item.ordered_accessories | filter:accessory.received ">
+                    <tr ng-repeat="accessory in item.ordered_accessories | filter:notreceived ">
                         <td>{{ accessory.from_manufacturer }}</td>
                         <td>{{ accessory.description }}</td>
                         <td>{{ accessory.quantity }}</td>
                         <td>
                             <input type="number" ng-model="accessory.items_received">
-                            <button ng-click="saveUpdates({newVal:item})">Update</button>
+                            <button type="submit" data-ng-click="saveUpdates($index, item, accessory)" class="btn btn-default">Update</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <!-- /.table-responsive -->
         </div>
 
-</quick-list>
+    </div>
+</div>

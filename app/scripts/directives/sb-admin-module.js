@@ -12,22 +12,36 @@ angular.module('theBossApp').
         };
     }).
 
-    directive('accessories', ['OrderService','$timeout', function (OrderService, $timeout) {
+    directive('accessories', ['OrderService','toaster', function (OrderService, toaster) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/accessories.html',
-            scope:{},
+            scope: false,
             link: function (scope) {
                 scope.orders = [];
-                var secondsToWaitBeforeSave = 2;
-                var timeout = null;
+                scope.notreceived = {received:false};
                 OrderService.accessories().$promise.then(function(data){
                     scope.orders = data;
                 });
 
-                var saveUpdates = function(newVal) {
-                    console.log("Tried to save updates to item #" + (newVal) + " but the form is invalid.");
-                };
+                scope.saveUpdates = function(index,order,accessory) {
+                    if(accessory.items_received) {
+                        accessory.received = accessory.items_received >= accessory.quantity;
+                        accessory.date_received = new Date();
+                        order.$save(function(){
+                            if(accessory.received){
+                                order.ordered_accessories.splice(index,1);    
+                                toaster.pop('success', "Success", 'Received all '+ accessory.description);
+                            }else{
+                                toaster.pop('success', "Success", 'Updated items received for '+ accessory.description);
+                            }
+                            
+                        });
+                    }else{
+                         toaster.pop('error', "Error", 'Nothing was set as received.');
+                    }
+                    
+                };               
             }
         };
     }]).

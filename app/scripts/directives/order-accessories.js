@@ -7,7 +7,7 @@ angular.module('theBossApp')
                 '            list-fields-to-edit="order_accessories_fields" editable-form="order" broadcast-event="order-changed">' +
                 '                <h4 class="list-group-item-heading">' +
                 '                {{ item.from_manufacturer }}' +
-                '                    <span class="pull-right text-muted small"><em>Received:{{ item.date_received | timeago}}</em></span>' +
+                '                    <span class="pull-right text-muted small"><em>Received:{{ item.date_received | date }}</em></span>' +
                 '                </h4>' +
                 '                <p class="list-group-item-text">{{ item.description }}</p>' +
                 '</quick-list>',

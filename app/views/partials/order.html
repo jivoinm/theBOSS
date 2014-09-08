@@ -37,7 +37,7 @@
                     <tab heading="Files" disabled="!order._id">
                         <div class=well>
                             <p>Add list of files associated with this order.</p>
-                            <file-uploads model="order.uploaded_files" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
+                            <file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
                         </div>
                     </tab>
                 </tabset>
@@ -78,6 +78,7 @@
 
                  <order-messages orderid="{{ order._id }}"></order-messages>
                 <order-accessories ng-if="preview"></order-accessories>
+                <order-services ng-if="preview && order.status === 'finished'"></order-services>
             </div>
         </div>
 

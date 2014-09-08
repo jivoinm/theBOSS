@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('fileUploads', ['$upload', '$timeout', '$rootScope', 'theBossSettings',  function ($upload, $timeout, $rootScope, theBossSettings) {
+  .directive('fileUploads', ['$upload', '$timeout', '$rootScope', 'theBossSettings', 'toaster',  function ($upload, $timeout, $rootScope, theBossSettings, toaster) {
       return {
           templateUrl: '/views/directive-templates/file-uploads.html',
           restrict: 'E',
@@ -16,8 +16,19 @@ angular.module('theBossApp')
                   scope.preview = preview;
               });
 
+              scope.encodeFileName = function(fileName) {
+                return encodeURIComponent(fileName);
+              } 
+
+              scope.deleteFile = function (file, index, event){
+                scope.model.uploaded_files.splice(index,1);
+                scope.model.$save(function(){
+                    toaster.pop('success', "Success", 'Delete file '+ file.filename);
+                })
+              }
+
               if(attrs.uploadUrl){
-                scope.model = scope.model || [];
+                scope.model = scope.model || {};
                 scope.uploadRightAway = true;
                 scope.hasUploader = function(index) {
                     return scope.upload[index] != null;
@@ -26,7 +37,7 @@ angular.module('theBossApp')
                 scope.hasUploadingInProgress = function(){
                     angular.forEach(scope.progress, function(percent){
                         return percent < 100;
-                    })
+                    });
                 };
 
                 scope.abort = function(index) {
@@ -35,7 +46,6 @@ angular.module('theBossApp')
                 };
 
                 scope.onFileSelect = function($files) {
-
                     scope.progress = [];
                     if (scope.upload && scope.upload.length > 0) {
                         for (var i = 0; i < scope.upload.length; i++) {
@@ -77,8 +87,12 @@ angular.module('theBossApp')
                         file: scope.selectedFiles[index]
 
                     }).then(function(response) {
-                            scope.model.push(response.data);
-                            scope.progress[index] = 100;
+                            scope.model.uploaded_files.push(response.data);
+                            scope.model.$save(function(){
+                              scope.progress[index] = 100;  
+                              toaster.pop('success', "Success", 'Uploaded file with success '+ response.data.filename);
+                            });
+                            
                         }, function(response) {
                             if (response.status > 0) scope.errorMsg = response.status + ': ' + response.data;
 

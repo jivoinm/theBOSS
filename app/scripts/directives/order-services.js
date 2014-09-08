@@ -1,32 +1,44 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderServices', ['$rootScope', 'theBossSettings', function ($rootScope, theBossSettings) {
+    .directive('orderServices', ['$rootScope', 'theBossSettings', 'ModalService', 'toaster', function ($rootScope, theBossSettings, ModalService, toaster) {
         return {
-            template: '<quick-list quick-list="order.services" listType="list" title="List of services"' +
-                '        list-fields-to-edit="order_service_fields" editable-form="order" broadcast-event="order-changed">' +
-                '            <h4 class="list-group-item-heading">' +
-                '                {{ item.details }}' +
-                '                <span class="pull-right text-muted small"><em>Service Date:{{ item.date | timeago}}</em></span>' +
-                '            </h4>' +
-//                '            <p class="list-group-item-text">To be done by: {{ item.done_by }}</p>' +
-                '        </quick-list>',
+           templateUrl: '/views/directive-templates/order-services.html',
             restrict: 'E',
-            controller: function ($scope){
-                $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
-                    $scope.preview = preview;
-                });
-
-                $scope.order_service_fields = [
-                    {title:'Date', type:'date', require: true}, 
-                    {title:'Details', type:'textarea', require: true},
-                    //{title:'Done By', type:'user', require: false}
-                ];
-            },
             link: function postLink(scope, element, attrs) {
                 if(!scope.order){
                     element.text('Missing order on the scope');
                     return;
+                }
+
+                scope.order_service_fields = [
+                    {title:'Date', type:'date', require: true}, 
+                    {title:'Details', type:'textarea', require: true},
+                    //{title:'Done By', type:'user', require: false}
+                ];
+                scope.completed = function (order, service){
+                    service.completed = true;
+                    order.$save(function (orderSaved) {
+                        console.log(orderSaved);
+                    });
+                }
+
+                scope.addNewService = function(form){
+                    ModalService.modalFormDialog('Add new field',
+                        scope.order_service_fields, function(model){
+                            if(model){
+                                if(form && form.$save){
+                                    form.services.unshift(model);
+                                    form.$save(function(savedResponse){
+                                        toaster.pop('success', "Service was saved with success");
+                                    }, function(err) {
+                                        toaster.pop('error', "There was an error saving service on server, "+err.message);
+                                    });
+                                }
+                                model = null;
+                            }
+                        })
+
                 }
             }
         };

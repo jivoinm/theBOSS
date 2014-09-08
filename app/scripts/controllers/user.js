@@ -25,5 +25,10 @@ angular.module('theBossApp')
         	user.role = role;
         	user.$updateRole();
         };
+        $scope.delete = function (user, index){
+            user.$delete(function (){
+                $scope.users.splice(index,1);
+            });
+        }
 
     }]);

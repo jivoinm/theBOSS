@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('orderPreview', function () {
+    .directive('orderPreview', ['$filter', function ($filter) {
         function CreateField(label, value) {
             value = value || '';
             return '<div class="form-group"> ' +
@@ -35,6 +35,7 @@ angular.module('theBossApp')
                 if(scope.order){
                     var details = element.find('#details');
                     var other = element.find('#other');
+                    details.append(CreateField('Created By', scope.order.createdBy.name));
                     details.append(CreateField('Customer', scope.order.customer.name));
                     if(scope.order.customer.bill_to)  details.append(CreateField('Bill To', scope.order.customer.bill_to));
                     if(scope.order.customer.ship_to)  details.append(CreateField('Ship To', scope.order.customer.ship_to));
@@ -87,12 +88,11 @@ angular.module('theBossApp')
 
                     if(scope.order.services){
                         other.append(CreatePanel('Services', function(){
-                            var body = '';
+                            var body = '<div class="list-group">';
                             scope.order.services.forEach(function (service){
-                                body += CreateField('Date', service.date);
-                                body += CreateField('Details', service.details);
-                                
-                            })
+                                body += '<div class="list-group-item">'+ $filter('date')(service.date)+' - '+service.details+'</div>';
+                            });
+                            body += '</div>';
                             return body;
                         }));
                     }
@@ -100,7 +100,7 @@ angular.module('theBossApp')
                         other.append(CreatePanel('Files', function(){
                             var body = '<div class="list-group">';
                             scope.order.uploaded_files.forEach(function (f){
-                                body += '<a href="/uploads/'+ f.filename +'" target="_blank" class="list-group-item">'+f.filename+'<span class="badge">'+f.size+' kb</span></a>';
+                                body += '<a href="/uploads/'+ encodeURIComponent(f.filename) +'" target="_blank" class="list-group-item">'+f.filename+'</a>';
                             });
                             body += '</div>';
                             return body;
@@ -111,4 +111,4 @@ angular.module('theBossApp')
                 }
             }
         };
-    });
+    }]);

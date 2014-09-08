@@ -1,8 +1,8 @@
 <quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status)">
-
+<h4>Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}</h4>
     <div class="panel panel-default" ng-repeat='form in item.forms'>
         <div class="panel-heading">
-            Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}
+            {{form.formName}}
         </div>
         <div class="panel-body">
             <div class="row">
