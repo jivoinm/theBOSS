@@ -54,17 +54,17 @@ angular.module('theBossApp')
 
                         if(form.tasks){
                             other.append(CreatePanel('Tasks', function(){
-                                var body = '';
+                                var body = '<div class="list-group">';
                                 form.tasks.forEach(function (task){
-                                    if(task.status)
+                                     if(task.status)
                                     {
-                                        body += CreateField(task.title, task.status);
+                                        body += '<div class="list-group-item">';
+                                        body += '<h4 class="list-group-item-heading">'+task.title+'<span class="badge">'+task.status+'</span></h4>';
+                                        body += '<p class="list-group-item-text">'+task.changed_by + ' @ '+ task.changed_on+'</p>';
+                                        body += '</div>';
                                     }
-                                    if(task.changed_by)
-                                    {
-                                        body += CreateField('By', task.changed_by + ' @ '+ task.changed_on);
-                                    }
-                                })
+                                });
+                                body += '</div>';
                                 return body;
                             }));
                         }
