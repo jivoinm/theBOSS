@@ -59,13 +59,20 @@ angular.module('theBossApp').
                     });
                 }
 
-                $scope.setTaskStatus = function(order,form,taskIndex,task,status){
+                var selectedTab;
+
+                $scope.setTaskStatus = function(order,form,taskIndex,task,status, e){
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
                     task.changed_by = $scope.$root.currentUser._id;
                     task.changed_on = new Date();
                     task.status = status;
-                    
+                    form.active = true;
                     //if all tasks are finished then remove from the list
                     return order.$save(function(savedOrder){
+                        order = savedOrder;
                         if(savedOrder.status === 'finished'){
                             order.forms = _.without(order.forms, _.findWhere(order.forms, {_id: form._id}));
                         }
@@ -75,6 +82,12 @@ angular.module('theBossApp').
                 $scope.loadOrder = function(id){
                     $location.path('/order/' + id);
                 }
+
+                $scope.status = {
+                    isFirstOpen: true,
+                    isFirstDisabled: false,
+                    oneAtATime: true
+                  };
             }
         };
     }]).

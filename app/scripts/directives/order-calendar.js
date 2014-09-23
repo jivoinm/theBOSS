@@ -18,7 +18,9 @@ angular.module('theBossApp')
                 $scope.getLabelClass = function (status){
                     if (!status) {return 'label label-warning';};
                     
-                    if(status.toLowerCase() === 'finished'){
+                    if(status.toLowerCase() === 'approved'){
+                        return 'label label-default';
+                    }else if(status.toLowerCase() === 'finished'){
                         return 'label label-success';
                     }else if(status.toLowerCase() === 'in progress'){
                         return 'label label-primary';

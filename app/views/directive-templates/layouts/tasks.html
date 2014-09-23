@@ -1,38 +1,39 @@
-<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status)">
-<h4>Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}</h4>
-    <div class="panel panel-default" ng-repeat='form in item.forms'>
-        <div class="panel-heading">
-            {{form.formName}}
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-4">
-                    To Do
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks">
-                            {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress'})" class="btn btn-xs">Start</button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    In Progress
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
-                            {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done'})" class="btn btn-xs">Done</button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    Done
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-success" ng-repeat="task in form.tasks | filter:{status:'done'}">
-                            {{ task.title }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status,event)">
+    <accordion close-others="status.oneAtATime">
+        <accordion-group heading="Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
+            <tabset>
+                <tab heading="{{form.formName}}" ng-repeat='form in item.forms' active="form.active">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-4">
+                                To Do
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks">
+                                        {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress',event:$event})" class="btn btn-xs">Start</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                In Progress
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
+                                        {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done',event:$event})" class="btn btn-xs">Done</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                Done
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-success" ng-repeat="task in form.tasks | filter:{status:'done'}">
+                                        {{ task.title }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </accordion-group>
+    </accordion>
 </quick-list>
 
