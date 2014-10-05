@@ -61,7 +61,7 @@ angular.module('theBossApp').
 
                 var selectedTab;
 
-                $scope.setTaskStatus = function(order,form,taskIndex,task,status, e){
+                $scope.setTaskStatus = function(order,orderIndex,form,formIndex,task,status, e){
                     if (e) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -69,13 +69,16 @@ angular.module('theBossApp').
                     task.changed_by = $scope.$root.currentUser._id;
                     task.changed_on = new Date();
                     task.status = status;
-                    form.active = true;
+                    
                     //if all tasks are finished then remove from the list
                     return order.$save(function(savedOrder){
                         order = savedOrder;
                         if(savedOrder.status === 'finished'){
-                            order.forms = _.without(order.forms, _.findWhere(order.forms, {_id: form._id}));
+                            $scope.orders.splice(orderIndex,1);
+                        }else{
+                            order.forms[formIndex].active = true;
                         }
+                        
                     });
                 };
 

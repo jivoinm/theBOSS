@@ -11,7 +11,7 @@ angular.module('theBossApp')
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
-      	if(!roles.validateRoleAdmin($rootScope.currentUser)){
+      	if(roles && !roles.validateRoleAdmin($rootScope.currentUser)){
       		element.remove();
       	}
       }
