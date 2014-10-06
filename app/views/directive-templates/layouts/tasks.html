@@ -1,5 +1,5 @@
-<accordion close-others="status.oneAtATime" ng-repeat="item in orders">
-    <accordion-group heading="Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
+<accordion close-others="status.oneAtATime">
+    <accordion-group heading="Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" ng-repeat="item in orders">
         <tabset>
             <tab heading="{{form.formName}}" ng-repeat='form in item.forms' active="form.active">
                 <div class="well">
