@@ -1,4 +1,4 @@
-<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,form,taskIndex,task,status,event)">
+<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,orderIndex,form,formIndex,task,status,event)">
     <accordion close-others="status.oneAtATime">
         <accordion-group heading="Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
             <tabset>
@@ -9,7 +9,7 @@
                                 To Do
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks">
-                                        {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'in progress',event:$event})" class="btn btn-xs">Start</button>
+                                        {{ task.title }} <button ng-click="itemSelect({order:item,orderIndex:$parent.$parent.$index,form:form,formIndex:$parent.$index,task:task,status:'in progress',event:$event})" class="btn btn-xs">Start</button>
                                     </li>
                                 </ul>
                             </div>
@@ -17,7 +17,7 @@
                                 In Progress
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
-                                        {{ task.title }} <button ng-click="itemSelect({order:item,form:form,taskIndex:$index,task:task,status:'done',event:$event})" class="btn btn-xs">Done</button>
+                                        {{ task.title }} <button ng-click="itemSelect({order:item,orderIndex:$parent.$parent.$index,form:form,formIndex:$parent.$index,task:task,status:'done',event:$event})" class="btn btn-xs">Done</button>
                                     </li>
                                 </ul>
                             </div>
