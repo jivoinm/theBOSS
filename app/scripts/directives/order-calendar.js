@@ -4,7 +4,7 @@ angular.module('theBossApp')
     .directive('orderCalendar', ['OrderService', 'toaster', 'ModalService', 'moment', 'theBossSettings', 'roles', '$location',
         function (OrderService, toaster, ModalService, moment, theBossSettings, roles, $location) {
         return {
-            template: '<div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>',
+            templateUrl: '/views/directive-templates/order-calendar.html',
             restrict: 'E',
             scope: {
                 orderStatus: '='
@@ -24,6 +24,10 @@ angular.module('theBossApp')
                         return 'label label-success';
                     }else if(status.toLowerCase() === 'in progress'){
                         return 'label label-primary';
+                    }else if(status.toLowerCase() === 'installation'){
+                        return 'label label-dark';
+                    }else if(status.toLowerCase() === 'shipped'){
+                        return 'label label-bright';
                     }else if(status.toLowerCase() === 'blocked' ||status.toLowerCase() === 'service'){
                         return 'label label-danger';
                     }else {
@@ -44,16 +48,23 @@ angular.module('theBossApp')
                             //set order to calendar
                             var events = []; 
                             angular.forEach(orders.orders, function (order){
-                                this.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
+                                this.push($scope.createEvent(order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
                                     order.date_required,$scope.getLabelClass(order.status)));
-                                if(order.services && order.services.length > 0){
-                                    angular.forEach(order.services, function(service){
+                                    if(order.services && order.services.length > 0){
+                                        angular.forEach(order.services, function(service){
+                                            events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                                service.date,$scope.getLabelClass('service')));
+
+                                        });
+                                    }
+                                    if(order.installation_date){
                                         events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
-                                            service.date,$scope.getLabelClass('service')));
-
-                                    });
-                                }
-
+                                                order.installation_date, $scope.getLabelClass('installation')));
+                                    } 
+                                    if(order.shipped_date){
+                                        events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                                order.shipped_date, $scope.getLabelClass('shipped')));
+                                    }
                             }, events);
                             callback(events);
 
@@ -61,7 +72,6 @@ angular.module('theBossApp')
                             toaster.pop('error', "Error", 'Error loading orders '+ err);
                             console.log(err);
                         });
-
                 };
 
                 $scope.createEvent = function(orderId, title, start, className){
@@ -95,8 +105,8 @@ angular.module('theBossApp')
 
                 /* config object */
                 $scope.uiConfig = {
-                    calendar:{
-                        header:{
+                    calendar: {
+                        header: {
                             left: 'today prev,next',
                             center: 'title',
                             right: 'month,basicWeek'

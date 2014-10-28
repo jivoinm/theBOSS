@@ -10,8 +10,6 @@
                         <div class=well>
                              <order-details order="order" ></order-details>
                         </div>
-
-
                     </tab>
                     <tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'new' ">
                         <div class=well>
@@ -42,7 +40,6 @@
                     </tab>
                 </tabset>
                 <order-preview order="order" ng-if="preview"></order-preview>
-
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
@@ -60,7 +57,28 @@
                             <li class="list-group-item">
                                 <span class="pull-right">{{ order.last_updated_by.name }} on {{ order.last_updated_on | date }}</span>
                                 Last updated by:
-                            </li>
+                            </li>  
+                            <li class="list-group-item">
+                                <span class="pull-right">{{ order.date_required  | date }}</span>
+                                Required Date
+                            </li> 
+                            <li class="list-group-item">
+                                 <div class="row">
+                                    <div class="col-md-4">
+                                        Installation Date
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p class="input-group">
+                                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="order.installation_date" is-open="opened" min-date="minDate" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                          <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                          </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            
+                            </li> 
+                            
                         </ul>
                         <order-workflow order="order" restricted-access></order-workflow>
                         <div class="btn-group btn-group-justified" restricted-access>
@@ -76,7 +94,7 @@
                     </div>
                  </div>
 
-                 <order-messages orderid="{{ order._id }}"></order-messages>
+                <order-notes orderid="{{ order._id }}"></order-notes>
                 <order-accessories ng-if="preview"></order-accessories>
                 <order-services ng-if="preview && order.status === 'finished'"></order-services>
             </div>

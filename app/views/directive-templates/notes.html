@@ -5,14 +5,14 @@
                 <i class="fa fa-envelope fa-5x"></i>
             </div>
             <div class="col-xs-9 text-right">
-                <div class="huge">{{ messages.length }}</div>
-                <div>New Messages!</div>
+                <div class="huge">{{ notes.length }}</div>
+                <div>New Notes!</div>
             </div>
         </div>
     </div>
     <a href="" ng-click="isCollapsed = !isCollapsed">
         <div class="panel-footer">
-            <span class="pull-left">View messages</span>
+            <span class="pull-left">View notes</span>
             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
             <div class="clearfix"></div>
         </div>
@@ -22,12 +22,12 @@
         <div class="chat-panel panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-comments fa-fw"></i>
-                Unresolved Messages
+                Unresolved Notes
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <ul class="chat">
-                    <li class="clearfix" ng-class-odd="'left'" ng-class-even="'right'" ng-repeat="item in messages">
+                    <li class="clearfix" ng-class-odd="'left'" ng-class-even="'right'" ng-repeat="item in notes">
                         <span class="chat-img" ng-class-odd="'pull-left'" ng-class-even="'pull-right'">
                             <img class="img-circle" alt="{{ item.from.name }}" src="http://placehold.it/50/55C1E7/fff">
                         </span>
@@ -50,7 +50,7 @@
             </div>
             <!-- /.panel-body -->
             <div class="panel-footer">
-                <message></message>
+                <note></note>
             </div>
             <!-- /.panel-footer -->
         </div>

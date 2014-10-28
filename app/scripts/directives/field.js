@@ -46,9 +46,15 @@ angular.module('theBossApp')
                         scope.minDate = new Date();  
                         datepickerConfig.minDate = new Date();
                     }
+                    var minDate = _.some(scope.field.show_options, function(option) {
+                            return option.minDate;
+                        });
                     
-                    //scope.minDate = new Date();  
-                    //scope.toggleMin();
+                    if(minDate){
+                        scope.minDate = minDate;
+                        datepickerConfig.minDate = minDate;
+                    }
+                    
 
                     scope.show_calendar = false;
                     scope.openCalendar = function($event){

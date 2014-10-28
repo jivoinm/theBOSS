@@ -11,7 +11,6 @@ angular.module('theBossApp').
             }
         };
     }).
-
     directive('accessories', ['OrderService','toaster', function (OrderService, toaster) {
         return {
             restrict: 'E',
@@ -91,6 +90,110 @@ angular.module('theBossApp').
                     isFirstDisabled: false,
                     oneAtATime: true
                   };
+            }
+        };
+    }]).   
+     directive('shippingList', ['OrderService', '$timeout', 'toaster', function (OrderService, $timeout, toaster) {
+        return {
+            restrict: 'E',
+            templateUrl: '/views/directive-templates/layouts/shipping-list.html',
+            scope: true,
+            controller: function ($scope) {
+                $scope.orders = [];
+                $scope.totalOrders = 0;
+                $scope.currentPage = 1;
+                $scope.maxSize = 10;
+
+                $scope.loadOrders = function(){
+                    var query = {};
+                    query.limit = $scope.maxSize = 10;
+                    query.page = $scope.currentPage;
+
+                    OrderService.shippingList(query).$promise.then(function(data){
+                        $scope.orders = data.orders;
+                        $scope.currentPage = data.page;
+                        $scope.totalOrders = data.totalOrders;
+                    });
+                }
+                if($scope.order){
+                    $scope.orders = [$scope.order];
+                }else{
+                    $scope.loadOrders();
+                }
+
+                $scope.$watch('currentPage', function (pageNoNew, pageNoOld) {
+                    if(pageNoNew != pageNoOld){
+                        console.log('shippingList currentPage changed');
+                        $scope.loadOrders();
+                    }
+                });
+            }
+        };
+    }])
+    .directive('shippingListItem', ['OrderService', '$timeout', 'toaster', function (OrderService, $timeout, toaster) {
+        return {
+            restrict: 'E',
+            templateUrl: '/views/directive-templates/layouts/shipping-list-item.html',
+            scope: {
+                item: '='
+            },
+             link: function ($scope, element, attrs) {
+                $scope.opened = false;
+                $scope.today = function() {
+                    $scope.dt = new Date();
+                };
+                $scope.today();
+
+                $scope.clear = function () {
+                    $scope.dt = null;
+                };
+
+                // Disable weekend selection
+                $scope.disabled = function(date, mode) {
+                    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+                };
+
+                $scope.toggleMin = function() {
+                    $scope.minDate = $scope.minDate ? null : new Date();
+                };
+
+                $scope.toggleMin();
+
+                $scope.open = function($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    $scope.opened = true;
+                };
+
+                $scope.dateOptions = {
+                    formatYear: 'yy',
+                    startingDay: 1
+                };
+
+                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.format = $scope.formats[0];
+
+                var timeout = null;
+                $scope.$watch('item.shipped_date', function(newValue, oldValue) {
+                    if (newValue != oldValue) {
+                      if (timeout) {
+                        $timeout.cancel(timeout)
+                        timeout = null;
+                      }else{
+                        console.log('item.shipped_date changed');
+                        timeout = $timeout(function(){
+                                var order = new OrderService($scope.item);
+                                order.$save(function(savedOrder){
+                                    $scope.item.shipped = true;
+                                    toaster.pop('success', "Success", 'Shipped date was updated');
+                                },function(err){
+                                    toaster.pop('error', "Error", 'Error saving you order '+ err);
+                                });
+                          }, 1000);  // 1000 = 1 second
+                      }
+                    }
+                });
             }
         };
     }]).

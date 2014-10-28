@@ -12,6 +12,11 @@ angular.module('theBossApp')
                 method: 'GET',
                 isArray: true
             },
+            'shippingList': {
+                url: '/api/orders/shippingList',
+                method: 'GET',
+                isArray: false
+            },
             'accessories': {
                 url: '/api/orders/accessories',
                 method: 'GET',

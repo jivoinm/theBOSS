@@ -31,8 +31,13 @@
 
                 </accordion-heading>
 
-                <field ng-model="field.value" index="$index" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)" delete="deleteFormField(form,field,$index)"></field>
-
+                <field ng-model="field.value" index="$index" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)" delete="deleteFormField(form,field,$index)" ng-if="!preview"></field>
+                <div ng-if="preview">
+                    <div class="form-group" ng-repeat="field in form.fields">
+                        <label class="col-md-4 control-label">{{ field.title }}</label>
+                        <div class="form-control-static col-md-8">{{ field.value }}</div>
+                      </div>
+                </div>
             </accordion-group>
         </accordion>
 

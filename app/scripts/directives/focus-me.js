@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-    .directive('focusMe', function($timeout) {
+    .directive('focusMe', ['$timeout', function($timeout) {
         return function(scope, element, attrs) {
             scope.$watch(attrs.focusMe, function(value) {
                 console.log('focus', value)
@@ -12,4 +12,4 @@ angular.module('theBossApp')
                 }
             });
         };
-    });
+    }]);

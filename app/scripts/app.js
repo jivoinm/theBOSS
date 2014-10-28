@@ -15,10 +15,9 @@ angular.module('theBossApp', [
         'ngDragDrop',
         'angularFileUpload',
         'angularMoment',
-        'ngGrid',
         'underscore'
     ])
-    .config(function ($routeProvider, $locationProvider, $httpProvider) {
+    .config( ['$routeProvider', '$locationProvider', '$httpProvider',function($routeProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         var access = routingConfig.accessLevels;
         $routeProvider
@@ -118,7 +117,8 @@ angular.module('theBossApp', [
                 }
             };
         }]);
-    }).config(function ($httpProvider) {
+    }])
+    .config(['$httpProvider', function ($httpProvider) {
       var logsOutUserOn401 = ['$q', '$location', function ($q, $location) {
         var success = function (response) {
           return response;
@@ -142,7 +142,7 @@ angular.module('theBossApp', [
       }];
 
       $httpProvider.responseInterceptors.push(logsOutUserOn401);
-   }).constant('theBossSettings',{
+   }]).constant('theBossSettings',{
         orderChangedEvent: 'order-changed',
         previewModeEvent: 'preview-mode',
         timeZone: '-05:00',

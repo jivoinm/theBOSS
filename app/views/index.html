@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css" />
-    <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
@@ -87,9 +86,9 @@
 <![endif]-->
 
 <!-- build:js(app) scripts/vendor.js -->
-<!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<!-- bower:js -->
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
@@ -107,7 +106,6 @@
 <script src="bower_components/moment/moment.js"></script>
 <script src="bower_components/angular-moment/angular-moment.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/ng-grid/build/ng-grid.js"></script>
 <script src="bower_components/underscore/underscore.js"></script>
 <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -118,6 +116,7 @@
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/routingConfig.js"></script>
 <script src="scripts/app.js"></script>
+<!-- <script src="scripts/services/remember.js"></script> -->
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/navbar.js"></script>
 <script src="scripts/controllers/login.js"></script>
@@ -127,7 +126,7 @@
 <script src="scripts/services/session.js"></script>
 <script src="scripts/services/user.js"></script>
 <script src="scripts/directives/mongooseError.js"></script>
-<script src="scripts/services/message.js"></script>
+<script src="scripts/services/note.js"></script>
 <script src="scripts/controllers/public.js"></script>
 <script src="scripts/directives/sb-admin-module.js"></script>
 <script src="scripts/filters/timeago.js"></script>
@@ -156,12 +155,12 @@
 <script src="scripts/directives/order-preview.js"></script>
 <script src="scripts/directives/order-workflow.js"></script>
 <script src="scripts/directives/focus-me.js"></script>
-<script src="scripts/directives/messages.js"></script>
-<script src="scripts/directives/order-messages.js"></script>
+<script src="scripts/directives/notes.js"></script>
+<script src="scripts/directives/order-notes.js"></script>
 <script src="scripts/directives/new-orders.js"></script>
 <script src="scripts/directives/role-access.js"></script>
 <script src="scripts/directives/restricted-access.js"></script>
-<script src="scripts/directives/message.js"></script>
-<!-- endbuild -->
+<script src="scripts/directives/note.js"></script>
+<!-- endbuild note -->
 </body>
 </html>

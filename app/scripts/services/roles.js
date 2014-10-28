@@ -16,15 +16,15 @@ angular.module('theBossApp')
 	return {
 		validateRoleAdmin: function (currentUser) {
 			currentUser = (currentUser || $rootScope.currentUser);
-			return _.contains(adminRoles, currentUser.role);
+			return currentUser ? _.contains(adminRoles, currentUser.role) : false;
 		},
 		validateRoleOther: function (currentUser) {
 			currentUser = (currentUser || $rootScope.currentUser);
-			return _.contains(otherRoles, currentUser.role);
+			return currentUser ? _.contains(otherRoles, currentUser.role) : false;
 		},
 
 		validateCurrentUserRoleIn: function (roles){
-			return _.contains(roles, $rootScope.currentUser.role);
+			return $rootScope.currentUser ? _.contains(roles, $rootScope.currentUser.role) : false;
 		}
 	};
 

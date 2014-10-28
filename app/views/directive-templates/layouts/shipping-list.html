@@ -1,0 +1,15 @@
+<div class="panel panel-success">
+  <div class="panel-heading">Shipping List
+  <span class="badge">{{ totalOrders }}</span>
+  </div>
+  <div class="panel-body">
+    <div class="list-group" ng-repeat="item in orders" ng-animate="'animate'">
+        <shipping-list-item item="item" ng-show="!item.shipped"></shipping-list-item>
+    </div>
+  </div>
+  <div class="panel-footer">
+  	<pagination total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+     <pre>Page: {{currentPage}} / {{numPages}}</pre>
+  </div>
+</div>
+
