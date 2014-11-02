@@ -261,15 +261,18 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          //collapseWhitespace: true,
-          //collapseBooleanAttributes: true,
-          //removeCommentsFromCDATA: true,
-          //removeOptionalTags: true
+          // collapseBooleanAttributes: true,
+          // collapseWhitespace: true,
+          // removeAttributeQuotes: true,
+          // removeEmptyAttributes: true,
+          // removeRedundantAttributes: true,
+          // removeScriptTypeAttributes: true,
+          // removeStyleLinkTypeAttributes: true
         },
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/views',
-          src: ['*.html', 'partials/**/*.html'],
+          src: ['*.html', 'partials/**/*.html', 'directive-templates/**/*.html'],
           dest: '<%= yeoman.dist %>/views'
         }]
       }
@@ -284,6 +287,19 @@ module.exports = function (grunt) {
           cwd: '.tmp/concat/scripts',
           src: '*.js',
           dest: '.tmp/concat/scripts'
+        }]
+      }
+    },
+
+    // Allow the use of non-minsafe AngularJS files. Automatically makes it
+    // minsafe compatible so Uglify does not destroy the ng references
+    ngAnnotate: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '.tmp/concat',
+          src: '*/**.js',
+          dest: '.tmp/concat'
         }]
       }
     },
@@ -493,7 +509,7 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'cdnify',
     'cssmin',

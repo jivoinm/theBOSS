@@ -153,7 +153,7 @@ angular.module('theBossApp', [
             Blocked: 'blocked'
         }
     })
-    .run(function ($rootScope, $location, Auth, roles) {
+    .run(['$rootScope', '$location', 'Auth', 'roles', function ($rootScope, $location, Auth, roles) {
         // enumerate routes that don't need authentication
         var routesThatDontRequireAuth = ['/login'];
         var routesThatForAdmins = ['/users'];
@@ -162,14 +162,14 @@ angular.module('theBossApp', [
         var routeClean = function (route) {
             return _.find(routesThatDontRequireAuth,
               function (noAuthRoute) {
-                return _.str.startsWith(route, noAuthRoute);
+                return route.indexOf(noAuthRoute) > -1;
               });
         };
 
         var routeAdmin = function(route) { 
             return _.find(routesThatForAdmins,
               function (routeForAdmin) {
-                return _.str.startsWith(route, routeForAdmin);
+                return route.indexOf(routeForAdmin) > -1;
                 });
         }
 
@@ -184,4 +184,4 @@ angular.module('theBossApp', [
               $location.path('/error');
             }
         });
-    });
+    }]);

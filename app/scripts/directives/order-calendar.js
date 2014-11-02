@@ -48,21 +48,21 @@ angular.module('theBossApp')
                             //set order to calendar
                             var events = []; 
                             angular.forEach(orders.orders, function (order){
-                                this.push($scope.createEvent(order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
+                                this.push($scope.createEvent('date_required', order, order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
                                     order.date_required,$scope.getLabelClass(order.status)));
                                     if(order.services && order.services.length > 0){
-                                        angular.forEach(order.services, function(service){
-                                            events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                        angular.forEach(order.services, function(service,i){
+                                            events.push($scope.createEvent('services['+i+'].date', service, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
                                                 service.date,$scope.getLabelClass('service')));
 
                                         });
                                     }
                                     if(order.installation_date){
-                                        events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                        events.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
                                                 order.installation_date, $scope.getLabelClass('installation')));
                                     } 
                                     if(order.shipped_date){
-                                        events.push($scope.createEvent(order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                        events.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
                                                 order.shipped_date, $scope.getLabelClass('shipped')));
                                     }
                             }, events);
@@ -74,13 +74,15 @@ angular.module('theBossApp')
                         });
                 };
 
-                $scope.createEvent = function(orderId, title, start, className){
+                $scope.createEvent = function(updateDate, item, orderId, title, start, className){
                     var calendarOrder = {};
                     calendarOrder.order_id = orderId;
                     calendarOrder.title = title;
                     calendarOrder.start = start;
                     calendarOrder.end = start;
                     calendarOrder.className = className;
+                    calendarOrder.update_date = updateDate;
+                    calendarOrder.item = item;
                     return calendarOrder;
                 }
 
@@ -127,7 +129,12 @@ angular.module('theBossApp')
 
                 //update calendar event on server and ui
                 function updateCalendarEvent(event) {
-                    OrderService.setDateRequired({orderId:event.order_id, date_required: moment(event.start).zone(theBossSettings.timeZone).format('YYYY-MM-DD')});
+                    var calendar = {
+                        orderId:event.order_id,
+                        property: event.update_date,
+                        date: moment(event.start).zone(theBossSettings.timeZone).format('YYYY-MM-DD')
+                    };
+                    OrderService.setDateRequired(calendar);
                 }
 
                 $scope.eventSources = [$scope.eventsF];

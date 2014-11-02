@@ -130,7 +130,7 @@ angular.module('theBossApp').
             }
         };
     }])
-    .directive('shippingListItem', ['OrderService', '$timeout', 'toaster', function (OrderService, $timeout, toaster) {
+    .directive('shippingListItem', ['OrderService', '$timeout', 'toaster', 'ModalService', 'moment', 'theBossSettings', function (OrderService, $timeout, toaster, ModalService, moment, theBossSettings) {
         return {
             restrict: 'E',
             templateUrl: '/views/directive-templates/layouts/shipping-list-item.html',
@@ -181,16 +181,20 @@ angular.module('theBossApp').
                         $timeout.cancel(timeout)
                         timeout = null;
                       }else{
-                        console.log('item.shipped_date changed');
-                        timeout = $timeout(function(){
-                                var order = new OrderService($scope.item);
-                                order.$save(function(savedOrder){
-                                    $scope.item.shipped = true;
-                                    toaster.pop('success', "Success", 'Shipped date was updated');
-                                },function(err){
-                                    toaster.pop('error', "Error", 'Error saving you order '+ err);
-                                });
-                          }, 1000);  // 1000 = 1 second
+                        ModalService.confirm('Confirm shipping date of '+moment(newValue).zone(theBossSettings.timeZone).format('YYYY-MM-DD')+' set to order '+$scope.item.po_number, 
+                            function(confirmed){
+                                if(confirmed){
+                                    timeout = $timeout(function(){
+                                            var order = new OrderService($scope.item);
+                                            order.$save(function(savedOrder){
+                                                $scope.item.shipped = true;
+                                                toaster.pop('success', "Success", 'Shipped date was updated');
+                                            },function(err){
+                                                toaster.pop('error', "Error", 'Error saving you order '+ err);
+                                            });
+                                      }, 1000);  // 1000 = 1 second
+                                }
+                            });
                       }
                     }
                 });

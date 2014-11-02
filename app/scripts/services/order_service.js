@@ -49,10 +49,11 @@ angular.module('theBossApp')
                 method: 'PATCH'
             },
             'setDateRequired': {
-                url: '/api/orders/:orderId/daterequired/:date_required',
+                url: '/api/orders/:orderId/calendar_update_date/:property/:date',
                 params: {
                     orderId: '@orderId',
-                    date_required: '@date_required'
+                    property: '@property',
+                    date: '@date'
                 },
                 method: 'PATCH'
             }
