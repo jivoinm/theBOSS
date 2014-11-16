@@ -25,6 +25,12 @@ angular.module('theBossApp')
                     id: 'me'
                 }
             },
+            load: {
+                method: 'GET',
+                params: {
+                    id: '@_id'
+                }
+            },
             orders: {
                 method: 'GET',
                 url: '/api/users/:id/orders',

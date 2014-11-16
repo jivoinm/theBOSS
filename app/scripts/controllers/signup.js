@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('theBossApp')
-    .controller('SignupCtrl', ['$scope', 'Auth', '$location', function ($scope, Auth, $location) {
-        $scope.user = {role:'user'};
+    .controller('SignupCtrl', ['$scope', 'Auth', '$location', 'user', function ($scope, Auth, $location, user) {
+        $scope.user = user;
         $scope.errors = {};
+
 
         $scope.register = function (form) {
             $scope.submitted = true;

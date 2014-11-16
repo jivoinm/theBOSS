@@ -36,7 +36,24 @@ angular.module('theBossApp', [
             .when('/signup', {
                 templateUrl: 'partials/signup',
                 controller: 'SignupCtrl',
-                authenticate: true
+                authenticate: true,
+                resolve: {
+                    user: ['User', function (User){ return new User({role:'user'});}]
+                }
+            })
+            .when('/signup/:id', {
+                templateUrl: 'partials/signup',
+                controller: 'SignupCtrl',
+                authenticate: true,
+                resolve: {
+                    user: ['User', '$route', function (User, $route){
+                        return User.load({id: $route.current.params.id}).$promise.then(function(user){
+                            //load user
+                            return user;
+                        })
+
+                    }]
+                }
             })
             .when('/settings', {
                 templateUrl: 'partials/settings',
@@ -89,7 +106,6 @@ angular.module('theBossApp', [
                             //load order
                             return order;
                         })
-
                     }]
                 }
             })
