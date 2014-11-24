@@ -294,14 +294,19 @@ module.exports = function (grunt) {
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
     ngAnnotate: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/concat',
-          src: '*/**.js',
-          dest: '.tmp/concat'
-        }]
-      }
+       options: {
+            singleQuotes: true,
+        },
+        app: {
+            files: [
+                {
+                    expand: true,
+                    src: ['*/**.js'],
+                    ext: '.annotated.js', // Dest filepaths will have this extension.
+                    extDot: 'last',       // Extensions in filenames begin after the last dot
+                },
+            ],
+        }
     },
 
     // Replace Google CDN references
@@ -383,28 +388,28 @@ module.exports = function (grunt) {
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    cssmin: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/styles/main.css': [
+            '.tmp/styles/{,*/}*.css',
+            '<%= yeoman.app %>/styles/{,*/}*.css'
+          ]
+        }
+      }
+    },
+    uglify: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/scripts/scripts.js': [
+            '<%= yeoman.dist %>/scripts/scripts.js'
+          ]
+        }
+      }
+    },
+    concat: {
+      dist: {}
+    },
 
     // Test settings
     karma: {
@@ -508,8 +513,9 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
-    'concat',
     'ngAnnotate',
+    'ngmin',
+    'concat',
     'copy:dist',
     'cdnify',
     'cssmin',
@@ -517,6 +523,8 @@ module.exports = function (grunt) {
     'rev',
     'usemin'
   ]);
+
+  grunt.loadNpmTasks('grunt-ng-annotate');
 
   grunt.registerTask('heroku', function () {
     grunt.log.warn('The `heroku` task has been deprecated. Use `grunt build` to build for deployment.');

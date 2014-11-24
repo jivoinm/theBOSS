@@ -59,7 +59,7 @@ angular.module('theBossApp')
 
                                     });
                                 }
-                                if(order.installation_date){
+                                if(order.installation_date && order.installation_date !== order.date_required){
                                     this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
                                             order.installation_date, $scope.getLabelClass('installation')));
                                 } 

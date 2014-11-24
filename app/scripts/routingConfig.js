@@ -73,7 +73,6 @@
                     for( var role in userRoles){
                         resultBitMask += "1"
                     }
-                    //accessLevels[level] = parseInt(resultBitMask, 2);
                     accessLevels[level] = {
                         bitMask: parseInt(resultBitMask, 2)
                     };

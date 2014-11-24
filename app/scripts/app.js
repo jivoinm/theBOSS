@@ -48,7 +48,6 @@ angular.module('theBossApp', [
                 resolve: {
                     user: ['User', '$route', function (User, $route){
                         return User.load({id: $route.current.params.id}).$promise.then(function(user){
-                            //load user
                             return user;
                         })
 
@@ -113,13 +112,9 @@ angular.module('theBossApp', [
                 redirectTo: '/main'
             });
 
-        // Intercept 401s and redirect you to login
         $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
             return {
                 'response': function (response) {
-//                    if (response.status === 401) {
-//                        console.log("Response 401");
-//                    }
                     return response || $q.when(response);
                 },
                 'responseError': function (response) {
@@ -170,11 +165,9 @@ angular.module('theBossApp', [
         }
     })
     .run(['$rootScope', '$location', 'Auth', 'roles', function ($rootScope, $location, Auth, roles) {
-        // enumerate routes that don't need authentication
         var routesThatDontRequireAuth = ['/login'];
         var routesThatForAdmins = ['/users'];
 
-        // check if current location matches route  
         var routeClean = function (route) {
             return _.find(routesThatDontRequireAuth,
               function (noAuthRoute) {
@@ -189,14 +182,10 @@ angular.module('theBossApp', [
                 });
         }
 
-
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
-            // if route requires auth and user is not logged in
             if (!routeClean($location.url()) && !Auth.isLoggedIn()) {
-              // redirect back to login
               $location.path('/login');
             } else if (routeAdmin($location.url()) && !roles.validateRoleAdmin()) {
-              // redirect to error page
               $location.path('/error');
             }
         });
