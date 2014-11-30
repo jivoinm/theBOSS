@@ -1,65 +1,65 @@
 <div class="panel panel-default" >
-<div class="panel-heading">
-Order {{order.po_number}}
-<span class="pull-right">
-  <order-status></order-status>
-  <span class="label label-bright" ng-if="order.shipped_date">{{order.shipped_date | date}}</span>
-</span>
+  <div class="panel-heading">
+  Order {{order.po_number}}
+  <span class="pull-right">
+    <order-status></order-status>
+    <span class="label label-bright" ng-if="order.shipped_date">{{order.shipped_date | date}}</span>
+  </span>
 
-</div>
-<div class="panel-body">
-  	<table class="table">
-  		<tbody>
-  			<tr class="success">
-  				<th>Customer</th>
-  				<td>{{order.customer.name}}</td>
-  				<th>Created by</th>
-  				<td>{{order.createdBy.name}}</td>
-  			</tr>
-  			<tr class="success">
-  				<th>Bill To</th>
-  				<td>{{order.customer.bill_to}}</td>
-  				<th>Ship To</th>
-  				<td>{{order.customer.ship_to}}</td>
-  			</tr>
-  			<tr class="info">
-  				<th>Customer Email</th>
-  				<td>{{order.customer.email}}</td>
-  				<th>Customer Phone</th>
-  				<td>{{order.customer.phone}}</td>
-  			</tr>
-  			<tr class="info">
-          <th>Customer Cell</th>
-          <td>{{order.customer.cell}}</td>
-          <th>Doors</th>
-          <td>{{order.doors}}</td>
-        </tr>
-        <tr class="info">
-  				<th>Date Required</th>
-  				<td>{{order.date_required | date}}</td>
-  				<th>Installation Date</th>
-  				<td>{{(order.installation_date ? order.installation_date : order.date_required) | date}}</td>
-  			</tr>
-  		</tbody>
-  	</table>
-
-  	<tabset>
-	    <tab>
-			<tab-heading>Forms</tab-heading>
-    	  	  <forms module="Order" list-of-forms="order.forms"></forms>
-	    </tab>
-	    <tab>
-	    	<tab-heading>Services</tab-heading>
-	    	<order-services></order-services>
-	    </tab>
-	    <tab>
-	    	<tab-heading>Accessories</tab-heading>
-	    	 <order-accessories></order-accessories>
-	    </tab>
-	    <tab>
-	    	<tab-heading>Files</tab-heading>
-	    	<file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
-	    </tab>
-  </tabset>
-</div>
+  </div>
+  <div class="panel-body">
+    	<table class="table">
+    		<tbody>
+    			<tr class="success">
+    				<th>Customer</th>
+    				<td>{{order.customer.name}}</td>
+    				<th>Created by</th>
+    				<td>{{order.createdBy.name}}</td>
+    			</tr>
+    			<tr class="success">
+    				<th>Bill To</th>
+    				<td>{{order.customer.bill_to}}</td>
+    				<th>Ship To</th>
+    				<td>{{order.customer.ship_to}}</td>
+    			</tr>
+    			<tr class="info">
+    				<th>Customer Email</th>
+    				<td>{{order.customer.email}}</td>
+    				<th>Customer Phone</th>
+    				<td>{{order.customer.phone}}</td>
+    			</tr>
+    			<tr class="info">
+            <th>Customer Cell</th>
+            <td>{{order.customer.cell}}</td>
+            <th>Doors</th>
+            <td>{{order.doors}}</td>
+          </tr>
+          <tr class="info">
+    				<th>Date Required</th>
+    				<td>{{order.date_required | date}}</td>
+    				<th>Installation Date</th>
+    				<td>{{(order.installation_date ? order.installation_date : order.date_required) | date}}</td>
+    			</tr>
+    		</tbody>
+    	</table>
+      <tabset>
+  	    <tab>
+  			<tab-heading>Forms</tab-heading>
+      	  	  <forms module="Order" list-of-forms="order.forms"></forms>
+  	    </tab>
+        <tab>
+  	    	<tab-heading>Services</tab-heading>
+  	    	<order-services></order-services>
+  	    </tab>
+  	    <tab>
+  	    	<tab-heading>Accessories</tab-heading>
+  	    	 <order-accessories></order-accessories>
+  	    </tab>
+  	    <tab>
+  	    	<tab-heading>Files</tab-heading>
+  	    	<file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
+  	    </tab>
+    </tabset>
+    <tasks></tasks>
+  </div>
 </div>
