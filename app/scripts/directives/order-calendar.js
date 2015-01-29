@@ -48,24 +48,28 @@ angular.module('theBossApp')
                             //set order to calendar
                             var events = []; 
                             angular.forEach(orders.orders, function (order){
-                                if(!order.shipped_date) {
-                                    this.push($scope.createEvent('date_required', order, order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
-                                        order.date_required,$scope.getLabelClass(order.status)));
-                                }
-                                if(order.services && order.services.length > 0){
-                                    angular.forEach(order.services, function(service,i){
-                                        events.push($scope.createEvent('services['+i+'].date', service, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
-                                            service.date,$scope.getLabelClass('service')));
+                                try{
+                                    if(!order.shipped_date) {
+                                        this.push($scope.createEvent('date_required', order, order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
+                                            order.date_required,$scope.getLabelClass(order.status)));
+                                    }
+                                    if(order.services && order.services.length > 0){
+                                        angular.forEach(order.services, function(service,i){
+                                            events.push($scope.createEvent('services['+i+'].date', service, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') + '- Service'),
+                                                service.date,$scope.getLabelClass('service')));
 
-                                    });
-                                }
-                                if(order.installation_date && order.installation_date !== order.date_required){
-                                    this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
-                                            order.installation_date, $scope.getLabelClass('installation')));
-                                } 
-                                if(order.shipped_date){
-                                    this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
-                                            order.shipped_date, $scope.getLabelClass('shipped')));
+                                        });
+                                    }
+                                    if(order.installation_date && order.installation_date !== order.date_required){
+                                        this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
+                                                order.installation_date, $scope.getLabelClass('installation')));
+                                    } 
+                                    if(order.shipped_date){
+                                        this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
+                                                order.shipped_date, $scope.getLabelClass('shipped')));
+                                    }
+                                }catch(ex){
+                                    console.log('error loading this order',order,ex);
                                 }
                             }, events);
                             callback(events);
