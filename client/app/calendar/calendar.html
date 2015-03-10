@@ -1,0 +1,51 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+      <div class="col-md-10">
+          <order-calendar order-status="orderStatus"></order-calendar>
+      </div>
+      <div class="col-md-2">
+      	<div class="panel panel-default">
+  		  <div class="panel-heading">Filter</div>
+  		  <div class="panel-body">
+  		     <ul class="list-group">
+                  <a href="#/calendar/new" class="list-group-item" sb-url-active>
+                      New, pending approval
+                  </a>
+                  <a href="#/calendar/approved" class="list-group-item" sb-url-active>
+                      Approved
+                  </a>
+                  <a href="#/calendar/finished" class="list-group-item" sb-url-active>
+                      Completed
+                  </a>
+                  <a href="#/calendar" class="list-group-item" sb-url-active>
+                      All
+                  </a>
+              </ul>
+  		  </div>
+            <div class="panel-footer">
+               <form ng-submit="loadOrders()">
+                  <div class="input-group">
+                    <input type="text" class="form-control" ng-model="queryText">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">Search</button>
+                    </span>
+                  </div><!-- /input-group -->
+              </form>
+            </div>
+  		</div>
+  		<div class="panel panel-default">
+  		  <div class="panel-heading">Legend</div>
+  		  <div class="panel-body">
+          <span class="label label-warning">New Unapproved Orders</span>
+  		    <span class="label label-default">Approved</span>
+  			<span class="label label-primary">In Progress</span>
+  			<span class="label label-success">Finished Orders</span>
+              <span class="label label-danger">Service/Blocked</span>
+              <span class="label label-dark">New Installation Date</span>
+  			<span class="label label-bright">Shipped</span>
+  		  </div>
+  		</div>
+      </div>
+  </div>
+</div>

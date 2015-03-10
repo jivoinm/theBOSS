@@ -1,0 +1,31 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+<div restrict-access="admin, user">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <notes></notes>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+           <new-orders></new-orders>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <tasks></tasks>
+            <shipping-list></shipping-list>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <accessories></accessories>
+        </div>
+    </div>
+</div>
+</div>
+<footer class="footer">
+  <div class="container">
+      <p>Angular Fullstack v2.0.13 |
+        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+  </div>
+</footer>
