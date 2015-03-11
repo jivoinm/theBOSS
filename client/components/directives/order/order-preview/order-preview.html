@@ -3,7 +3,7 @@
   Order {{order.po_number}}
   <span class="pull-right">
     <order-status></order-status>
-    <span class="label label-bright" ng-if="order.shippedDate">{{order.shippedDate | date}}</span>
+    <span class="label label-bright" ng-if="order.shipped_date">{{order.shipped_date | date}}</span>
   </span>
 
   </div>
@@ -36,9 +36,9 @@
           </tr>
           <tr class="info">
     				<th>Date Required</th>
-    				<td>{{order.dateRequired | date}}</td>
+    				<td>{{order.date_required | date}}</td>
     				<th>Installation Date</th>
-    				<td>{{(order.installationDate ? order.installationDate : order.dateRequired) | date}}</td>
+    				<td>{{(order.installation_date ? order.installation_date : order.date_required) | date}}</td>
     			</tr>
     		</tbody>
     	</table>

@@ -85,7 +85,6 @@ exports.deleteForm = function(req, res){
 };
 
 exports.getFormsForModule = function (req,res){
-    console.log(req.user);
     if(req.user){
         Form.find({owner:req.user.owner,module:req.params.module})
             .sort({name:1})

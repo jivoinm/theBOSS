@@ -18,14 +18,14 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="accessory in item.ordered_accessories | filter:notreceived ">
-                        <td>{{ accessory.fromManufacturer }}</td>
+                        <td>{{ accessory.from_manufacturer }}</td>
                         <td>{{ accessory.description }}</td>
                         <td>{{ accessory.quantity }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-sm">
-                                      <input type="number" class="form-control" placeholder="Items received" ng-model="accessory.itemsReceived">
+                                      <input type="number" class="form-control" placeholder="Items received" ng-model="accessory.items_received">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

@@ -22,6 +22,8 @@ exports.index = function(req, res) {
         if(err) return res.json(400,err);
         return res.send(notes);
     });
+  }else{
+    return res.send({message: 'No user is found'});
   }
 };
 
@@ -45,6 +47,8 @@ exports.create = function(req, res) {
         if(err) return res.json(400,err);
         return res.send(note);
     });
+  }else{
+    return res.send({message: 'No user is found'});
   }
 };
 

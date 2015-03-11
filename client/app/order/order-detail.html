@@ -51,15 +51,15 @@
                                 Status:
                             </li>
                             <li class="list-group-item">
-                                <span class="pull-right">{{ order.createdBy.name }} on {{ order.createdOn | date }}</span>
+                                <span class="pull-right">{{ order.createdBy.name }} on {{ order.created_on | date }}</span>
                                 Created by:
                             </li>
                             <li class="list-group-item">
-                                <span class="pull-right">{{ order.lastUpdatedBy.name }} on {{ order.lastUpdatedOn | date }}</span>
+                                <span class="pull-right">{{ order.last_updated_by.name }} on {{ order.last_updated_on | date }}</span>
                                 Last updated by:
                             </li>
                             <li class="list-group-item">
-                                <span class="pull-right">{{ order.dateRequired  | date }}</span>
+                                <span class="pull-right">{{ order.date_required  | date }}</span>
                                 Required Date
                             </li>
                             <li class="list-group-item" ng-if="order._id">
@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <p class="input-group">
-                                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="order.installationDate" is-open="opened" min-date="minDate" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="order.installation_date" is-open="opened" min-date="minDate" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                           <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                           </span>

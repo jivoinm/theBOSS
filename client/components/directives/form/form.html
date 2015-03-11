@@ -18,7 +18,7 @@
     <div class="panel-heading" ng-if="preview">{{ module }}</div>
     <div class="panel-body">
         <accordion close-others="oneAtATime">
-            <accordion-group heading="{{form.formName}}" ng-repeat="form in listOfForms" is-open="$index==0">
+            <accordion-group heading="{{form.formName}}" ng-repeat="form in listOfForms" is-open="$first">
                 <accordion-heading>
                     <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview"></i>
 

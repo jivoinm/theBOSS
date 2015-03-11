@@ -41,7 +41,7 @@ angular.module('theBossApp')
 
             //Set order status
             scope.setStatus = function (status){
-                ModalService.confirm('You are about to '+status+' this order, are you sure?', function(confirmed){
+                ModalService.confirm.question('You are about to '+status+' this order, are you sure?', function(confirmed){
                     if(confirmed){
                         scope.order.$setStatus({status:status}, function(order){
                             //$scope.order = order;
@@ -51,7 +51,7 @@ angular.module('theBossApp')
                             toaster.pop('error', "Error", 'Error updating status '+ err);
                         });
                     }
-                })
+                })();
             }
         }
     };

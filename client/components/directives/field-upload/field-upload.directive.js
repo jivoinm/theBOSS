@@ -21,7 +21,7 @@ angular.module('theBossApp')
               }
 
               scope.deleteFile = function (file, index, event){
-                scope.model.uploadedFiles.splice(index,1);
+                scope.model.uploaded_files.splice(index,1);
                 scope.model.$save(function(){
                     toaster.pop('success', "Success", 'Delete file '+ file.filename);
                 })
@@ -87,7 +87,7 @@ angular.module('theBossApp')
                         file: scope.selectedFiles[index]
 
                     }).then(function(response) {
-                            scope.model.uploadedFiles.push(response.data);
+                            scope.model.uploaded_files.push(response.data);
                             scope.model.$save(function(){
                               scope.progress[index] = 100;
                               toaster.pop('success', "Success", 'Uploaded file with success '+ response.data.filename);

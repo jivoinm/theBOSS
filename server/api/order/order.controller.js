@@ -11,7 +11,7 @@ var Project = require('../form/form.model');
 
 function QueryOrders(queryOrders, sort, page, limit, res) {
   var query = Order.find(queryOrders)
-      .select('customer.name poNumber createdBy lastUpdatedBy createdOn lastUpdatedOn dateRequired installationDate shippedDate status services doors')
+      .select('customer.name po_number createdBy last_updated_by created_on last_updated_on date_required installation_date shipped_date status services doors')
       .sort(sort);
   if(page){
       query.skip((page * limit) - limit);
@@ -80,7 +80,7 @@ exports.toDoTasks = function(req,res){
       '$or': [{status: 'approved'}, {status: 'in progress'}],
       'forms.tasks':{$elemMatch: {$or: [{status: {$exists:false}}, {status:'in progress'}]}}
   })
-      .sort({dateRequired: 1})
+      .sort({date_required: 1})
       .exec(function(err, orders){
           if(err) return res.json(400,err);
           return res.send(orders);
@@ -96,22 +96,22 @@ exports.shippingList = function(req,res){
 
   var queryOrders = {
           owner: req.user.owner,
-          shippedDate:{$exists: false},
+          shipped_date:{$exists: false},
           status: 'finished'
       };
-  new QueryOrders(queryOrders, {dateRequired:-1},page,limit, res);
+  new QueryOrders(queryOrders, {date_required:-1},page,limit, res);
 };
 
 exports.accessories = function(req,res){
   var load_all = req.query.all || false;
   var query = {owner: req.user.owner};
   if(!load_all){
-      query['orderedAccessories.received'] = false;
+      query['ordered_accessories.received'] = false;
   }
 
   Order.find(query)
-      .select('customer poNumber createdBy orderedAccessories')
-      .sort({dateRequired: -1})
+      .select('customer po_number createdBy ordered_accessories')
+      .sort({date_required: -1})
       .exec(function(err, orders){
           if(err) return res.json(400,err);
           return res.send(orders);
@@ -122,8 +122,8 @@ exports.comments = function(req,res){
 
   Order.aggregate({$match: {owner: req.user.owner}},
       {$unwind: "$comments"},
-      {$sort: {"comments.createdOn":1}},
-      {$group: {_id: "$_id",poNumber:{$first: "$poNumber"}, comments: {$push: "$comments"}}})
+      {$sort: {"comments.created_on":1}},
+      {$group: {_id: "$_id",po_number:{$first: "$po_number"}, comments: {$push: "$comments"}}})
       .exec(function(err, orders){
           if(err) return res.json(400,err);
           return res.send(orders);
@@ -137,7 +137,7 @@ exports.loadUserLatest  = function (req, res) {
           owner: req.user.owner,
           'createdBy.user_id': req.params.id
       };
-      new QueryOrders(queryOrders, {dateRequired: -1},null,10, res);
+      new QueryOrders(queryOrders, {date_required: -1},null,10, res);
   }
 };
 
@@ -153,7 +153,7 @@ exports.loadLatest = function (req, res) {
               var queryText = new RegExp(req.query.text,"i");
               queryOrders.$or = [{"customer.name": queryText},
               {"forms.fields": {$elemMatch: {"value": queryText}}},
-              {poNumber: queryText},
+              {po_number: queryText},
               {'createdBy.name': queryText},
               ];
           }
@@ -164,8 +164,7 @@ exports.loadLatest = function (req, res) {
           limit = req.query.limit;
       }
 
-      console.log(queryOrders);
-      new QueryOrders(queryOrders, {dateRequired:-1},page,limit, res);
+      new QueryOrders(queryOrders, {date_required:-1},page,limit, res);
   }
 };
 
@@ -173,9 +172,9 @@ exports.loadOrdersByStatusAndPeriod = function (req, res){
   var queryOrders = {
       owner: req.user.owner,
       $or: [
-          { dateRequired: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
-          { installationDate: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
-          { shippedDate: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
+          { date_required: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
+          { installation_date: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
+          { shipped_date: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)} },
       ]
   };
 
@@ -187,18 +186,18 @@ exports.loadOrdersByStatusAndPeriod = function (req, res){
       var queryText = new RegExp(req.query.text,"i");
       queryOrders.$or = [{"customer.name": queryText},
               {"forms.fields": {$elemMatch: {"value": queryText}}},
-              {poNumber: queryText},
+              {po_number: queryText},
               {'createdBy.name': queryText},
               ];
   }
-  new QueryOrders(queryOrders, {dateRequired:1},null,null,res);
+  new QueryOrders(queryOrders, {date_required:1},null,null,res);
 };
 
 exports.unscheduled = function (req, res) {
   new QueryOrders({
       owner: req.user.owner,
       scheduled: false
-  }, {dateRequired:-1},null,null, res);
+  }, {date_required:-1},null,null, res);
 };
 
 exports.updateStatus = function (req, res){
@@ -257,13 +256,13 @@ exports.updateOrder = function(req,res){
 
       delete order._id;
       delete order.createdBy;
-      order.lastUpdatedBy = {
+      order.last_updated_by = {
           user_id: req.user._id,
           name: req.user.name,
           email: req.user.email
       };
 
-      order.lastUpdatedOn = new Date();
+      order.last_updated_on = new Date();
       var finished = _.all(order.forms, function (form) {
           var isFinished = _.all(form.tasks, function (task){
               return (task.status && task.status === 'done');

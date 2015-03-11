@@ -11,13 +11,13 @@ var OrderSchema = new Schema({
         email: String
     },
     doors: String,
-    createdOn: {type: Date, default: Date.now},
-    lastUpdatedBy: {
+    created_on: {type: Date, default: Date.now},
+    last_updated_by: {
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         name: String,
         email: String
     },
-    lastUpdatedOn: {type: Date, default: Date.now},
+    last_updated_on: {type: Date, default: Date.now},
     customer: {
         name: String,
         bill_to: String,
@@ -28,10 +28,10 @@ var OrderSchema = new Schema({
         is_private: { type:Boolean, default:true }
     },
     status: String,
-    poNumber: String,
-    dateRequired: Date,
-    installationDate: Date,
-    shippedDate: Date,
+    po_number: String,
+    date_required: Date,
+    installation_date: Date,
+    shipped_date: Date,
 
     forms: [
         {
@@ -40,23 +40,23 @@ var OrderSchema = new Schema({
             tasks: {type: Array, default: []}
         }
     ],
-    orderedAccessories:[{
-        fromManufacturer: String,
+    ordered_accessories:[{
+        from_manufacturer: String,
         description: String,
         quantity: Number,
-        itemsReceived: Number,
+        items_received: Number,
         received: {type: Boolean, default: false},
-        dateReceived: Date,
+        date_received: Date,
         received_by: { type: Schema.Types.ObjectId, ref: 'User' }
     }],
     services:[{
         date: Date,
         details: String,
-        doneBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        done_by: { type: Schema.Types.ObjectId, ref: 'User' },
         completed: {type: Boolean, default: false}
     }],
 
-    uploadedFiles: {type: Array, default: []}
+    uploaded_files: {type: Array, default: []}
 });
 
 
@@ -73,7 +73,7 @@ OrderSchema.statics.queryOrders = function (query, sort, populate,limit) {
         findExec.limit(limit);
     if(sort)
         findExec.sort(sort);
-    findExec.select('customer.name poNumber createdBy.name createdOn dateRequired status');
+    findExec.select('customer.name po_number createdBy.name created_on date_required status');
     return findExec.exec();
 };
 

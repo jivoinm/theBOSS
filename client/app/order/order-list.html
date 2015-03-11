@@ -53,13 +53,13 @@
                                       <td><a href="/order/detail/{{ order._id }}">{{ order.po_number }}</a></td>
                                       <td><a href="/order/detail/{{ order._id }}">{{ order.customer.name }}</a></td>
                                       <td>
-                                      {{ order.dateRequired | date }}
-                                       <span class="label label-default" ng-show="order.installationDate"><br>{{ order.installationDate | date }}</span>
+                                      {{ order.date_required | date }}
+                                       <span class="label label-default" ng-show="order.installation_date"><br>{{ order.installation_date | date }}</span>
                                       </td>
-                                      <td>{{ order.shippedDate | date }}</td>
+                                      <td>{{ order.shipped_date | date }}</td>
                                       <td><order-status></order-status> </td>
                                       <td>{{ order.createdBy.name }}</td>
-                                      <td>{{ order.createdOn | date }}</td>
+                                      <td>{{ order.created_on | date }}</td>
                                   </tr>
                               </tbody>
                           </table>

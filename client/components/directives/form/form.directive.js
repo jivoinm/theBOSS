@@ -123,7 +123,7 @@ angular.module('theBossApp')
 
             $scope.deleteForm = function(form, e, $index){
                 StopEventPropagation(e);
-                ModalService.confirmDelete("Are you sure you want to permanently delete "+form.formName+'?',function(confirmed){
+                ModalService.confirm.questionDelete("Are you sure you want to permanently delete "+form.formName+'?',function(confirmed){
                     if(confirmed){
                         //delete
                         var formService = new FormService(form);
@@ -139,7 +139,7 @@ angular.module('theBossApp')
 
             $scope.deleteFormField = function(form, field, $index){
 
-                ModalService.confirmDelete("Are you sure you want to permanently delete "+field.title+'?',function(confirmed){
+                ModalService.confirm.questionDelete("Are you sure you want to permanently delete "+field.title+'?',function(confirmed){
                     if(confirmed){
                         //delete
                         var formService = new FormService(form);
@@ -155,7 +155,7 @@ angular.module('theBossApp')
 
             $scope.removeForm =  function(list,index,e){
                 StopEventPropagation(e);
-                ModalService.confirmDelete("Remove "+list[index].formName+' from this form?',function(confirmed){
+                ModalService.confirm.questionDelete("Remove "+list[index].formName+' from this form?',function(confirmed){
                     if(confirmed){
                         //delete
                         list.splice(index,1);

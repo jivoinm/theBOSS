@@ -7,7 +7,7 @@ angular.module('theBossApp')
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
-                name = '['+($scope.order.poNumber ? $scope.order.poNumber : '##') + '] ' + ($scope.order.customer ? $scope.order.customer.name : '???');
+                name = '['+($scope.order.po_number ? $scope.order.po_number : '##') + '] ' + ($scope.order.customer ? $scope.order.customer.name : '???');
             }
             return name;
         };
@@ -47,8 +47,8 @@ angular.module('theBossApp')
         //Save order
         $scope.save = function (isValidForm){
             if(isValidForm){
-                if(!roles.validateRoleAdmin() && $scope.order.orderedAccessories && $scope.order.orderedAccessories.length === 0){
-                    ModalService.confirm('Do you want to add accesories to this order?', function(confirmed){
+                if(!roles.validateRoleAdmin() && $scope.order.ordered_accessories && $scope.order.ordered_accessories.length === 0){
+                    ModalService.confirm.question('Do you want to add accesories to this order?', function(confirmed){
                         if(confirmed){
                            $scope.actives.two = true;
                            return;
@@ -65,7 +65,7 @@ angular.module('theBossApp')
 
         //Delete order
         $scope.delete = function (){
-            ModalService.confirmDelete('Are you sure you want to delete this order?', function(confirmed){
+            ModalService.confirm.questionDelete('Are you sure you want to delete this order?', function(confirmed){
                 if(confirmed){
                     $scope.order.$delete(function(){
                         $scope.redirectToList();
@@ -91,7 +91,7 @@ angular.module('theBossApp')
             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
         };
 
-        $scope.minDate = $scope.order ? $scope.order.dateRequired : null;
+        $scope.minDate = $scope.order ? $scope.order.date_required : null;
         datepickerConfig.minDate = $scope.minDate;
         $scope.toggleMin = function() {
             $scope.minDate = $scope.minDate ? null : new Date();
@@ -113,7 +113,7 @@ angular.module('theBossApp')
         $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         $scope.format = $scope.formats[0];
 
-        $scope.$watch('order.installationDate', function(newValue, oldValue) {
+        $scope.$watch('order.installation_date', function(newValue, oldValue) {
             if (newValue !== oldValue) {
               if (timeout) {
                 $timeout.cancel(timeout);

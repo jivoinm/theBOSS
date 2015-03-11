@@ -24,9 +24,9 @@ directive('accessories', ['OrderService','toaster', function (OrderService, toas
           });
 
           scope.saveUpdates = function(index,order,accessory) {
-              if(accessory.itemsReceived) {
-                  accessory.received = accessory.itemsReceived >= accessory.quantity;
-                  accessory.dateReceived = new Date();
+              if(accessory.items_received) {
+                  accessory.received = accessory.items_received >= accessory.quantity;
+                  accessory.date_received = new Date();
                   order.$save(function(){
                       if(accessory.received){
                           order.ordered_accessories.splice(index,1);
@@ -175,13 +175,13 @@ directive('shippingList', ['OrderService', '$timeout', 'toaster', function (Orde
           $scope.format = $scope.formats[0];
 
           var timeout = null;
-          $scope.$watch('item.shippedDate', function(newValue, oldValue) {
+          $scope.$watch('item.shipped_date', function(newValue, oldValue) {
               if (newValue != oldValue) {
                 if (timeout) {
                   $timeout.cancel(timeout)
                   timeout = null;
                 }else{
-                  ModalService.confirm('Confirm shipping date of '+moment(newValue).zone(theBossSettings.timeZone).format('YYYY-MM-DD')+' set to order '+$scope.item.po_number,
+                  ModalService.confirm.question('Confirm shipping date of '+moment(newValue).zone(theBossSettings.timeZone).format('YYYY-MM-DD')+' set to order '+$scope.item.po_number,
                       function(confirmed){
                           if(confirmed){
                               timeout = $timeout(function(){

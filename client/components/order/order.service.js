@@ -48,7 +48,7 @@ angular.module('theBossApp')
                 },
                 method: 'PATCH'
             },
-            'setDateRequired': {
+            'setdate_required': {
                 url: '/api/orders/:orderId/calendar_update_date/:property/:date',
                 params: {
                     orderId: '@orderId',

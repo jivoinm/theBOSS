@@ -22,7 +22,7 @@
 
        <div class="list-group">
          <a href="#/order/{{order._id}}" class="list-group-item" ng-repeat="order in orders">
-             #{{order.po_number}} For: {{order.customer.name}} - Required By {{order.dateRequired | date}}
+             #{{order.po_number}} For: {{order.customer.name}} - Required By {{order.date_required | date}}
          </a>
        </div>
 

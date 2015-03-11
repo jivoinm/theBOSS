@@ -33,8 +33,11 @@ angular.module('theBossApp')
     };
 
     $scope.loadOrders();
-
-    $scope.$watch('currentPage', function () {
+    $scope.$watch('currentPage', function (page1, page2) {
+      if(page1 != page2)
+      {
         $scope.loadOrders();
+        console.log('currentPage changed',page1,page2);
+      }
     });
   });

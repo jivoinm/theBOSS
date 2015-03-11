@@ -107,6 +107,51 @@ angular.module('theBossApp')
               del.apply(event, args);
             });
           };
+        },
+
+        /**
+         * Create a function to open a confirmation modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
+         * @param  {Function} del - callback, ran when delete is confirmed
+         * @return {Function}     - the function to open the modal (ex. myModalFn)
+         */
+        question: function(question, callback) {
+          callback = callback || angular.noop;
+
+          /**
+           * Open a delete confirmation modal
+           * @param  {String} name   - name or info to show on modal
+           * @param  {All}           - any additional args are passed staight to callback callback
+           */
+          return function() {
+            var args = Array.prototype.slice.call(arguments),
+                confirmationModal;
+            var confirmed = false;
+            confirmationModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Confirm',
+                html: '<p><strong>' + question + '</strong></p>',
+                buttons: [{
+                  classes: 'btn-success',
+                  text: 'Yes',
+                  click: function(e) {
+                    confirmed = true;
+                    confirmationModal.close(e);
+                  }
+                }, {
+                  classes: 'btn-default',
+                  text: 'No',
+                  click: function(e) {
+                    confirmationModal.close(e);
+                  }
+                }]
+              }
+            });
+
+            confirmationModal.result.then(function(event) {
+              callback(confirmed);
+            });
+          };
         }
       },
       showPopup: function(title, body, callback){
@@ -172,14 +217,15 @@ angular.module('theBossApp')
 
     };
   })
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, fields) {
-    $scope.fields = fields;
 
-    $scope.ok = function () {
-      $modalInstance.close($scope.fields);
-    };
+.controller('ModalInstanceCtrl', function ($scope, $modalInstance, fields) {
+  $scope.fields = fields;
 
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
+  $scope.ok = function () {
+    $modalInstance.close($scope.fields);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 });

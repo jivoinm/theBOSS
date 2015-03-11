@@ -22,7 +22,7 @@ router.get('/:id',auth.isAuthenticated(), controller.loadOrder);
 router.get('/:id/projects',auth.isAuthenticated(), controller.loadOrderProjectFields);
 router.get('/:id/upload',auth.isAuthenticated(), controller.fileUpload);
 router.post('/',auth.isAuthenticated(), controller.createOrder);
-router.put('/:id',auth.isAuthenticated(), controller.updateOrder);
+router.post('/:id',auth.isAuthenticated(), controller.updateOrder);
 router.delete('/:id',auth.isAuthenticated(), controller.delete);
 router.patch('/:id/status/:status',auth.isAuthenticated(), controller.updateStatus);
 router.patch('/:id/calendar_update_date/:property/:date',auth.isAuthenticated(), controller.updateCalendarDate);
