@@ -9,8 +9,7 @@ angular.module('theBossApp')
             },
             'tasks': {
                 url: '/api/orders/todotasks',
-                method: 'GET',
-                isArray: true
+                method: 'GET'
             },
             'shippingList': {
                 url: '/api/orders/shippingList',

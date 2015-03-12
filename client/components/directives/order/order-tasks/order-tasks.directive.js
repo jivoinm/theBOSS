@@ -3,7 +3,7 @@
 angular.module('theBossApp')
   .directive('orderTasks', function ($rootScope, theBossSettings) {
     return {
-        template: '<tasks order="order"></tasks>',
+        template: '<work-log order="order"></work-log>',
         restrict: 'E',
         controller: function ($scope){
             $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){

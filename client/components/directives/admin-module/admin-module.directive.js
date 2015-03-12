@@ -194,7 +194,7 @@ directive('shippingList', ['OrderService', '$timeout', 'toaster', function (Orde
                                       });
                                 }, 1000);  // 1000 = 1 second
                           }
-                      });
+                      })();
                 }
               }
           });

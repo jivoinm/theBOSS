@@ -75,16 +75,18 @@ exports.loadOrderProjectFields = function(req,res){
 
 
 exports.toDoTasks = function(req,res){
-  Order.find({
-      owner: req.user.owner,
-      '$or': [{status: 'approved'}, {status: 'in progress'}],
-      'forms.tasks':{$elemMatch: {$or: [{status: {$exists:false}}, {status:'in progress'}]}}
-  })
-      .sort({date_required: 1})
-      .exec(function(err, orders){
-          if(err) return res.json(400,err);
-          return res.send(orders);
-      });
+  var page, limit;
+  if(req.query){
+      page = req.query.page;
+      limit = req.query.limit;
+  }
+
+  var queryOrders = {
+          owner: req.user.owner,
+          '$or': [{status: 'approved'}, {status: 'in progress'}],
+          'forms.tasks': {$elemMatch: {$or: [{status: {$exists:false}}, {status:'in progress'}]}}
+      };
+  new QueryOrders(queryOrders, {date_required:-1},page,limit, res);
 };
 
 exports.shippingList = function(req,res){

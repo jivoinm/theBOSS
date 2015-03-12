@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('orderList', function ($http, ModalService, FormService, toaster, $rootScope) {
+  .directive('quickList', function ($http, ModalService, FormService, toaster, $rootScope) {
     return {
       templateUrl: 'components/directives/order/order-list/order-list.html',
         restrict: 'E',

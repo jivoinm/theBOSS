@@ -22,16 +22,9 @@
                         <td>{{ accessory.description }}</td>
                         <td>{{ accessory.quantity }}</td>
                         <td>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                      <input type="number" class="form-control" placeholder="Items received" ng-model="accessory.items_received">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="submit" data-ng-click="saveUpdates($index, item, accessory)" class="btn btn-default">Update</button>
-                                </div>
-                            </div>
+                          
+                              <input type="number" class="form-control" placeholder="Items received" ng-model="accessory.items_received">
+                              <button type="submit" data-ng-click="saveUpdates($index, item, accessory)" class="btn btn-default btn-xs">Update</button>
                         </td>
                     </tr>
                     </tbody>
