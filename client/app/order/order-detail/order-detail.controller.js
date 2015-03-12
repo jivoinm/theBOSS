@@ -65,16 +65,14 @@ angular.module('theBossApp')
 
         //Delete order
         $scope.delete = function (){
-            ModalService.confirm.questionDelete('Are you sure you want to delete this order?', function(confirmed){
-                if(confirmed){
-                    $scope.order.$delete(function(){
-                        $scope.redirectToList();
-                        toaster.pop('success', 'Success', 'Deleted you order '+ $scope.getOrderName());
-                    },function(err){
-                        toaster.pop('error', 'Error', 'Error deleting order '+ err);
-                    });
-                }
-            });
+            ModalService.confirm.delete(function(){
+                $scope.order.$delete(function(){
+                    $scope.redirectToList();
+                    toaster.pop('success', 'Success', 'Deleted you order '+ $scope.getOrderName());
+                },function(err){
+                    toaster.pop('error', 'Error', 'Error deleting order '+ err);
+                });
+            })($scope.getOrderName()+' order');
         };
 
         $scope.today = function() {
