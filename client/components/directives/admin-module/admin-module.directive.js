@@ -44,11 +44,11 @@ directive('accessories', ['OrderService','toaster', function (OrderService, toas
       }
   };
 }]).
-directive('tasks', function (OrderService, $location) {
+directive('tasks', function (OrderService, $location, $sce) {
   return {
       restrict: 'E',
       templateUrl: 'components/directives/admin-module/tasks.html',
-      scope: true,
+
       controller: function ($scope) {
           if($scope.order){
               $scope.orders = [$scope.order];
@@ -77,13 +77,17 @@ directive('tasks', function (OrderService, $location) {
                   }else{
                       order.forms[formIndex].active = true;
                   }
-
               });
           };
 
           $scope.loadOrder = function(id){
               $location.path('/order/' + id);
-          }
+          };
+
+          $scope.getCustomerHeading = function(item){
+            if(!item) return '';
+            return $sce.trustAsHtml('Customer:'+ item.customer.name +' - '+ item.po_number + ' @ '+ item.date_required);
+          };
 
           $scope.status = {
               isFirstOpen: true,

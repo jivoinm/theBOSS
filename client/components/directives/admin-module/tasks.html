@@ -1,6 +1,7 @@
 <quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,orderIndex,form,formIndex,task,status,event)">
+  <a selected-item class="list-group-item" ng-repeat="item in orders | limitTo: itemsLimit()">
     <accordion close-others="status.oneAtATime">
-        <accordion-group heading="Customer: {{ item.customer.name }} - {{ item.po_number }} - {{ form.form_name }} @ {{ item.date_required | date }}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
+        <accordion-group heading="{{getCustomerHeading(item)}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
             <tabset>
                 <tab heading="{{form.formName}}" ng-repeat='form in item.forms' active="form.active">
                     <div class="well">
@@ -35,4 +36,5 @@
             </tabset>
         </accordion-group>
     </accordion>
+  </a>
 </quick-list>

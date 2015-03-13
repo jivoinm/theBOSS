@@ -175,25 +175,24 @@ angular.module('theBossApp')
         },
 
         showOrderDetailsPopup: function(title, order, callback){
+          var modal = $modal.open({
+               size: 'lg',
+               template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
+               resolve: {
+                   order: function(){return order;}
+               },
+               controller: function($scope, $modalInstance, order){
+                   $scope.order = order;
+                   $scope.preview = true;
+                   $scope.close = function(){
+                       $modalInstance.close();
+                   }
+               }
+           });
 
-            var modal = openModal({
-                order: order,
-                modal: {
-                    title: title,
-                    html: '<form class="form-horizontal"><order-preview order="order"></order-preview> </form>',
-                    buttons: [{
-                      classes: 'btn-default',
-                      text: 'Close',
-                      click: function (e){
-                        modal.dismiss(e);
-                      }
-                    }]
-              }
-            }, 'modal-dialog');
-
-            modal.result.then(function () {
-                (callback || angular.noop)();
-            });
+           modal.result.then(function () {
+               (callback || angular.noop)();
+           });
         },
 
         modalFormDialog: function(title,fields, callback){

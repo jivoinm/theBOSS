@@ -6,6 +6,7 @@ angular.module('theBossApp')
       templateUrl: 'components/directives/order/order-list/order-list.html',
         restrict: 'E',
         transclude: true,
+        replace: true,
         scope: {
             quickList: '=',
             itemSelect: '&',
@@ -28,7 +29,7 @@ angular.module('theBossApp')
             var pageSize = 5;
             scope.itemsLimit = function(){
                 return pageSize * pagesShown;
-            }
+            };
 
             scope.hasMoreItemsToShow = function() {
                 return scope.quickList && pagesShown < (scope.quickList.length / pageSize);
@@ -54,11 +55,11 @@ angular.module('theBossApp')
                 }else{
                     return text;
                 }
-            }
+            };
 
             scope.selectedResult = function(item){
                 scope.selectedFilter.itemId = item._id;
-            }
+            };
 
             scope.addNewField = function(form){
                 ModalService.modalFormDialog('Add new field',
@@ -76,12 +77,12 @@ angular.module('theBossApp')
                         }
                     })
 
-            }
+            };
 
             scope.selectItem = function(item){
                 scope.selectedItem = item;
                 scope.itemSelect(item);
-            }
+            };
         }
     };
   });
