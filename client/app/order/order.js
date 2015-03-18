@@ -14,6 +14,12 @@ angular.module('theBossApp')
         controller: 'OrderListCtrl',
         authenticate: true
       })
+      .state('order.services', {
+        url: '/services',
+        templateUrl: 'app/order/order-services/order-services.html',
+        controller: 'OrderServicesCtrl',
+        authenticate: true
+      })
       .state('order.detail', {
         url: '/detail/:id',
         templateUrl: 'app/order/order-detail/order-detail.html',

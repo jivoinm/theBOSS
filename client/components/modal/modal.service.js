@@ -154,66 +154,74 @@ angular.module('theBossApp')
           };
         }
       },
-      showPopup: function(title, body, callback){
-            var modal = openModal({
-                modal: {
-                  title: title,
-                  html: body,
-                  buttons: [{
-                    classes: 'btn-default',
-                    text: 'Close',
-                    click: function (e){
-                      modal.dismiss(e);
-                    }
-                  }]
-                }
-            }, 'modal-dialog');
+      show :{
+        showPopup: function(title, body, callback){
+            callback = callback || angular.noop;
+            return function (){
+              var modal = openModal({
+                  modal: {
+                    title: title,
+                    html: body,
+                    buttons: [{
+                      classes: 'btn-default',
+                      text: 'Close',
+                      click: function (e){
+                        modal.dismiss(e);
+                      }
+                    }]
+                  }
+              }, 'modal');
 
-            modal.result.then(function () {
-                (callback || angular.noop)();
-            });
-        },
+              modal.result.then(function () {
+                  (callback || angular.noop)();
+              });
+            };
+          },
 
-        showOrderDetailsPopup: function(title, order, callback){
-          var modal = $modal.open({
-               size: 'lg',
-               template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
-               resolve: {
-                   order: function(){return order;}
-               },
-               controller: function($scope, $modalInstance, order){
-                   $scope.order = order;
-                   $scope.preview = true;
-                   $scope.close = function(){
-                       $modalInstance.close();
-                   }
-               }
-           });
+          showOrderDetailsPopup: function(title, order, callback){
+            callback = callback || angular.noop;
+            return function (){
+                var modal = $modal.open({
+                     size: 'lg',
+                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
+                     resolve: {
+                         order: function(){return order;}
+                     },
+                     controller: function($scope, $modalInstance, order){
+                         $scope.order = order;
+                         $scope.preview = true;
+                         $scope.close = function(){
+                             $modalInstance.close();
+                         }
+                     }
+                 });
 
-           modal.result.then(function () {
-               (callback || angular.noop)();
-           });
-        },
+                 modal.result.then(function () {
+                     (callback || angular.noop)();
+                 });
+               };
+          },
 
-        modalFormDialog: function(title,fields, callback){
-            var modal = openModal({
-                fields: fields,
-                modal: {
-                  title: title,
-                  form: '<div class="row"> ' +
-                          '<div field ng-model="field.value" ng-field="field" ng-repeat="field in fields"></div>' +
-                      '</div>'
-                }
-              }, 'modal-dialog');
+          modalFormDialog: function(title,fields, callback){
+              callback = callback || angular.noop;
+              return function (){
+              var modal = openModal({
+                  fields: fields,
+                  modal: {
+                    title: title,
+                    form: true
+                  }
+                }, 'modal');
 
-            modal.result.then(function (fields) {
-                if(fields)
-                {
-                    callback(fieldsToModel(fields));
-                }
-            });
-        }
-
+              modal.result.then(function (fields) {
+                  if(fields)
+                  {
+                      callback(fieldsToModel(fields));
+                  }
+              });
+            };
+          }
+      }
     };
   })
 

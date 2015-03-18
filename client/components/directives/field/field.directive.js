@@ -5,9 +5,9 @@ angular.module('theBossApp')
 
 
         var formField = function(field){
-            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
+            return '<div class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
                 '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
-                '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInine}">'+ field+'</div>' +
+                '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInline}">'+ field+'</div>' +
                     '<div class="col-sm-2" ng-show="!isInline" restricted-access>'+
                         '<div name="tools" ng-show="field._id" class="btn-group-xs pull-right" tooltip-placement="top" tooltip-append-to-body="true" tooltip="Edit or Delete {{field.title}}">' +
                             '<button type="button" class="btn btn-default fa fa-pencil" ng-click="edit(fieldForm,field,index)"></button>' +
@@ -86,7 +86,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'text':
-                    fieldTemplate = '<input type="text" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
+                    fieldTemplate = '<input type="text" class="form-control" name="{{field.title}}" placeholder="{{field.title}}"'+
                         'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
@@ -184,8 +184,9 @@ angular.module('theBossApp')
                 index: '=',
                 preview: '@'
             },
-
-            link: function(scope, elem, attr){
+            require: '^form',
+            link: function(scope, elem, attr, form){
+                scope.form = form;
                 scope.splitOptions = function(optionString){
                     if( Object.prototype.toString.call( optionString ) === '[object Array]' ) return optionString;
                     return optionString ? optionString.split(',') : [];

@@ -25,7 +25,7 @@ angular.module('theBossApp')
 
         scope.addNewService = function(form){
             var serviceNr = form.services ? form.services.length + 1 : 1;
-            ModalService.modalFormDialog('Add new Service #'+serviceNr,
+            ModalService.show.modalFormDialog('Add new Service #'+serviceNr,
                 scope.order_service_fields, function(model){
                     if(model){
                         if(form && form.$save){
@@ -39,7 +39,7 @@ angular.module('theBossApp')
                         }
                         model = null;
                     }
-                })
+                })();
 
         };
 

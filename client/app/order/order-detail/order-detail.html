@@ -63,6 +63,7 @@
 
               <order-notes orderid="{{ order._id }}"></order-notes>
               <order-accessories ng-if="preview"></order-accessories>
+              <order-services ng-if="preview"></order-services>
           </div>
             <div class="col-md-8">
                 <tabset justified="true" ng-if="!preview">
@@ -109,5 +110,8 @@
             <button type="submit" class="btn btn-default" ng-disabled="form.$invalid">Save</button>
             <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
         </div>
+        <ul>
+          <li ng-repeat="frmData in form.$formData()"></li>
+        </ul>
     </form>
 </div>

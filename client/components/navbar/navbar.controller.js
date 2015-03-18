@@ -11,6 +11,12 @@ angular.module('theBossApp')
     }, {
       'title': 'Calendar',
       'link': '/calendar'
+    }, {
+      'title': 'Services',
+      'link': '/order/services'
+    }, {
+      'title': 'Add Order',
+      'link': '/order/detail/'
     }];
 
     $scope.isCollapsed = true;
