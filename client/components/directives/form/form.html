@@ -2,15 +2,15 @@
     <!-- Default panel contents -->
     <div class="panel-heading" tooltip-placement="right" tooltip="Add new form from the list" ng-if="!preview">{{ module }}
         <div class="pull-right" >
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle>
                     Add
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu pull-right" role="menu">
+                <ul class="dropdown-menu pull-right" role="menu" dropdown-menu>
                     <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.formName }}</a></li>
                     <li class="divider" restricted-access></li>
-                    <li restricted-access><a href="" ng-click="addNewForm()">New Form</a></li>
+                    <li restricted-access><a href="#" ng-click="addNewForm()">New Form</a></li>
                 </ul>
             </div>
         </div>

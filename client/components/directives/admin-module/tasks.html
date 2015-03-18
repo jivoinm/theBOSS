@@ -1,5 +1,5 @@
-<quick-list quick-list="orders" list-type="list" title="Work log" item-select="setTaskStatus(order,orderIndex,form,formIndex,task,status,event)">
-  <a selected-item class="list-group-item" ng-repeat="item in orders | limitTo: itemsLimit()">
+<quick-list quick-list="taskOrders" list-type="list" title="Work log" item-select="setTaskStatus(order,orderIndex,form,formIndex,task,status,event)">
+
     <accordion close-others="status.oneAtATime">
         <accordion-group heading="{{getCustomerHeading(item)}}" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled" >
             <tabset>
@@ -36,5 +36,5 @@
             </tabset>
         </accordion-group>
     </accordion>
-  </a>
+
 </quick-list>

@@ -48,13 +48,13 @@ directive('tasks', function (OrderService, $location, $sce) {
   return {
       restrict: 'E',
       templateUrl: 'components/directives/admin-module/tasks.html',
-
+      //scope: true,
       controller: function ($scope) {
-          if($scope.order){
-              $scope.orders = [$scope.order];
+          if($scope.taskOrders){
+              $scope.taskOrders = [$scope.order];
           }else{
               OrderService.tasks({}).$promise.then(function(data){
-                  $scope.orders = data;
+                  $scope.taskOrders = data.orders;
               });
           }
 

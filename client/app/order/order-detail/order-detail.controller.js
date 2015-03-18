@@ -18,9 +18,14 @@ angular.module('theBossApp')
         $scope.$parent.pageHeader = $scope.getOrderName();
         var timeout = null;
 
+
         if($scope.order && $scope.order._id){
             $scope.preview = true;
         }
+
+        $scope.isNewOrder = function(){
+          return !$scope.order._id;
+        };
 
         $scope.edit = function (){
             $scope.preview = false;
@@ -55,11 +60,10 @@ angular.module('theBossApp')
                         }else{
                             $scope.saveOrder();
                         }
-                     });
+                     })();
                 }else{
                     $scope.saveOrder();
                 }
-
             }
         };
 
@@ -111,20 +115,30 @@ angular.module('theBossApp')
         $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         $scope.format = $scope.formats[0];
 
+        $scope.updateOrderOnChange = function (newValue, oldValue, message){
+          if (newValue !== oldValue) {
+            if (timeout) {
+              $timeout.cancel(timeout);
+              timeout = null;
+            }else{
+              timeout = $timeout(function(){
+                  $scope.order.$save(function(order){
+                    $scope.order = order;
+                      toaster.pop('success', 'Success', message);
+                  },function(err){
+                      toaster.pop('error', 'Error', 'Error saving you order '+ err);
+                  });
+            }, 1000);  // 1000 = 1 second
+           }
+          }
+        };
+
+
         $scope.$watch('order.installation_date', function(newValue, oldValue) {
-            if (newValue !== oldValue) {
-              if (timeout) {
-                $timeout.cancel(timeout);
-                timeout = null;
-              }else{
-                timeout = $timeout(function(){
-                    $scope.order.$save(function(){
-                        toaster.pop('success', 'Success', 'Saved installation date');
-                    },function(err){
-                        toaster.pop('error', 'Error', 'Error saving you order '+ err);
-                    });
-              }, 1000);  // 1000 = 1 second
-             }
-            }
+          $scope.updateOrderOnChange(newValue, oldValue, 'Saved installation date');
+        }, true);
+
+        $scope.$watch('order.installation_by', function(newValue, oldValue) {
+          $scope.updateOrderOnChange(newValue, oldValue, 'Saved installation by');
         }, true);
   });

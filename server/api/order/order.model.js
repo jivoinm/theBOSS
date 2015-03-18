@@ -31,6 +31,11 @@ var OrderSchema = new Schema({
     po_number: String,
     date_required: Date,
     installation_date: Date,
+    installation_by: {
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+        name: String,
+        email: String
+    },
     shipped_date: Date,
 
     forms: [
@@ -50,6 +55,7 @@ var OrderSchema = new Schema({
         received_by: { type: Schema.Types.ObjectId, ref: 'User' }
     }],
     services:[{
+        title: String,
         date: Date,
         details: String,
         done_by: { type: Schema.Types.ObjectId, ref: 'User' },

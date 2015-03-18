@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-xs-4">
+    <img ng-src="assets/images/logo.png" height="100px">
+  </div>
+  <div class="col-xs-4">
+    <h4><strong>{{action}} Form</strong></h4>
+  </div>
+  <div class="col-xs-4">
+    <span class="pull-right">
+    766 York Road<br/>
+    N.O.T.L, ON L0S 1J0<br/>
+    Phone: 905-685-6567<br/>
+    Fax: 905-685-0585
+    </span>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <div class="col-xs-6">
+    <strong>Customer Name:</strong>&nbsp;{{order.customer.name}}
+  </div>
+  <div class="col-xs-6">
+    {{order.installation_date | date}} - PO# {{order.po_number}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <p>Address: {{order.ship_to}}</p>
+    <p>Phone: {{order.phone}}</p>
+    <p>Email: {{order.email}}</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 1:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ______________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completition: ______________________
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 2:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ______________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completition: ______________________
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 3:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ______________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completition: ______________________
+  </div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="row">
+  <div class="col-xs-12"><strong>Other notes:</strong></div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="row">
+  <div class="col-xs-12">Please sign in agreement of completition or deficiency list above:</div>
+</div>
+<div class="row">
+  <div class="col-xs-3">
+  <strong>Installer: {{order.installation_by.name}}</strong>
+  </div>
+  <div class="col-xs-3">
+  <strong>Date: _______________________</strong>
+  </div>
+  <div class="col-xs-3">
+  <strong>Customer: _______________________</strong>
+  </div>
+  <div class="col-xs-3">
+  <strong>Date: _______________________</strong>
+  </div>
+</div>
+<br/>
+<div class="row hidden-print">
+  <div class="col-xs-12">
+    <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="print()">Print</button>
+  </div>
+</div>

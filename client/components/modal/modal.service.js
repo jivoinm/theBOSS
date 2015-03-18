@@ -227,4 +227,5 @@ angular.module('theBossApp')
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
 });

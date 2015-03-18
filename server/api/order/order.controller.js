@@ -5,13 +5,14 @@ var Order = require('./order.model');
 var fs = require('fs');
 var moment = require('moment');
 var Project = require('../form/form.model');
+var User = require('../user/user.model');
 //var _ = require('underscore');
 
 
 
 function QueryOrders(queryOrders, sort, page, limit, res) {
   var query = Order.find(queryOrders)
-      .select('customer.name po_number createdBy last_updated_by created_on last_updated_on date_required installation_date shipped_date status services doors')
+      .select('customer.name po_number createdBy last_updated_by created_on last_updated_on date_required installation_date installation_by.name shipped_date status services doors')
       .sort(sort);
   if(page){
       query.skip((page * limit) - limit);
@@ -41,6 +42,38 @@ function FindOrder(req, callout){
       }, function (err, order) {
           callout(err,order);
       });
+}
+
+function updateOrder(req, res, order){
+  order.last_updated_by = {
+      user_id: req.user._id,
+      name: req.user.name,
+      email: req.user.email
+  };
+  order.last_updated_on = new Date();
+  var finished = _.all(order.forms, function (form) {
+      var isFinished = _.all(form.tasks, function (task){
+          return (task.status && task.status === 'done');
+      });
+      return isFinished;
+  });
+
+  var inProgress = _.any(order.forms, function (form) {
+      var status = _.any(form.tasks, function (task){
+          return (task.status && task.status !== 'done');
+      });
+      return status;
+  });
+
+  order.status = finished ? 'finished' : inProgress ? 'in progress' : order.status;
+  Order.update({_id: req.params.id}, order, {upsert: true}, function (err, nrRecords, rawRecord) {
+      if(err) return res.json(400,err);
+      new FindOrder(req, function (err, order) {
+          if (err) res.json(400, err);
+          if(!order) res.json({error: 'This order does not exists'});
+          return res.json(order);
+      });
+  });
 }
 
 exports.delete = function (req, res, next) {
@@ -258,36 +291,22 @@ exports.updateOrder = function(req,res){
 
       delete order._id;
       delete order.createdBy;
-      order.last_updated_by = {
-          user_id: req.user._id,
-          name: req.user.name,
-          email: req.user.email
-      };
 
-      order.last_updated_on = new Date();
-      var finished = _.all(order.forms, function (form) {
-          var isFinished = _.all(form.tasks, function (task){
-              return (task.status && task.status === 'done');
-          });
-          return isFinished;
-      });
+      if(order.installation_by && order.installation_by._id){
+        var installedBy = User.findById(order.installation_by._id, function (err, user){
+          order.installation_by = {
+              user_id: user._id,
+              name: user.name,
+              email: user.email
+          };
+          new updateOrder(req, res, order);
+        });
+      }else{
+        new updateOrder(req, res, order);
+      }
 
-      var inProgress = _.any(order.forms, function (form) {
-          var status = _.any(form.tasks, function (task){
-              return (task.status && task.status !== 'done');
-          });
-          return status;
-      });
-
-      order.status = finished ? 'finished' : inProgress ? 'in progress' : order.status;
-      Order.update({_id: req.params.id}, order, {upsert: true}, function (err, nrRecords, rawRecord) {
-          if(err) return res.json(400,err);
-          new FindOrder(req, function (err, order) {
-              if (err) res.json(400, err);
-              if(!order) res.json({error: 'This order does not exists'});
-              return res.json(order);
-          });
-      });
+  }else{
+    res.json({error: 'This order does not exists'});
   }
 };
 
