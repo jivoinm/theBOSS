@@ -20,7 +20,7 @@ router.get('/accessories',auth.isAuthenticated(),controller.accessories);
 router.get('/comments',auth.isAuthenticated(),controller.comments);
 router.get('/:id',auth.isAuthenticated(), controller.loadOrder);
 router.get('/:id/projects',auth.isAuthenticated(), controller.loadOrderProjectFields);
-router.get('/:id/upload',auth.isAuthenticated(), controller.fileUpload);
+router.post('/:id/upload',auth.isAuthenticated(), controller.fileUpload);
 router.post('/',auth.isAuthenticated(), controller.createOrder);
 router.post('/:id',auth.isAuthenticated(), controller.updateOrder);
 router.delete('/:id',auth.isAuthenticated(), controller.delete);

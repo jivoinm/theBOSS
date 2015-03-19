@@ -14,7 +14,7 @@ angular.module('theBossApp')
         scope.order_service_fields = [
             {title:'Date', type:'date', require: true},
             {title:'Details', type:'textarea', require: true},
-            //{title:'Done By', type:'user', require: false}
+            {title:'Done By', type:'user', require: false}
         ];
         scope.completed = function (order, service){
             service.completed = true;

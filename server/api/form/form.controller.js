@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require('lodash');
-var Form = require('./form.model');
+var mongoose = require('mongoose');
+var Form = mongoose.model('Form');
 
 // Get list of forms
 exports.index = function(req, res) {
@@ -86,12 +87,11 @@ exports.deleteForm = function(req, res){
 
 exports.getFormsForModule = function (req,res){
     if(req.user){
-        Form.find({owner:req.user.owner,module:req.params.module})
-            .sort({name:1})
-            .exec(function(err,projects){
-                if(err) res.json(400,err);
-                return res.send(projects);
-            });
+      var query = {owner:req.user.owner,module:req.params.module};
+      Form.find({}, function(err,projects){
+        if(err) res.json(400,err);
+        return res.send(projects);
+      });
     }else{
       return res.send({message:'there is no user in the request'});
     }

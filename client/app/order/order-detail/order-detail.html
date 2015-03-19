@@ -63,7 +63,6 @@
 
               <order-notes orderid="{{ order._id }}"></order-notes>
               <order-accessories ng-if="preview"></order-accessories>
-              <order-services ng-if="preview"></order-services>
           </div>
             <div class="col-md-8">
                 <tabset justified="true" ng-if="!preview">
@@ -87,14 +86,14 @@
                         </div>
 
                     </tab>
-                    <tab heading="Services" disabled="(!isNewOrder() || !order.status || order.status != 'finished')">
+                    <tab heading="Services" disabled="(isNewOrder() || !order.status)">
                         <div class=well>
                             <p>Add list of services associated with this order.</p>
                             <order-services></order-services>
                         </div>
 
                     </tab>
-                    <tab heading="Files" disabled="!isNewOrder()">
+                    <tab heading="Files" disabled="isNewOrder()">
                         <div class=well>
                             <p>Add list of files associated with this order.</p>
                             <file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>

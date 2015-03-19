@@ -12,7 +12,7 @@ var User = require('../user/user.model');
 
 function QueryOrders(queryOrders, sort, page, limit, res) {
   var query = Order.find(queryOrders)
-      .select('customer.name po_number createdBy last_updated_by created_on last_updated_on date_required installation_date installation_by.name shipped_date status services doors')
+      .select('customer.name po_number createdBy forms last_updated_by created_on last_updated_on date_required installation_date installation_by.name shipped_date status services doors')
       .sort(sort);
   if(page){
       query.skip((page * limit) - limit);
@@ -333,8 +333,18 @@ exports.fileUpload = function (req, res, next){
       part.on('data', function(buf){
           file.size += buf.length;
       });
-      var out = fs.createWriteStream(__dirname+'/../../app/uploads/'+ part.filename);
-      part.pipe(out);
+      var path = __dirname+'/../../../uploads/';
+      fs.exists(path, function (exists){
+        if(exists){
+          var out = fs.createWriteStream(path+ part.filename);
+          part.pipe(out);
+        }else{
+          fs.mkdir(path,function(){
+            var out = fs.createWriteStream(path+ part.filename);
+            part.pipe(out);
+          });
+        }
+      });
   });
 
 

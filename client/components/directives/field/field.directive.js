@@ -5,7 +5,7 @@ angular.module('theBossApp')
 
 
         var formField = function(field){
-            return '<div class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
+            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
                 '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
                 '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInline}">'+ field+'</div>' +
                     '<div class="col-sm-2" ng-show="!isInline" restricted-access>'+
@@ -86,7 +86,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'text':
-                    fieldTemplate = '<input type="text" class="form-control" name="{{field.title}}" placeholder="{{field.title}}"'+
+                    fieldTemplate = '<input type="text" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
                         'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
@@ -108,7 +108,7 @@ angular.module('theBossApp')
                     fieldTemplate = '<div class="input-group">' +
                         '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
                         '<input type="email" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>' +
+                        'ng-model="model" value="" ng-required="{{ field.require }}"/>' +
                         '</div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
@@ -123,7 +123,11 @@ angular.module('theBossApp')
                         });
                     }
                     scope.selectedUser = function(item, model, label){
-                       scope.model = item._id;
+                       scope.model = {
+                         user_id: item._id,
+                         name: item.name,
+                         email: item.email
+                       };
                     }
 
                     fieldTemplate = ' <input type="text" ng-model="user" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
@@ -184,9 +188,7 @@ angular.module('theBossApp')
                 index: '=',
                 preview: '@'
             },
-            require: '^form',
             link: function(scope, elem, attr, form){
-                scope.form = form;
                 scope.splitOptions = function(optionString){
                     if( Object.prototype.toString.call( optionString ) === '[object Array]' ) return optionString;
                     return optionString ? optionString.split(',') : [];

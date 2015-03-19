@@ -52,13 +52,21 @@ var OrderSchema = new Schema({
         items_received: Number,
         received: {type: Boolean, default: false},
         date_received: Date,
-        received_by: { type: Schema.Types.ObjectId, ref: 'User' }
+        received_by: {
+            user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+            name: String,
+            email: String
+        },
     }],
     services:[{
         title: String,
         date: Date,
         details: String,
-        done_by: { type: Schema.Types.ObjectId, ref: 'User' },
+        done_by: {
+            user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+            name: String,
+            email: String
+        },
         completed: {type: Boolean, default: false}
     }],
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('workLog', function (OrderService, $location, Auth, $sce) {
+  .directive('workLog', function (OrderService, $location, Auth, $sce, $filter) {
     return {
       templateUrl: 'components/directives/work-log/work-log.html',
       restrict: 'EA',
@@ -58,7 +58,8 @@ angular.module('theBossApp')
         scope.getOrderTitle = function(order){
           if(order && order.customer)
           {
-            return $sce.trustAsHtml('Customer:'+ order.customer.name +' - '+ order.po_number +' @ '+ order.date_required);
+            var dateRequired = $filter('date')(order.date_required);
+            return $sce.trustAsHtml('Customer:'+ order.customer.name +' - '+ order.po_number +' @ '+ dateRequired);
           }
           return '';
         };

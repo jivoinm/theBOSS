@@ -39,7 +39,7 @@ angular.module('theBossApp')
         angular.forEach(fields, function(field){
             var fieldName = field.name || field.title;
             var fieldValue = field.value;
-            var path = camelCase(fieldName.toLowerCase().replace(' ','-')).split('.');
+            var path = fieldName.toLowerCase().replace(' ','_').split('.');
             setProperty(model,path,fieldValue);
             field.value = null;
         });

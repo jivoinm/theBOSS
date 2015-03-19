@@ -10,13 +10,15 @@ angular.module('theBossApp', [
   'ui.calendar',
   'toaster',
   'angularMoment',
-  'underscore'
+  'underscore',
+  'ngDragDrop',
+  'angularFileUpload',
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true).hashPrefix('!');
     $httpProvider.interceptors.push('authInterceptor');
   })
   .constant('theBossSettings', {
