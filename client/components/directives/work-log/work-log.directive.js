@@ -40,6 +40,7 @@ angular.module('theBossApp')
             task.status = status;
 
             //if all tasks are finished then remove from the list
+            order = new OrderService(order);
             return order.$save(function(savedOrder){
                 order = savedOrder;
                 if(savedOrder.status === 'finished'){

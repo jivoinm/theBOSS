@@ -22,7 +22,7 @@
     <strong>Customer Name:</strong>&nbsp;{{order.customer.name}}
   </div>
   <div class="col-xs-6">
-    {{order.installation_date | date}} - PO# {{order.po_number}}
+    {{ getFormDate()}} - PO# {{order.po_number}}
   </div>
 </div>
 

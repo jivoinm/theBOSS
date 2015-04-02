@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('orderServices', function ($rootScope, theBossSettings, ModalService, toaster, $templateCache, $compile) {
+  .directive('orderServices', function ($rootScope, theBossSettings, ModalService, toaster, $templateCache, $compile, OrderService) {
     return {
       templateUrl: 'components/directives/order/order-services/order-services.html',
       restrict: 'E',
@@ -18,6 +18,9 @@ angular.module('theBossApp')
         ];
         scope.completed = function (order, service){
             service.completed = true;
+            if(!order.$save){
+              order = new OrderService(order);
+            }
             order.$save(function (orderSaved) {
                 console.log(orderSaved);
             });
@@ -28,7 +31,10 @@ angular.module('theBossApp')
             ModalService.show.modalFormDialog('Add new Service #'+serviceNr,
                 scope.order_service_fields, function(model){
                     if(model){
-                        if(form && form.$save){
+                        if(form){
+                            if(!form.$save){
+                              form = new OrderService(form);
+                            }
                             model.title = 'Service #'+serviceNr;
                             form.services.unshift(model);
                             form.$save(function(savedResponse){

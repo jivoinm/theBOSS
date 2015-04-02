@@ -1,75 +1,36 @@
 <div class="row">
-  <div class="col-md-2">
-      <div class="panel panel-default">
-          <div class="panel-heading">Filters</div>
-          <div class="panel-body">
-              <p>Select your orders by quick search by status or advanced search by additional order properties</p>
-              <a class="btn btn-primary btn-lg" ui-sref="order.detail">New Order</a>
-          </div>
-          <ul class="list-group">
-              <a href="/orders/new" class="list-group-item" sb-url-active>
-                  New, pending approval
-              </a>
-              <a href="/orders/approved" class="list-group-item" sb-url-active>
-                  Approved
-              </a>
-              <a href="/orders/finished" class="list-group-item" sb-url-active>
-                  Completed
-              </a>
-              <a href="/orders" class="list-group-item" sb-url-active>
-                  All
-              </a>
-          </ul>
-      </div>
-  </div>
-  <div class="col-md-10">
+  <div class="col-md-12">
       <div class="panel panel-default">
           <div class="panel-heading">Order search</div>
           <div class="panel-body">
               <div class=well>
                   <form ng-submit="loadOrders()">
-                  <div class="input-group">
-                      <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
-                  </div><!-- /input-group -->
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="input-group">
+                          <input type="text" class="form-control" ng-model="queryText" placeholder="Search order...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="loadOrders()">Search</button>
+                          </span>
+                        </div><!-- /input-group -->
+                      </div><!-- /.col-lg-6 -->
+                    </div>
                   </form>
               </div>
-              <div class="row">
-                  <div class="col-md-12">
-                      <div class="table-responsive">
-                          <table class="table table-hover table-condensed">
-                              <thead>
-                              <tr>
-                                  <th>#</th>
-                                  <th>Customer</th>
-                                  <th>Date Required</th>
-                                  <th>Shipped Date</th>
-                                  <th>Status</th>
-                                  <th>Created By</th>
-                                  <th>Created On</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                                  <tr ng-repeat="order in orders">
-                                      <td><a href="/order/detail/{{ order._id }}">{{ order.po_number }}</a></td>
-                                      <td><a href="/order/detail/{{ order._id }}">{{ order.customer.name }}</a></td>
-                                      <td>
-                                      {{ order.date_required | date }}
-                                       <span class="label label-default" ng-show="order.installation_date"><br>{{ order.installation_date | date }}</span>
-                                      </td>
-                                      <td>{{ order.shipped_date | date }}</td>
-                                      <td><order-status></order-status> </td>
-                                      <td>{{ order.createdBy.name }}</td>
-                                      <td>{{ order.created_on | date }}</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-
-                          <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
-                           <pre>Page: {{currentPage}} / {{numPages}}</pre>
-                      </div>
+              <div class="panel panel-default">
+                  <div class="panel-heading">Searvices</div>
+                  <div class="panel-body">
+                  <div class="row">
+                    <accordion>
+                     <accordion-group heading="{{getOrderName(order)}}" ng-repeat="order in orders">
+                       <div class="well">
+                           <order-services order="order"></order-services>
+                       </div>
+                     </accordion-group>
+                    </accordion>
                   </div>
+                </div>
               </div>
-
           </div>
       </div>
   </div>

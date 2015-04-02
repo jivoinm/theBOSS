@@ -7,16 +7,16 @@
               <a class="btn btn-primary btn-lg" ui-sref="order.detail">New Order</a>
           </div>
           <ul class="list-group">
-              <a href="/orders/new" class="list-group-item" sb-url-active>
+              <a href="/order/list/new" class="list-group-item" sb-url-active>
                   New, pending approval
               </a>
-              <a href="/orders/approved" class="list-group-item" sb-url-active>
+              <a href="/order/list/approved" class="list-group-item" sb-url-active>
                   Approved
               </a>
-              <a href="/orders/finished" class="list-group-item" sb-url-active>
+              <a href="/order/list/finished" class="list-group-item" sb-url-active>
                   Completed
               </a>
-              <a href="/orders" class="list-group-item" sb-url-active>
+              <a href="/order/list" class="list-group-item" sb-url-active>
                   All
               </a>
           </ul>
@@ -28,9 +28,16 @@
           <div class="panel-body">
               <div class=well>
                   <form ng-submit="loadOrders()">
-                  <div class="input-group">
-                      <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
-                  </div><!-- /input-group -->
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="input-group">
+                          <input type="text" class="form-control" ng-model="queryText" placeholder="Search order...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="loadOrders()">Search</button>
+                          </span>
+                        </div><!-- /input-group -->
+                      </div><!-- /.col-lg-6 -->
+                    </div>
                   </form>
               </div>
               <div class="row">
