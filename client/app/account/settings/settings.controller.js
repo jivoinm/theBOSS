@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('SettingsCtrl', function ($scope, User, Auth) {
+  .controller('SettingsCtrl', function ($scope, timeOff, Auth, ModalService) {
     $scope.errors = {};
 
     $scope.changePassword = function(form) {
@@ -18,15 +18,36 @@ angular.module('theBossApp')
         });
       }
 		};
-    $scope.timeoff = {};
+
     $scope.currentUser = Auth.getCurrentUser();
+
+    timeOff.query(function(timeoffs){
+      $scope.timeoffs = timeoffs;
+    });
+
+    $scope.delete = function (index, timeoff){
+      ModalService.confirm.question('Delete '+timeoff.detail+'?', function(confirmed){
+          if(confirmed){
+             timeoff.$delete(function(){
+               $scope.timeoffs.splice(index,1);
+             });
+          }else{
+            $scope.order.date_required = null;
+          }
+       })();
+    };
 
     $scope.addNewRequest = function(form){
       $scope.submitted = true;
       if(form.$valid) {
-        $scope.currentUser.timeoffs.push($scope.timeoff);
-        $scope.currentUser.$save(function(result){
-          console.log(result);
+        $scope.timeoff = new timeOff($scope.timeoff);
+        $scope.timeoff.createdBy = {};
+        $scope.timeoff.createdBy.user_id = $scope.currentUser._id;
+        $scope.timeoff.createdBy.name = $scope.currentUser.name;
+        $scope.timeoff.createdBy.email = $scope.currentUser.email;
+        $scope.timeoff.$save(function(data){
+          $scope.timeoffs.push(data);
+          $scope.timeoff = {};
         });
       }
     };

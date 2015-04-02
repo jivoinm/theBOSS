@@ -13,7 +13,6 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  timeoffs: {type: Array, default: []},
   hashedPassword: String,
   provider: String,
   salt: String,

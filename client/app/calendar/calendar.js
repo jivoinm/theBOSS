@@ -8,5 +8,11 @@ angular.module('theBossApp')
         templateUrl: 'app/calendar/calendar.html',
         controller: 'CalendarCtrl',
         authenticate: true
+      })
+      .state('calendar.status', {
+        url: '/:status',
+        templateUrl: 'app/calendar/calendar.html',
+        controller: 'CalendarCtrl',
+        authenticate: true
       });
   });
