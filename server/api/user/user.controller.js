@@ -1,5 +1,5 @@
 'use strict';
-
+var _ = require('lodash');
 var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
@@ -20,6 +20,35 @@ exports.index = function(req, res) {
   });
 };
 
+exports.query = function (req, res, next){
+    var query = {owner: req.user.owner};
+    if(req.query.role){
+        query.role = req.query.role;
+    }
+
+    if(req.query.text){
+        var queryText = new RegExp(req.query.text,"i");
+        query.name = queryText;
+    }
+
+    User.find(query, '-salt -hashedPassword',{sort:{name:1}}, function(err, users){
+        if (err) return res.send(400);
+        return res.send(users);
+    });
+};
+
+exports.updateRole = function (req, res, next) {
+  User.update({ _id: req.params.id, owner: req.user.owner},
+    {$set: {role: req.params.role}},
+    function (err){
+        if(err) res.json(400,err);
+        User.findById(req.params.id, function (err, user){
+            if (err) return res.json(400, err);
+            return res.send(user);
+        });
+    });
+};
+
 /**
  * Creates a new user
  */
@@ -31,6 +60,19 @@ exports.create = function (req, res, next) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
     res.json({ token: token });
+  });
+};
+
+exports.update = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  User.findById(req.params.id, function (err, user) {
+    if (err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    var updated = _.merge(user, req.body);
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, user);
+    });
   });
 };
 

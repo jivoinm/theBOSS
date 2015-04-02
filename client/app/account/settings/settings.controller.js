@@ -18,4 +18,16 @@ angular.module('theBossApp')
         });
       }
 		};
+    $scope.timeoff = {};
+    $scope.currentUser = Auth.getCurrentUser();
+
+    $scope.addNewRequest = function(form){
+      $scope.submitted = true;
+      if(form.$valid) {
+        $scope.currentUser.timeoffs.push($scope.timeoff);
+        $scope.currentUser.$save(function(result){
+          console.log(result);
+        });
+      }
+    };
   });

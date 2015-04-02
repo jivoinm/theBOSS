@@ -22,9 +22,20 @@
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
         <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
-        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
-        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()">Logout</a></li>
-      </ul>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              {{ currentUser.name }} <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right" role="menu">
+              <li><a href="/settings"><i class="fa fa-user fa-fw"></i> User settings</a>
+              </li>
+              <li restricted-access="admin"><a href="/user"><i class="fa fa-gear fa-fw"></i> Users</a>
+              </li>
+              <li class="divider"></li>
+              <li><a href="" ng-click='logout()'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+              </li>
+          </ul>
+      </li>
     </div>
   </div>
 </div>

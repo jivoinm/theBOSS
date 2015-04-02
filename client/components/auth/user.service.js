@@ -5,7 +5,12 @@ angular.module('theBossApp')
     return $resource('/api/users/:id/:controller', {
       id: '@_id'
     },
+
     {
+      query: {
+         method: 'GET',
+         isArray: true
+      },
       changePassword: {
         method: 'PUT',
         params: {
@@ -17,6 +22,14 @@ angular.module('theBossApp')
         params: {
           id:'me'
         }
+      },
+      updateRole: {
+          method: 'POST',
+          url: '/api/users/:id/:role',
+          params: {
+              id: '@_id',
+              role: '@role',
+          },
       }
 	  });
   });

@@ -23,7 +23,9 @@ angular.module('theBossApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
-
+    $scope.status = {
+      isopen: false
+    };
     $scope.logout = function() {
       Auth.logout();
       $location.path('/login');
