@@ -1,39 +1,72 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
+  <h1>Settings</h1>
   <div class="row">
-    <div class="col-sm-12">
-      <h1>Change Password</h1>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">Change Password</div>
+        <div class="panel-body">
+          <form class="form" name="form" ng-submit="changePassword(form)" novalidate>
+            <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" name="password" class="form-control" ng-model="user.oldPassword" mongoose-error/>
+              <p class="help-block" ng-show="form.password.$error.mongoose">
+                  {{ errors.other }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label>New Password</label>
+
+              <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"
+                     ng-minlength="3"
+                     required/>
+              <p class="help-block" ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
+                Password must be at least 3 characters.
+              </p>
+            </div>
+
+            <p class="help-block"> {{ message }} </p>
+
+            <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="changePassword(form)" novalidate>
-
-        <div class="form-group">
-          <label>Current Password</label>
-
-          <input type="password" name="password" class="form-control" ng-model="user.oldPassword"
-                 mongoose-error/>
-          <p class="help-block" ng-show="form.password.$error.mongoose">
-              {{ errors.other }}
-          </p>
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">Add Time off</div>
+        <div class="panel-body">
+          <form class="form" name="form" ng-submit="addNewRequest(form)">
+            <div field ng-model="timeoff.detail" ng-field="{title:'Detail', type:'textarea', require: true}"></div>
+            <div field ng-model="timeoff.type" ng-field="{title:'Type', type:'select', require: true, show_options: 'Vacation,Sick,Day off'}"></div>
+            <div field ng-model="timeoff.from" ng-field="{title:'From', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
+            <div field ng-model="timeoff.to" ng-field="{title:'From', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
+            <div class="form-group">
+              <div class="col-sm-offset-4 col-sm-10">
+                <button type="submit" class="btn btn-default">Add new request</button>
+              </div>
+            </div>
+          </form>
         </div>
-
-        <div class="form-group">
-          <label>New Password</label>
-
-          <input type="password" name="newPassword" class="form-control" ng-model="user.newPassword"
-                 ng-minlength="3"
-                 required/>
-          <p class="help-block"
-             ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
-            Password must be at least 3 characters.
-          </p>
-        </div>
-
-        <p class="help-block"> {{ message }} </p>
-
-        <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
-      </form>
+      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>#</th>
+          <th>Detail</th>
+          <th>Type</th>
+          <th>Date From</th>
+          <th>Date To</th>
+        </tr>
+        <tr ng-repeat="timeoff in currentUser.timeoffs">
+            <td>{{$index + 1}}</td>
+            <td>{{timeoff.detail}}</td>
+            <td>{{timeoff.type}}</td>
+            <td>{{timeoff.from | date}}</td>
+            <td>{{timeoff.to | date}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

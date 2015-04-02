@@ -13,6 +13,16 @@ angular.module('theBossApp')
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupCtrl'
       })
+      .state('users', {
+        url: '/user',
+        templateUrl: 'app/account/user/user.html',
+        controller: 'UserCtrl'
+      })
+      .state('usersByRole', {
+        url: '/user/:role',
+        templateUrl: 'app/account/user/user.html',
+        controller: 'UserCtrl'
+      })
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
