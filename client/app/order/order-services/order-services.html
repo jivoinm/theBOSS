@@ -1,5 +1,21 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-2">
+      <div class="panel panel-default">
+          <div class="panel-heading">Filters</div>
+          <ul class="list-group">
+              <a href="/order/services/pending" class="list-group-item" sb-url-active>
+                  New, pending
+              </a>
+              <a href="/order/services/finished" class="list-group-item" sb-url-active>
+                  Completed
+              </a>
+              <a href="/order/services" class="list-group-item" sb-url-active>
+                  All
+              </a>
+          </ul>
+      </div>
+  </div>
+  <div class="col-md-10">
       <div class="panel panel-default">
           <div class="panel-heading">Order search</div>
           <div class="panel-body">
@@ -28,6 +44,8 @@
                        </div>
                      </accordion-group>
                     </accordion>
+                    <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+                     <pre>Page: {{currentPage}} / {{numPages}}</pre>
                   </div>
                 </div>
               </div>

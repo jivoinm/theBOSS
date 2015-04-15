@@ -7,6 +7,11 @@ angular.module('theBossApp')
                 method: 'GET',
                 isArray: false
             },
+            'services': {
+                url: '/api/orders/services',
+                isArray: false,
+                method: 'GET'
+            },
             'tasks': {
                 url: '/api/orders/todotasks',
                 method: 'GET'
@@ -31,6 +36,16 @@ angular.module('theBossApp')
             },
             'getOrders': {
                 url: '/api/orders/calendar/:from/:to/:status',
+                params: {
+                    status: '@status',
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: false,
+                method: 'GET'
+            },
+            'getOrderServices': {
+                url: '/api/orders/calendar/:from/:to/services/:status',
                 params: {
                     status: '@status',
                     from: '@from',

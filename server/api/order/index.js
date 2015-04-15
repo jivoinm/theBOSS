@@ -13,6 +13,7 @@ var router = express.Router();
 // router.delete('/:id', controller.destroy);
 
 router.get('/',auth.isAuthenticated(), controller.loadLatest);
+router.get('/services',auth.isAuthenticated(), controller.services);
 router.get('/unscheduled',auth.isAuthenticated(), controller.unscheduled);
 router.get('/todotasks',auth.isAuthenticated(),controller.toDoTasks);
 router.get('/shippingList',auth.isAuthenticated(),controller.shippingList);
@@ -28,5 +29,6 @@ router.patch('/:id/status/:status',auth.isAuthenticated(), controller.updateStat
 router.patch('/:id/calendar_update_date/:property/:date',auth.isAuthenticated(), controller.updateCalendarDate);
 router.get('/calendar/:from/:to',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
 router.get('/calendar/:from/:to/:status',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
+router.get('/calendar/:from/:to/services/:status',auth.isAuthenticated(),controller.loadServicesByStatusAndPeriod);
 
 module.exports = router;

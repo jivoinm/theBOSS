@@ -6,23 +6,23 @@
               <div class="panel panel-default">
                   <div class="panel-body">
                       <ul class="list-group">
-                          <li class="list-group-item">
+                          <li class="list-group-item list-group-item-info">
                               <span class="pull-right"><order-status></order-status></span>
                               Status:
                           </li>
-                          <li class="list-group-item">
+                          <li class="list-group-item list-group-item-info">
                               <span class="pull-right">{{ order.createdBy.name }} on {{ order.created_on | date }}</span>
                               Created by:
                           </li>
-                          <li class="list-group-item">
+                          <li class="list-group-item list-group-item-info">
                               <span class="pull-right">{{ order.last_updated_by.name }} on {{ order.last_updated_on | date }}</span>
                               Last updated by:
                           </li>
-                          <li class="list-group-item">
+                          <li class="list-group-item list-group-item-info">
                               <span class="pull-right">{{ order.date_required  | date }}</span>
                               Required Date
                           </li>
-                          <li class="list-group-item" ng-if="order._id">
+                          <li class="list-group-item list-group-item-info" ng-if="order._id">
                                <div class="row">
                                   <div class="col-md-4">
                                       Installation Date
@@ -37,11 +37,11 @@
                                   </div>
                               </div>
                           </li>
-                          <li ng-if="order.installation_by.name" class="list-group-item">
+                          <li ng-if="order.installation_by.name" class="list-group-item list-group-item-info">
                               <span class="pull-right">{{ order.installation_by.name }}</span>
-                              Installed By
+                              <strong>Installed By</strong>
                           </li>
-                          <li class="list-group-item" ng-if="order._id">
+                          <li class="list-group-item list-group-item-info" ng-if="order._id">
                             <div field ng-model="order.installation_by" ng-field="{title:'Installed&nbsp;by', type:'user'}"></div>
                           </li>
                       </ul>

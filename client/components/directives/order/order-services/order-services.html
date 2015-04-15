@@ -16,14 +16,19 @@
             <p class="list-group-item-text">{{ order.installation_date | date }}  </p>
         </div>
         </div>
-        <div class="list-group-item" ng-class="{'list-group-item-success': service.completed, 'list-group-item-warning': !service.completed}" ng-repeat="service in order.services">
+        <div class="list-group-item" ng-class="{'list-group-item-success': service.completed, 'list-group-item-warning': !service.completed && service.approved,'list-group-item-danger': !service.completed && !service.approved }" ng-repeat="service in order.services">
+          <span class="label label-default pull-right" ng-if="!service.approved && !service.completed">New, needs approval</span>
+          <span class="label label-warning pull-right" ng-if="service.approved && !service.completed">Not completed</span>
+          <span class="label label-success pull-right" ng-if="service.approved && service.completed">Completed</span>
         <div class="checkbox">
   		    <label>
-  		      <input type="checkbox" ng-disabled="service.completed" ng-model="service.completed" ng-change="completed(order, service)" restricted-access>
+  		      <input type="checkbox" ng-disabled="service.completed" ng-model="service.completed" ng-change="completed(order, service)" restricted-access ng-if="service.approved">
+  		      <input type="checkbox" ng-disabled="service.completed" ng-model="service.approved" ng-change="completed(order, service)" restricted-access ng-if="!service.approved">
   		      	<div>
   			      	<h4 class="list-group-item-heading">{{service.title}} - {{ service.date | date }} <a ng-href="/order/detail/{{order._id}}/print/{{service.title | encodeUrl }}"><span class="glyphicon glyphicon-print"></span></a></h4>
   				  	<p class="list-group-item-text">{{ service.details }}</p>
   			  	</div>
+
   		    </label>
 		    </div>
         </div>

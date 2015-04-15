@@ -203,6 +203,51 @@ exports.loadLatest = function (req, res) {
   }
 };
 
+exports.services = function (req, res) {
+  if (req.user) {
+      var queryOrders = {
+          owner: req.user.owner
+      };
+
+      var page, limit;
+      if(req.query){
+          if(req.query.text){
+              var queryText = new RegExp(req.query.text,"i");
+              queryOrders.$or = [{"customer.name": queryText},
+              {"forms.fields": {$elemMatch: {"value": queryText}}},
+              {po_number: queryText},
+              {'createdBy.name': queryText},
+              ];
+          }
+          if(req.query.status){
+              queryOrders.services = {
+                $elemMatch: {
+                  completed: req.query.status === 'finished'
+                }
+              };
+          }else{
+            if(req.query.approved){
+              queryOrders.services = {
+                $elemMatch: {
+                  approved: req.query.approved
+                }
+              };
+            }else{
+              queryOrders.services = {
+                $exists: true
+              };
+              queryOrders.$where = 'this.services.length > 0';
+            }
+          }
+
+          page = req.query.page;
+          limit = req.query.limit;
+      }
+
+      new QueryOrders(queryOrders, {po_number: 1, customer: 1,services: 1}, page,limit, res);
+  }
+};
+
 exports.loadOrdersByStatusAndPeriod = function (req, res){
   var queryOrders = {
       owner: req.user.owner,
@@ -226,6 +271,47 @@ exports.loadOrdersByStatusAndPeriod = function (req, res){
               ];
   }
   new QueryOrders(queryOrders, {date_required:1},null,null,res);
+};
+
+exports.loadServicesByStatusAndPeriod = function (req, res){
+  var queryOrders = {
+      owner: req.user.owner,
+      $and: [
+        { services: { $elemMatch: { date: {"$gte": moment(req.params.from), "$lt": moment(req.params.to)}}} }
+    ]
+  };
+
+  if(req.query.status){
+    queryOrders.$and.push({
+      services: {
+        $elemMatch: {
+          completed: req.query.status === 'finished'
+        }
+      }
+    });
+
+  }else{
+    if(req.query.approved){
+      queryOrders.$and.push({
+        services: {
+          $elemMatch: {
+            approved: req.query.approved
+          }
+        }
+      });
+    }else{
+      queryOrders.$and.push({
+        services: {
+          $exists: true
+        }
+      });
+
+      queryOrders.$where = 'this.services.length > 0';
+    }
+  }
+ console.log('loadServicesByStatusAndPeriod', queryOrders);
+
+  new QueryOrders(queryOrders, {po_number: 1, customer: 1,services: 1}, null, null, res);
 };
 
 exports.unscheduled = function (req, res) {

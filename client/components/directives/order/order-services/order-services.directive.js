@@ -17,7 +17,6 @@ angular.module('theBossApp')
             {title:'Done By', type:'user', require: false}
         ];
         scope.completed = function (order, service){
-            service.completed = true;
             if(!order.$save){
               order = new OrderService(order);
             }

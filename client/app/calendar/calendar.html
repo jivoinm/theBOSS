@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
       <div class="col-md-10">
-          <order-calendar order-status="orderStatus"></order-calendar>
+          <order-calendar></order-calendar>
       </div>
       <div class="col-md-2">
       	<div class="panel panel-default">
@@ -34,6 +34,25 @@
               </form>
             </div>
   		</div>
+      	<div class="panel panel-danger">
+    		  <div class="panel-heading">Services</div>
+    		  <div class="panel-body">
+    		     <ul class="list-group">
+                    <a href="/calendar/services/new" class="list-group-item list-group-item-warning" sb-url-active>
+                        New, pending approval
+                    </a>
+                    <a href="/calendar/services/approved" class="list-group-item list-group-item-default" sb-url-active>
+                        Approved
+                    </a>
+                    <a href="/calendar/services/completed" class="list-group-item list-group-item-success" sb-url-active>
+                        Completed
+                    </a>
+                    <a href="/calendar/services" class="list-group-item" sb-url-active>
+                        All
+                    </a>
+                </ul>
+    		  </div>
+        </div>
   		<div class="panel panel-default">
   		  <div class="panel-heading">Legend</div>
   		  <div class="panel-body">

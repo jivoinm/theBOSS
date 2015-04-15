@@ -67,7 +67,8 @@ var OrderSchema = new Schema({
             name: String,
             email: String
         },
-        completed: {type: Boolean, default: false}
+        completed: {type: Boolean, default: false},
+        approved: {type: Boolean, default: false}
     }],
 
     uploaded_files: {type: Array, default: []}

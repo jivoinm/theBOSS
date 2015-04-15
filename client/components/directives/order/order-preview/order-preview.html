@@ -43,21 +43,8 @@
     		</tbody>
     	</table>
       <tabset>
-  	    <tab>
-  			<tab-heading>Forms</tab-heading>
-      	  	  <forms module="Order" list-of-forms="order.forms"></forms>
-  	    </tab>
-        <tab>
-  	    	<tab-heading>Services</tab-heading>
-  	    	<order-services></order-services>
-  	    </tab>
-  	    <tab>
-  	    	<tab-heading>Accessories</tab-heading>
-  	    	 <order-accessories></order-accessories>
-  	    </tab>
-  	    <tab>
-  	    	<tab-heading>Files</tab-heading>
-  	    	<file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
+  	    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+          <div ng-include="tab.template"></div>
   	    </tab>
     </tabset>
     <work-log></work-log>

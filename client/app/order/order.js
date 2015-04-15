@@ -26,8 +26,28 @@ angular.module('theBossApp')
         controller: 'OrderServicesCtrl',
         authenticate: true
       })
+      .state('order.services-status', {
+        url: '/services/:status',
+        templateUrl: 'app/order/order-services/order-services.html',
+        controller: 'OrderServicesCtrl',
+        authenticate: true
+      })
+      .state('order.new', {
+        url: '/detail',
+        templateUrl: 'app/order/order-detail/order-detail.html',
+        resolve: {
+                // A string value resolves to a service
+                OrderService: 'OrderService',
+                order: function(OrderService, $stateParams){
+                  if(!$stateParams.id) return new OrderService({});
+                  return new OrderService();
+                }
+            },
+        controller: 'OrderDetailCtrl',
+        authenticate: true
+      })
       .state('order.detail', {
-        url: '/detail/:id',
+        url: '/detail/:id/:tab',
         templateUrl: 'app/order/order-detail/order-detail.html',
         resolve: {
 

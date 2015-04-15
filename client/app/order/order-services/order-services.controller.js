@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('OrderServicesCtrl', function ($scope, OrderService) {
+  .controller('OrderServicesCtrl', function ($scope, OrderService, $stateParams) {
     $scope.getOrderName = function(order){
         var name = '';
         if(order && order._id){
@@ -10,10 +10,16 @@ angular.module('theBossApp')
         return name;
     };
 
+    if($stateParams.status){
+        $scope.serviceStatus = $stateParams.status;
+    }else{
+      $scope.serviceStatus = null;
+    }
+
     $scope.loadOrders = function (){
         var query = {};
-        if($scope.orderStatus){
-            query.status = $scope.orderStatus;
+        if($scope.serviceStatus){
+            query.status = $scope.serviceStatus;
         }
 
         if($scope.queryText){
@@ -23,10 +29,19 @@ angular.module('theBossApp')
         query.limit = $scope.maxSize = 10;
         query.page = $scope.currentPage;
 
-        OrderService.query(query).$promise.then (function (orders) {
+        OrderService.services(query).$promise.then (function (orders) {
             $scope.orders = orders.orders;
             $scope.currentPage = orders.page;
             $scope.totalOrders = orders.totalOrders;
         });
     };
+
+    $scope.loadOrders();
+    $scope.$watch('currentPage', function (page1, page2) {
+      if(page1 != page2)
+      {
+        $scope.loadOrders();
+        console.log('currentPage changed',page1,page2);
+      }
+    });
   });

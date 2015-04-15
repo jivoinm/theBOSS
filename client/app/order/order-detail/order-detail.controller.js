@@ -5,6 +5,7 @@ angular.module('theBossApp')
     $timeout, order, timeOff, $filter) {
 
         $scope.actives = {};
+
         $scope.getOrderName = function(){
             var name = 'New Order';
             if($scope.order &&  $scope.order._id){
@@ -23,6 +24,15 @@ angular.module('theBossApp')
         if($scope.order && $scope.order._id){
             $scope.preview = true;
         }
+
+
+        $scope.isActiveTab = function(tab){
+          return $scope.selectedTab === tab;
+        };
+
+        $scope.selectTab = function(tab){
+          $scope.selectedTab = tab;
+        };
 
         $scope.isNewOrder = function(){
           return !$scope.order._id;
