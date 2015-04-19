@@ -42,7 +42,7 @@
             <div field ng-model="timeoff.detail" ng-field="{title:'Detail', type:'textarea', require: true}"></div>
             <div field ng-model="timeoff.type" ng-field="{title:'Type', type:'select', require: true, show_options: 'Vacation,Sick,Day off,Statutory holiday'}"></div>
             <div field ng-model="timeoff.from" ng-field="{title:'From', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
-            <div field ng-model="timeoff.to" ng-field="{title:'From', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
+            <div field ng-model="timeoff.to" ng-field="{title:'To', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
             <div class="form-group">
               <div class="col-sm-offset-4 col-sm-10">
                 <button type="submit" class="btn btn-success">Add</button>
@@ -59,15 +59,21 @@
           <th>Date From</th>
           <th>Date To</th>
           <th>Created By</th>
+          <th restricted-access>Approved</th>
           <th></th>
         </tr>
-        <tr ng-repeat="timeoff in timeoffs">
+        <tr ng-repeat="timeoff in timeoffs" ng-class="{'success': timeoff.approved}">
             <td>{{$index + 1}}</td>
             <td>{{timeoff.detail}}</td>
             <td>{{timeoff.type}}</td>
             <td>{{timeoff.from | date}}</td>
             <td>{{timeoff.to | date}}</td>
             <td>{{timeoff.createdBy.name}}</td>
+            <td restricted-access>
+              <label>
+                <input type="checkbox" ng-model="timeoff.approved" ng-click="approveToggle($index,timeoff)" >
+              </label>
+            </td>
             <td><button class="btn btn-danger btn-xs" ng-click="delete($index,timeoff)">
                 <span class="glyphicon glyphicon-trash"></span>
                 </button>

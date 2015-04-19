@@ -11,13 +11,13 @@ angular.module('theBossApp')
       })
       .state('calendar.status', {
         url: '/:status',
-        templateUrl: 'app/calendar/calendar.html',
+        templateUrl: 'app/calendar/calendar-status.html',
         controller: 'CalendarCtrl',
         authenticate: true
       })
-      .state('calendar.service-status', {
-        url: '/services/:status',
-        templateUrl: 'app/calendar/calendar.html',
+      .state('calendar.services', {
+        url: '/service/:approved/:completed',
+        templateUrl: 'app/calendar/calendar-services.html',
         controller: 'CalendarCtrl',
         authenticate: true
       });

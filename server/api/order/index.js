@@ -28,7 +28,8 @@ router.delete('/:id',auth.isAuthenticated(), controller.delete);
 router.patch('/:id/status/:status',auth.isAuthenticated(), controller.updateStatus);
 router.patch('/:id/calendar_update_date/:property/:date',auth.isAuthenticated(), controller.updateCalendarDate);
 router.get('/calendar/:from/:to',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
-router.get('/calendar/:from/:to/:status',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
-router.get('/calendar/:from/:to/services/:status',auth.isAuthenticated(),controller.loadServicesByStatusAndPeriod);
-
+router.get('/calendar/:from/:to/orders',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
+router.get('/calendar/:from/:to/orders/:status',auth.isAuthenticated(),controller.loadOrdersByStatusAndPeriod);
+router.get('/calendar/:from/:to/services',auth.isAuthenticated(),controller.loadServicesByStatusAndPeriod);
+router.get('/calendar/:from/:to/services/:approved/:completed',auth.isAuthenticated(),controller.loadServicesByStatusAndPeriod);
 module.exports = router;

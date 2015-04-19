@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('SettingsCtrl', function ($scope, timeOff, Auth, ModalService) {
+  .controller('SettingsCtrl', function ($scope, timeOff, Auth, ModalService, toaster) {
     $scope.errors = {};
 
     $scope.changePassword = function(form) {
@@ -36,6 +36,14 @@ angular.module('theBossApp')
           }
        })();
     };
+
+    $scope.approveToggle = function(index, timeoff){
+      if(timeoff){
+        timeoff.$save(function(savedtimeoff){
+          toaster.pop('success', 'Success', 'Time off was '+(timeoff.approved ? 'approved': 'declined'));
+        });
+      }
+    }
 
     $scope.addNewRequest = function(form){
       $scope.submitted = true;

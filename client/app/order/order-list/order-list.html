@@ -7,16 +7,16 @@
               <a class="btn btn-primary btn-lg" ui-sref="order.new">New Order</a>
           </div>
           <ul class="list-group">
-              <a href="/order/list/new" class="list-group-item" sb-url-active>
+              <a href="/order/list/new" class="list-group-item" active-url>
                   New, pending approval
               </a>
-              <a href="/order/list/approved" class="list-group-item" sb-url-active>
+              <a href="/order/list/approved" class="list-group-item" active-url>
                   Approved
               </a>
-              <a href="/order/list/finished" class="list-group-item" sb-url-active>
+              <a href="/order/list/finished" class="list-group-item" active-url>
                   Completed
               </a>
-              <a href="/order/list" class="list-group-item" sb-url-active>
+              <a href="/order/list" class="list-group-item" active-url>
                   All
               </a>
           </ul>
@@ -57,8 +57,8 @@
                               </thead>
                               <tbody>
                                   <tr ng-repeat="order in orders">
-                                      <td><a href="/order/detail/{{ order._id }}">{{ order.po_number }}</a></td>
-                                      <td><a href="/order/detail/{{ order._id }}">{{ order.customer.name }}</a></td>
+                                      <td><a href="/order/detail/{{ order._id }}/" tooltip="asdasd">{{ order.po_number }}</a></td>
+                                      <td><a href="/order/detail/{{ order._id }}/">{{ order.customer.name }}</a></td>
                                       <td>
                                       {{ order.date_required | date }}
                                        <span class="label label-default" ng-show="order.installation_date"><br>{{ order.installation_date | date }}</span>

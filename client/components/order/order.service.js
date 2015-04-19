@@ -35,23 +35,24 @@ angular.module('theBossApp')
                 isArray: true
             },
             'getOrders': {
-                url: '/api/orders/calendar/:from/:to/:status',
+                url: '/api/orders/calendar/:from/:to/orders/:status',
                 params: {
                     status: '@status',
                     from: '@from',
                     to: '@to'
                 },
-                isArray: false,
+                isArray: true,
                 method: 'GET'
             },
             'getOrderServices': {
-                url: '/api/orders/calendar/:from/:to/services/:status',
+                url: '/api/orders/calendar/:from/:to/services/:approved/:completed',
                 params: {
-                    status: '@status',
+                    approved: '@approved',
+                    completed: '@completed',
                     from: '@from',
                     to: '@to'
                 },
-                isArray: false,
+                isArray: true,
                 method: 'GET'
             },
             'setStatus': {

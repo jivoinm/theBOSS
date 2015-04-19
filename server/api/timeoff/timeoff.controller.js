@@ -14,6 +14,35 @@ exports.index = function(req, res) {
       $gte: req.query.date
     };
   }
+
+  if(req.query.approved){
+    query.approved = req.query.approved;
+  }
+
+  if(req.user.role !== "admin"){
+    query['createdBy.user_id'] = req.user._id;
+  }
+
+  Timeoff.find(query, function (err, timeoffs) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, timeoffs);
+  });
+};
+
+//check if something on the selected date
+exports.checkDate = function(req, res) {
+  var query = {};
+  if(req.query.date){
+    query.from = {
+      $lte: req.query.date
+    };
+    query.to = {
+      $gte: req.query.date
+    };
+  }
+
+  query.approved = true;
+
   Timeoff.find(query, function (err, timeoffs) {
     if(err) { return handleError(res, err); }
     return res.json(200, timeoffs);

@@ -155,13 +155,13 @@ angular.module('theBossApp')
 
         $scope.$watch('order.date_required', function(newValue, oldValue) {
           if (newValue !== oldValue && newValue && !$scope.order._id) {
-            timeOff.query({date:newValue}).$promise.then(function(data){
+            timeOff.check({date:newValue}).$promise.then(function(data){
               if(data.length > 0){
                 var timeOffMessage = 'There are time offs for this period:<br>';
                 angular.forEach(data, function(item){
                   var fromDate = $filter('date')(item.from);
                   var toDate = $filter('date')(item.to);
-                  timeOffMessage += item.detail + ' - '+ item.type + ' - '+ fromDate + ' - ' + toDate +'<br>';
+                  timeOffMessage += (item.type === 'Statutory holiday' ? item.detail : item.createdBy.name) + ' - '+ item.type + ' - '+ fromDate + ' - ' + toDate +'<br>';
                 });
                 timeOffMessage += '<strong>Continue?</strong>'
                 ModalService.confirm.question(timeOffMessage, function(confirmed){

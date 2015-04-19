@@ -59,6 +59,15 @@ angular.module('theBossApp')
                                     this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
                                             order.shipped_date, $scope.getLabelColor('shipped'), 'Order'));
                                 }
+
+                                if(order.services && order.services.length > 0){
+                                    angular.forEach(order.services, function(service,i){
+                                      allEvents.push($scope.createEvent('services['+i+'].date', service, order._id, '['+ order.po_number + '] '+ order.customer.name,
+                                            service.date,$scope.getLabelColor('service'), 'Service'));
+
+                                    });
+                                }
+
                             }catch(ex){
                                 console.log('error loading this order',order,ex);
                             }
@@ -72,13 +81,13 @@ angular.module('theBossApp')
                     });
             };
 
-
             $scope.LoadServices = function (start, end, callback) {
                 var query = {};
                 if($location.search()){
                     query = $location.search();
                 }
-                query.status = $stateParams.status;
+                query.approved = $stateParams.serviceApproved;
+                query.completed = $stateParams.serviceCompleted;
                 query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
                 query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
                 var allEvents = [];
@@ -109,6 +118,7 @@ angular.module('theBossApp')
                 calendarOrder.className = className;
                 calendarOrder.update_date = updateDate;
                 calendarOrder.item = item;
+                calendarOrder.allDay = true;
                 return calendarOrder;
             };
 
@@ -132,12 +142,12 @@ angular.module('theBossApp')
 
             /* Render Tooltip */
             $scope.eventRender = function( event, element, view ) {
-                element.attr({'tooltip': event.title, 'tooltip-append-to-body': true});
-                if(event.className === 'Service'){
-                  var label = event.completed ? 'success' : (event.approved ? 'dark' : 'warning');
-                  element.append('<span class="label label-'+ label +'">'+ event.title +'</span>');
+                //element.attr({'tooltip': event.title, 'tooltip-append-to-body': true});
+                if(event.className == "Service"){
+                  var label = event.item.completed ? 'success' : (event.item.approved ? 'default' : 'warning');
+                  element.append('<span class="label label-'+ label +'">'+ event.item.title +'</span>');
                 }
-                $compile(element)($scope);
+                //$compile(element)($scope);
             };
 
             /* config object */
@@ -171,7 +181,11 @@ angular.module('theBossApp')
                 OrderService.setdate_required(calendar);
             }
 
-            $scope.eventSources = [$scope.LoadOrders, $scope.LoadServices];
+            $scope.eventSources = [$scope.LoadOrders];
+            $scope.$on('$locationChangeSuccess', function(next, current) {
+              console.log(next, current);
+              $scope.myCalendar.fullCalendar('refetchEvents');
+            });
         }
     };
   });

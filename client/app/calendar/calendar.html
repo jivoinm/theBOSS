@@ -1,27 +1,30 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
+
   <div class="row">
       <div class="col-md-10">
-          <order-calendar></order-calendar>
+        <div ui-view>
+          <div ui-calendar="uiConfig.calendar" calendar="myCalendar" ng-model="eventSources"></div>
+        </div>
       </div>
       <div class="col-md-2">
       	<div class="panel panel-default">
   		  <div class="panel-heading">Filter</div>
   		  <div class="panel-body">
   		     <ul class="list-group">
-                  <a href="/calendar/new" class="list-group-item" sb-url-active>
-                      New, pending approval
-                  </a>
-                  <a href="/calendar/approved" class="list-group-item" sb-url-active>
-                      Approved
-                  </a>
-                  <a href="/calendar/finished" class="list-group-item" sb-url-active>
-                      Completed
-                  </a>
-                  <a href="/calendar" class="list-group-item" sb-url-active>
-                      All
-                  </a>
-              </ul>
+              <a ng-href="/calendar/new" class="list-group-item" active-url>
+                  New, pending approval
+              </a>
+              <a href="/calendar/approved" class="list-group-item" active-url>
+                  Approved
+              </a>
+              <a href="/calendar/finished" class="list-group-item" active-url>
+                  Completed
+              </a>
+              <a href="/calendar" class="list-group-item" active-url>
+                  All
+              </a>
+            </ul>
   		  </div>
             <div class="panel-footer">
                <form ng-submit="loadOrders()">
@@ -38,16 +41,16 @@
     		  <div class="panel-heading">Services</div>
     		  <div class="panel-body">
     		     <ul class="list-group">
-                    <a href="/calendar/services/new" class="list-group-item list-group-item-warning" sb-url-active>
+                    <a href="/calendar/service/false/false" class="list-group-item" active-url>
                         New, pending approval
                     </a>
-                    <a href="/calendar/services/approved" class="list-group-item list-group-item-default" sb-url-active>
+                    <a href="/calendar/service/true/false" class="list-group-item" active-url>
                         Approved
                     </a>
-                    <a href="/calendar/services/completed" class="list-group-item list-group-item-success" sb-url-active>
+                    <a href="/calendar/service/true/true" class="list-group-item" active-url>
                         Completed
                     </a>
-                    <a href="/calendar/services" class="list-group-item" sb-url-active>
+                    <a href="/calendar/service" class="list-group-item" active-url>
                         All
                     </a>
                 </ul>
