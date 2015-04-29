@@ -62,7 +62,7 @@ angular.module('theBossApp')
             };
 
             scope.addNewField = function(form){
-                ModalService.modalFormDialog('Add new field',
+                ModalService.show.modalFormDialog('Add new field',
                     scope.listFieldsToEdit, function(model){
                         if(model){
                             if(form && form.$save){
@@ -75,7 +75,7 @@ angular.module('theBossApp')
                             }
                             model = null;
                         }
-                    })
+                    })();
 
             };
 
@@ -83,6 +83,17 @@ angular.module('theBossApp')
                 scope.selectedItem = item;
                 scope.itemSelect(item);
             };
+        },
+        compile: function(elem, attrs, transcludeFn) {
+          return function postLink(scope, element, attrs, controller) {
+            
+            //attach current scope instead of the parent scope
+            element.append(transcludeFn(scope.$new()));
+            
+            //angular does something to this effect:
+            //var newScope = scope.$parent.$new();
+            //element.append(transcludeFn(newScope);
+          }
         }
     };
   });

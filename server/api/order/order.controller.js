@@ -243,7 +243,6 @@ exports.services = function (req, res) {
           page = req.query.page;
           limit = req.query.limit;
       }
-      console.log('services', util.inspect(queryOrders, false, null));
       new QueryOrders(queryOrders, {po_number: 1, customer: 1,services: 1}, page,limit, res);
   }
 };

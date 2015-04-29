@@ -29,7 +29,8 @@
 <div class="row">
   <div class="col-xs-12">
     <p>Address: {{order.customer.ship_to}}</p>
-    <p>Phone: {{order.customer.phone}}  Cell: {{order.customer.cell}}</p>
+    <p ng-if="order.customer.phone">Contact Number: {{order.customer.phone}}</p>
+    <p ng-if="order.customer.cell">Secondary Number: {{order.customer.cell}}</p>
   </div>
 </div>
 
@@ -40,10 +41,10 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    Arrival Time: ______________________
+    Arrival Time: ___________________
   </div>
   <div class="col-xs-6">
-    Time of Completition: ______________________
+    Time of Completition: ___________________
   </div>
 </div>
 <div class="row">
@@ -53,10 +54,10 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    Arrival Time: ______________________
+    Arrival Time: ___________________
   </div>
   <div class="col-xs-6">
-    Time of Completition: ______________________
+    Time of Completition: ___________________
   </div>
 </div>
 <div class="row">
@@ -66,51 +67,35 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    Arrival Time: ______________________
+    Arrival Time: ___________________
   </div>
   <div class="col-xs-6">
-    Time of Completition: ______________________
+    Time of Completition: ___________________
   </div>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 <br/>
 <br/>
 <div class="row">
-  <div class="col-xs-12"><strong>Other notes:</strong></div>
+  <div class="col-xs-12"><strong>Details:</strong></div>
+  <div class="col-xs-12 filldetails">{{details}}</div>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+
 <div class="row">
   <div class="col-xs-12">Please sign in agreement of completition or deficiency list above:</div>
 </div>
 <div class="row">
   <div class="col-xs-3">
-  <strong>Installer: {{order.installation_by.name}}</strong>
+  <strong ng-if="done_by">Installer: {{done_by.name}}</strong>
+  <strong ng-if="!done_by">Installer: ___________________</strong>
   </div>
   <div class="col-xs-3">
-  <strong>Date: _______________________</strong>
+  <strong>Date: ____________________</strong>
   </div>
   <div class="col-xs-3">
-  <strong>Customer: _______________________</strong>
+  <strong>Customer: ____________________</strong>
   </div>
   <div class="col-xs-3">
-  <strong>Date: _______________________</strong>
+  <strong>Date: ____________________</strong>
   </div>
 </div>
 <br/>

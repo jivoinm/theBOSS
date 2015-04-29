@@ -130,7 +130,7 @@ angular.module('theBossApp')
                        };
                     }
 
-                    fieldTemplate = ' <input type="text" ng-model="user" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
+                    fieldTemplate = ' <input type="text" ng-model="model" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
 

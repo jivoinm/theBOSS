@@ -26,6 +26,7 @@
   		      <input type="checkbox" ng-disabled="service.completed" ng-model="service.approved" ng-change="completed(order, service)" restricted-access ng-if="!service.approved">
   		      	<div>
   			      	<h4 class="list-group-item-heading">{{service.title}} - {{ service.date | date }} <a ng-href="/order/detail/{{order._id}}/print/{{$index}}"><span class="glyphicon glyphicon-print"></span></a></h4>
+                <h6>Done by {{service.done_by.name}}</h6>
   				  	<p class="list-group-item-text">{{ service.details }}</p>
   			  	</div>
 
