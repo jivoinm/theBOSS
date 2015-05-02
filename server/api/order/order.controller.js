@@ -251,12 +251,13 @@ exports.loadOrdersByStatusAndPeriod = function (req, res){
   var queryOrders = {
       owner: req.user.owner,
   };
+  queryOrders.$or = [];
+  queryOrders.$or.push({ date_required: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
+  queryOrders.$or.push({ installation_date: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
+  queryOrders.$or.push({ shipped_date: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
 
   if(req.params.status){
-    queryOrders.$or = [];
-    queryOrders.$or.push({ date_required: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
-    queryOrders.$or.push({ installation_date: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
-    queryOrders.$or.push({ shipped_date: {"$gte": moment(req.params.from).format(), "$lt": moment(req.params.to).format()} });
+
     queryOrders.status = new RegExp(req.params.status,"i");
   } else {
     if(req.params.approved !=null && req.params.completed !=null){
@@ -309,14 +310,11 @@ exports.loadServicesByStatusAndPeriod = function (req, res){
     serviceQuery = { $elemMatch: { approved: req.params.approved, completed: req.params.completed } };
    }
 
-  console.log('loadServicesByStatusAndPeriod', queryOrders);
-
  Order.find(queryOrders, {po_number: 1, customer: 1, services: serviceQuery},
    function (err, orders){
      if (err) res.json(400, err);
      return res.json(orders);
  });
-  //new QueryOrders(queryOrders, {po_number: 1, customer: 1, services: { $elemMatch: { approved: req.query.approved, completed: req.query.completed } }}, null, null, res);
 };
 
 exports.unscheduled = function (req, res) {

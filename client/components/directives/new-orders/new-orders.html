@@ -21,7 +21,7 @@
    <div collapse="!isCollapsed">
 
        <div class="list-group">
-         <a ng-href="/order/detail/{{order._id}}" class="list-group-item" ng-repeat="order in orders">
+         <a ng-href="/order/detail/{{order._id}}/" class="list-group-item" ng-repeat="order in orders">
              #{{order.po_number}} For: {{order.customer.name}} - Required By {{order.date_required | date}}
          </a>
        </div>

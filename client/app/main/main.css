@@ -28,3 +28,12 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+.input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    width: 80px;
+}

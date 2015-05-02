@@ -6,12 +6,12 @@ var Timeoff = require('./timeoff.model');
 // Get list of timeoffs
 exports.index = function(req, res) {
   var query = {};
-  if(req.query.date){
+  if(req.query.dateFrom && req.query.dateTo){
     query.from = {
-      $lte: req.query.date
+      $gte: req.query.dateFrom
     };
     query.to = {
-      $gte: req.query.date
+      $lte: req.query.dateTo
     };
   }
 

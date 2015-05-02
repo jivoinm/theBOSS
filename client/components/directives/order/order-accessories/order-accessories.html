@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Accessories
+	  <div class="pull-right">
+	    <div class="btn-group">
+	        <button type="button" class="btn btn-default btn-xs" id="add" ng-click="addNewAccessory(order)">
+	            Add new accesory
+	        </button>
+	    </div>
+	 </div>
+ </div>
+  <div class="panel-body">
+    <div class="list-group">
+        <div class="list-group-item"
+        ng-class=""
+        ng-repeat="accesory in order.ordered_accessories">
+        <span class="label pull-right" ng-class="{'list-group-item-success': accesory.received, 'list-group-item-warning': !accesory.received,'list-group-item-danger': !accesory.received }">
+          Received {{accesory.items_received || 0}} / {{accesory.quantity}}</span>
+        <div class="checkbox">
+  		    <label>
+  		      	<div>
+  			      	<h4 class="list-group-item-heading">{{accesory.from_manufacturer}}</h4>
+                <h6>Date Received: {{accesory.date_received | date}}</h6>
+  				  	<p class="list-group-item-text">{{ accesory.description }}</p>
+  			  	</div>
+
+  		    </label>
+		    </div>
+        </div>
+    </div>
+  </div>
+</div>

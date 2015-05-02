@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService, moment, theBossSettings, roles, $location, $stateParams, Auth, $compile) {
+  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService, moment, theBossSettings, roles, $location, $stateParams, Auth, $compile, $timeout, timeOff) {
       $scope.$parent.pageHeader = 'Calendar';
       $scope.queryText = '';
 
@@ -20,13 +20,13 @@ angular.module('theBossApp')
           if(status.toLowerCase() === 'approved'){
              return '#777';
           }else if(status.toLowerCase() === 'finished'){
-              return '#257e4a';
+              return '#B4AA5B';
           }else if(status.toLowerCase() === 'in progress'){
               return '#337ab7';
           }else if(status.toLowerCase() === 'installation'){
               return '#000000';
           }else if(status.toLowerCase() === 'shipped'){
-              return '#B4AA5B';
+              return '#5cb85c';
           }else if(status.toLowerCase() === 'blocked' ||status.toLowerCase() === 'service'){
               return '#d9534f';
           }else {
@@ -39,10 +39,15 @@ angular.module('theBossApp')
           if($location.search()){
               query = $location.search();
           }
+          var allEvents = [];
+          if($stateParams.approved || $stateParams.completed){
+            callback(allEvents);
+            return;
+          }
           query.status = $stateParams.status;
           query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
           query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
-          var allEvents = [];
+
           OrderService.getOrders(query).$promise.
               then(function (orders){
                   //set order to calendar
@@ -80,18 +85,23 @@ angular.module('theBossApp')
           if($location.search()){
               query = $location.search();
           }
+          var allEvents = [];
+          if((!$stateParams.status && !$stateParams.approved) || ($stateParams.status != 'service' && !$stateParams.approved)){
+            callback(allEvents);
+            return;
+          }
           query.approved = $stateParams.approved;
           query.completed = $stateParams.completed;
           query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
           query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
-          var allEvents = [];
 
           OrderService.getOrderServices(query).$promise
           .then(function (orders){
             angular.forEach(orders, function (order){
               if(order.services && order.services.length > 0){
                   angular.forEach(order.services, function(service,i){
-                    allEvents.push($scope.createEvent('services['+i+'].date', service, order._id, '['+ order.po_number + '] '+ order.customer.name,
+                    var label = service.completed ? '[completed]' : (service.approved ? '[approved]' : '[new]');
+                    allEvents.push($scope.createEvent('services.'+i+'.date', service, order._id, 'Service '+label+'-['+ order.po_number + '] '+ order.customer.name,
                           service.date,$scope.getLabelColor('service'), 'Service'));
 
                   });
@@ -100,6 +110,34 @@ angular.module('theBossApp')
             callback(allEvents);
           });
 
+      };
+
+      $scope.LoadTimeOffs = function (start, end, callback){
+        var query = {
+          dateFrom: start,
+          dateTo: end,
+          approved: true
+        };
+        var allEvents = [];
+        timeOff.query(query).$promise.then(function (timeoffs){
+          angular.forEach(timeoffs, function (timeoff){
+            allEvents.push($scope.createEventOff((timeoff.createdBy.name + ' - '+ timeoff.type), timeoff.from, timeoff.to));
+
+          });
+          callback(allEvents);
+        });
+      }
+
+      $scope.createEventOff = function(title, start, end){
+          var calendarOrder = {
+            title: title,
+            start: start,
+            end: end,
+            color: '#CABDBF',
+            allDay: true,
+            editable:false
+          }
+          return calendarOrder;
       };
 
       $scope.createEvent = function(updateDate, item, orderId, title, start, labelColor, className){
@@ -134,15 +172,6 @@ angular.module('theBossApp')
           updateCalendarEvent(event);
       };
 
-      /* Render Tooltip */
-      $scope.eventRender = function( event, element, view ) {
-          //element.attr({'tooltip': event.title, 'tooltip-append-to-body': true});
-          if(event.className == "Service"){
-            var label = event.item.completed ? 'success' : (event.item.approved ? 'default' : 'warning');
-            element.append('<span class="label label-'+ label +'">'+ event.item.title +'</span>');
-          }
-          //$compile(element)($scope);
-      };
 
       /* config object */
       $scope.uiConfig = {
@@ -175,7 +204,7 @@ angular.module('theBossApp')
           OrderService.setdate_required(calendar);
       }
 
-      $scope.eventSources = [$scope.LoadOrders, $scope.LoadServices];
+      $scope.eventSources = [$scope.LoadOrders, $scope.LoadServices, $scope.LoadTimeOffs];
       if($stateParams.status)
       {
         $scope.orderStatus = $stateParams.status;

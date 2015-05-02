@@ -16,30 +16,30 @@ angular.module('theBossApp')
             editableForm: '=',
             footerForm: '='
         },
-        link: function (scope, element, attrs) {
-            scope.listType = attrs.listType || 'list';
-            scope.title = attrs.title || "Quick list";
-            scope.selectedFilter = {text:''};
-            scope.quickList = scope.quickList || [];
-            scope.preview = attrs.preview || scope.$parent.preview;
-            scope.selectedItem = null;
-
-
+        link: function (scope, elem, attrs){
+          scope.listType = attrs.listType || 'list';
+          scope.title = attrs.title || "Quick list";
+          scope.selectedFilter = {text:''};
+          scope.quickList = scope.quickList || [];
+          scope.preview = attrs.preview || scope.$parent.preview;
+          scope.selectedItem = null;
+        },
+        controller: function ($scope) {
             var pagesShown = 1;
             var pageSize = 5;
-            scope.itemsLimit = function(){
+            $scope.itemsLimit = function(){
                 return pageSize * pagesShown;
             };
 
-            scope.hasMoreItemsToShow = function() {
-                return scope.quickList && pagesShown < (scope.quickList.length / pageSize);
+            $scope.hasMoreItemsToShow = function() {
+                return $scope.quickList && pagesShown < ($scope.quickList.length / pageSize);
             };
-            scope.showMoreItems = function() {
+            $scope.showMoreItems = function() {
                 pagesShown = pagesShown + 1;
             };
 
-            scope.lookup = function(text,api){
-                scope.selectedFilter.itemId = null;
+            $scope.lookup = function(text,api){
+                $scope.selectedFilter.itemId = null;
                 if(api){
                     return $http.get(api, {
                         params: {
@@ -57,16 +57,16 @@ angular.module('theBossApp')
                 }
             };
 
-            scope.selectedResult = function(item){
-                scope.selectedFilter.itemId = item._id;
+            $scope.selectedResult = function(item){
+                $scope.selectedFilter.itemId = item._id;
             };
 
-            scope.addNewField = function(form){
+            $scope.addNewField = function(form){
                 ModalService.show.modalFormDialog('Add new field',
-                    scope.listFieldsToEdit, function(model){
+                    $scope.listFieldsToEdit, function(model){
                         if(model){
                             if(form && form.$save){
-                                scope.quickList.unshift(model);
+                                $scope.quickList.unshift(model);
                                 form.$save(function(savedResponse){
                                     toaster.pop('success', "Field was saved with success");
                                 }, function(err) {
@@ -79,21 +79,10 @@ angular.module('theBossApp')
 
             };
 
-            scope.selectItem = function(item){
-                scope.selectedItem = item;
-                scope.itemSelect(item);
+            $scope.selectItem = function(item){
+                $scope.selectedItem = item;
+                $scope.itemSelect(item);
             };
-        },
-        compile: function(elem, attrs, transcludeFn) {
-          return function postLink(scope, element, attrs, controller) {
-            
-            //attach current scope instead of the parent scope
-            element.append(transcludeFn(scope.$new()));
-            
-            //angular does something to this effect:
-            //var newScope = scope.$parent.$new();
-            //element.append(transcludeFn(newScope);
-          }
         }
     };
   });

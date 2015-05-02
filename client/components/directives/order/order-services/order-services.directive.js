@@ -16,13 +16,22 @@ angular.module('theBossApp')
             {title:'Details', type:'textarea', require: true},
             {title:'Done By', type:'user', require: false}
         ];
+
         scope.completed = function (order, service){
-            if(!order.$save){
-              order = new OrderService(order);
+          var question = 'Are you sure you want to '+ (service.approved && !service.completed ? 'approve' : 'complete')+' this service?';
+          ModalService.confirm.question(question, function(confirm){
+            if(confirm){
+              if(!order.$save){
+                order = new OrderService(order);
+              }
+              order.$save(function (orderSaved) {
+                scope.order = orderSaved;
+              });
+            }else{
+              service.approved = service.approved && !service.completed ? false : true;
+              service.completed = service.approved && service.completed ? false : false;
             }
-            order.$save(function (orderSaved) {
-                console.log(orderSaved);
-            });
+          })();
         };
 
         scope.addNewService = function(form){
