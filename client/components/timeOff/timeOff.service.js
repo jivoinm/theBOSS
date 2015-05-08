@@ -7,6 +7,11 @@ angular.module('theBossApp')
           url: '/api/timeoffs/check',
           isArray: true,
           method: 'GET'
+      },
+      'new': {
+        url: '/api/timeoffs/totalNewTimeoffs',
+        isArray: false,
+        method: 'GET'
       }
     });
   });

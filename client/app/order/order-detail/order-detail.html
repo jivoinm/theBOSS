@@ -59,8 +59,6 @@
                       </div>
                   </div>
                </div>
-
-              <order-notes orderid="{{ order._id }}"></order-notes>
           </div>
             <div class="col-md-8">
                 <tabset justified="true" ng-if="!preview">
@@ -87,9 +85,29 @@
                     <tab heading="Services" disabled="(isNewOrder() || !order.status)">
                         <div class=well>
                             <p>Add list of services associated with this order.</p>
-                            <order-services></order-services>
+                            <div class="panel panel-default">
+                              <div class="panel-heading">Services
+                            	  <div class="pull-right">
+                            	    <div class="btn-group">
+                            	        <button type="button" class="btn btn-default btn-xs" id="add" ng-click="addNewService(order)">
+                            	            Add new service
+                            	        </button>
+                            	    </div>
+                            	 </div>
+                             </div>
+                              <div class="panel-body">
+                                <div class="list-group">
+                                    <div class="list-group-item" class="list-group-item-success">
+                                      <div>
+                                        <h4 class="list-group-item-heading">{{order.po_number}} - Installation <a ng-href="/order/detail/{{order._id}}/print/Installation"><span class="glyphicon glyphicon-print"></span></a></h4>
+                                        <p class="list-group-item-text">{{ order.installation_date | date }}  </p>
+                                    </div>
+                                    </div>
+                                    <order-services></order-services>
+                                </div>
+                              </div>
+                            </div>
                         </div>
-
                     </tab>
                     <tab heading="Files" disabled="isNewOrder()">
                         <div class=well>

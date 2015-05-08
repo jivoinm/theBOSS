@@ -19,11 +19,13 @@
        </div>
    </a>
    <div collapse="!isCollapsed">
-
-       <div class="list-group">
-         <a ng-href="/order/detail/{{order._id}}/Services" class="list-group-item" ng-repeat="order in orders">
-             #{{order.po_number}} For: {{order.customer.name}} - Required By {{order.date_required | date}}
-         </a>
-       </div>
+     <div class="list-group">
+         <div class="list-group-item" class="list-group-item-success" ng-repeat="order in orders">
+           <div>
+             <h4 class="list-group-item-heading"><a ng-href="/order/detail/{{order._id}}/Services">#{{order.po_number}} For: {{order.customer.name}} - Required By {{order.date_required | date}}</a></h4>
+           </div>
+           <order-services></order-services>
+         </div>
+     </div>
    </div>
 </div>

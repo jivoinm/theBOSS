@@ -23,7 +23,9 @@ exports.index = function(req, res) {
 exports.query = function (req, res, next){
     var query = {owner: req.user.owner};
     if(req.query.role){
-        query.role = req.query.role;
+        query.role  = {
+          $in: req.query.role.split(',')
+        };
     }
 
     if(req.query.text){

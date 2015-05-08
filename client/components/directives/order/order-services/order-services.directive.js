@@ -14,7 +14,7 @@ angular.module('theBossApp')
         scope.order_service_fields = [
             {title:'Date', type:'date', require: true},
             {title:'Details', type:'textarea', require: true},
-            {title:'Done By', type:'user', require: false}
+            {title:'Done By', type:'user', require: false, show_options: 'worker'}
         ];
 
         scope.completed = function (order, service){
@@ -33,6 +33,23 @@ angular.module('theBossApp')
             }
           })();
         };
+
+        scope.delete = function (order, index){
+          var question = 'Are you sure you want to delete this service?';
+          ModalService.confirm.question(question, function(confirm){
+            if(confirm){
+              order.services.splice(index, 1);
+              if(!order.$save){
+                order = new OrderService(order);
+              }
+              order.$save(function (orderSaved) {
+                scope.order = orderSaved;
+              });
+            }
+          })();
+        };
+
+
 
         scope.addNewService = function(form){
             var serviceNr = form.services ? form.services.length + 1 : 1;

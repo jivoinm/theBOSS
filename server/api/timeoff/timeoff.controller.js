@@ -29,6 +29,14 @@ exports.index = function(req, res) {
   });
 };
 
+exports.totalNewTimeoffs = function(req, res) {
+  var query = { approved: false};
+
+  Timeoff.count(query, function (err, count) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, {total: count});
+  });
+};
 //check if something on the selected date
 exports.checkDate = function(req, res) {
   var query = {};

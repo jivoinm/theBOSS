@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: orderCalendar', function () {
+describe('Directive: alerts', function () {
 
   // load the directive's module and view
   beforeEach(module('theBossApp'));
-  beforeEach(module('components/directives/order/order-calendar/order-calendar.html'));
+  beforeEach(module('../components/directives/alerts/alerts.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: orderCalendar', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<order-calendar></order-calendar>');
+    element = angular.element('<alerts></alerts>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).toBe('this is the orderCalendar directive');
+    expect(element.text()).toBe('this is the alerts directive');
   }));
 });

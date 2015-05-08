@@ -9,13 +9,9 @@ angular.module('theBossApp')
       link: function (scope, element, attrs) {
         scope.totalOrders = 0;
       	scope.orders = [];
-     	  var query = {};
-        query.approved = false;
-        query.limit = null;
-        query.page = null;
-        OrderService.services(query).$promise.then (function (data) {
-        	  scope.orders = data.orders;
-            scope.totalOrders = data.totalOrders;
+        OrderService.newAndNotCompletedServices().$promise.then (function (data) {
+        	  scope.orders = data;
+            scope.totalOrders = data.length;
         });
       }
     };

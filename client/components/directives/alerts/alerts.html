@@ -1,0 +1,16 @@
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+        <i class="fa fa-bell fa-fw"></i><span class="badge">{{alerts.length}}</span>  <i class="fa fa-caret-down"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-alerts">
+      <li ng-repeat="alert in alerts">
+        <a ng-href="{{alert.url}}">
+            <div>
+                <i class="fa {{alert.icon}} fa-fw"></i> {{alert.type}}
+                <span class="pull-right text-muted small">{{alert.message}}</span>
+            </div>
+        </a>
+      </li>
+    </ul>
+    <!-- /.dropdown-alerts -->
+</li>

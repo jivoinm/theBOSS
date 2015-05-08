@@ -1,5 +1,13 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Notes</div>
+  <div class="panel-heading">Notes
+    <div class="pull-right">
+      <div class="btn-group">
+          <button type="button" class="btn btn-default btn-xs" id="add" ng-click="addNewNote()">
+              Add new note
+          </button>
+      </div>
+   </div>
+  </div>
   <div class="panel-body">
     <div class="list-group">
         <div class="list-group-item" ng-class="{'list-group-item-success': note.resolved, 'list-group-item-warning': !note.resolved}" ng-repeat="note in notes">

@@ -15,6 +15,7 @@ angular.module('theBossApp')
             { title:"Services", template:'components/directives/order/order-preview/tab-services.html', active: false },
             { title:"Accessories", template:'components/directives/order/order-preview/tab-accessories.html', active: false },
             { title:"Files", template:'components/directives/order/order-preview/tab-files.html', active: false },
+            { title:"Notes", template:'components/directives/order/order-preview/tab-notes.html', active: false },
           ];
 
           if($stateParams.tab){

@@ -135,7 +135,8 @@ angular.module('theBossApp')
             end: end,
             color: '#CABDBF',
             allDay: true,
-            editable:false
+            editable:false,
+            eventType: 'timeoff'
           }
           return calendarOrder;
       };
@@ -160,11 +161,13 @@ angular.module('theBossApp')
 
       $scope.eventClick = function (event){
           var details = event.details;
-          OrderService.get({orderId:event.order_id}).$promise.then(function(result){
-              ModalService.show.showOrderDetailsPopup('Event details',result)();
-          }, function(err){
-                  ModalService.showPopup('Error loading event details',err);
-              });
+          if(!event.eventType){
+            OrderService.get({orderId:event.order_id}).$promise.then(function(result){
+                ModalService.show.showOrderDetailsPopup('Event details',result)();
+            }, function(err){
+                    ModalService.showPopup('Error loading event details',err);
+                });
+          }
 
       };
 

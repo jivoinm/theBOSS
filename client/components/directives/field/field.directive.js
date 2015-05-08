@@ -113,8 +113,13 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'user':
+                    var userRoles = scope.field.show_options;
                     scope.getUsers = function (text){
-                        return User.query({name: text}).$promise.then(function(users){
+                        var userQuery = {name: text};
+                        if(scope.field.show_options){
+                          userQuery.role = scope.field.show_options;
+                        }
+                        return User.query(userQuery).$promise.then(function(users){
                             var usersToAdd = [];
                             angular.forEach(users, function (user){
                                 usersToAdd.push(user);

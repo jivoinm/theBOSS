@@ -244,7 +244,25 @@ exports.services = function (req, res) {
           limit = req.query.limit;
       }
       new QueryOrders(queryOrders, {po_number: 1, customer: 1,services: 1}, page,limit, res);
-  }
+    }
+}
+
+exports.newAndNotCompletedServices = function (req, res) {
+ Order.aggregate([
+   { $match: {$or: [
+     { services: { $elemMatch: { approved: false, completed: false }}},
+     { services: { $elemMatch: { approved: true, completed: false }}}
+     ]
+     }
+  },
+  { $unwind: '$services'},
+  { $match: { $or: [{'services.approved': true, 'services.completed': false}, {'services.approved': false, 'services.completed': false}] }},
+  { $group: {_id: '$_id', po_number: { '$first': '$po_number' }, customer: {'$first': '$customer'} , services: {$push: '$services'}}}
+  ],
+  function(err, orders){
+        if (err) res.json(400, err);
+        return res.json(orders);
+  });
 };
 
 exports.loadOrdersByStatusAndPeriod = function (req, res){

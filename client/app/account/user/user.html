@@ -12,6 +12,9 @@
                   <a href="/user/admin" class="list-group-item" active-url>
                       Administrators
                   </a>
+                  <a href="/user/sales rep" class="list-group-item" active-url>
+                      Sales Reps
+                  </a>
                   <a href="/user/user" class="list-group-item" active-url>
                       Simple users
                   </a>
@@ -54,6 +57,7 @@
                                           <td>
                                               <div class="btn-group">
                                                   <label class="btn btn-primary" ng-model="user.role" btn-radio="'admin'" ng-click="changRole(user,'admin')">Admin</label>
+                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'sales rep'" ng-click="changRole(user,'sales rep')">Sales Rep</label>
                                                   <label class="btn btn-primary" ng-model="user.role" btn-radio="'user'" ng-click="changRole(user,'user')">User</label>
                                                   <label class="btn btn-primary" ng-model="user.role" btn-radio="'worker'" ng-click="changRole(user,'worker')">Worker</label>
                                               </div>
