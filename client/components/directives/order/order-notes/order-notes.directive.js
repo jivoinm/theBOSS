@@ -52,9 +52,15 @@ angular.module('theBossApp')
 
 
         scope.deleteNote = function ($index, note){
-          note.$delete(function(){
-              scope.notes.splice($index,1);
-          })
+          var question = 'Are you sure you want to delete this note?';
+          ModalService.confirm.question(question, function(confirm){
+            if(confirm){
+              note.$delete(function(){
+                scope.notes.splice($index,1);
+              })
+            }
+          })();
+          
         }
       }
     };

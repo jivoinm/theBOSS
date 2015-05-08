@@ -38,7 +38,7 @@
     				<th>Date Required</th>
     				<td>{{order.date_required | date}}</td>
     				<th>Installation Date</th>
-    				<td>{{(order.installation_date ? order.installation_date : order.date_required) | date}}</td>
+    				<td>{{(order.installation_date ? order.installation_date : order.date_required) | date:'dd-M-yyyy'}}</td>
     			</tr>
     		</tbody>
     	</table>

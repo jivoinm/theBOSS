@@ -12,9 +12,9 @@ angular.module('theBossApp')
       return $filter('date')($scope.date);
     };
     var fields = [
-        {title:'Date', type:'date', require: true, value: $scope.date}
+        {title:'Date', type:'date', require: true, value: $scope.date},
+        {title:'Done By', type:'user', require: true, value: $scope.done_by, show_options: 'worker'}
     ];
-    fields.push({title:'Done By', type:'user', require: true, value: $scope.done_by});
 
     $scope.print = function(){
       ModalService.show.modalFormDialog('Confirm service date',

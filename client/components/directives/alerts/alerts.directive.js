@@ -11,7 +11,7 @@ angular.module('theBossApp')
       };
     }
     return {
-      templateUrl: '../components/directives/alerts/alerts.html',
+      templateUrl: 'components/directives/alerts/alerts.html',
       restrict: 'EA',
       replace: true,
       link: function (scope, element, attrs) {
