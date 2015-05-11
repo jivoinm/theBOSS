@@ -34,13 +34,13 @@ angular.module('theBossApp')
           }
       }
 
-      $scope.LoadOrders = function (start, end, callback) {
+      $scope.LoadOrders = function (start, end,something, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
           }
           var allEvents = [];
-          if($stateParams.approved || $stateParams.completed){
+          if($stateParams.section == 'service') {
             callback(allEvents);
             return;
           }
@@ -80,13 +80,13 @@ angular.module('theBossApp')
               });
       };
 
-      $scope.LoadServices = function (start, end, callback) {
+      $scope.LoadServices = function (start, end,something, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
           }
           var allEvents = [];
-          if((!$stateParams.status && !$stateParams.approved) || ($stateParams.status != 'service' && !$stateParams.approved)){
+          if($stateParams.section == 'jobs') {
             callback(allEvents);
             return;
           }
@@ -112,16 +112,17 @@ angular.module('theBossApp')
 
       };
 
-      $scope.LoadTimeOffs = function (start, end, callback){
+      $scope.LoadTimeOffs = function (start, end, something, callback){
         var query = {
           dateFrom: start,
           dateTo: end,
           approved: true
         };
         var allEvents = [];
-        timeOff.query(query).$promise.then(function (timeoffs){
+        timeOff.getTimeOff(query).$promise.then(function (timeoffs){
           angular.forEach(timeoffs, function (timeoff){
-            allEvents.push($scope.createEventOff((timeoff.createdBy.name + ' - '+ timeoff.type), timeoff.from, timeoff.to));
+            var timeoffDetail = (timeoff.createdBy.name + ' - '+ timeoff.type) + (timeoff.type == 'Statutory holiday' ? ' - '+timeoff.detail : '');
+            allEvents.push($scope.createEventOff(timeoffDetail, timeoff.from, timeoff.to));
 
           });
           callback(allEvents);
@@ -135,8 +136,7 @@ angular.module('theBossApp')
             end: end,
             color: '#CABDBF',
             allDay: true,
-            editable:false,
-            eventType: 'timeoff'
+            editable:false
           }
           return calendarOrder;
       };
@@ -161,13 +161,11 @@ angular.module('theBossApp')
 
       $scope.eventClick = function (event){
           var details = event.details;
-          if(!event.eventType){
-            OrderService.get({orderId:event.order_id}).$promise.then(function(result){
-                ModalService.show.showOrderDetailsPopup('Event details',result)();
-            }, function(err){
-                    ModalService.showPopup('Error loading event details',err);
-                });
-          }
+          OrderService.get({orderId:event.order_id}).$promise.then(function(result){
+              ModalService.show.showOrderDetailsPopup('Event details',result)();
+          }, function(err){
+                  ModalService.showPopup('Error loading event details',err);
+              });
 
       };
 
