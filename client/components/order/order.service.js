@@ -12,6 +12,14 @@ angular.module('theBossApp')
                 isArray: false,
                 method: 'GET'
             },
+            'download': {
+                url: '/api/orders/download/:filename',
+                params: {
+                    filename: '@filename'
+                },
+                isArray: false,
+                method: 'GET'
+            },
             'newAndNotCompletedServices': {
                 url: '/api/orders/newAndNotCompletedServices',
                 isArray: true,

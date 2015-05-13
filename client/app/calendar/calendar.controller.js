@@ -15,7 +15,7 @@ angular.module('theBossApp')
       var y = date.getFullYear();
 
       $scope.getLabelColor = function (status){
-          if (!status) {return 'label label-warning';};
+          if (!status) {return 'label label-warning';}
 
           if(status.toLowerCase() === 'approved'){
              return '#777';
@@ -32,15 +32,15 @@ angular.module('theBossApp')
           }else {
               return '#f0ad4e';
           }
-      }
+      };
 
-      $scope.LoadOrders = function (start, end,something, callback) {
+      $scope.LoadOrders = function (start, end, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
           }
           var allEvents = [];
-          if($stateParams.section == 'service') {
+          if($stateParams.section === 'service') {
             callback(allEvents);
             return;
           }
@@ -80,13 +80,13 @@ angular.module('theBossApp')
               });
       };
 
-      $scope.LoadServices = function (start, end,something, callback) {
+      $scope.LoadServices = function (start, end, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
           }
           var allEvents = [];
-          if($stateParams.section == 'jobs') {
+          if($stateParams.section === 'jobs') {
             callback(allEvents);
             return;
           }
@@ -112,7 +112,7 @@ angular.module('theBossApp')
 
       };
 
-      $scope.LoadTimeOffs = function (start, end, something, callback){
+      $scope.LoadTimeOffs = function (start, end, callback){
         var query = {
           dateFrom: start,
           dateTo: end,

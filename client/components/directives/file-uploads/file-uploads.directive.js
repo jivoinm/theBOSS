@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('fileUploads', function ($upload, $timeout, $rootScope, theBossSettings, toaster) {
+  .directive('fileUploads', function ($upload, $timeout, $rootScope, theBossSettings, toaster, OrderService) {
       return {
           templateUrl: 'components/directives/file-uploads/file-uploads.html',
           restrict: 'E',
@@ -15,6 +15,21 @@ angular.module('theBossApp')
               $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
                   scope.preview = preview;
               });
+              
+              // scope.downloadFile=function(filename){
+              //   Order.download({filename:filename}).$promise.then();
+              //   $http({method:'GET', url:'/api/orders/download/'+filename}).
+              //     success(function(data, status, headers, config) {         
+              //       var element = angular.element('<a/>');
+              //        element.attr({
+              //            href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+              //            target: '_blank',
+              //            download:'test.csv'
+              //        })[0].click();
+              //      }).
+              //     error(function(data, status, headers, config) {
+              //      });
+              // }
 
               scope.encodeFileName = function(fileName) {
                 return encodeURIComponent(fileName);

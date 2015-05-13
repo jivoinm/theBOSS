@@ -46,7 +46,7 @@
                 <div class="list-group">
                     <div class="list-group-item" ng-repeat="f in model.uploaded_files">
                         <i class="fa fa-ban btn" ng-click="deleteFile(f,$index,$event)"></i>
-                        <a href="/uploads/{{ encodeFileName(f.filename) }}" target="_blank">
+                            <a ng-href="/api/orders/download/{{ encodeFileName(f.filename) }}" target="_blank">
                             {{ f.filename }}
                             <span class="badge">{{ f.size }} kb</span>
                         </a>
