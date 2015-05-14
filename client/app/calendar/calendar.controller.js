@@ -34,7 +34,7 @@ angular.module('theBossApp')
           }
       };
 
-      $scope.LoadOrders = function (start, end, callback) {
+      $scope.LoadOrders = function (start, end,something, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
@@ -80,7 +80,7 @@ angular.module('theBossApp')
               });
       };
 
-      $scope.LoadServices = function (start, end, callback) {
+      $scope.LoadServices = function (start, end,something, callback) {
           var query = {};
           if($location.search()){
               query = $location.search();
@@ -112,7 +112,7 @@ angular.module('theBossApp')
 
       };
 
-      $scope.LoadTimeOffs = function (start, end, callback){
+      $scope.LoadTimeOffs = function (start, end,something, callback){
         var query = {
           dateFrom: start,
           dateTo: end,
