@@ -28,7 +28,7 @@ angular.module('theBossApp')
           }
         };
         scope.checkForUpdates();
-        $interval(scope.checkForUpdates, 5000);
+        $interval(scope.checkForUpdates, 10000);
       }
     };
   });

@@ -17,17 +17,17 @@ angular.module('theBossApp')
       $scope.getLabelColor = function (status){
           if (!status) {return 'label label-warning';}
 
-          if(status.toLowerCase() === 'approved'){
+          if(status.toLowerCase() == 'approved'){
              return '#777';
-          }else if(status.toLowerCase() === 'finished'){
-              return '#B4AA5B';
-          }else if(status.toLowerCase() === 'in progress'){
-              return '#337ab7';
-          }else if(status.toLowerCase() === 'installation'){
-              return '#000000';
-          }else if(status.toLowerCase() === 'shipped'){
+          }else if(status.toLowerCase() == 'finished'){
               return '#5cb85c';
-          }else if(status.toLowerCase() === 'blocked' ||status.toLowerCase() === 'service'){
+          }else if(status.toLowerCase() == 'in progress'){
+              return '#337ab7';
+          }else if(status.toLowerCase() == 'installation'){
+              return '#000000';
+          }else if(status.toLowerCase() == 'shipped'){
+              return '#B4AA5B';
+          }else if(status.toLowerCase() == 'blocked' ||status.toLowerCase() === 'service'){
               return '#d9534f';
           }else {
               return '#f0ad4e';
@@ -121,7 +121,7 @@ angular.module('theBossApp')
         var allEvents = [];
         timeOff.getTimeOff(query).$promise.then(function (timeoffs){
           angular.forEach(timeoffs, function (timeoff){
-            var timeoffDetail = (timeoff.createdBy.name + ' - '+ timeoff.type) + (timeoff.type == 'Statutory holiday' ? ' - '+timeoff.detail : '');
+            var timeoffDetail = timeoff.type == 'Statutory holiday' ? timeoff.detail : (timeoff.createdBy.name + ' - '+ timeoff.type);
             allEvents.push($scope.createEventOff(timeoffDetail, timeoff.from, timeoff.to));
 
           });
@@ -136,7 +136,7 @@ angular.module('theBossApp')
             end: end,
             color: '#CABDBF',
             allDay: true,
-            editable:false
+            editable:false,
           }
           return calendarOrder;
       };
@@ -152,6 +152,7 @@ angular.module('theBossApp')
           calendarOrder.update_date = updateDate;
           calendarOrder.item = item;
           calendarOrder.allDay = true;
+          calendarOrder.editable = true;
           return calendarOrder;
       };
 
@@ -160,19 +161,25 @@ angular.module('theBossApp')
       };
 
       $scope.eventClick = function (event){
+        if(event.editable){
           var details = event.details;
           OrderService.get({orderId:event.order_id}).$promise.then(function(result){
               ModalService.show.showOrderDetailsPopup('Event details',result)();
           }, function(err){
                   ModalService.showPopup('Error loading event details',err);
               });
-
+         }
       };
 
       $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){
           updateCalendarEvent(event);
       };
 
+      $scope.eventRender = function( event, element, view ) {
+        $timeout(function(){
+          $(element).attr('title', event.title);
+        });
+      };
 
       /* config object */
       $scope.uiConfig = {
@@ -210,8 +217,4 @@ angular.module('theBossApp')
       {
         $scope.orderStatus = $stateParams.status;
       }
-      // $scope.$on('$locationChangeSuccess', function(next, current) {
-      //
-      //   $scope.myCalendar.fullCalendar('refetchEvents');
-      // });
   });

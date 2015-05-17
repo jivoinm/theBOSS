@@ -37,7 +37,7 @@ angular.module('theBossApp')
             'accessories': {
                 url: '/api/orders/accessories',
                 method: 'GET',
-                isArray: true,
+                isArray: false,
                 params: {
                     status: '@status'
                 }

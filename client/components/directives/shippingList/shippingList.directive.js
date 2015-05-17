@@ -5,7 +5,7 @@ angular.module('theBossApp')
         return {
             restrict: 'E',
             templateUrl: 'components/directives/shippingList/shippingList.html',
-            //scope: true,
+            scope: true,
             controller: function ($scope) {
                 $scope.orders = [];
                 $scope.totalOrders = 0;
