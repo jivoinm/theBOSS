@@ -20,7 +20,10 @@
                                   To Do
                                   <ul class="list-group">
                                       <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks | orderBy:'priority':false">
-                                          {{ task.title }} <button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'in progress', $event)" class="btn btn-xs">Start</button>
+                                        <span class="pull-right"><button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'in progress', $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                                        </button></span>
+                                          {{ task.title }}
                                       </li>
                                   </ul>
                               </div>
@@ -28,7 +31,10 @@
                                   In Progress
                                   <ul class="list-group">
                                       <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
-                                          {{ task.title }} <button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'done', $event)" class="btn btn-xs">Done</button>
+                                        <span class="pull-right"><button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'done', $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                                        </button></span>
+                                          {{ task.title }}
                                       </li>
                                   </ul>
                               </div>
@@ -36,6 +42,9 @@
                                   Done
                                   <ul class="list-group">
                                       <li class="list-group-item list-group-item-success" ng-repeat="task in form.tasks | filter:{status:'done'}">
+                                        <span class="pull-right"><button ng-click="deleteTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                        </button></span>
                                           {{ task.title }}
                                       </li>
                                   </ul>

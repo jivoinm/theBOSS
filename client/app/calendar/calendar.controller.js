@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService, moment, theBossSettings, roles, $location, $stateParams, Auth, $compile, $timeout, timeOff) {
+  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService, moment, theBossSettings, roles, $location, $stateParams, Auth, $compile, $timeout, timeOff,uiCalendarConfig) {
       $scope.$parent.pageHeader = 'Calendar';
       $scope.queryText = '';
-
+      $scope.uiCalendarConfig = uiCalendarConfig;
       $scope.loadOrders = function(){
-      	$location.search('text',$scope.queryText);
+        $scope.uiCalendarConfig.calendars.myCalendar.fullCalendar('refetchEvents');
       };
 
       var date = new Date();
@@ -36,8 +36,8 @@ angular.module('theBossApp')
 
       $scope.LoadOrders = function (start, end,something, callback) {
           var query = {};
-          if($location.search()){
-              query = $location.search();
+          if($scope.queryText){
+              query.text = $scope.queryText;
           }
           var allEvents = [];
           if($stateParams.section === 'service') {
@@ -82,8 +82,8 @@ angular.module('theBossApp')
 
       $scope.LoadServices = function (start, end,something, callback) {
           var query = {};
-          if($location.search()){
-              query = $location.search();
+          if($scope.queryText){
+              query.text = $scope.queryText;
           }
           var allEvents = [];
           if($stateParams.section === 'jobs') {
@@ -118,6 +118,10 @@ angular.module('theBossApp')
           dateTo: end,
           approved: true
         };
+
+        if($scope.queryText){
+            query.text = $scope.queryText;
+        }
         var allEvents = [];
         timeOff.getTimeOff(query).$promise.then(function (timeoffs){
           angular.forEach(timeoffs, function (timeoff){

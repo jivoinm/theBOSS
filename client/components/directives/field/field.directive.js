@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('field', function ($http, $compile, $timeout, User, _, datepickerConfig) {
+  .directive('field', function ($http, $compile, $timeout, User, _, datepickerConfig,$rootScope,theBossSettings) {
 
 
         var formField = function(field){
@@ -76,7 +76,7 @@ angular.module('theBossApp')
                         '<div class="col-md-6">' +
                         '<p class="input-group">' +
                         '<input type="text" class="form-control" datepicker-append-to-body="false" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
+                        'ng-model="model"  ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
                         '<span class="input-group-btn">' +
                         '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
                         '</span>' +
@@ -87,28 +87,28 @@ angular.module('theBossApp')
                     break;
                 case 'text':
                     fieldTemplate = '<input type="text" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                        'ng-model="model"  ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'number':
                     fieldTemplate = '<input type="number" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                        'ng-model="model"  ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'hidden':
-                    fieldTemplate = '<input type="hidden" class="form-control" name="fieldName" ng-model="model" value="{{field.value}}"/>';
+                    fieldTemplate = '<input type="hidden" class="form-control" name="fieldName" ng-model="model" />';
                     fieldTemplate = fieldTemplate;
                     break;
                 case 'password':
                     fieldTemplate = '<input type="password" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                        'ng-model="model"  ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'email':
                     fieldTemplate = '<div class="input-group">' +
                         '<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>' +
                         '<input type="email" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="" ng-required="{{ field.require }}"/>' +
+                        'ng-model="model" ng-required="{{ field.require }}"/>' +
                         '</div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
@@ -133,6 +133,7 @@ angular.module('theBossApp')
                          name: item.name,
                          email: item.email
                        };
+                       $rootScope.$broadcast(theBossSettings.userAutoCompleteSelectedEvent, {fieldName: scope.field.title, value: item.name});
                     }
 
                     fieldTemplate = ' <input type="text" ng-model="model" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
@@ -166,7 +167,7 @@ angular.module('theBossApp')
                 case 'textarea':
 
                     fieldTemplate = '<textarea class="form-control" rows="3" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model" value="{{field.value}}" ng-required="{{ field.require }}"/>';
+                        'ng-model="model"  ng-required="{{ field.require }}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'tokens':

@@ -7,14 +7,10 @@ angular.module('theBossApp')
         restrict: 'E',
         link: function postLink(scope, element) {
 
-            scope.$watch('order.status',function (newStatus){
-                var status = newStatus|| 'new';
-                scope.setLabelClass(status);
-            })
-
-            $rootScope.$on('order-changed', function (event, order) {
+            $rootScope.$on(theBossSettings.orderChangedEvent, function (event, order) {
                 var status = order.status || 'new';
                 scope.setLabelClass(status);
+                console.log('orderStatus changed event', status);
             });
 
             scope.setLabelClass = function (status){
@@ -31,6 +27,14 @@ angular.module('theBossApp')
                 }else {
                     span.attr('class', 'label label-default');
                 }
+            }
+
+            if(scope.order){
+              scope.setLabelClass(scope.order.status);
+            }
+
+            if(scope.item){
+              scope.setLabelClass(scope.item.status);
             }
         }
     };

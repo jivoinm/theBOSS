@@ -2,7 +2,7 @@
 
 angular.module('theBossApp')
   .controller('OrderDetailCtrl', function ($scope, $location, OrderService, ModalService, toaster, roles, datepickerConfig,
-    $timeout, order, timeOff, $filter) {
+    $timeout, order, timeOff, $filter, theBossSettings) {
 
         $scope.actives = {};
 
@@ -61,8 +61,8 @@ angular.module('theBossApp')
         };
 
         //Save order
-        $scope.save = function (isValidForm){
-            if(isValidForm){
+        $scope.save = function (form){
+            if(form.$valid || $scope.order._id){
                 if(!roles.validateRoleAdmin() && $scope.order.ordered_accessories && $scope.order.ordered_accessories.length === 0){
                     ModalService.confirm.question('Do you want to add accesories to this order?', function(confirmed){
                         if(confirmed){
@@ -149,9 +149,11 @@ angular.module('theBossApp')
           $scope.updateOrderOnChange(newValue, oldValue, 'Saved installation date');
         }, true);
 
-        $scope.$watch('order.installation_by', function(newValue, oldValue) {
-          $scope.updateOrderOnChange(newValue, oldValue, 'Saved installation by');
+        $scope.$on(theBossSettings.userAutoCompleteSelectedEvent, function(event, userSelected) {
+          var message = 'Successfully saved '+userSelected.fieldName+' to '+userSelected.value;
+          $scope.updateOrderOnChange(1, 0, message);
         }, true);
+
 
         $scope.$watch('order.date_required', function(newValue, oldValue) {
           if (newValue !== oldValue && newValue && !$scope.order._id) {

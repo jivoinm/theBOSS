@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('workLog', function (OrderService, $location, Auth, $sce, $filter) {
+  .directive('workLog', function (OrderService, $location, Auth, $sce, $filter,$rootScope, theBossSettings) {
     return {
       templateUrl: 'components/directives/work-log/work-log.html',
       restrict: 'EA',
@@ -43,6 +43,7 @@ angular.module('theBossApp')
             order = new OrderService(order);
             return order.$save(function(savedOrder){
                 order = savedOrder;
+                $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
                 if(savedOrder.status === 'finished'){
                     scope.orders.splice(orderIndex,1);
                 }else{
@@ -52,6 +53,25 @@ angular.module('theBossApp')
             });
         };
 
+        scope.deleteTaskStatus = function(order,orderIndex,form,formIndex,task, e){
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            delete task['changed_by'];
+            delete task['changed_on'];
+            delete task['status'];
+
+            //if all tasks are finished then remove from the list
+            order = new OrderService(order);
+            return order.$save(function(savedOrder){
+                order = savedOrder;
+                $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
+                order.forms[formIndex].active = true;
+            });
+        };
+
+
         scope.loadOrder = function(id){
             $location.path('/order/' + id);
         }
@@ -60,7 +80,7 @@ angular.module('theBossApp')
           if(order && order.customer)
           {
             var dateRequired = $filter('date')(order.date_required);
-            return $sce.trustAsHtml('Customer:'+ order.customer.name +' - '+ order.po_number +' @ '+ dateRequired);
+            return $sce.trustAsHtml(order.customer.name +' - '+ order.po_number +' @ '+ dateRequired);
           }
           return '';
         };

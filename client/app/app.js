@@ -23,6 +23,7 @@ angular.module('theBossApp', [
   })
   .constant('theBossSettings', {
     orderChangedEvent: 'order-changed',
+    userAutoCompleteSelectedEvent: 'user-selected',
     previewModeEvent: 'preview-mode',
     timeZone: '-05:00',
     taskStatuses: {
