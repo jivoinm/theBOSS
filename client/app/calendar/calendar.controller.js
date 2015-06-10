@@ -55,12 +55,17 @@ angular.module('theBossApp')
                       try{
                           if(!order.shipped_date) {
                               this.push($scope.createEvent('date_required', order, order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
-                                  order.date_required,$scope.getLabelColor(order.status), 'Order'));
+                                  order.date_required,
+                                  (order.installation_date && order.installation_date !== order.date_required
+                                  ? $scope.getLabelColor('installation')
+                                  : $scope.getLabelColor(order.status)), 'Order'));
                           }
 
-                          if(order.installation_date && order.installation_date !== order.date_required){
+                          if(!order.shipped_date && order.installation_date && order.installation_date !== order.date_required){
                               this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
-                                      order.installation_date, $scope.getLabelColor('installation'), 'Order'));
+                                      order.installation_date,
+                                      $scope.getLabelColor('installation')
+                                      , 'Order'));
                           }
                           if(order.shipped_date){
                               this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
