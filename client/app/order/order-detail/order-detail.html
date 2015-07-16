@@ -123,9 +123,10 @@
         <div class="well" ng-if="!preview">
             <button type="submit" class="btn btn-default">Save</button>
             <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-danger" ng-repeat="error in errors">{{error.message}}</li>
+            </ul>
         </div>
-        <ul>
-          <li ng-repeat="frmData in form.$formData()"></li>
-        </ul>
+
     </form>
 </div>

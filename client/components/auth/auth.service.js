@@ -26,6 +26,7 @@ angular.module('theBossApp')
         }).
         success(function(data) {
           $cookieStore.put('token', data.token);
+          $cookieStore.put('owner', data.owner);
           currentUser = User.get();
           deferred.resolve(data);
           return cb();

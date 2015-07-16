@@ -46,6 +46,15 @@ angular.module('theBossApp')
             $location.path('/orders');
         };
 
+        $scope.validateForm = function(form){
+          return form.customer && 
+                form.customer.name && 
+                form.customer.ship_to &&
+                form.customer.phone &&
+                form.po_number &&
+                form.date_required;
+        };
+
         $scope.saveOrder = function(){
             $scope.order.$save(function(savedOrder){
                 if($scope.order._id)
@@ -56,13 +65,14 @@ angular.module('theBossApp')
                 }
                 toaster.pop('success', 'Success', 'Saved you order '+ $scope.getOrderName());
             },function(err){
-                toaster.pop('error', 'Error', 'Error saving you order '+ err);
+              $scope.errors = err.errors;
+              toaster.pop('error', 'Error saving you order', 'Check that all required field are entered.');
             });
         };
 
         //Save order
         $scope.save = function (form){
-            if(form.$valid || $scope.order._id){
+            if($scope.validateForm($scope.order)){
                 if(!roles.validateRoleAdmin() && $scope.order.ordered_accessories && $scope.order.ordered_accessories.length === 0){
                     ModalService.confirm.question('Do you want to add accesories to this order?', function(confirmed){
                         if(confirmed){
@@ -75,6 +85,8 @@ angular.module('theBossApp')
                 }else{
                     $scope.saveOrder();
                 }
+            }else{
+             toaster.pop('error', 'Error saving you order', 'Check that all required field are entered.'); 
             }
         };
 
@@ -135,9 +147,10 @@ angular.module('theBossApp')
               timeout = $timeout(function(){
                   $scope.order.$save(function(order){
                     $scope.order = order;
-                      toaster.pop('success', 'Success', message);
+                    toaster.pop('success', 'Success', message);
                   },function(err){
-                      toaster.pop('error', 'Error', 'Error saving you order '+ err);
+                    $scope.errors = err.errors;
+                    toaster.pop('error', 'Error', 'Error saving you order '+ err);
                   });
             }, 1000);  // 1000 = 1 second
            }

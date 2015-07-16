@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('orderServices', function ($rootScope, theBossSettings, ModalService, toaster, $templateCache, $compile, OrderService) {
+  .directive('orderServices', function ($rootScope, theBossSettings, ModalService, toaster, $templateCache, $compile, OrderService, $location) {
     return {
       templateUrl: 'components/directives/order/order-services/order-services.html',
       restrict: 'E',
@@ -72,6 +72,15 @@ angular.module('theBossApp')
                     }
                 })();
 
+        };
+
+        scope.printService = function (orderId, serviceIndex){
+          if(scope.modal)
+          {
+            $rootScope.$broadcast('order.service.print',orderId, serviceIndex); 
+          }else{
+            $location.path('/order/detail/'+orderId+'/print/' + serviceIndex);
+          }
         };
 
         scope.print = function (){

@@ -15,7 +15,7 @@ angular.module('theBossApp')
         })
         .then( function() {
           // Logged in, redirect to home
-          $location.path('/');
+          $location.path('/calendar');
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

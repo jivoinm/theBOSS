@@ -183,7 +183,7 @@ angular.module('theBossApp')
             return function (){
                 var modal = $modal.open({
                      size: 'lg',
-                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
+                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order" modal="true"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
                      resolve: {
                          order: function(){return order;}
                      },
@@ -191,7 +191,7 @@ angular.module('theBossApp')
                          $scope.order = order;
                          $scope.preview = true;
                          $scope.close = function(){
-                             $modalInstance.close();
+                            $modalInstance.close();
                          }
                      }
                  });
@@ -199,6 +199,7 @@ angular.module('theBossApp')
                  modal.result.then(function () {
                      (callback || angular.noop)();
                  });
+                 return modal;
                };
           },
 

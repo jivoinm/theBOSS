@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('OrderPrintCtrl', function ($scope, order, $stateParams, $window, $filter, ModalService, toaster) {
+  .controller('OrderPrintCtrl', function ($scope, order, $stateParams, $window, $filter, toaster, Auth, ModalService) {
     var service = order.services[$stateParams.action];
     $scope.action = service ? service.title : 'Installation';
     $scope.date = service ? service.date : order.installation_date;
@@ -11,10 +11,16 @@ angular.module('theBossApp')
     $scope.getFormDate =  function (){
       return $filter('date')($scope.date);
     };
-    var fields = [
-        {title:'Date', type:'date', require: true, value: $scope.date},
-        {title:'Done By', type:'user', require: true, value: $scope.done_by, show_options: 'worker'}
-    ];
+    if(Auth.getCurrentUser().role === 'worker') {
+      var fields = [
+          {title:'Done By', type:'user', require: true, value: $scope.done_by, show_options: 'worker'}
+      ];
+    } else {
+          var fields = [
+            {title:'Date', type:'date', require: true, value: $scope.date},
+            {title:'Done By', type:'user', require: true, value: $scope.done_by, show_options: 'worker'}
+        ];
+    }
 
     $scope.print = function(){
       ModalService.show.modalFormDialog('Confirm service date',

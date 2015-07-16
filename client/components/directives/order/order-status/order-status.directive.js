@@ -14,6 +14,7 @@ angular.module('theBossApp')
 
             scope.setLabelClass = function (status){
                 var span = element.find('span');
+                status = status || 'new';
                 scope.status = status;
                 if(status.toLowerCase() === theBossSettings.taskStatuses.Finished){
                     span.attr('class', 'label label-success');

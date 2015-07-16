@@ -198,7 +198,7 @@ angular.module('theBossApp')
                 scope.splitOptions = function(optionString){
                     if( Object.prototype.toString.call( optionString ) === '[object Array]' ) return optionString;
                     return optionString ? optionString.split(',') : [];
-                }
+                };
 
                 if(scope.field) {
                     var $field = $(getFieldTemplate(scope,elem,attr)).appendTo(elem);

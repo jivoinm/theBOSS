@@ -5,6 +5,8 @@ angular.module('theBossApp')
       $scope.$parent.pageHeader = 'Calendar';
       $scope.queryText = '';
       $scope.uiCalendarConfig = uiCalendarConfig;
+      var orderModal = {};
+
       $scope.loadOrders = function(){
         $scope.uiCalendarConfig.calendars.myCalendar.fullCalendar('refetchEvents');
       };
@@ -54,7 +56,8 @@ angular.module('theBossApp')
                   angular.forEach(orders, function (order){
                       try{
                           if(!order.shipped_date) {
-                              this.push($scope.createEvent('date_required', order, order._id, ( (order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
+                              this.push($scope.createEvent('date_required', order, order._id, 
+                                ((order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
                                   order.date_required,
                                   (order.installation_date && order.installation_date !== order.date_required
                                   ? $scope.getLabelColor('installation')
@@ -64,7 +67,7 @@ angular.module('theBossApp')
                           if(!order.shipped_date && order.installation_date && order.installation_date !== order.date_required){
                               this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
                                       order.installation_date,
-                                      $scope.getLabelColor('installation')
+                                      $scope.getLabelColor(order.status)
                                       , 'Order'));
                           }
                           if(order.shipped_date){
@@ -173,12 +176,17 @@ angular.module('theBossApp')
         if(event.editable){
           var details = event.details;
           OrderService.get({orderId:event.order_id}).$promise.then(function(result){
-              ModalService.show.showOrderDetailsPopup('Event details',result)();
+              orderModal = ModalService.show.showOrderDetailsPopup('Event details',result)();
           }, function(err){
                   ModalService.showPopup('Error loading event details',err);
               });
          }
       };
+
+      $scope.$on('order.service.print', function(e, order, serviceIndex) {
+          $location.path('/order/detail/'+order+'/print/' + serviceIndex);
+          orderModal.close();
+        });
 
       $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){
           updateCalendarEvent(event);

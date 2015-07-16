@@ -79,7 +79,7 @@ angular.module('theBossApp')
         scope.getOrderTitle = function(order){
           if(order && order.customer)
           {
-            var dateRequired = $filter('date')(order.date_required);
+            var dateRequired = $filter('date')( order.installation_date || order.date_required);
             return $sce.trustAsHtml(order.customer.name +' - '+ order.po_number +' @ '+ dateRequired);
           }
           return '';

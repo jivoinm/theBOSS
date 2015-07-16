@@ -12,7 +12,7 @@ angular.module('theBossApp', [
   'angularMoment',
   'underscore',
   'ngDragDrop',
-  'angularFileUpload',
+  'angularFileUpload'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

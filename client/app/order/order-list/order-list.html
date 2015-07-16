@@ -4,7 +4,7 @@
           <div class="panel-heading">Filters</div>
           <div class="panel-body">
               <p>Select your orders by quick search by status or advanced search by additional order properties</p>
-              <a class="btn btn-primary btn-lg" ui-sref="order.new">New Order</a>
+              <a restricted-access="admin,service rep" class="btn btn-primary btn-lg" ui-sref="order.new">New Order</a>
           </div>
           <ul class="list-group">
               <a href="/order/list/new" class="list-group-item" active-url>

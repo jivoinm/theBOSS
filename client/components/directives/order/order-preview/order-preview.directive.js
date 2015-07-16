@@ -6,7 +6,8 @@ angular.module('theBossApp')
       templateUrl: 'components/directives/order/order-preview/order-preview.html',
       restrict: 'E',
       scope:{
-          order:'='
+          order: '=',
+          modal: '='
       },
       controller: function($scope){
           $scope.preview = true;
@@ -16,9 +17,10 @@ angular.module('theBossApp')
             { title:"Accessories", template:'components/directives/order/order-preview/tab-accessories.html', active: false },
             { title:"Files", template:'components/directives/order/order-preview/tab-files.html', active: false },
             { title:"Notes", template:'components/directives/order/order-preview/tab-notes.html', active: false },
+            { title:"Work Log", template:'components/directives/order/order-preview/tab-worklog.html', active: false },
           ];
 
-          if($stateParams.tab){
+          if($stateParams.tab) {
             angular.forEach($scope.tabs, function(item){
               if(item.title === $stateParams.tab){
                 item.active = true;
@@ -27,6 +29,8 @@ angular.module('theBossApp')
               }
             })
           }
+
+         
       }
     };
   });
