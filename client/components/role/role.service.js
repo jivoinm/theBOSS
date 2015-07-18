@@ -8,7 +8,7 @@ angular.module('theBossApp')
   	return {
   		validateRoleAdmin: function (currentUser) {
   			currentUser = (currentUser || $rootScope.currentUser);
-  			return currentUser ? _.contains(adminRoles, currentUser.role) : false;
+  			return currentUser ? _.contains(adminRoles, currentUser.role) || _.contains(secondAdminRoles, currentUser.role)  : false;
   		},
       validateServiceApproval: function (currentUser) {
   			currentUser = (currentUser || $rootScope.currentUser);

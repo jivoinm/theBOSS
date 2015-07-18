@@ -14,9 +14,6 @@ angular.module('theBossApp')
     }, {
       'title': 'Services',
       'link': '/order/services'
-    }, {
-      'title': 'Add Order',
-      'link': '/order/detail'
     }];
 
     $scope.isCollapsed = true;

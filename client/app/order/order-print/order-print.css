@@ -11,7 +11,12 @@
 }
 
 .filldetails { 
-    min-height: 350px;
+    min-height: 450px;
     height: 100%;
     white-space: pre-line;
+}
+
+.pull-bottom {
+  vertical-align: bottom;
+  float: none;
 }

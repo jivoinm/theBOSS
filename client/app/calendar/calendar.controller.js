@@ -167,9 +167,14 @@ angular.module('theBossApp')
           calendarOrder.editable = true;
           return calendarOrder;
       };
+      
+      var isAdminRole = roles.validateRoleAdmin(Auth.getCurrentUser());
 
-      $scope.eventDrop = function (event,dayDelta,minuteDelta,revertFunc) {
+      $scope.eventDrop = function (event, delta, revertFunc) {
+        if(isAdminRole)
           updateCalendarEvent(event);
+        else
+          revertFunc();
       };
 
       $scope.eventClick = function (event){
@@ -206,7 +211,7 @@ angular.module('theBossApp')
                   center: 'title',
                   right: 'month,basicWeek'
               },
-              editable: roles.validateRoleAdmin(Auth.getCurrentUser()),
+              editable: isAdminRole,
               eventClick: $scope.eventClick,
               eventDrop: $scope.eventDrop,
               eventResize: $scope.eventResize,
