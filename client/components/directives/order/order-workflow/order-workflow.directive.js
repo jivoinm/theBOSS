@@ -13,7 +13,13 @@ angular.module('theBossApp')
             '        <div class="btn-group" ng-show="showWorkflowAction(\'finished\')">' +
             '            <button type="button" class="btn btn-success" ng-click="setStatus(\'finished\')">Finished</button>' +
             '            </div>' +
-            '        </div>',
+            '  </div>'+
+            '  <div class="btn-group btn-group-justified" ng-show="showWorkflowAction(\'reset\')"> '+
+            '       <div class="btn-group">' +
+            '            <button type="button" class="btn btn-danger" ng-click="setStatus(\'reset\')">Reset order status</button>' +
+            '       </div>'+
+            '  </div> '
+            ,
         restrict: 'E',
         scope: {
             order: '='
@@ -27,10 +33,11 @@ angular.module('theBossApp')
             scope.showWorkflowAction = function (action){
                 switch(scope.order.status ? scope.order.status.toLowerCase() : '') {
                     case 'approved':
-                    case 'in progress':
                         return action === 'blocked' || action === 'finished';
+                    case 'in progress':
+                        return action === 'blocked' || action === 'finished' || action === 'reset';
                     case 'blocked':
-                        return action === 'approved' || action === 'finished';
+                        return action === 'approved' || action === 'finished' || action === 'reset';
                     case 'finished':
                         return false;
                     default:
@@ -41,8 +48,10 @@ angular.module('theBossApp')
 
             //Set order status
             scope.setStatus = function (status){
+              console.log(scope.order);
                 ModalService.confirm.question('You are about to '+status+' this order, are you sure?', function(confirmed){
                     if(confirmed){
+                        status = status === 'reset' ? 'approved' : status;
                         scope.order.$setStatus({status:status}, function(order){
                             //$scope.order = order;
                             $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
