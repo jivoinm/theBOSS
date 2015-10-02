@@ -4,17 +4,17 @@ angular.module('theBossApp')
   .directive('orderWorkflow', function (ModalService, $rootScope, toaster, theBossSettings) {
     return {
         template: '<div class="btn-group btn-group-justified">' +
-            '        <div class="btn-group" ng-show="showWorkflowAction(\'approved\')">' +
+            '        <div class="btn-group" ng-if="showWorkflowAction(\'approved\')">' +
             '            <button type="button" class="btn btn-success" ng-click="setStatus(\'approved\')">Approve</button>' +
             '        </div>' +
-            '        <div class="btn-group" ng-show="showWorkflowAction(\'blocked\')">' +
+            '        <div class="btn-group" ng-if="showWorkflowAction(\'blocked\')">' +
             '            <button type="button" class="btn btn-warning" ng-click="setStatus(\'blocked\')">Blocked</button>' +
             '        </div>' +
-            '        <div class="btn-group" ng-show="showWorkflowAction(\'finished\')">' +
+            '        <div class="btn-group" ng-if="showWorkflowAction(\'finished\')">' +
             '            <button type="button" class="btn btn-success" ng-click="setStatus(\'finished\')">Finished</button>' +
             '            </div>' +
             '  </div>'+
-            '  <div class="btn-group btn-group-justified" ng-show="showWorkflowAction(\'reset\')"> '+
+            '  <div class="btn-group btn-group-justified" ng-if="showWorkflowAction(\'reset\')"> '+
             '       <div class="btn-group">' +
             '            <button type="button" class="btn btn-danger" ng-click="setStatus(\'reset\')">Reset order status</button>' +
             '       </div>'+
@@ -38,8 +38,8 @@ angular.module('theBossApp')
                         return action === 'blocked' || action === 'finished' || action === 'reset';
                     case 'blocked':
                         return action === 'approved' || action === 'finished' || action === 'reset';
-                    case 'finished':
-                        return false;
+                    case 'finished' :
+                        return action === 'reset';
                     default:
                         return action === 'approved';
                 }
@@ -48,9 +48,25 @@ angular.module('theBossApp')
 
             //Set order status
             scope.setStatus = function (status){
-              console.log(scope.order);
                 ModalService.confirm.question('You are about to '+status+' this order, are you sure?', function(confirmed){
                     if(confirmed){
+                      if(status==='reset'){
+                        status = status === 'reset' ? 'approved' : status;
+                        scope.order.status = status;
+                        for (var i = 0; i < scope.order.forms.length; i++) {
+                          for (var j = 0; j < scope.order.forms[i].tasks.length; j++) {
+                              var task = scope.order.forms[i].tasks[j];
+                              delete task['changed_by'];
+                              delete task['changed_on'];
+                              delete task['status'];
+                              scope.order.forms[i].tasks[j] = task;
+                          }
+                        }
+                        scope.order.$save(function(order){
+                          scope.order = order;
+                          $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
+                        });
+                      }else{
                         status = status === 'reset' ? 'approved' : status;
                         scope.order.$setStatus({status:status}, function(order){
                             //$scope.order = order;
@@ -59,6 +75,7 @@ angular.module('theBossApp')
                         },function(err){
                             toaster.pop('error', "Error", 'Error updating status '+ err);
                         });
+                      }
                     }
                 })();
             }
