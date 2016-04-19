@@ -6,9 +6,10 @@ angular.module('theBossApp')
         'get': {
             method: 'GET',
             isArray: true,
-            url: '/api/forms/:module',
+            url: '/api/forms/:module/:required',
             params: {
-                module: '@module'
+                module: '@module',
+                required: '@required'
             }
         },
         'addField':{

@@ -13,6 +13,7 @@ angular.module('theBossApp')
         query.status = 'new';
         query.limit = null;
         query.page = null;
+        query.sort = '_createdAt';
         OrderService.query(query).$promise.then (function (data) {
         	scope.orders = data.orders;
             scope.totalOrders = data.totalOrders;

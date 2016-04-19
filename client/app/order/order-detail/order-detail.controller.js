@@ -2,7 +2,7 @@
 
 angular.module('theBossApp')
   .controller('OrderDetailCtrl', function ($scope, $location, OrderService, ModalService, toaster, roles, datepickerConfig,
-    $timeout, order, timeOff, $filter, theBossSettings) {
+    $timeout, order, timeOff, $filter, theBossSettings, _, calendar) {
 
         $scope.actives = {};
 
@@ -25,7 +25,6 @@ angular.module('theBossApp')
             $scope.preview = true;
         }
 
-
         $scope.isActiveTab = function(tab){
           return $scope.selectedTab === tab;
         };
@@ -47,12 +46,29 @@ angular.module('theBossApp')
         };
 
         $scope.validateForm = function(form){
-          return form.customer && 
-                form.customer.name && 
+          var validateForm = {valid: true, message:''};
+          if(form.forms && form.forms.length <= 1 && form.forms.some(function(form){
+            return form.required;
+          })) return {valid: false, message:'No forms have been entered'};
+
+          if(form.forms && form.forms.length > 1 && !form.forms.some(function(form){
+            return !form.required;
+          })) return {valid: false, message:'No forms have been entered'};
+
+          var formsHaveInvalidFields = form.forms && form.forms.some(function(form){
+            return form.fields.some(function(field){
+              return field.require && !field.value;
+            });
+          });
+          var areAllFormsValid = form.customer &&
+                form.customer.name &&
                 form.customer.ship_to &&
                 form.customer.phone &&
                 form.po_number &&
-                form.date_required;
+                form.date_required &&
+                !formsHaveInvalidFields;
+          return areAllFormsValid ? validateForm :
+                {valid: false, message:'Check that all required fields are entered.'};
         };
 
         $scope.saveOrder = function(){
@@ -72,8 +88,9 @@ angular.module('theBossApp')
 
         //Save order
         $scope.save = function (form){
-            if($scope.validateForm($scope.order)){
-                if(!roles.validateRoleAdmin() && $scope.order.ordered_accessories && $scope.order.ordered_accessories.length === 0){
+            var validateForm = $scope.validateForm($scope.order);
+            if(validateForm.valid){
+                if(!roles.validateRoleAdmin() && !$scope.order.ordered_accessories || $scope.order.ordered_accessories && $scope.order.ordered_accessories.length === 0){
                     ModalService.confirm.question('Do you want to add accesories to this order?', function(confirmed){
                         if(confirmed){
                            $scope.actives.two = true;
@@ -86,7 +103,7 @@ angular.module('theBossApp')
                     $scope.saveOrder();
                 }
             }else{
-             toaster.pop('error', 'Error saving you order', 'Check that all required field are entered.'); 
+             toaster.pop('error', 'Error saving you order', validateForm.message);
             }
         };
 
@@ -160,6 +177,20 @@ angular.module('theBossApp')
 
         $scope.$watch('order.installation_date', function(newValue, oldValue) {
           $scope.updateOrderOnChange(newValue, oldValue, 'Saved installation date');
+        }, true);
+
+        $scope.$watch('order.date_required', function(newValue, oldValue) {
+          if(!newValue || order._id) return;
+          calendar.numberOfScheduledOrders(moment(newValue).zone(theBossSettings.timeZone).format(), function(countOrdersOnThisDay){
+            if(countOrdersOnThisDay >= 2){
+              ModalService.confirm.question('This date already has '+countOrdersOnThisDay+' jobs on it. Would you like to continue anyways?', function(confirmed){
+                  if(!confirmed){
+                    order.date_required = null;
+                    return;
+                  }
+               })();
+            }
+          });
         }, true);
 
         $scope.$on(theBossSettings.userAutoCompleteSelectedEvent, function(event, userSelected) {

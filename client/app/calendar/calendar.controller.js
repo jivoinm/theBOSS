@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService, moment, theBossSettings, roles, $location, $stateParams, Auth, $compile, $timeout, timeOff,uiCalendarConfig) {
+  .controller('CalendarCtrl', function ($scope, OrderService, toaster, ModalService,
+    moment, theBossSettings, roles, $location, $stateParams, Auth, $compile, $timeout, timeOff,uiCalendarConfig, calendar) {
       $scope.$parent.pageHeader = 'Calendar';
       $scope.queryText = '';
       $scope.uiCalendarConfig = uiCalendarConfig;
@@ -11,25 +12,20 @@ angular.module('theBossApp')
         $scope.uiCalendarConfig.calendars.myCalendar.fullCalendar('refetchEvents');
       };
 
-      var date = new Date();
-      var d = date.getDate();
-      var m = date.getMonth();
-      var y = date.getFullYear();
-
       $scope.getLabelColor = function (status){
           if (!status) {return 'label label-warning';}
 
-          if(status.toLowerCase() == 'approved'){
+          if(status.toLowerCase() === 'approved'){
              return '#777';
-          }else if(status.toLowerCase() == 'finished'){
+          }else if(status.toLowerCase() === 'finished'){
               return '#5cb85c';
-          }else if(status.toLowerCase() == 'in progress'){
+          }else if(status.toLowerCase() === 'in progress'){
               return '#337ab7';
-          }else if(status.toLowerCase() == 'installation'){
+          }else if(status.toLowerCase() === 'installation'){
               return '#000000';
-          }else if(status.toLowerCase() == 'shipped'){
+          }else if(status.toLowerCase() === 'shipped'){
               return '#B4AA5B';
-          }else if(status.toLowerCase() == 'blocked' ||status.toLowerCase() === 'service'){
+          }else if(status.toLowerCase() === 'blocked' || status.toLowerCase() === 'service'){
               return '#d9534f';
           }else {
               return '#f0ad4e';
@@ -56,23 +52,24 @@ angular.module('theBossApp')
                   angular.forEach(orders, function (order){
                       try{
                           if(!order.shipped_date) {
-                              this.push($scope.createEvent('date_required', order, order._id, 
-                                ((order.installation_date ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '')),
+                              this.push($scope.createEvent('date_required', order, order._id,
+                                ((order.installation_date &&
+                                  order.installation_date != order.date_required ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '')),
                                   order.date_required,
                                   (order.installation_date && order.installation_date !== order.date_required
                                   ? $scope.getLabelColor('installation')
-                                  : $scope.getLabelColor(order.status)), 'Order'));
+                                  : $scope.getLabelColor(order.status)), 'Forms'));
                           }
 
                           if(!order.shipped_date && order.installation_date && order.installation_date !== order.date_required){
-                              this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
+                              this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '') ),
                                       order.installation_date,
                                       $scope.getLabelColor(order.status)
-                                      , 'Order'));
+                                      , 'Forms'));
                           }
                           if(order.shipped_date){
-                              this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doors || '') ),
-                                      order.shipped_date, $scope.getLabelColor('shipped'), 'Order'));
+                              this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '') ),
+                                      order.shipped_date, $scope.getLabelColor('shipped'), 'Forms'));
                           }
 
                       }catch(ex){
@@ -110,7 +107,7 @@ angular.module('theBossApp')
                   angular.forEach(order.services, function(service,i){
                     var label = service.completed ? '[completed]' : (service.approved ? '[approved]' : '[new]');
                     allEvents.push($scope.createEvent('services.'+i+'.date', service, order._id, 'Service '+label+'-['+ order.po_number + '] '+ order.customer.name,
-                          service.date,$scope.getLabelColor('service'), 'Service'));
+                          service.date, $scope.getLabelColor(service.completed ? 'shipped' : 'service'), 'Services'));
 
                   });
               }
@@ -167,21 +164,30 @@ angular.module('theBossApp')
           calendarOrder.editable = true;
           return calendarOrder;
       };
-      
+
       var isAdminRole = roles.validateRoleAdmin(Auth.getCurrentUser());
 
       $scope.eventDrop = function (event, delta, revertFunc) {
-        if(isAdminRole)
-          updateCalendarEvent(event);
-        else
-          revertFunc();
+        calendar.numberOfScheduledOrders(moment(event.start).zone(theBossSettings.timeZone).format(), function(countOrdersOnThisDay){
+          if(countOrdersOnThisDay >= 2 && event.className != 'Services'){
+            if(!confirm('This date already has '+countOrdersOnThisDay+' jobs on it. Would you like to continue anyways?'))
+            {
+              revertFunc();
+              return;
+            }
+          }
+          if(isAdminRole)
+            updateCalendarEvent(event);
+          else
+            revertFunc();
+
+        });
       };
 
       $scope.eventClick = function (event){
         if(event.editable){
-          var details = event.details;
           OrderService.get({orderId:event.order_id}).$promise.then(function(result){
-              orderModal = ModalService.show.showOrderDetailsPopup('Event details',result)();
+              orderModal = ModalService.show.showOrderDetailsPopup('Event details',result, event.className)();
           }, function(err){
                   ModalService.showPopup('Error loading event details',err);
               });

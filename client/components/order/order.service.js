@@ -25,6 +25,11 @@ angular.module('theBossApp')
                 isArray: true,
                 method: 'GET'
             },
+            'newAndNotCompletedServicesOlderThanTwoWeeks': {
+                url: '/api/orders/newAndNotCompletedServicesOlderThanTwoWeeks',
+                isArray: true,
+                method: 'GET'
+            },
             'tasks': {
                 url: '/api/orders/todotasks',
                 method: 'GET'

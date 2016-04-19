@@ -1,12 +1,11 @@
-<div field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}"></div>
-<div field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></div>
-<div field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date', require:true, show_options: [{showMinToday:true}]}"></div>
-<div field ng-model="order.customer.bill_to" ng-field="{title:'Bill To', type:'text'}"></div>
-<div field ng-model="order.customer.ship_to" ng-field="{title:'Ship To', type:'text', require:true}"></div>
-<div field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></div>
-<div field ng-model="order.customer.phone" ng-field="{title:'Contact Number', type:'text', require: true}"></div>
-<div field ng-model="order.customer.cell" ng-field="{title:'Secondary Number', type:'text'}"></div>
-<div field ng-model="order.customer.is_private" ng-field="{title:'Is Private', type:'checkbox'}"></div>
-<div field ng-model="order.doors" ng-field="{title: 'Doors', type: 'select', require: true, show_options: 'N/A, All Made in Shop, Some Made In Shop, All Ordered'}"></div>
-
+<field ng-model="order.customer.name" ng-field="{title:'Customer', type:'text', require: true}"></field>
+<field ng-model="order.po_number" ng-field="{title:'P.O.#', type:'text', require: true}"></field>
+<field ng-model="order.date_required" ng-field="{title:'Required Date', type:'date', require:true, show_options: [{showMinToday:true}]}"></field>
+<field ng-model="order.customer.bill_to" ng-field="{title:'Bill To', type:'text'}"></field>
+<field ng-model="order.customer.ship_to" ng-field="{title:'Ship To', type:'text', require:true}"></field>
+<field ng-model="order.customer.email" ng-field="{title:'Email', type:'email'}"></field>
+<field ng-model="order.customer.phone" ng-field="{title:'Contact Number', type:'text', require: true}"></field>
+<field ng-model="order.customer.cell" ng-field="{title:'Secondary Number', type:'text'}"></field>
+<field ng-model="order.customer.is_private" ng-field="{title:'Is Private', type:'checkbox'}"></field>
+<div ng-if="order._id && order.doors" field ng-model="order.doors" ng-field="{title: 'Doors', type: 'select', require: false, show_options: 'N/A, All Made in Shop, Some Made In Shop, All Ordered'}"></div>
 <forms module="Order" list-of-forms="order.forms"></forms>

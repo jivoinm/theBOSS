@@ -45,6 +45,7 @@ angular.module('theBossApp')
                             toaster.pop('error', "There was an error saving note on server, "+err.message);
                         });
                       model = null;
+                      return true;
                     }
                 })();
 
@@ -60,7 +61,7 @@ angular.module('theBossApp')
               })
             }
           })();
-          
+
         }
       }
     };

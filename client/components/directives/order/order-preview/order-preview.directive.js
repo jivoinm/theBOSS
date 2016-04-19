@@ -7,7 +7,8 @@ angular.module('theBossApp')
       restrict: 'E',
       scope:{
           order: '=',
-          modal: '='
+          modal: '=',
+          activeTab: '='
       },
       controller: function($scope){
           $scope.preview = true;
@@ -20,17 +21,15 @@ angular.module('theBossApp')
             { title:"Work Log", template:'components/directives/order/order-preview/tab-worklog.html', active: false },
           ];
 
-          if($stateParams.tab) {
+          if($stateParams.tab || $scope.activeTab) {
             angular.forEach($scope.tabs, function(item){
-              if(item.title === $stateParams.tab){
+              if(item.title == $stateParams.tab || item.title == $scope.activeTab){
                 item.active = true;
               }else{
                 item.active = false;
               }
             })
           }
-
-         
       }
     };
   });

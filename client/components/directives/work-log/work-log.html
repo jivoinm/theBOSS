@@ -14,7 +14,7 @@
       <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
         <div class="panel-body">
               <tabset>
-                  <tab heading="{{form.formName}}" ng-repeat='form in item.forms' active="form.active">
+                  <tab heading="{{form.formName}}" ng-if="form.tasks.length>0" ng-repeat='form in item.forms' active="form.active">
                       <div class="well">
                           <div class="row">
                               <div class="col-md-4">

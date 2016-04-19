@@ -74,6 +74,7 @@ angular.module('theBossApp')
                                 });
                             }
                             model = null;
+                            return true;
                         }
                     })();
 

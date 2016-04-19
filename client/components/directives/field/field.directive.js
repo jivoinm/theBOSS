@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('field', function ($http, $compile, $timeout, User, _, datepickerConfig,$rootScope,theBossSettings) {
+  .directive('field', function ($http, $compile, $timeout, User, _, datepickerConfig, $rootScope, theBossSettings, $parse) {
 
 
         var formField = function(field){
-            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }">' +
+            return '<div ng-form="form" class="form-group" ng-class="{\'has-error\' :  form.fieldName.$invalid  }" ng-hide="field.hide">' +
                 '<label class="control-label" ng-class="{\'col-sm-4\' : !isInine}">{{field.title}}</label>' +
                 '<div class="col-sm-8" ng-class="{\'col-sm-6\' : !isInline}">'+ field+'</div>' +
                     '<div class="col-sm-2" ng-show="!isInline" restricted-access>'+
@@ -15,7 +15,48 @@ angular.module('theBossApp')
                         '</div>' +
                     '</div>' +
                 '</div>';
-        }
+        };
+
+        var getFormulaValues = function(fn, listItemValue){
+          fn = fn.substring(1, fn.length);
+          var formulaValues = fn;
+          fn = fn.replace('+','#').replace('-','#').replace('*','#').replace('/','#')
+          var formulas = fn.split('#');
+
+          var processed = false;
+          angular.forEach(formulas, function(formula){
+            formula = formula.replace('(','').replace(')','');
+            var getProperty = $parse(formula);
+            var value = getProperty(listItemValue);
+            if(value && value.value != null){
+              formulaValues = formulaValues.replace(formula, value.value);
+              processed = true;
+            }else{
+              processed = false;
+            }
+          });
+          return processed ? formulaValues : null;
+        };
+
+        var calculateValue = function(scope){
+          scope.model = scope.model || {};
+          var value = '';
+          var fn = scope.field.show_options;
+          if(fn.indexOf('=') === 0){
+            //this is a formula
+            var formValue = scope.formValue;
+            var formulaValues = getFormulaValues(fn, formValue);
+            if(formulaValues){
+              var formula = math.parse(formulaValues);
+              var code = formula.compile(math);
+              value = code.eval(formValue);
+            }
+          }else{
+            var getter = $parse(fn);
+            value = getter(formValue).value;
+          }
+          scope.model.value = value;
+        };
 
         function getFieldTemplate(scope, element, attr){
             var fieldTemplate = '';
@@ -74,12 +115,12 @@ angular.module('theBossApp')
 
                     fieldTemplate = '<div class="row">' +
                         '<div class="col-md-6">' +
-                        '<p class="input-group">' +
-                        '<input type="text" class="form-control" datepicker-append-to-body="false" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model"  ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
-                        '<span class="input-group-btn">' +
-                        '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
-                        '</span>' +
+                          '<p class="input-group">' +
+                          '<input type="text" class="form-control" datepicker-append-to-body="false" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
+                          'ng-model="model"  ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
+                          '<span class="input-group-btn">' +
+                          '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
+                          '</span>' +
                         '</p>' +
                         '</div>' +
                         '</div>';
@@ -92,7 +133,7 @@ angular.module('theBossApp')
                     break;
                 case 'number':
                     fieldTemplate = '<input type="number" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
-                        'ng-model="model"  ng-required="{{ field.require }}"/>';
+                        'ng-model="model"  ng-required="{{ field.require }}" min="{{field.min}}"/>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'hidden':
@@ -189,6 +230,7 @@ angular.module('theBossApp')
             scope: {
                 model: '=ngModel',
                 field: '=ngField',
+                fieldForm: '=',
                 edit: '&',
                 delete: '&',
                 index: '=',
@@ -208,17 +250,48 @@ angular.module('theBossApp')
                         $timeout(function() {
                             elem.find('.tokenfield').tokenfield({tokens:scope.field.value});
                         }, 700);
-
                     }
 
                     if(scope.field.focus === true){
                         $timeout(function() {
                             elem.find('input, select, textarea').focus();
                         }, 700);
-
                     }
+
                 }
             }
 
         };
-  });
+  })
+  .directive('datepickerLocaldate', ['$parse', function ($parse) {
+        var directive = {
+            restrict: 'A',
+            require: ['ngModel'],
+            link: link
+        };
+        return directive;
+
+        function link(scope, element, attr, ctrls) {
+            var ngModelController = ctrls[0];
+
+            // called with a JavaScript Date object when picked from the datepicker
+            ngModelController.$parsers.push(function (viewValue) {
+                // undo the timezone adjustment we did during the formatting
+                viewValue.setMinutes(viewValue.getMinutes() - viewValue.getTimezoneOffset());
+                // we just want a local date in ISO format
+                return viewValue.toISOString().substring(0, 10);
+            });
+
+            // called with a 'yyyy-mm-dd' string to format
+            ngModelController.$formatters.push(function (modelValue) {
+                if (!modelValue) {
+                    return undefined;
+                }
+                // date constructor will apply timezone deviations from UTC (i.e. if locale is behind UTC 'dt' will be one day behind)
+                var dt = new Date(modelValue);
+                // 'undo' the timezone offset again (so we end up on the original date again)
+                dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset());
+                return dt;
+            });
+        }
+    }]);

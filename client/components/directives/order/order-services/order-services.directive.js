@@ -69,6 +69,7 @@ angular.module('theBossApp')
                             });
                         }
                         model = null;
+                        return true;
                     }
                 })();
 
@@ -77,7 +78,7 @@ angular.module('theBossApp')
         scope.printService = function (orderId, serviceIndex){
           if(scope.modal)
           {
-            $rootScope.$broadcast('order.service.print',orderId, serviceIndex); 
+            $rootScope.$broadcast('order.service.print',orderId, serviceIndex);
           }else{
             $location.path('/order/detail/'+orderId+'/print/' + serviceIndex);
           }

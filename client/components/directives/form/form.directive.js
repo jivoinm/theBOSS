@@ -18,7 +18,8 @@ angular.module('theBossApp')
         templateUrl: 'components/directives/form/form.html',
         restrict: 'E',
         scope: {
-            listOfForms: '='
+            listOfForms: '=',
+            module: '='
         },
         controller: function($scope){
             $scope.addForm = function (form){
@@ -29,29 +30,31 @@ angular.module('theBossApp')
             $scope.addField = function (form,e){
                 StopEventPropagation(e);
 
-                ModalService.show.modalFormDialog('Add new field ', getFormSetupFields({}), function(model){
+                ModalService.show.modalFormDialog('Add new field ', getFormSetupFields(form, {}), function(model){
+                    if(model && model.title && model.type){
+
                         FormService.addField({id:form._id},model, function(updated_form){
                             toaster.pop('success', "Field "+model.title+" was added with success");
                             ngModelPopulate(updated_form, form);
                         },function(err){
                             toaster.pop('error', "There was an error saving new field on server, "+err);
                         });
-
-                    })();
+                      return true;
+                    } else {
+                      toaster.pop('error', "Fill in the required fields, "+err);
+                      return false;
+                    }
+                })();
             };
 
-            function getFormSetupFields(field) {
-                return [
+            function getFormSetupFields(form, field) {
+               return [
                     {title: 'Title', value: field.title, require: true, type: 'text'},
                     {title: 'Value', value: field.value, require: false, type: 'text'},
                     {title: 'Type', value: field.type, require: true, type: 'select', show_options: field_types},
                     {title: 'Show Options', value: field.show_options, require: false, type: 'tokens'},
-                    {title: 'Require', value: field.require, require: false, type: 'checkbox'}
-//                            {title:'Action', value: field.action, type:'select', showOptions: field_actions},
-//                            {title:'When field', value: field.when, type:'select', showOptions: form_fields},
-//                            {title:'Condition', value: field.condition, type:'select', showOptions: ['eq','ls','gt','diff']},
-//                            {title:'Value', value: field.condition_value, type:'text'}
-
+                    {title: 'Require', value: field.require, require: false, type: 'checkbox'},
+                    {title: 'Show when', value: field.show_when, require: false, type: 'text'}
                 ];
             }
 
@@ -62,7 +65,7 @@ angular.module('theBossApp')
                 }, form_fields);
 
                 ModalService.show.modalFormDialog('Edit field '+field.title,
-                    getFormSetupFields(field), function(model){
+                    getFormSetupFields(form, field), function(model){
                         if(model){
                             ngModelPopulate(model, field);
                             FormService.updateField({id:form._id, fieldId:field._id},field, function(updated_form){
@@ -71,7 +74,9 @@ angular.module('theBossApp')
                             },function(err){
                                 toaster.pop('error', "There was an error saving field on server, "+err.message);
                             });
+                            return true;
                         }
+                        return false;
                 })();
             };
 
@@ -80,10 +85,15 @@ angular.module('theBossApp')
                 var forms_to_clone_from =[];
                 angular.forEach($scope.moduleForms ,function(form){
                     this.push(form.formName);
-                },forms_to_clone_from)
-                var newFormFields = [{title:'Form Name',value:'',require:true,type:'text'}];
-                if(forms_to_clone_from.length > 0){
-                  newFormFields.push({title:'Clone From',value:'',require:false,type:'select',show_options:forms_to_clone_from});
+                },forms_to_clone_from);
+
+                var newFormFields = [
+                  {title: 'Form Name', value: '', require: true, type: 'text'},
+                  {title: 'Required', value: '', require: false, type: 'checkbox'},
+                ];
+
+                if(forms_to_clone_from.length > 0) {
+                  newFormFields.push({title: 'Clone From', value: '', require: false, type: 'select', show_options: forms_to_clone_from});
                 }
 
                 ModalService.show.modalFormDialog('Add new form', newFormFields, function(model){
@@ -96,7 +106,8 @@ angular.module('theBossApp')
                             }
                         })
                     }
-                    newForm.formName = model.formName
+                    newForm.formName = model.form_name;
+                    newForm.required = model.required;
                     newForm.module = $scope.module;
 
                     new FormService(newForm).$save(function(form){
@@ -104,13 +115,16 @@ angular.module('theBossApp')
                             toaster.pop('error', "There was an error saving new form on server.");
                         }else{
                             toaster.pop('success', "New form was added with success");
+                            $scope.listOfForms = $scope.listOfForms || [];
+                            $scope.moduleForms = $scope.moduleForms || [];
                             $scope.listOfForms.push(form);
                             $scope.moduleForms.push(form);
                         }
-
+                    }, function(error){
+                      toaster.pop('error', "There was an error saving new form on server. The form name already exists");
                     });
 
-
+                  return true;
                 })();
             };
 
@@ -150,8 +164,7 @@ angular.module('theBossApp')
 
                     }
                 })();
-
-            }
+            };
 
             $scope.removeForm =  function(list,index,e){
                 StopEventPropagation(e);
@@ -159,10 +172,9 @@ angular.module('theBossApp')
                     if(confirmed){
                         //delete
                         list.splice(index,1);
-
                     }
                 })();
-            }
+            };
         },
 
         link: function (scope, element, attrs) {
@@ -187,7 +199,7 @@ angular.module('theBossApp')
             scope.toggleDropdown = function($event) {
               event.preventDefault();
               event.stopPropagation();
-              scope.status.isopen = !$scope.status.isopen;
+              scope.status.isopen = !scope.status.isopen;
             };
         }
     };

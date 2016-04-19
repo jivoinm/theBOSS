@@ -10,7 +10,10 @@ angular.module('theBossApp')
                 $scope.preview = preview;
             });
 
-            $scope.order_task_fields = [{title:'Title', type:'text', require: true},{title:'Duration', type:'text', require: true},{title:'Status Options', type:'textarea', require: true}];
+            $scope.order_task_fields = [
+              {title:'Title', type:'text', require: true},
+              {title:'Duration', type:'text', require: true},
+              {title:'Status Options', type:'textarea', require: true}];
         },
 
         link: function postLink(scope, element, attrs) {

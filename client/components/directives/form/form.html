@@ -20,7 +20,7 @@
         <accordion close-others="oneAtATime">
             <accordion-group heading="{{form.formName}}" ng-repeat="form in listOfForms" is-open="$first">
                 <accordion-heading>
-                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview"></i>
+                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview && !form.required"></i>
 
                     <span>{{form.formName}}</span>
                     <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview" restricted-access>
