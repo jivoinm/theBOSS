@@ -1,0 +1,28 @@
+<span class="list-group-item">
+   <h4 class="list-group-item-heading active">{{item.po_number}} - {{item.customer.name}}</h4>
+   <p class="list-group-item-text">
+       <div class="row">
+           <div class="col-md-6">
+               <div class="form-group">
+                   <label class="col-md-4 control-label">Ship To:</label>
+                   <div class="form-control-static col-md-8">{{item.customer.ship_to ? item.customer.ship_to : item.customer.bill_to}}</div>
+               </div>
+           </div>
+           <div class="col-md-6">
+             <div class="row">
+                <div class="col-md-4">
+                    Shipping Date
+                </div>
+                <div class="col-md-8">
+                    <p class="input-group">
+                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="item.shipped_date" is-open="opened" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </p>
+                </div>
+            </div>
+           </div>
+       </div>
+   </p>
+ </span>

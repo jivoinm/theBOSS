@@ -1,0 +1,40 @@
+<div class="navbar navbar-default navbar-static-top" ng-controller="NavbarCtrl">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">the-boss</a>
+    </div>
+    <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li ng-hide="!isLoggedIn()" ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+            <a ng-href="{{item.link}}">{{item.title}}</a>
+        </li>
+        <li restricted-access="admin,service rep,user" ng-class="{active: isActive('/order/detail')}"><a href="/order/detail">Add Order</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
+        <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
+        <li alerts></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right" role="menu">
+              <li><a href="/settings"><i class="fa fa-user fa-fw"></i> User settings</a>
+              </li>
+              <li restricted-access="admin"><a href="/user"><i class="fa fa-gear fa-fw"></i> Users</a>
+              </li>
+              <li class="divider"></li>
+              <li><a href="" ng-click='logout()'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+              </li>
+          </ul>
+      </li>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="row">
+      <div ng-include="'app/account/user/user.menu.html'"></div>
+      <div class="col-md-10">
+          <div class="panel panel-default">
+              <div class="panel-heading">User search</div>
+              <div class="panel-body">
+                  <div class=well>
+                      <form ng-submit="loadUsers()">
+                      <div class="input-group">
+                          <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
+                      </div><!-- /input-group -->
+                      </form>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="table-responsive">
+                              <table class="table table-hover table-condensed">
+                                  <thead>
+                                  <tr>
+                                      <th>Name</th>
+                                      <th>Email</th>
+                                      <th>Role</th>
+                                      <th></th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="user in users">
+                                          <td>{{ user.name }}</td>
+                                          <td>{{ user.email }}</td>
+                                          <td>
+                                              <div class="btn-group">
+                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'admin'" ng-click="changRole(user,'admin')">Admin</label>
+                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'service rep'" ng-click="changRole(user,'service rep')">Service Rep</label>
+                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'user'" ng-click="changRole(user,'user')">Sales Rep</label>
+                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'worker'" ng-click="changRole(user,'worker')">Worker</label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <button type="button" class="btn btn-danger" ng-click="delete(user,$index)">Delete</button>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>

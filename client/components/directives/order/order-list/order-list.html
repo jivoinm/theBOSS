@@ -1,0 +1,79 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-{{ listType }} fa-fw"></i> {{ title }}
+        <div class="pull-right" ng-if="listFieldsToEdit && !preview">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs" id="add" ng-click="addNewField(editableForm)">
+                    Add new
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <form ng-submit="listSearch({selectedFilter:selectedFilter})">
+        <div class="row" ng-if="searchFilter">
+            <div class="col-sm-12">
+                <div class="input-group">
+
+                    <div class="input-group-btn search-panel">
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span id="search_concept">{{ selectedFilter.label || 'Filter by' }}</span> <span class="caret"></span>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li ng-repeat="filterBy in searchFilter track by $index">
+                                <a href="" ng-click="selectedFilter.text = ''; selectedFilter.label = filterBy.label;selectedFilter.query = filterBy.query;selectedFilter.api = filterBy.api;selectedFilter.itemId = null;">{{ filterBy.label }}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input type="text" ng-show="!selectedFilter.api" ng-model="selectedFilter.text" placeholder="select filter by and type search" ng-disabled="!selectedFilter.label" class="form-control">
+                    <input type="text" ng-show="selectedFilter.api" placeholder="select filter by and type search" ng-disabled="!selectedFilter.label" ng-model="selectedFilter.text"
+                           typeahead="results.name for results in lookup($viewValue,selectedFilter.api)"
+                           typeahead-on-select="selectedResult($item, $model, $label)"
+                           typeahead-loading="loadingLocations" class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+        </form>
+        <div class="list-group">
+          <a selected-item class="list-group-item" ng-repeat="item in quickList | limitTo: itemsLimit()">
+              <ng-transclude></ng-transclude>
+          </a>
+        </div>
+        <a href="" class="btn btn-default btn-block" ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">Load next</a>
+        <div class="list-group-item" ng-show="!quickList.length">
+            <h4 class="list-group-item-heading">
+                Nothing to show
+            </h4>
+        </div>
+        <!-- /.list-group -->
+
+    </div>
+    <div class="panel-footer" ng-if="footerForms">
+        <div class="row">
+            <field ng-model="field.value" ng-field="field" action="field.action.click" ng-repeat="field in footerForm"></field>
+        </div>
+
+    </div>
+    <div class="panel-footer" ng-if="footerForm">
+        <div class="input-group">
+
+            <input type="text" placeholder="Type your message here..." class="form-control input-sm" id="btn-input" ng-model="message">
+            <span class="input-group-btn">
+                <button id="btn-chat" class="btn btn-warning btn-sm" ng-click="sendMessage()">
+                    Send
+                </button>
+            </span>
+
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>

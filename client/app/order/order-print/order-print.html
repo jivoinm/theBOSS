@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-xs-4">
+    <img ng-src="assets/images/logo.png" height="100px">
+  </div>
+  <div class="col-xs-4">
+    <h4><strong>{{action}} Form</strong></h4>
+  </div>
+  <div class="col-xs-4">
+    <span class="pull-right">
+    766 York Road<br/>
+    N.O.T.L, ON L0S 1J0<br/>
+    Phone: 905-685-6567<br/>
+    Fax: 905-685-0585
+    </span>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <div class="col-xs-6">
+    <strong>Customer Name:</strong>&nbsp;{{order.customer.name}}
+  </div>
+  <div class="col-xs-6">
+    {{ getFormDate()}} - PO# {{order.po_number}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <p>Address: {{order.customer.ship_to}}</p>
+    <p ng-if="order.customer.phone">Contact Number: {{order.customer.phone}}</p>
+    <p ng-if="order.customer.cell">Secondary Number: {{order.customer.cell}}</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 1:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ___________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completion: ___________________
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 2:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ___________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completion: ___________________
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <strong>Day 3:</strong>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    Arrival Time: ___________________
+  </div>
+  <div class="col-xs-6">
+    Time of Completion: ___________________
+  </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+  <div class="col-xs-12"><strong>Deficiency List:</strong></div>
+  <div class="col-xs-12 filldetails">{{details}}</div>
+</div>
+<div class="row pull-bottom">
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-xs-12">Please sign in agreement of completion or deficiency list above:</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <strong ng-if="done_by">Installer: {{done_by.name}}</strong>
+        <strong ng-if="!done_by">Installer: ______________________________</strong>
+      </div>
+      <div class="col-xs-6">
+        <strong>Date: ______________________________</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <strong>Customer: ______________________________</strong>
+      </div>
+      <div class="col-xs-6">
+        <strong>Date: ______________________________</strong>
+      </div>
+    </div>
+    <br/>
+    <div class="row hidden-print">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="print()">Print</button>
+      </div>
+    </div>    
+  </div>
+
+</div>

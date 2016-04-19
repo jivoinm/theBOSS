@@ -1,0 +1,33 @@
+
+ <div class="list-group-item" class="list-group-item-success">
+      <div>
+        <h4 class="list-group-item-heading">{{order.po_number}} - Installation <a ng-click="printService(order._id, 'Installation')"><span class="glyphicon glyphicon-print"></span></a></h4>
+        <p class="list-group-item-text">{{ order.installation_date | date }}  </p>
+    </div>
+</div>
+<div class="list-group-item" ng-class="{'list-group-item-success': service.completed, 'list-group-item-warning': !service.completed && service.approved,'list-group-item-danger': !service.completed && !service.approved }" ng-repeat="service in order.services">
+  <span class="label label-default pull-right" ng-if="!service.approved && !service.completed">New, needs approval</span>
+  <span class="label label-warning pull-right" ng-if="service.approved && !service.completed">Not completed</span>
+  <span class="label label-success pull-right" ng-if="service.approved && service.completed">Completed</span>
+<div class="checkbox">
+ <div class="row">
+   <div class="col-md-11">
+    <label>
+      <input type="checkbox" ng-disabled="service.completed" ng-model="service.completed" ng-change="completed(order, service)" restricted-access="admin,sales rep" ng-if="service.approved">
+      <input type="checkbox" ng-disabled="service.completed" ng-model="service.approved" ng-change="completed(order, service)" restricted-access="admin,sales rep" ng-if="!service.approved">
+        <div>
+          <h4 class="list-group-item-heading">{{service.title}} - {{ service.date | date }} <a ng-click="printService(order._id, $index)"><span class="glyphicon glyphicon-print"></span></a></h4>
+           <h6>Done by {{service.done_by.name}}</h6>
+           <p class="list-group-item-text">{{ service.details }}</p>
+        </div>
+   </label>
+  </div>
+  <div class="col-md-1">
+     <button type="button" class="btn btn-default pull-right" aria-label="Left Align" ng-tooltip="delete this service" ng-click="delete(order, $index)" restricted-access="admin,service rep,user">
+       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+     </button>
+   </div>
+ </div>
+
+</div>
+</div>
