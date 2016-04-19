@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading" tooltip-placement="right" tooltip="Add new form from the list" ng-if="!preview">{{ module }}
+        <div class="pull-right" >
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle>
+                    Add
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu" dropdown-menu>
+                    <li ng-repeat="form in moduleForms"><a href="" ng-click="addForm(form)">Add {{ form.formName }}</a></li>
+                    <li class="divider" restricted-access></li>
+                    <li restricted-access><a href="#" ng-click="addNewForm()">New Form</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel-heading" ng-if="preview">{{ module }}</div>
+    <div class="panel-body">
+        <accordion close-others="oneAtATime">
+            <accordion-group heading="{{form.formName}}" ng-repeat="form in listOfForms" is-open="$first">
+                <accordion-heading>
+                    <i class="fa fa-ban" ng-click="removeForm(listOfForms,$index,$event)" ng-if="!preview && !form.required"></i>
+
+                    <span>{{form.formName}}</span>
+                    <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview" restricted-access>
+
+                        <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
+                        <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>
+                    </div>
+
+                </accordion-heading>
+
+                <field ng-model="field.value" index="$index" ng-field="field" ng-repeat="field in form.fields" field-form="form" edit="editField(form,field)" delete="deleteFormField(form,field,$index)" ng-if="!preview"></field>
+                <div ng-if="preview">
+                    <div class="form-group" ng-repeat="field in form.fields">
+                        <label class="col-md-4 control-label">{{ field.title }}</label>
+                        <div class="form-control-static col-md-8">{{ field.value }}</div>
+                      </div>
+                </div>
+            </accordion-group>
+        </accordion>
+
+        <div class="warning" ng-if="!listOfForms || listOfForms.length==0" class="animate-if">Nothing to show yet</div>
+    </div>
+</div>

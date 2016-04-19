@@ -1,0 +1,67 @@
+<div class="panel panel-primary">
+  <div class="panel-heading"><span class="glyphicon glyphicon-tasks">&nbsp;</span>
+    <span>Work Log</span></div>
+  <div class="panel-body">
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default" ng-repeat="item in orders">
+      <div class="panel-heading" role="tab" id="heading{{$index}}">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}">
+          {{getOrderTitle(item)}}
+          </a>
+        </h4>
+      </div>
+      <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
+        <div class="panel-body">
+              <tabset>
+                  <tab heading="{{form.formName}}" ng-if="form.tasks.length>0" ng-repeat='form in item.forms' active="form.active">
+                      <div class="well">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  To Do
+                                  <ul class="list-group">
+                                      <li class="list-group-item list-group-item-info" ng-show="!task.status" ng-repeat="task in form.tasks | orderBy:'priority':false">
+                                        <span class="pull-right"><button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'in progress', $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                                        </button></span>
+                                          {{ task.title }}
+                                      </li>
+                                  </ul>
+                              </div>
+                              <div class="col-md-4">
+                                  In Progress
+                                  <ul class="list-group">
+                                      <li class="list-group-item list-group-item-warning" ng-repeat="task in form.tasks | filter:{status:'in progress'}">
+                                        <span class="pull-right"><button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, 'done', $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                                        </button></span>
+                                          {{ task.title }}
+                                      </li>
+                                  </ul>
+                              </div>
+                              <div class="col-md-4">
+                                  Done
+                                  <ul class="list-group">
+                                      <li class="list-group-item list-group-item-success" ng-repeat="task in form.tasks | filter:{status:'done'}">
+                                        <span class="pull-right"><button ng-click="deleteTaskStatus(item, $parent.$parent.$index, form, $parent.$index, task, $event)" class="btn btn-xs">
+                                          <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                        </button></span>
+                                          {{ task.title }}
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </tab>
+              </tabset>
+          </div>
+        </div>
+     </div>
+  </div>
+  <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm"
+    boundary-links="true" rotate="false" num-pages="numPages">
+    </pagination>
+   <pre>Page: {{currentPage}} / {{numPages}}</pre>
+</div>
+  </div>
+</div>

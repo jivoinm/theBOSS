@@ -1,0 +1,31 @@
+<div class="panel panel-danger">
+   <div class="panel-heading">
+       <div class="row">
+           <div class="col-xs-3">
+               <i class="fa fa-wrench fa-5x"></i>
+           </div>
+           <div class="col-xs-9 text-right">
+               <div class="huge">{{ totalOrders }}</div>
+               <div>New Services!</div>
+               <div></div>
+           </div>
+       </div>
+   </div>
+    <a href="" ng-click="isCollapsed = !isCollapsed">
+       <div class="panel-footer">
+           <span class="pull-left">View services</span>
+           <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+           <div class="clearfix"></div>
+       </div>
+   </a>
+   <div collapse="!isCollapsed">
+     <div class="list-group">
+         <div class="list-group-item" class="list-group-item-success" ng-repeat="order in orders">
+           <div>
+             <h4 class="list-group-item-heading"><a ng-href="/order/detail/{{order._id}}/Services">#{{order.po_number}} For: {{order.customer.name}} - Required By {{order.date_required | date}}</a></h4>
+           </div>
+           <order-services></order-services>
+         </div>
+     </div>
+   </div>
+</div>
