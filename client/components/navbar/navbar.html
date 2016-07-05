@@ -9,17 +9,19 @@
       </button>
       <a href="/" class="navbar-brand">the-boss</a>
     </div>
-    <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+    <div uib-collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ng-hide="!isLoggedIn()" ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
-        <li restricted-access="admin,service rep,user" ng-class="{active: isActive('/order/detail')}"><a href="/order/detail">Add Order</a></li>
+        <li restricted-access="adminRoles,salesRepRoles,serviceRepRoles" ng-class="{active: isActive('/order/detail')}"><a href="/order/detail">Add Order</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
-        <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
+        <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}
+        <span class="label label-default label-group"><i ng-repeat="group in getCurrentUser().groups">[{{group}}] </i></span>
+        </p> </li>
         <li alerts></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -28,7 +30,7 @@
           <ul class="dropdown-menu pull-right" role="menu">
               <li><a href="/settings"><i class="fa fa-user fa-fw"></i> User settings</a>
               </li>
-              <li restricted-access="admin"><a href="/user"><i class="fa fa-gear fa-fw"></i> Users</a>
+              <li restricted-access="adminRoles"><a href="/user"><i class="fa fa-gear fa-fw"></i> Users</a>
               </li>
               <li class="divider"></li>
               <li><a href="" ng-click='logout()'><i class="fa fa-sign-out fa-fw"></i> Logout</a>

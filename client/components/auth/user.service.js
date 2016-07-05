@@ -17,6 +17,12 @@ angular.module('theBossApp')
           controller:'password'
         }
       },
+      resetPassword: {
+        method: 'PUT',
+        params: {
+          controller:'resetPassword'
+        }
+      },
       get: {
         method: 'GET',
         params: {
@@ -25,11 +31,19 @@ angular.module('theBossApp')
       },
       updateRole: {
           method: 'POST',
-          url: '/api/users/:id/:role',
+          url: '/api/users/:id/role/:role',
           params: {
               id: '@_id',
               role: '@role',
           },
+      },
+      updateGroups: {
+          method: 'POST',
+          url: '/api/users/:id/groups',
+          params: {
+              id: '@_id',
+              groups: '@groups',
+          }
       }
 	  });
   });

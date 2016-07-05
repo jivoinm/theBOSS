@@ -61,7 +61,7 @@ angular.module('theBossApp')
                   return OrderService.get({orderId: $stateParams.id}).$promise.then(function(order){
                           //load order
                           return order;
-                      })
+                      });
                 }
             },
         controller: 'OrderDetailCtrl',
@@ -80,7 +80,7 @@ angular.module('theBossApp')
                   return OrderService.get({orderId: $stateParams.id}).$promise.then(function(order){
                           //load order
                           return order;
-                      })
+                      });
                 }
             },
         controller: 'OrderPrintCtrl',

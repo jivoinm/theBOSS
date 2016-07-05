@@ -1,0 +1,21 @@
+<p class="text-primary">Add new note to a particular order</p>
+<form name="form" class="form-horizontal" role="form" novalidate="" ng-submit="saveNote(form.$valid)" ng-class="{submitted:submitted}">
+<div class="input-group" id="note" ng-class="{ 'has-error' : form.order.$invalid || !note.order || !note.content}">
+
+    <input type="text" name="order" id="note-orderid" ng-model="note.asyncSelected" placeholder="Lookup an order" ng-required="true"
+        uib-typeahead="(orders.po_number + ', ' + orders.customer.name) for orders in loadOrders($viewValue)"
+        typeahead-loading="loadingLocations"
+        typeahead-on-select="selectedOrder($item, $model, $label)"
+        class="form-control input-sm">
+        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+    <input id="btn-input" type="text" id="note-message" class="form-control input-sm" ng-model="note.content"  ng-required="true"placeholder="Type your message here...">
+    <span class="input-group-btn ">
+        <button class="btn btn-warning btn-xl" id="btn-chat">
+            Send
+        </button>
+    </span>
+    
+</div>
+<p ng-show="form.order.$invalid && !form.order.$pristine || !note.order" class="help-block">You need to select existing order first</p>
+</form>

@@ -4,7 +4,7 @@ angular.module('theBossApp')
 .directive('restrictedAccess', function (Auth, roles) {
   return {
     restrict: 'A',
-    link: function postLink(scope, element, attrs) {
+    link: function preLink(scope, element, attrs) {
       if(attrs.restrictedAccess){
         if(!roles.validateCurrentUserRoleIn(attrs.restrictedAccess)){
           element.remove();

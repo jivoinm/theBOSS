@@ -7,7 +7,7 @@ angular.module('theBossApp')
 
       function ngModelPopulate(model, field) {
           angular.forEach(model, function (property, key) {
-              if(key != 'value' || field[key] == null)
+              if(key !== 'value' || field[key] === null)
               {
                   field[key] = property;
               }
@@ -100,11 +100,11 @@ angular.module('theBossApp')
                     var newForm = {};
                     if(model.clone_from){
                         angular.forEach($scope.moduleForms, function(form){
-                            if(form.formName == model.clone_from){
+                            if(form.formName === model.clone_from){
                                 newForm = angular.copy(form);
                                 delete newForm._id;
                             }
-                        })
+                        });
                     }
                     newForm.formName = model.form_name;
                     newForm.required = model.required;
@@ -149,7 +149,7 @@ angular.module('theBossApp')
 
                     }
                 })();
-            }
+            };
 
             $scope.deleteFormField = function(form, field, $index){
 

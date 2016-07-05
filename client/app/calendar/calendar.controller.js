@@ -52,20 +52,17 @@ angular.module('theBossApp')
                   angular.forEach(orders, function (order){
                       try{
                           if(!order.shipped_date) {
-                              this.push($scope.createEvent('date_required', order, order._id,
-                                ((order.installation_date &&
-                                  order.installation_date != order.date_required ? "(Chg)" : "")+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '')),
+                              this.push(
+                                $scope.createEvent('date_required', order, order._id,
+                                ((order.installation_date && order.installation_date !== order.date_required ? '(Chg)' : '')+ '['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '')),
                                   order.date_required,
-                                  (order.installation_date && order.installation_date !== order.date_required
-                                  ? $scope.getLabelColor('installation')
-                                  : $scope.getLabelColor(order.status)), 'Forms'));
+                                  (order.installation_date && order.installation_date !== order.date_required ? $scope.getLabelColor('installation') : $scope.getLabelColor(order.status)), 'Forms'));
                           }
 
                           if(!order.shipped_date && order.installation_date && order.installation_date !== order.date_required){
                               this.push($scope.createEvent('installation_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '') ),
                                       order.installation_date,
-                                      $scope.getLabelColor(order.status)
-                                      , 'Forms'));
+                                      $scope.getLabelColor(order.status), 'Forms'));
                           }
                           if(order.shipped_date){
                               this.push($scope.createEvent('shipped_date', order, order._id, ('['+ order.po_number + '] '+ order.customer.name+ ' '+(order.doorsSelection || '') ),
@@ -80,7 +77,69 @@ angular.module('theBossApp')
                   callback(allEvents);
 
               }, function (err){
-                  toaster.pop('error', "Error", 'Error loading orders '+ err);
+                  toaster.pop('error', 'Error', 'Error loading orders '+ err);
+                  console.log(err);
+              });
+      };
+
+      $scope.LoadOtherGroupOrders = function (start, end,something, callback) {
+          var query = {};
+          if($scope.queryText){
+              query.text = $scope.queryText;
+          }
+          var allEvents = [];
+          if($stateParams.section === 'service' || !Auth.getCurrentUser().groups || Auth.getCurrentUser().groups.length===0) {
+            callback(allEvents);
+            return;
+          }
+          query.status = $stateParams.status;
+          query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+          query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+
+          OrderService.getOtherGroupOrders(query).$promise.
+              then(function (orders) {
+                  //set summary of roders
+                  angular.forEach(orders, function (order){
+                    var eventDate = new Date(order._id.year, order._id.month -1 , order._id.day);
+                    this.push($scope.createEventReserved(order.totalProjects+' Job(s)', eventDate, eventDate));  
+                    
+                  }, allEvents);
+
+                  callback(allEvents);
+
+              }, function (err){
+                  toaster.pop('error', 'Error', 'Error loading orders '+ err);
+                  console.log(err);
+              });
+      };
+
+      $scope.LoadOtherGroupServices = function (start, end,something, callback) {
+          var query = {};
+          if($scope.queryText){
+              query.text = $scope.queryText;
+          }
+          var allEvents = [];
+          if($stateParams.section === 'service' || !Auth.getCurrentUser().groups || Auth.getCurrentUser().groups.length===0) {
+            callback(allEvents);
+            return;
+          }
+          query.status = $stateParams.status;
+          query.from = moment(start).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+          query.to = moment(end).zone(theBossSettings.timeZone).format('YYYY-MM-DD');
+
+          OrderService.getOtherGroupServices(query).$promise.
+              then(function (orders) {
+                  //set summary of roders
+                  angular.forEach(orders, function (order){
+                    var eventDate = new Date(order._id.year, order._id.month -1 , order._id.day);
+                    this.push($scope.createEventReserved(order.totalServices+' Service(s)', eventDate, eventDate));  
+                    
+                  }, allEvents);
+
+                  callback(allEvents);
+
+              }, function (err){
+                  toaster.pop('error', 'Error', 'Error loading orders '+ err);
                   console.log(err);
               });
       };
@@ -130,13 +189,13 @@ angular.module('theBossApp')
         var allEvents = [];
         timeOff.getTimeOff(query).$promise.then(function (timeoffs){
           angular.forEach(timeoffs, function (timeoff){
-            var timeoffDetail = timeoff.type == 'Statutory holiday' ? timeoff.detail : (timeoff.createdBy.name + ' - '+ timeoff.type);
+            var timeoffDetail = timeoff.type === 'Statutory holiday' ? timeoff.detail : (timeoff.createdBy.name + ' - '+ timeoff.type);
             allEvents.push($scope.createEventOff(timeoffDetail, timeoff.from, timeoff.to));
 
           });
           callback(allEvents);
         });
-      }
+      };
 
       $scope.createEventOff = function(title, start, end){
           var calendarOrder = {
@@ -146,7 +205,19 @@ angular.module('theBossApp')
             color: '#CABDBF',
             allDay: true,
             editable:false,
-          }
+          };
+          return calendarOrder;
+      };
+
+      $scope.createEventReserved = function(title, start, end){
+          var calendarOrder = {
+            title: title,
+            start: start,
+            end: end,
+            color: '#FF80AB',
+            allDay: true,
+            editable:false,
+          };
           return calendarOrder;
       };
 
@@ -169,7 +240,7 @@ angular.module('theBossApp')
 
       $scope.eventDrop = function (event, delta, revertFunc) {
         calendar.numberOfScheduledOrders(moment(event.start).zone(theBossSettings.timeZone).format(), function(countOrdersOnThisDay){
-          if(countOrdersOnThisDay >= 2 && event.className != 'Services'){
+          if(countOrdersOnThisDay >= 2 && event.className !== 'Services'){
             if(!confirm('This date already has '+countOrdersOnThisDay+' jobs on it. Would you like to continue anyways?'))
             {
               revertFunc();
@@ -177,9 +248,12 @@ angular.module('theBossApp')
             }
           }
           if(isAdminRole)
-            updateCalendarEvent(event);
-          else
+          {
+              updateCalendarEvent(event);
+          } else
+          {
             revertFunc();
+          }  
 
         });
       };
@@ -199,11 +273,11 @@ angular.module('theBossApp')
           orderModal.close();
         });
 
-      $scope.eventResize = function (event,dayDelta,minuteDelta,revertFunc){
+      $scope.eventResize = function (event){
           updateCalendarEvent(event);
       };
 
-      $scope.eventRender = function( event, element, view ) {
+      $scope.eventRender = function( event, element ) {
         $timeout(function(){
           $(element).attr('title', event.title);
         });
@@ -228,7 +302,7 @@ angular.module('theBossApp')
       $scope.yearView = function(){
           var currentView = $scope.myCalendar.fullCalendar('getView');
           ModalService.showPopup('Event details '+currentView.title, '');
-      }
+      };
 
       //update calendar event on server and ui
       function updateCalendarEvent(event) {
@@ -240,7 +314,8 @@ angular.module('theBossApp')
           OrderService.setdate_required(calendar);
       }
 
-      $scope.eventSources = [$scope.LoadOrders, $scope.LoadServices, $scope.LoadTimeOffs];
+      $scope.eventSources = [$scope.LoadOrders, $scope.LoadServices, $scope.LoadTimeOffs, $scope.LoadOtherGroupOrders,
+       $scope.LoadOtherGroupServices];
       if($stateParams.status)
       {
         $scope.orderStatus = $stateParams.status;
