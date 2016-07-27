@@ -57,7 +57,7 @@ angular.module('theBossApp')
 
           var formsHaveInvalidFields = form.forms && form.forms.some(function(form){
             return form.fields.some(function(field){
-              return field.require && !field.value;
+              return field.require && !field.value && !field.hide;
             });
           });
           var areAllFormsValid = form.customer &&
