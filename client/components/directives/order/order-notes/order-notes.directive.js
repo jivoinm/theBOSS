@@ -22,8 +22,6 @@ angular.module('theBossApp')
 
       	scope.resolved = function (note){
       		note.$save({},function (msg){
-            console.log(msg);
-
             note.resolved = true;
           }, function(err){
               //error

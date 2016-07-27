@@ -27,7 +27,7 @@ angular.module('theBossApp')
         scope.currentUser = Auth.getCurrentUser();
         
         scope.groupList = function(){
-          var groups = (scope.currentUser.groups.length > 0) ? scope.currentUser.groups.join() : allUserGroups;
+          var groups = (scope.currentUser.groups && scope.currentUser.groups.length > 0) ? scope.currentUser.groups.join() : allUserGroups;
           return groups;
         };
 

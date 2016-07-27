@@ -132,6 +132,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'number':
+                    scope.model = Math.floor(scope.model || '0');
                     fieldTemplate = '<input type="number" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
                         'ng-model="model"  ng-required="{{ field.require }}" min="{{field.min}}"/>';
                     fieldTemplate = formField(fieldTemplate);

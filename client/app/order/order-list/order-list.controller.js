@@ -37,7 +37,6 @@ angular.module('theBossApp')
       if(page1 != page2)
       {
         $scope.loadOrders();
-        console.log('currentPage changed',page1,page2);
       }
     });
   });

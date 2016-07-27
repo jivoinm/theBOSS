@@ -7,10 +7,10 @@ angular.module('theBossApp')
 
       function ngModelPopulate(model, field) {
           angular.forEach(model, function (property, key) {
-              if(key !== 'value' || field[key] === null)
-              {
+              //if(/*key !== 'value' || */!field[key])
+              //{
                   field[key] = property;
-              }
+              //}
           });
       }
 
