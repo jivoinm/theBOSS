@@ -12,7 +12,9 @@ angular.module('theBossApp')
                 scope.currentPage = 1;
                 scope.maxSize = 10;
 
-                scope.notreceived = {received:false};
+                scope.notreceived = function(actual, expected){
+                  return !actual.received && actual.quantity;
+                };
                 scope.loadAccessories = function (){
                   var query = {};
                   query.limit = scope.maxSize = 10;
@@ -25,7 +27,7 @@ angular.module('theBossApp')
 
                 scope.saveUpdates = function(index,order,accessory) {
                     if(accessory.items_received) {
-                        accessory.received = accessory.items_received >= accessory.quantity;
+                        accessory.received = accessory.items_received >= (accessory.quantity || 1);
                         accessory.date_received = new Date();
                         if(!order.$save){
                           order = new OrderService(order);

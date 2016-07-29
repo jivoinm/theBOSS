@@ -6,7 +6,7 @@
         <td>
             <div class="form-group" ng-class="{ 'has-error' : form.order.$invalid || !note.order}">
                 <input type="text" name="order" ng-model="note.asyncSelected" placeholder="Lookup an order" ng-required="true"
-                typeahead="(orders.po_number + ', ' + orders.customer.name) for orders in loadOrders($viewValue)"
+                uib-typeahead="(orders.po_number + ', ' + orders.customer.name) for orders in loadOrders($viewValue)"
                 typeahead-loading="loadingLocations"
                 typeahead-on-select="selectedOrder($item, $model, $label)"
                 class="form-control">

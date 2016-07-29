@@ -18,17 +18,21 @@ angular.module('theBossApp')
 
 
             scope.order_accessories_fields = [{title:'From Manufacturer', type:'text', require: true, value:''},
-              {title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true}
+              {title:'Description', type:'text', require: true}, {title:'Quantity', type:'number', require: true, min: 1}
             ];
 
             scope.addNewAccessory = function(form){
                 ModalService.show.modalFormDialog('Add new Accessory',
-                    scope.order_accessories_fields, function(model){
-                        if(model){
+                    scope.order_accessories_fields || [], function(model){
+                        if(model &&
+                          model.description &&
+                          model.quantity &&
+                          model.quantity >0 ){
                             if(form){
                                 if(!form.$save){
                                   form = new OrderService(form);
                                 }
+                                form.ordered_accessories = form.ordered_accessories || [];
                                 form.ordered_accessories.unshift(model);
                                 form.$save(function(savedResponse){
                                     toaster.pop('success', "Accessory was saved with success");
@@ -37,7 +41,9 @@ angular.module('theBossApp')
                                 });
                             }
                             model = null;
+                            return true;
                         }
+                        return false;
                     })();
 
             };

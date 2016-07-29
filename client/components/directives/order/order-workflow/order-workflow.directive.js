@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('orderWorkflow', function (ModalService, $rootScope, toaster, theBossSettings) {
+  .directive('orderWorkflow', function (ModalService, $rootScope, toaster, theBossSettings, $location) {
     return {
         template: '<div class="btn-group btn-group-justified">' +
             '        <div class="btn-group" ng-if="showWorkflowAction(\'approved\')">' +
@@ -18,8 +18,7 @@ angular.module('theBossApp')
             '       <div class="btn-group">' +
             '            <button type="button" class="btn btn-danger" ng-click="setStatus(\'reset\')">Reset order status</button>' +
             '       </div>'+
-            '  </div> '
-            ,
+            '  </div> ',
         restrict: 'E',
         scope: {
             order: '='
@@ -44,12 +43,13 @@ angular.module('theBossApp')
                         return action === 'approved';
                 }
                 return false;
-            }
+            };
 
             //Set order status
             scope.setStatus = function (status){
                 ModalService.confirm.question('You are about to '+status+' this order, are you sure?', function(confirmed){
                     if(confirmed){
+                      var oldStatus = scope.order.status;
                       if(status==='reset'){
                         status = status === 'reset' ? 'approved' : status;
                         scope.order.status = status;
@@ -69,7 +69,11 @@ angular.module('theBossApp')
                       }else{
                         status = status === 'reset' ? 'approved' : status;
                         scope.order.$setStatus({status:status}, function(order){
-                            //$scope.order = order;
+                            if(oldStatus==='new'){
+                              //redirect to main page
+                              $location.path('/');
+                              
+                            }
                             $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
                             toaster.pop('success', "Success", 'Updated status to '+ status);
                         },function(err){
@@ -78,7 +82,7 @@ angular.module('theBossApp')
                       }
                     }
                 })();
-            }
+            };
         }
     };
   });

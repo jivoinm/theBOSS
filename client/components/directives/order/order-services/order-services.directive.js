@@ -69,6 +69,7 @@ angular.module('theBossApp')
                             });
                         }
                         model = null;
+                        return true;
                     }
                 })();
 
@@ -77,7 +78,7 @@ angular.module('theBossApp')
         scope.printService = function (orderId, serviceIndex){
           if(scope.modal)
           {
-            $rootScope.$broadcast('order.service.print',orderId, serviceIndex); 
+            $rootScope.$broadcast('order.service.print',orderId, serviceIndex);
           }else{
             $location.path('/order/detail/'+orderId+'/print/' + serviceIndex);
           }
@@ -85,7 +86,7 @@ angular.module('theBossApp')
 
         scope.print = function (){
           var popupWin = window.open('', '_blank', 'width=300,height=300');
-          popupWin.document.open()
+          popupWin.document.open();
           popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()"><div ng-include="components/directives/order/order-services/order-installation-form.html"></div></body></html>');
           popupWin.document.close();
 

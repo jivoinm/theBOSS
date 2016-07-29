@@ -37,14 +37,14 @@
                   <div class="panel-heading">Services</div>
                   <div class="panel-body">
                   <div class="row">
-                    <accordion>
-                     <accordion-group heading="{{getOrderName(order)}}" ng-repeat="order in orders">
+                    <uib-accordion>
+                     <uib-accordion-group heading="{{getOrderName(order)}}" ng-repeat="order in orders">
                        <div class="well">
                            <order-services order="order"></order-services>
                        </div>
-                     </accordion-group>
-                    </accordion>
-                    <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+                     </uib-accordion-group>
+                    </uib-accordion>
+                    <uib-pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></uib-pagination>
                      <pre>Page: {{currentPage}} / {{numPages}}</pre>
                   </div>
                 </div>

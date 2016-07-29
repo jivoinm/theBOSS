@@ -11,10 +11,10 @@
           </a>
         </h4>
       </div>
-      <div id="collapse{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
+      <div id="collapse{{$index}}" class="panel-collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
         <div class="panel-body">
-              <tabset>
-                  <tab heading="{{form.formName}}" ng-repeat='form in item.forms' active="form.active">
+              <uib-tabset>
+                  <uib-tab heading="{{form.formName}}" ng-if="form.tasks.length>0" ng-repeat='form in item.forms' active="form.active">
                       <div class="well">
                           <div class="row">
                               <div class="col-md-4">
@@ -52,15 +52,15 @@
                               </div>
                           </div>
                       </div>
-                  </tab>
-              </tabset>
+                  </uib-tab>
+              </uib-tabset>
           </div>
         </div>
      </div>
   </div>
-  <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm"
+  <uib-pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm"
     boundary-links="true" rotate="false" num-pages="numPages">
-    </pagination>
+    </uib-pagination>
    <pre>Page: {{currentPage}} / {{numPages}}</pre>
 </div>
   </div>

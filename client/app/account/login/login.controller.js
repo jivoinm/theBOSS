@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $window, $cookieStore) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -14,6 +14,10 @@ angular.module('theBossApp')
           password: $scope.user.password
         })
         .then( function() {
+          //remove the ignored service alerts
+          var cookieKey = 'ignore-services-' + $scope.user.email;
+          $cookieStore.remove(cookieKey);
+
           // Logged in, redirect to home
           $location.path('/calendar');
         })

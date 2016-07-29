@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('theBossApp')
-  .factory('ModalService', function ($rootScope, $modal) {
+  .factory('ModalService', function ($rootScope, $uibModal) {
     /**
      * Opens a modal
      * @param  {Object} scope      - an object to be merged with modal's scope
      * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-     * @return {Object}            - the instance $modal.open() returns
+     * @return {Object}            - the instance $uibModal.open() returns
      */
     function openModal(scope, modalClass) {
       var modalScope = $rootScope.$new();
@@ -15,12 +15,15 @@ angular.module('theBossApp')
 
       angular.extend(modalScope, scope);
 
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'components/modal/modal.html',
         controller: 'ModalInstanceCtrl',
         resolve: {
           fields: function () {
             return scope.fields;
+          },
+          callback: function (){
+            return scope.callback;
           }
         },
         windowClass: modalClass,
@@ -33,30 +36,6 @@ angular.module('theBossApp')
           return group1.toUpperCase();
       });
     }
-
-    function fieldsToModel(fields){
-        var model = {};
-        angular.forEach(fields, function(field){
-            var fieldName = field.name || field.title;
-            var fieldValue = field.value;
-            var path = fieldName.toLowerCase().replace(' ','_').split('.');
-            setProperty(model,path,fieldValue);
-            field.value = null;
-        });
-        return model;
-    }
-
-    function setProperty(obj, keyPath, value) {
-            var i = 0,
-                len = keyPath.length - 1;
-            for (; i < len; i++) {
-                if(!obj[keyPath[i]]){
-                    obj[keyPath[i]] = {};
-                }
-                obj = obj[keyPath[i]];
-            }
-            obj[keyPath[i]] = value;
-        }
 
     // Public API here
     return {
@@ -167,6 +146,7 @@ angular.module('theBossApp')
                       text: 'Close',
                       click: function (e){
                         modal.dismiss(e);
+                        callback();
                       }
                     }]
                   }
@@ -178,21 +158,27 @@ angular.module('theBossApp')
             };
           },
 
-          showOrderDetailsPopup: function(title, order, callback){
+          showOrderDetailsPopup: function(title, order, activeTab, callback){
             callback = callback || angular.noop;
             return function (){
-                var modal = $modal.open({
+                var modal = $uibModal.open({
                      size: 'lg',
-                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order" modal="true"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
+                     template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order" modal="true" active-tab="tab"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
                      resolve: {
-                         order: function(){return order;}
+                         order: function(){
+                           return order;
+                         },
+                         tab: function(){
+                           return activeTab[0] || activeTab;
+                         }
                      },
-                     controller: function($scope, $modalInstance, order){
+                     controller: function($scope, $uibModalInstance, order, tab){
                          $scope.order = order;
+                         $scope.tab = tab;
                          $scope.preview = true;
                          $scope.close = function(){
-                            $modalInstance.close();
-                         }
+                            $uibModalInstance.close();
+                         };
                      }
                  });
 
@@ -208,33 +194,59 @@ angular.module('theBossApp')
               return function (){
               var modal = openModal({
                   fields: fields,
+                  callback: callback,
                   modal: {
                     title: title,
                     form: true
                   }
                 }, 'modal');
 
-              modal.result.then(function (fields) {
-                  if(fields)
-                  {
-                      callback(fieldsToModel(fields));
-                  }
-              });
             };
           }
       }
     };
   })
 
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance, fields) {
+.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, fields, callback) {
   $scope.fields = fields;
 
   $scope.ok = function () {
-    $modalInstance.close($scope.fields);
+    if(fields)
+    {
+        if(callback($scope.fieldsToModel(fields))){
+            $uibModalInstance.close($scope.fields);
+            $scope.fields.forEach(function(field){
+              field.value = null;
+            });
+        }
+    }
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
+
+  $scope.fieldsToModel = function(fields){
+      var model = {};
+      angular.forEach(fields, function(field){
+          var fieldName = field.name || field.title;
+          var fieldValue = field.value;
+          var path = fieldName.toLowerCase().replace(' ','_').split('.');
+          $scope.setProperty(model,path,fieldValue);
+      });
+      return model;
+  };
+
+  $scope.setProperty = function(obj, keyPath, value) {
+          var i = 0,
+              len = keyPath.length - 1;
+          for (; i < len; i++) {
+              if(!obj[keyPath[i]]){
+                  obj[keyPath[i]] = {};
+              }
+              obj = obj[keyPath[i]];
+          }
+          obj[keyPath[i]] = value;
+      }
 
 });

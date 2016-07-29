@@ -85,10 +85,26 @@ exports.deleteForm = function(req, res){
     });
 };
 
+exports.getDefaultFormsForModule = function (req,res){
+  if(req.user){
+    var query = {
+      owner: req.user.owner,
+      module: req.params.module,
+      required: req.params.required
+    };
+    Form.find(query, function(err,projects){
+      if(err) res.json(400,err);
+      return res.send(projects);
+    });
+  }else{
+    return res.send({message:'there is no user in the request'});
+  }
+};
+
 exports.getFormsForModule = function (req,res){
     if(req.user){
       var query = {owner:req.user.owner,module:req.params.module};
-      Form.find({}, function(err,projects){
+      Form.find(query, function(err,projects){
         if(err) res.json(400,err);
         return res.send(projects);
       });
@@ -129,9 +145,11 @@ exports.updateField = function (req,res){
           _id: req.params.id
         };
         query[target+'._id'] = req.params.targetId;
+
         var setValue= {};
         setValue.$set = {};
-        setValue.$set[target + '.$'] = field;
+        setValue.$set[target+'.$'] = field;
+
         Form.update(
             query,
             setValue,

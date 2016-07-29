@@ -4,7 +4,7 @@ angular.module('theBossApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
-
+    $scope.groups = ['Group1', 'Group2'];
     $scope.register = function (form) {
       $scope.submitted = true;
 
@@ -14,7 +14,8 @@ angular.module('theBossApp')
               name: $scope.user.name,
               email: $scope.user.email,
               role: $scope.user.role,
-              password: $scope.user.password
+              password: $scope.user.password,
+              group: $scope.user.group
           };
 
           Auth.createUser(user)

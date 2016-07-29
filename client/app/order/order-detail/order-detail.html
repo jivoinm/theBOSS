@@ -29,7 +29,7 @@
                                   </div>
                                   <div class="col-md-8">
                                       <p class="input-group">
-                                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="order.installation_date" is-open="opened" min-date="minDate" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="order.installation_date" is-open="opened" min-date="minDate" data-show-weeks="false" data-show-today="false"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                         <span class="input-group-btn">
                                           <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -62,28 +62,28 @@
                </div>
           </div>
             <div class="col-md-8">
-                <tabset justified="true" ng-if="!preview">
-                    <tab>
-                        <tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></tab-heading>
+                <uib-tabset justified="true" ng-if="!preview">
+                    <uib-tab>
+                        <uib-tab-heading>Order&nbsp;<span class="badge" ng-show="order.total_working_hours">{{ order.total_working_hours }} working hours</span></uib-tab-heading>
                         <div class=well>
                              <order-details order="order" ></order-details>
                         </div>
-                    </tab>
-                    <tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'new' ">
+                    </uib-tab>
+                    <uib-tab heading="Tasks" disabled="order.forms.length==0 || !order.status || order.status === 'new' ">
                         <div class=well>
                             <p>Add list of tasks that needs to be done to finish the order.</p>
                             <order-tasks></order-tasks>
 
                         </div>
-                    </tab>
-                    <tab active="actives.two" heading="Accessories">
+                    </uib-tab>
+                    <uib-tab active="actives.two" heading="Accessories">
                         <div class=well>
                             <p>Add list of accessories that was ordered from the manufacturers and needs to be received.</p>
                             <order-accessories></order-accessories>
                         </div>
 
-                    </tab>
-                    <tab heading="Services" disabled="(isNewOrder() || !order.status)">
+                    </uib-tab>
+                    <uib-tab heading="Services" disabled="(isNewOrder() || !order.status)">
                         <div class=well>
                             <p>Add list of services associated with this order.</p>
                             <div class="panel panel-default">
@@ -109,21 +109,21 @@
                               </div>
                             </div>
                         </div>
-                    </tab>
-                    <tab heading="Files" disabled="isNewOrder()">
+                    </uib-tab>
+                    <uib-tab heading="Files" disabled="isNewOrder()">
                         <div class=well>
                             <p>Add list of files associated with this order.</p>
                             <file-uploads model="order" upload-url="/api/orders/{{ order._id }}/upload"></file-uploads>
                         </div>
-                    </tab>
-                </tabset>
+                    </uib-tab>
+                </uib-tabset>
                 <order-preview order="order" ng-if="preview"></order-preview>
             </div>
         </div>
 
         <div class="well" ng-if="!preview">
             <button type="submit" class="btn btn-default">Save</button>
-            <button type="reset" class="btn btn-default" ng-click="reset()">Reset</button>
+            <button type="button" class="btn btn-default" ng-click="reset()">Reset</button>
             <ul class="list-group">
               <li class="list-group-item list-group-item-danger" ng-repeat="error in errors">{{error.message}}</li>
             </ul>

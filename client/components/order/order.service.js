@@ -25,6 +25,11 @@ angular.module('theBossApp')
                 isArray: true,
                 method: 'GET'
             },
+            'newAndNotCompletedServicesOlderThanTwoWeeks': {
+                url: '/api/orders/newAndNotCompletedServicesOlderThanTwoWeeks',
+                isArray: true,
+                method: 'GET'
+            },
             'tasks': {
                 url: '/api/orders/todotasks',
                 method: 'GET'
@@ -51,6 +56,24 @@ angular.module('theBossApp')
                 url: '/api/orders/calendar/:from/:to/orders/:status',
                 params: {
                     status: '@status',
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: true,
+                method: 'GET'
+            },
+            'getOtherGroupOrders': {
+                url: '/api/orders/calendar/:from/:to/otherGroupOrders',
+                params: {
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: true,
+                method: 'GET'
+            },
+            'getOtherGroupServices': {
+                url: '/api/orders/calendar/:from/:to/otherGroupServices',
+                params: {
                     from: '@from',
                     to: '@to'
                 },
