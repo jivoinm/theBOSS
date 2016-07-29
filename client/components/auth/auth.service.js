@@ -27,9 +27,12 @@ angular.module('theBossApp')
         success(function(data) {
           $cookieStore.put('token', data.token);
           $cookieStore.put('owner', data.owner);
-          currentUser = User.get();
-          deferred.resolve(data);
-          return cb();
+          User.get(function(user){
+            currentUser = user;
+            deferred.resolve(data);
+            return cb();
+          });
+
         }).
         error(function(err) {
           this.logout();

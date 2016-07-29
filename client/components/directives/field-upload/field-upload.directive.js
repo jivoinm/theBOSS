@@ -18,20 +18,20 @@ angular.module('theBossApp')
 
               scope.encodeFileName = function(fileName) {
                 return encodeURIComponent(fileName);
-              }
+              };
 
               scope.deleteFile = function (file, index, event){
                 scope.model.uploaded_files.splice(index,1);
                 scope.model.$save(function(){
                     toaster.pop('success', "Success", 'Delete file '+ file.filename);
-                })
-              }
+                });
+              };
 
               if(attrs.uploadUrl){
                 scope.model = scope.model || {};
                 scope.uploadRightAway = true;
                 scope.hasUploader = function(index) {
-                    return scope.upload[index] != null;
+                    return scope.upload[index] !== null;
                 };
 
                 scope.hasUploadingInProgress = function(){
@@ -67,7 +67,7 @@ angular.module('theBossApp')
                                     $timeout(function() {
                                         scope.dataUrls[index] = e.target.result;
                                     });
-                                }
+                                };
                             }(fileReader, i);
                         }
                         scope.progress[i] = -1;
@@ -100,7 +100,7 @@ angular.module('theBossApp')
                             // Math.min is to fix IE which reports 200% sometimes
                             scope.progress[index] = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
                         }).xhr(function(xhr){
-                            xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
+                            xhr.upload.addEventListener('abort', function() {console.log('abort complete');}, false);
                         });
 
                 };

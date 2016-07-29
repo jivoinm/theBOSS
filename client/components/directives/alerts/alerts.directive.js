@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('alerts', function (Auth, roles, timeOff, $interval, ModalService, $cookieStore, OrderService, $modalStack) {
+  .directive('alerts', function (Auth, roles, timeOff, $interval, ModalService, $cookieStore, OrderService, $uibModalStack) {
     function createNewAlert(type, icon, message, url){
       return {
         type: type,
@@ -34,7 +34,7 @@ angular.module('theBossApp')
             OrderService.newAndNotCompletedServicesOlderThanTwoWeeks().$promise.then (function (data) {
                 scope.alerts.push(createNewAlert('Services','fa-tasks', 'There are '+ data.length +' orders that have services to be reviewed','/order/services'));
                 var ignoredAlerts = $cookieStore.get(getIgnoreCookieKey());
-                if(!ignoredAlerts && data.length > 0 && !$modalStack.getTop()){
+                if(!ignoredAlerts && data.length > 0 && !$uibModalStack.getTop()){
                   ModalService.show.showPopup('Outstanding Services',
                   '<strong>You currently have '+data.length+' of order(s) with services that have been outstanding for more than 2 weeks. Please have these services completed in order to avoid this pop-up.</strong>', function(){
                       $cookieStore.put(getIgnoreCookieKey(), data.length);
@@ -47,8 +47,11 @@ angular.module('theBossApp')
             });
           }
         };
-        scope.checkForUpdates();
-        $interval(scope.checkForUpdates, 100000);
+        
+        if(Auth.isLoggedIn()){
+          scope.checkForUpdates();
+          $interval(scope.checkForUpdates, 100000);
+        }
       }
     };
   });

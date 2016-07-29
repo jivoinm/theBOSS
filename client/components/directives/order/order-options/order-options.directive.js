@@ -18,10 +18,10 @@ angular.module('theBossApp')
         },
         link: function postLink(scope, element, attrs) {
             element.parent().parent().bind('mouseenter', function() {
-                element.removeClass('hidden')
+                element.removeClass('hidden');
             });
             element.parent().parent().bind('mouseleave', function() {
-                element.addClass('hidden')
+                element.addClass('hidden');
             });
 
             if(scope.order){

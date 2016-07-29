@@ -18,8 +18,7 @@ angular.module('theBossApp')
             '       <div class="btn-group">' +
             '            <button type="button" class="btn btn-danger" ng-click="setStatus(\'reset\')">Reset order status</button>' +
             '       </div>'+
-            '  </div> '
-            ,
+            '  </div> ',
         restrict: 'E',
         scope: {
             order: '='
@@ -44,7 +43,7 @@ angular.module('theBossApp')
                         return action === 'approved';
                 }
                 return false;
-            }
+            };
 
             //Set order status
             scope.setStatus = function (status){
@@ -83,7 +82,7 @@ angular.module('theBossApp')
                       }
                     }
                 })();
-            }
+            };
         }
     };
   });

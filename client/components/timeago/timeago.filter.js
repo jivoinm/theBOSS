@@ -67,5 +67,5 @@ angular.module('theBossApp')
       //     out = out.toUpperCase();
       // }
       // return out;
-  }
+  };
   });

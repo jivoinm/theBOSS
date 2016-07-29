@@ -7,43 +7,68 @@
               <div class="panel-heading">User search</div>
               <div class="panel-body">
                   <div class=well>
-                      <form ng-submit="loadUsers()">
-                      <div class="input-group">
-                          <input type="text" class="form-control" ng-model="queryText" placeholder="Search">
-                      </div><!-- /input-group -->
-                      </form>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <form ng-submit="loadUsers()">
+                           <div class="input-group">
+                              <input type="text" class="form-control" ng-model="queryText" placeholder="Search for...">
+                              <span class="input-group-btn">
+                                <input type="submit" class="btn btn-secondary" type="button">Go!</input>
+                              </span>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-md-6">
+                          <a class="btn btn-primary" ng-click="addNewUser()">New User</a>
+                          <a class="btn btn-success" ng-click="addNewGroup()">New Group/Division</a>
+                        </div>
+                      </div>
                   </div>
                   <div class="row">
                       <div class="col-md-12">
-                          <div class="table-responsive">
-                              <table class="table table-hover table-condensed">
-                                  <thead>
-                                  <tr>
-                                      <th>Name</th>
-                                      <th>Email</th>
-                                      <th>Role</th>
-                                      <th></th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                      <tr ng-repeat="user in users">
-                                          <td>{{ user.name }}</td>
-                                          <td>{{ user.email }}</td>
-                                          <td>
-                                              <div class="btn-group">
-                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'admin'" ng-click="changRole(user,'admin')">Admin</label>
-                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'service rep'" ng-click="changRole(user,'service rep')">Service Rep</label>
-                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'user'" ng-click="changRole(user,'user')">Sales Rep</label>
-                                                  <label class="btn btn-primary" ng-model="user.role" btn-radio="'worker'" ng-click="changRole(user,'worker')">Worker</label>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <button type="button" class="btn btn-danger" ng-click="delete(user,$index)">Delete</button>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div>
+                        <ul class="list-group">
+                          <li href="#" class="list-group-item" ng-repeat="user in users">
+                          <!-- Simple dropdown -->
+                          <span uib-dropdown on-toggle="toggled(open)" class="pull-right" aria-label="User actions">
+                            <a href id="simple-dropdown" uib-dropdown-toggle>
+                              ...
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                              <li><a ng-click="resetPassword(user)">Reset password</a></li>
+                            </ul>
+                          </span>
+                            <h4 class="list-group-item-heading">{{ user.name }}</h4>
+                            <label>{{ user.email }}</label>
+                             <div class="list-group-item-text">
+                             <div class="row">
+                               <div class="col-md-3">
+                                  <!-- Role -->
+                                  <div class="btn-group" uib-dropdown>
+                                    <button id="single-button" type="button" class="btn btn-secondary btn-sm" uib-dropdown-toggle>
+                                      Role: {{ user.role }} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                      <li role="menuitem"><a href="#" ng-repeat="role in allRoles" ng-click="changRole(user, role)">{{ role }}</a></li>
+                                      
+                                    </ul>
+                                  </div>   
+                               </div>
+                              
+                               <div class="col-md-7">
+                               <div class="btn-toolbar" role="toolbar" aria-label="User groups">
+                                <div class="btn-group" role="group" aria-label="{{group}}" ng-repeat="group in groups">
+                                  <button class="btn btn-primary-outline btn-xs" ng-class="{'btn-primary': (user.groups.indexOf(group) > -1)}"  ng-click="selectGroup(user,group)">{{ group }}</button>
+                                </div>
+                                </div>
+                               </div>
+                               <div class="col-md-2">
+                                 <button type="button" class="btn btn-danger pull-right" ng-click="delete(user,$index)">Delete</button>
+                               </div>
+                             </div>
+                              </div>
+                          </li>
+                        </ul>
+
                       </div>
                   </div>
 

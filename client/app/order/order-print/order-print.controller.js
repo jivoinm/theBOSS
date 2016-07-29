@@ -48,7 +48,9 @@ angular.module('theBossApp')
                       }, function(err) {
                           toaster.pop('error', "There was an error saving service on server, "+err.message);
                       });
+                      return true;
                   }
+                  return false;
               }
           })();
 

@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('theBossApp')
-  .factory('ModalService', function ($rootScope, $modal) {
+  .factory('ModalService', function ($rootScope, $uibModal) {
     /**
      * Opens a modal
      * @param  {Object} scope      - an object to be merged with modal's scope
      * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-     * @return {Object}            - the instance $modal.open() returns
+     * @return {Object}            - the instance $uibModal.open() returns
      */
     function openModal(scope, modalClass) {
       var modalScope = $rootScope.$new();
@@ -15,7 +15,7 @@ angular.module('theBossApp')
 
       angular.extend(modalScope, scope);
 
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'components/modal/modal.html',
         controller: 'ModalInstanceCtrl',
         resolve: {
@@ -161,7 +161,7 @@ angular.module('theBossApp')
           showOrderDetailsPopup: function(title, order, activeTab, callback){
             callback = callback || angular.noop;
             return function (){
-                var modal = $modal.open({
+                var modal = $uibModal.open({
                      size: 'lg',
                      template: '<div class="modal-header"> <h5>'+title+'</h5> </div><div class="modal-body"><form class="form-horizontal"><order-preview order="order" modal="true" active-tab="tab"></order-preview> </form> </div> <div class="modal-footer"> <button class="btn btn-warning" ng-click="close()" id="close">Close</button> </div>',
                      resolve: {
@@ -169,16 +169,16 @@ angular.module('theBossApp')
                            return order;
                          },
                          tab: function(){
-                           return activeTab;
+                           return activeTab[0] || activeTab;
                          }
                      },
-                     controller: function($scope, $modalInstance, order, tab){
+                     controller: function($scope, $uibModalInstance, order, tab){
                          $scope.order = order;
                          $scope.tab = tab;
                          $scope.preview = true;
                          $scope.close = function(){
-                            $modalInstance.close();
-                         }
+                            $uibModalInstance.close();
+                         };
                      }
                  });
 
@@ -207,14 +207,14 @@ angular.module('theBossApp')
     };
   })
 
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance, fields, callback) {
+.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, fields, callback) {
   $scope.fields = fields;
 
   $scope.ok = function () {
     if(fields)
     {
         if(callback($scope.fieldsToModel(fields))){
-            $modalInstance.close($scope.fields);
+            $uibModalInstance.close($scope.fields);
             $scope.fields.forEach(function(field){
               field.value = null;
             });
@@ -223,7 +223,7 @@ angular.module('theBossApp')
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 
   $scope.fieldsToModel = function(fields){
@@ -235,7 +235,7 @@ angular.module('theBossApp')
           $scope.setProperty(model,path,fieldValue);
       });
       return model;
-  }
+  };
 
   $scope.setProperty = function(obj, keyPath, value) {
           var i = 0,

@@ -4,7 +4,7 @@
           <div class="panel-heading">Filters</div>
           <div class="panel-body">
               <p>Select your orders by quick search by status or advanced search by additional order properties</p>
-              <a restricted-access="admin,service rep,user" class="btn btn-primary btn-lg" ui-sref="order.new">New Order</a>
+              <a restricted-access="adminRoles,salesRepRoles,serviceRepRoles" class="btn btn-primary btn-lg" ui-sref="order.new">New Order</a>
           </div>
           <ul class="list-group">
               <a href="/order/list/new" class="list-group-item" active-url>
@@ -65,13 +65,17 @@
                                       </td>
                                       <td>{{ order.shipped_date | date }}</td>
                                       <td><order-status></order-status> </td>
-                                      <td>{{ order.createdBy.name }}</td>
+                                      <td>{{ order.createdBy.name }} 
+                                      <p ng-show="order.group">
+                                        <span class="label label-primary pull-left">{{ order.group }}</span>
+                                      </p>
+                                      </td>
                                       <td>{{ order.created_on | date }}</td>
                                   </tr>
                               </tbody>
                           </table>
 
-                          <pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+                          <uib-pagination ng-model="currentPage" total-items="totalOrders" page="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></uib-pagination>
                            <pre>Page: {{currentPage}} / {{numPages}}</pre>
                       </div>
                   </div>

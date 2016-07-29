@@ -39,11 +39,11 @@ angular.module('theBossApp')
 
     $scope.approveToggle = function(index, timeoff){
       if(timeoff){
-        timeoff.$save(function(savedtimeoff){
+        timeoff.$save(function(){
           toaster.pop('success', 'Success', 'Time off was '+(timeoff.approved ? 'approved': 'declined'));
         });
       }
-    }
+    };
 
     $scope.addNewRequest = function(form){
       $scope.submitted = true;
