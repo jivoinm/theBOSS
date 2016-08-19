@@ -55,11 +55,27 @@ angular.module('theBossApp')
             return !form.required;
           })) return {valid: false, message:'No forms have been entered'};
 
+          var numericRequiredFields = [];
+          if(form.forms && form.forms.some(function(form){
+            return form.fields.some(function(field){
+              if((field.require && !field.value && !field.hide) ||
+                 (field.require && field.value==0 && !field.hide)){
+                numericRequiredFields.push(field.title);
+                return true;
+              }
+              return false;
+            });
+          })) {
+            var message = numericRequiredFields.join(', ');
+            return {valid: false, message:'These field(s) '+message+ ' are required!'};
+          }
+
           var formsHaveInvalidFields = form.forms && form.forms.some(function(form){
             return form.fields.some(function(field){
               return field.require && !field.value;
             });
           });
+
           var areAllFormsValid = form.customer &&
                 form.customer.name &&
                 form.customer.ship_to &&
