@@ -25,14 +25,11 @@
             <div class="panel-body">
                 <div class="row"  ng-repeat="f in selectedFiles">
                     <div class="col-sm-6">
-                        <progressbar value="progress[$index]"><i>{{ f.name }}</i></progressbar>
+                        <uib-progressbar value="progress[$index]"><i>{{ f.name }}</i></uib-progressbar>
                     </div>
-                    <div class="col-sm-2">
-                        <button ng-show="progress[$index] < 0" ng-click="start($index)" class="button ng-hide">Start</button>
-                        <button ng-show="hasUploader($index) && progress[$index] < 100" ng-click="abort($index)" class="button ng-hide">Abort</button>
-                    </div>
+
                 </div>
-                <button ng-click="upload.abort()" ng-show="hasUploadingInProgress()" class="form-control">Cancel Upload</button>
+
             </div>
         </div>
     </div>
@@ -44,7 +41,7 @@
             </div>
             <div class="panel-body">
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="f in model.uploaded_files">
+                    <div class="list-group-item" ng-repeat="f in model.uploaded_files track by $index">
                         <i class="fa fa-ban btn" ng-click="deleteFile(f,$index,$event)"></i>
                             <a ng-href="/api/orders/download/{{ encodeFileName(f.filename) }}" target="_blank">
                             {{ f.filename }}

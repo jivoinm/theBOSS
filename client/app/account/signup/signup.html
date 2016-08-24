@@ -53,6 +53,9 @@
                                 <label class="btn btn-primary" ng-model="user.role" btn-radio="'worker'">Worker</label>
                             </div>
                         </div>
+                        <div class="form-group">
+                          <div field ng-model="user.group" ng-field="{title: 'Group/Division', type: 'select', require: false, show_options: groups}"></div>
+                        </div>
                         <div class="form-group" ng-class="{ 'has-error' :  errors.other}">
                             <p class="help-block">{{ errors.other }}</p>
                         </div>

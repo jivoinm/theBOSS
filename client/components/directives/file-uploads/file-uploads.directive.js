@@ -15,11 +15,11 @@ angular.module('theBossApp')
               $rootScope.$on(theBossSettings.previewModeEvent, function (event, preview){
                   scope.preview = preview;
               });
-              
+
               // scope.downloadFile=function(filename){
               //   Order.download({filename:filename}).$promise.then();
               //   $http({method:'GET', url:'/api/orders/download/'+filename}).
-              //     success(function(data, status, headers, config) {         
+              //     success(function(data, status, headers, config) {
               //       var element = angular.element('<a/>');
               //        element.attr({
               //            href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),

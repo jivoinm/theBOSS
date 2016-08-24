@@ -74,7 +74,7 @@ angular.module('theBossApp')
 
         scope.loadOrder = function(id){
             $location.path('/order/' + id);
-        }
+        };
 
         scope.getOrderTitle = function(order){
           if(order && order.customer)
@@ -86,7 +86,7 @@ angular.module('theBossApp')
         };
 
         scope.$watch('currentPage', function (pageNoNew, pageNoOld) {
-            if(pageNoNew != pageNoOld){
+            if(pageNoNew !== pageNoOld){
               scope.loadTasks();
             }
         });

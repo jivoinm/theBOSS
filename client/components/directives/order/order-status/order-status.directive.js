@@ -31,7 +31,7 @@ angular.module('theBossApp')
 
             scope.getLastTaskChangedDate = function(order){
               scope.lastUpdatedOn = order.last_updated_on;
-            }
+            };
 
             if(scope.order){
               scope.setLabelClass(scope.order.status);

@@ -15,7 +15,7 @@ angular.module('theBossApp')
               scope.loadNotes();
             });
           }
-        }
+        };
 
         scope.loadOrders = function(val) {
           return OrderService.query({text:val, limit:10}).$promise.then(function(res){
@@ -30,7 +30,7 @@ angular.module('theBossApp')
 
         scope.selectedOrder = function(item, model, label){
             scope.note.order = item._id;
-        }
+        };
       }
     };
   });

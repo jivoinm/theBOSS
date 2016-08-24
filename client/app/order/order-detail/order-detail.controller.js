@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .controller('OrderDetailCtrl', function ($scope, $location, OrderService, ModalService, toaster, roles, datepickerConfig,
+  .controller('OrderDetailCtrl', function ($scope, $location, OrderService, ModalService, toaster, roles, uibDatepickerConfig,
     $timeout, order, timeOff, $filter, theBossSettings, _, calendar) {
 
         $scope.actives = {};
@@ -72,7 +72,7 @@ angular.module('theBossApp')
 
           var formsHaveInvalidFields = form.forms && form.forms.some(function(form){
             return form.fields.some(function(field){
-              return field.require && !field.value;
+              return field.require && !field.value && !field.hide;
             });
           });
 
@@ -102,6 +102,12 @@ angular.module('theBossApp')
             });
         };
 
+        //Reset the form
+        $scope.reset = function(){
+          if($scope.isNewOrder()){
+            $scope.order = new OrderService({});
+          }
+        };
         //Save order
         $scope.save = function (form){
             var validateForm = $scope.validateForm($scope.order);
@@ -150,7 +156,7 @@ angular.module('theBossApp')
         };
 
         $scope.minDate = $scope.order ? $scope.order.date_required : null;
-        datepickerConfig.minDate = $scope.minDate;
+        uibDatepickerConfig.minDate = $scope.minDate;
         $scope.toggleMin = function() {
             $scope.minDate = $scope.minDate ? null : new Date();
         };
@@ -225,7 +231,7 @@ angular.module('theBossApp')
                   var toDate = $filter('date')(item.to);
                   timeOffMessage += (item.type === 'Statutory holiday' ? item.detail : item.createdBy.name) + ' - '+ item.type + ' - '+ fromDate + ' - ' + toDate +'<br>';
                 });
-                timeOffMessage += '<strong>Continue?</strong>'
+                timeOffMessage += '<strong>Continue?</strong>';
                 ModalService.confirm.question(timeOffMessage, function(confirmed){
                     if(confirmed){
                        return;

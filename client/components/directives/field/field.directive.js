@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('field', function ($http, $compile, $timeout, User, _, datepickerConfig, $rootScope, theBossSettings, $parse) {
+  .directive('field', function ($http, $compile, $timeout, User, _, uibDatepickerConfig, $rootScope, theBossSettings, $parse) {
 
 
         var formField = function(field){
@@ -20,7 +20,7 @@ angular.module('theBossApp')
         var getFormulaValues = function(fn, listItemValue){
           fn = fn.substring(1, fn.length);
           var formulaValues = fn;
-          fn = fn.replace('+','#').replace('-','#').replace('*','#').replace('/','#')
+          fn = fn.replace('+','#').replace('-','#').replace('*','#').replace('/','#');
           var formulas = fn.split('#');
 
           var processed = false;
@@ -28,7 +28,7 @@ angular.module('theBossApp')
             formula = formula.replace('(','').replace(')','');
             var getProperty = $parse(formula);
             var value = getProperty(listItemValue);
-            if(value && value.value != null){
+            if(value && value.value !== null){
               formulaValues = formulaValues.replace(formula, value.value);
               processed = true;
             }else{
@@ -42,9 +42,9 @@ angular.module('theBossApp')
           scope.model = scope.model || {};
           var value = '';
           var fn = scope.field.show_options;
+          var formValue = scope.formValue;
           if(fn.indexOf('=') === 0){
             //this is a formula
-            var formValue = scope.formValue;
             var formulaValues = getFormulaValues(fn, formValue);
             if(formulaValues){
               var formula = math.parse(formulaValues);
@@ -84,7 +84,7 @@ angular.module('theBossApp')
                             return option.showMinToday;
                         })){
                         scope.minDate = new Date();
-                        datepickerConfig.minDate = new Date();
+                        uibDatepickerConfig.minDate = new Date();
                     }
                     var minDate = _.some(scope.field.show_options, function(option) {
                             return option.minDate;
@@ -92,7 +92,7 @@ angular.module('theBossApp')
 
                     if(minDate){
                         scope.minDate = minDate;
-                        datepickerConfig.minDate = minDate;
+                        uibDatepickerConfig.minDate = minDate;
                     }
 
 
@@ -102,7 +102,7 @@ angular.module('theBossApp')
                         $event.stopPropagation();
 
                         scope.show_calendar = true;
-                    }
+                    };
 
                     scope.dateOptions = {
                         formatYear: 'yy',
@@ -110,19 +110,19 @@ angular.module('theBossApp')
 
                     };
 
-                    scope.initDate = new Date(scope.field.value)
+                    scope.initDate = new Date(scope.field.value);
+                    if(scope.model)
+                    {
+                        scope.model = new Date(scope.model);
+                    }
                     scope.format = 'dd-MMMM-yyyy';
 
-                    fieldTemplate = '<div class="row">' +
-                        '<div class="col-md-6">' +
-                          '<p class="input-group">' +
-                          '<input type="text" class="form-control" datepicker-append-to-body="false" datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
+                    fieldTemplate = '<div class="input-group">' +
+                          '<input type="text" class="form-control" uib-datepicker-append-to-body="false" uib-datepicker-popup="{{ format }}" name="fieldName" placeholder="{{field.title}}"'+
                           'ng-model="model"  ng-required="{{ field.require }}" is-open="show_calendar" close-text="Close" min-date="minDate"/>' +
                           '<span class="input-group-btn">' +
                           '<button type="button" class="btn btn-default" ng-click="openCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>' +
                           '</span>' +
-                        '</p>' +
-                        '</div>' +
                         '</div>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
@@ -132,6 +132,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
                 case 'number':
+                    scope.model = Math.floor(scope.model || '0');
                     fieldTemplate = '<input type="number" class="form-control" name="fieldName" placeholder="{{field.title}}"'+
                         'ng-model="model"  ng-required="{{ field.require }}" min="{{field.min}}"/>';
                     fieldTemplate = formField(fieldTemplate);
@@ -164,10 +165,10 @@ angular.module('theBossApp')
                             var usersToAdd = [];
                             angular.forEach(users, function (user){
                                 usersToAdd.push(user);
-                            })
+                            });
                             return usersToAdd;
                         });
-                    }
+                    };
                     scope.selectedUser = function(item, model, label){
                        scope.model = {
                          user_id: item._id,
@@ -175,9 +176,9 @@ angular.module('theBossApp')
                          email: item.email
                        };
                        $rootScope.$broadcast(theBossSettings.userAutoCompleteSelectedEvent, {fieldName: scope.field.title, value: item.name});
-                    }
+                    };
 
-                    fieldTemplate = ' <input type="text" ng-model="model" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
+                    fieldTemplate = ' <input type="text" ng-model="model" placeholder="lookup user" typeahead-on-select="selectedUser($item, $model, $label)" uib-typeahead="(user.name + \', \'+ user.email) for user in getUsers($viewValue)" uib-typeahead-loading="loadingLocations" class="form-control"><i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>';
                     fieldTemplate = formField(fieldTemplate);
                     break;
 
@@ -222,7 +223,7 @@ angular.module('theBossApp')
                     fieldTemplate = formField(fieldTemplate);
                     break;
             }
-            return fieldTemplate
+            return fieldTemplate;
         }
 
         return {
@@ -243,12 +244,21 @@ angular.module('theBossApp')
                 };
 
                 if(scope.field) {
+                    scope.field.show_options = typeof(scope.field.show_options) === 'function' ? scope.field.show_options() : scope.field.show_options;
                     var $field = $(getFieldTemplate(scope,elem,attr)).appendTo(elem);
                     $compile($field)(scope);
-                    if(scope.field.type=='tokens')
+                    if(scope.field.type==='tokens')
                     {
                         $timeout(function() {
-                            elem.find('.tokenfield').tokenfield({tokens:scope.field.value});
+                            var tokenConfig = {tokens:scope.field.value};
+                            if(scope.field.show_options){
+                                tokenConfig.autocomplete = {
+                                    source: scope.field.show_options,
+                                    delay: 100
+                                };
+                                tokenConfig.showAutocompleteOnFocus = true;
+                            }
+                            elem.find('.tokenfield').tokenfield(tokenConfig);
                         }, 700);
                     }
 

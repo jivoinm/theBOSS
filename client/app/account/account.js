@@ -23,6 +23,11 @@ angular.module('theBossApp')
         templateUrl: 'app/account/user/user.html',
         controller: 'UserCtrl'
       })
+      .state('usersByGroup', {
+        url: '/user/group/:group',
+        templateUrl: 'app/account/user/user.html',
+        controller: 'UserCtrl'
+      })
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',

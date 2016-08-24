@@ -11,10 +11,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-      <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="bower_components/toaster/toaster.css" />
       <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css" />
       <link rel="stylesheet" href="bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css" />
@@ -34,6 +34,7 @@
       <link rel="stylesheet" href="app/order/order.css">
       <link rel="stylesheet" href="components/directives/accessories/accessories.css">
       <link rel="stylesheet" href="components/directives/alerts/alerts.css">
+      <link rel="stylesheet" href="components/directives/field/field.css">
       <link rel="stylesheet" href="components/directives/file-uploads/file-uploads.css">
       <link rel="stylesheet" href="components/directives/form/form.css">
       <link rel="stylesheet" href="components/directives/new-orders/new-orders.css">
@@ -78,10 +79,10 @@
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/angular-resource/angular-resource.js"></script>
       <script src="bower_components/angular-cookies/angular-cookies.js"></script>
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-socket-io/socket.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -166,6 +167,7 @@
           <script src="components/socket/socket.service.js"></script>
           <script src="components/timeOff/timeOff.service.js"></script>
           <script src="components/timeago/timeago.filter.js"></script>
+          <script src="components/user_group/user_group.service.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
 </body>

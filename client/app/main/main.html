@@ -1,26 +1,48 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
 <div restrict-access="admin, user">
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <work-log></work-log>
-            <shipping-list></shipping-list>
-        </div>
-
-        <div class="col-lg-6 col-md-6">
-           <new-orders></new-orders>
-            <services></services>
-            <notes></notes>
-            <accessories></accessories>
-        </div>
-
-    </div>
+  <uib-tabset active="activeJustified" justified="true">
+   <uib-tab index="0">
+     <uib-tab-heading>
+        <i class="fa fa-briefcase fa-3x"></i> Work Log
+      </uib-tab-heading>
+      <work-log></work-log>
+   </uib-tab>
+   <uib-tab index="1">
+     <uib-tab-heading>
+        <i class="fa fa-shopping-cart fa-3x"></i> New Orders
+      </uib-tab-heading>
+      <new-orders></new-orders>
+   </uib-tab>
+   <uib-tab index="2">
+     <uib-tab-heading>
+        <i class="fa fa-wrench fa-3x"></i> Services
+      </uib-tab-heading>
+       <services></services>
+   </uib-tab>
+   <uib-tab index="3">
+     <uib-tab-heading>
+        <i class="fa fa-envelope fa-3x"></i> New Notes
+      </uib-tab-heading>
+      <notes></notes>
+   </uib-tab>
+   <uib-tab index="4">
+     <uib-tab-heading>
+        <i class="fa fa-truck fa-3x"></i>  Shipping List
+      </uib-tab-heading>
+      <shipping-list></shipping-list>
+   </uib-tab>
+   <uib-tab index="5">
+     <uib-tab-heading>
+        <i class="fa fa-money fa-3x"></i>  Ordered Accessories
+      </uib-tab-heading>
+      <accessories></accessories>
+   </uib-tab>
+  </uib-tabset>
 </div>
 </div>
 <footer class="footer">
   <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+      <p>theBOSS 1.1</p>
   </div>
 </footer>

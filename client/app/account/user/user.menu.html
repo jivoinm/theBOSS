@@ -1,26 +1,32 @@
 <div class="col-md-2">
-    <div class="panel panel-default">
-        <div class="panel-heading">Filters</div>
-        <div class="panel-body">
-            <p>Select users filter</p>
-             <a class="btn btn-primary btn-lg" href="/signup">New User</a>
+   
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Search by role</h3>
         </div>
-        <ul class="list-group">
-            <a href="/user/admin" class="list-group-item" active-url>
-                Administrators
-            </a>
-            <a href="/user/service rep" class="list-group-item" active-url>
-                Service Reps
-            </a>
-            <a href="/user/user" class="list-group-item" active-url>
-                Sales Reps
-            </a>
-            <a href="/user/worker" class="list-group-item" active-url>
-                Workers
-            </a>
-            <a href="/user" class="list-group-item" active-url>
-                All
-            </a>
-        </ul>
-    </div>
+        <div class="panel-body">
+          <ul class="list-group">
+              <a href="/user/{{role}}" class="list-group-item" ng-repeat="role in allRoles">
+                  {{role}}
+              </a>
+              <a href="/user" class="list-group-item" active-url>
+                  all roles
+              </a>
+          </ul>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Search by group</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="list-group">
+              <a href="/user/group/{{group}}" class="list-group-item" active-url ng-repeat="group in groups">
+                  {{group}}
+              </a>
+          </ul>
+        </div>
+      </div>
+    
 </div>

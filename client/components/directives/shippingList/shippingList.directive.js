@@ -23,7 +23,8 @@ angular.module('theBossApp')
                         $scope.currentPage = data.page;
                         $scope.totalOrders = data.totalOrders;
                     });
-                }
+                };
+
                 if($scope.order){
                     $scope.orders = [$scope.order];
                 }else{
@@ -31,7 +32,7 @@ angular.module('theBossApp')
                 }
 
                 $scope.$watch('currentPage', function (pageNoNew, pageNoOld) {
-                    if(pageNoNew != pageNoOld){
+                    if(pageNoNew !== pageNoOld){
                         $scope.loadOrders();
                     }
                 });
@@ -81,9 +82,9 @@ angular.module('theBossApp')
 
                 var timeout = null;
                 $scope.$watch('item.shipped_date', function(newValue, oldValue) {
-                    if (newValue != oldValue) {
+                    if (newValue !== oldValue) {
                       if (timeout) {
-                        $timeout.cancel(timeout)
+                        $timeout.cancel(timeout);
                         timeout = null;
                       }else{
                         ModalService.confirm.question('Confirm shipping date of '+moment(newValue).zone(theBossSettings.timeZone).format('YYYY-MM-DD')+' set to order '+$scope.item.po_number,

@@ -42,11 +42,14 @@
     			</tr>
     		</tbody>
     	</table>
-      <tabset>
-  	    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+      <uib-tabset>
+  	    <uib-tab ng-repeat="tab in tabs" active="tab.active" disabled="tab.disabled">
+          <uib-tab-heading>
+          <i class="glyphicon glyphicon-{{tab.icon}}"></i> {{tab.title}}
+          </uib-tab-heading>
           <div ng-include="tab.template"></div>
-  	    </tab>
-    </tabset>
+  	    </uib-tab>
+    </uib-tabset>
 
   </div>
 </div>

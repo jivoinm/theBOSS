@@ -62,6 +62,24 @@ angular.module('theBossApp')
                 isArray: true,
                 method: 'GET'
             },
+            'getOtherGroupOrders': {
+                url: '/api/orders/calendar/:from/:to/otherGroupOrders',
+                params: {
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: true,
+                method: 'GET'
+            },
+            'getOtherGroupServices': {
+                url: '/api/orders/calendar/:from/:to/otherGroupServices',
+                params: {
+                    from: '@from',
+                    to: '@to'
+                },
+                isArray: true,
+                method: 'GET'
+            },
             'getOrderServices': {
                 url: '/api/orders/calendar/:from/:to/services/:approved/:completed',
                 params: {

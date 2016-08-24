@@ -15,8 +15,8 @@ angular.module('theBossApp')
           }, function (err) {
             console.log(err);
           });
-        }
+        };
       	scope.loadNotes();
       }
-    }
+    };
   });

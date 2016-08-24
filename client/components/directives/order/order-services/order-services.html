@@ -13,8 +13,8 @@
  <div class="row">
    <div class="col-md-11">
     <label>
-      <input type="checkbox" ng-disabled="service.completed" ng-model="service.completed" ng-change="completed(order, service)" restricted-access="admin,sales rep" ng-if="service.approved">
-      <input type="checkbox" ng-disabled="service.completed" ng-model="service.approved" ng-change="completed(order, service)" restricted-access="admin,sales rep" ng-if="!service.approved">
+      <input type="checkbox" ng-disabled="service.completed" ng-model="service.completed" ng-change="completed(order, service)" restricted-access="adminRoles,salesRepRoles" ng-if="service.approved">
+      <input type="checkbox" ng-disabled="service.completed" ng-model="service.approved" ng-change="completed(order, service)" restricted-access="adminRoles,salesRepRoles" ng-if="!service.approved">
         <div>
           <h4 class="list-group-item-heading">{{service.title}} - {{ service.date | date }} <a ng-click="printService(order._id, $index)"><span class="glyphicon glyphicon-print"></span></a></h4>
            <h6>Done by {{service.done_by.name}}</h6>
@@ -23,7 +23,7 @@
    </label>
   </div>
   <div class="col-md-1">
-     <button type="button" class="btn btn-default pull-right" aria-label="Left Align" ng-tooltip="delete this service" ng-click="delete(order, $index)" restricted-access="admin,service rep,user">
+     <button type="button" class="btn btn-default pull-right" aria-label="Left Align" ng-tooltip="delete this service" ng-click="delete(order, $index)" restricted-access="adminRoles,salesRepRoles,serviceRepRoles">
        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
      </button>
    </div>
