@@ -101,8 +101,8 @@ angular.module('theBossApp')
                   //set summary of roders
                   angular.forEach(orders, function (order){
                     var eventDate = new Date(order._id.year, order._id.month -1 , order._id.day);
-                    this.push($scope.createEventReserved(order.totalProjects+' Job(s)', eventDate, eventDate));  
-                    
+                    this.push($scope.createEventReserved(order.totalProjects+' Job(s)', eventDate, eventDate));
+
                   }, allEvents);
 
                   callback(allEvents);
@@ -132,8 +132,8 @@ angular.module('theBossApp')
                   //set summary of roders
                   angular.forEach(orders, function (order){
                     var eventDate = new Date(order._id.year, order._id.month -1 , order._id.day);
-                    this.push($scope.createEventReserved(order.totalServices+' Service(s)', eventDate, eventDate));  
-                    
+                    this.push($scope.createEventReserved(order.totalServices+' Service(s)', eventDate, eventDate));
+
                   }, allEvents);
 
                   callback(allEvents);
@@ -239,23 +239,25 @@ angular.module('theBossApp')
       var isAdminRole = roles.validateRoleAdmin(Auth.getCurrentUser());
 
       $scope.eventDrop = function (event, delta, revertFunc) {
-        calendar.numberOfScheduledOrders(moment(event.start).zone(theBossSettings.timeZone).format(), function(countOrdersOnThisDay){
-          if(countOrdersOnThisDay >= 2 && event.className !== 'Services'){
-            if(!confirm('This date already has '+countOrdersOnThisDay+' jobs on it. Would you like to continue anyways?'))
-            {
-              revertFunc();
-              return;
-            }
-          }
-          if(isAdminRole)
-          {
-              updateCalendarEvent(event);
-          } else
-          {
-            revertFunc();
-          }  
+        revertFunc();
 
-        });
+        // calendar.numberOfScheduledOrders(moment(event.start).zone(theBossSettings.timeZone).format(), function(countOrdersOnThisDay){
+        //   if(countOrdersOnThisDay >= 2 && event.className !== 'Services'){
+        //     if(!confirm('This date already has '+countOrdersOnThisDay+' jobs on it. Would you like to continue anyways?'))
+        //     {
+        //       revertFunc();
+        //       return;
+        //     }
+        //   }
+        //   if(isAdminRole)
+        //   {
+        //       updateCalendarEvent(event);
+        //   } else
+        //   {
+        //     revertFunc();
+        //   }
+        //
+        // });
       };
 
       $scope.eventClick = function (event){

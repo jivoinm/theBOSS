@@ -26,7 +26,7 @@
                     <div class="btn-group-xs pull-right" tooltip-placement="right" tooltip="Add new field or delete the {{form.formName}}" ng-if="!preview" restricted-access>
 
                         <button type="button" class="btn btn-default fa fa-plus" ng-click="addField(form,$event)"></button>
-                        <button type="button" class="btn btn-default fa fa-trash-o" ng-click="deleteForm(form,$event,$index)"></button>
+                        <button type="button" class="btn btn-default fa fa-trash-o" ng-if="!form.required" ng-click="deleteForm(form,$event,$index)"></button>
                     </div>
 
                 </uib-accordion-heading>
