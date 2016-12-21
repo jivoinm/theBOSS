@@ -35,9 +35,13 @@ angular.module('theBossApp')
                 e.preventDefault();
                 e.stopPropagation();
             }
-            task.changed_by = Auth.getCurrentUser()._id;
-            task.changed_on = new Date();
-            task.status = status;
+            form.tasks.forEach(function(formTask){
+              if(!task || task._id === formTask._id){
+                formTask.changed_by = Auth.getCurrentUser()._id;
+                formTask.changed_on = new Date();
+                formTask.status = status;
+              }
+            });
 
             //if all tasks are finished then remove from the list
             order = new OrderService(order);

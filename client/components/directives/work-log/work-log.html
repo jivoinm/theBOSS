@@ -14,7 +14,15 @@
       <div id="collapse{{$index}}" class="panel-collapse" role="tabpanel" aria-labelledby="heading{{$index}}">
         <div class="panel-body">
               <uib-tabset>
-                  <uib-tab heading="{{form.formName}}" ng-if="form.tasks.length>0" ng-repeat='form in item.forms' active="form.active">
+                  <uib-tab ng-if="form.tasks.length>0" ng-repeat='form in item.forms' active="form.active">
+                    <uib-tab-heading>
+                      {{form.formName}}&nbsp;
+                      <span class="pull-right">
+                        <button ng-click="setTaskStatus(item, $parent.$parent.$index, form, $parent.$index, null, 'done', $event)" title="Finish all tasks" class="btn btn-xs">
+                          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        </button>
+                      </span>
+                    </uib-tab-heading>
                       <div class="well">
                           <div class="row">
                               <div class="col-md-4">
