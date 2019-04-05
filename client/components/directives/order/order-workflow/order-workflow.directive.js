@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('theBossApp')
-  .directive('orderWorkflow', function (ModalService, $rootScope, toaster, theBossSettings, $location) {
+  .directive('orderWorkflow', function (ModalService, $rootScope, toaster, theBossSettings, $location, Auth) {
     return {
         template: '<div class="btn-group btn-group-justified">' +
             '        <div class="btn-group" ng-if="showWorkflowAction(\'approved\')">' +
@@ -51,37 +51,50 @@ angular.module('theBossApp')
                     if(confirmed){
                       var oldStatus = scope.order.status;
                       if(status==='reset'){
+                        scope.updateOrderTaskStatus(status);
                         status = status === 'reset' ? 'approved' : status;
                         scope.order.status = status;
-                        for (var i = 0; i < scope.order.forms.length; i++) {
-                          for (var j = 0; j < scope.order.forms[i].tasks.length; j++) {
-                              var task = scope.order.forms[i].tasks[j];
-                              delete task['changed_by'];
-                              delete task['changed_on'];
-                              delete task['status'];
-                              scope.order.forms[i].tasks[j] = task;
-                          }
-                        }
                         scope.order.$save(function(order){
                           scope.order = order;
                           $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
                         });
-                      }else{
-                        status = status === 'reset' ? 'approved' : status;
-                        scope.order.$setStatus({status:status}, function(order){
-                            if(oldStatus==='new'){
-                              //redirect to main page
-                              $location.path('/');
-                              
-                            }
-                            $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
-                            toaster.pop('success', "Success", 'Updated status to '+ status);
-                        },function(err){
+                      } else {
+                        scope.updateOrderTaskStatus(status);
+                        scope.order.status = status;
+                        scope.order.$save(function(order){
+                          scope.order = order;
+                          if(oldStatus==='new'){
+                            //redirect to main page
+                            $location.path('/');
+                          }
+                          $rootScope.$broadcast(theBossSettings.orderChangedEvent,order);
+                          toaster.pop('success', "Success", 'Updated status to '+ status)
+                        }, function(err){
                             toaster.pop('error', "Error", 'Error updating status '+ err);
                         });
-                      }
                     }
+                  }
                 })();
+            };
+
+            scope.updateOrderTaskStatus = function(status){
+              for (var i = 0; i < scope.order.forms.length; i++) {
+                for (var j = 0; j < scope.order.forms[i].tasks.length; j++) {
+                    var task = scope.order.forms[i].tasks[j];
+                    if(status === 'reset'){
+                      delete task['changed_by'];
+                      delete task['changed_on'];
+                      delete task['status'];
+                    }else{
+                      task['changed_by'] = Auth.getCurrentUser()._id;;
+                      task['changed_on'] = new Date();
+                      task['status'] = 'done';
+                    }
+
+                    scope.order.forms[i].tasks[j] = task;
+                }
+              }
+
             };
         }
     };
